@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+service SearchService {
+
+  rpc AddProfile (User) returns (AddProfileResponse);
+  rpc UpdateProfile (User) returns (UpdateProfileResponse);
+  rpc GetProfile(UserInfoByUserIdRequest) returns (User);
+  rpc GetListProfessor(ListProfessorRequest) returns (stream Professor);
+
+  rpc AddReview(Review) returns (AddReviewResponse);
+  rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream Review);
+  rpc GetReviewsByUserId(ReviewsByUserIdRequest) returns (stream Review);
+  rpc UpdateReview(Review) returns (UpdateReviewResponse);
+  rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse);
+}
+
+message DeleteReviewRequest{
+  string reviewId = 1;
+}
+
+message AddProfileResponse {}
+
+message DeleteReviewResponse {}
+
+message UpdateReviewResponse {}
+
+message UpdateProfileResponse {}
+
+message ChangeStatusRequest{
+  int32 id = 1;
+  string status = 2;
+}
+
+message UserInfoByUserIdRequest {
+  int32 id = 1;
+}
+
+message AddReviewResponse{
+  bool passed = 1;
+}
+
+message ReviewsByUserIdRequest{
+  int32 id = 1;
+}
+
+message ListProfessorRequest{}
+
+message ReviewsByProfessorIdRequest {
+  int32 id = 1;
+}
+
+message User {
+  int32 id = 1;
+  string name = 2;
+  bytes avatar = 3;
+  int32 rating = 4;
+}
+
+message Professor {
+  int32 id = 1;
+  string name = 2;
+  string avatar = 3;
+}
+
+message Review {
+  string review_id = 1;
+  int32 user_id = 2;
+  string comment = 3;
+  float objectivity = 4;
+  float loyalty = 5;
+  float professionalism = 6;
+  float harshness = 7;
+  string date = 8;
+  int32 raiting = 9;
+  int32 professor_id = 11;
+  int32 rating = 13;
+}
