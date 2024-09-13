@@ -10,7 +10,7 @@ get:
 # brew install protobuf
 codegen: get
 	@dart pub global activate protoc_plugin
-	@protoc --proto_path=shared/protobuf --dart_out=shared/lib/src/generated/ shared/protobuf/api.proto
+	@protoc --dart_out=grpc:lib/src/generated service.proto
 	@(cd shared && dart run build_runner build --delete-conflicting-outputs)
 	@(cd backend && dart run build_runner build --delete-conflicting-outputs)
 	@(cd frontend && dart run build_runner build --delete-conflicting-outputs)

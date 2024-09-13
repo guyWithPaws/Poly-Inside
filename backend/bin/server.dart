@@ -35,6 +35,7 @@ Future<void> main() async {
     LogOptions(
       outputInRelease: true,
       messageFormatting: (message, logLevel, dateTime) =>
+          // ignore: lines_longer_than_80_chars
           '${dateTime.toString().substring(0, dateTime.toString().length - 7)} | $message',
     ),
   );

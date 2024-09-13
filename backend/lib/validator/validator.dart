@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:l/l.dart';
+
 extension on String {
   static final RegExp unneccessarySpace = RegExp(r'\s+');
   static final RegExp unnecessarySymbols = RegExp('[0-9|.|,|!|?|/]');
@@ -37,6 +39,7 @@ class Filter {
   Future<void> initializeAsyncLoaders() async {
     alphabet = await loadAlphabetFromJsonFile();
     badWords = await loadWordsFromFile();
+    l.i('[Filter]: Filter initialization was successful');
   }
 
   Future<List<String>> loadWordsFromFile() async {
@@ -78,7 +81,8 @@ class Filter {
     for (var i = 0; i < messageWords.length; ++i) {
       var newWord = messageWords[i];
       for (var j = i + 1; j < messageWords.length; ++j) {
-        newWord = newWord + messageWords[j];
+        var buffer = newWord + messageWords[j];
+        newWord = buffer;
         localStorage.add(newWord);
       }
     }
@@ -98,19 +102,5 @@ class Filter {
       }
     }
     return true;
-  }
-}
-
-enum FilterTypes {
-  accepted,
-  rejected;
-
-  String get name {
-    switch (this) {
-      case FilterTypes.accepted:
-        return 'Accepted';
-      case FilterTypes.rejected:
-        return 'Rejected';
-    }
   }
 }

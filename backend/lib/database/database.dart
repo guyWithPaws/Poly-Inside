@@ -1,11 +1,11 @@
 import 'package:drift/drift.dart';
-import 'package:poly_inside_server/generated/protobufs/service.pb.dart';
+import 'package:shared/shared.dart';
 
 part 'database.g.dart';
 
 @UseRowClass(Professor)
 class Professors extends Table {
-  IntColumn get id => integer()();
+  TextColumn get id => text()();
   TextColumn get name => text()();
   TextColumn get avatar => text()();
 

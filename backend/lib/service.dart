@@ -2,8 +2,9 @@
 import 'package:grpc/src/server/call.dart';
 import 'package:l/l.dart';
 import 'package:poly_inside_server/database/provider.dart';
-import 'package:poly_inside_server/generated/protobufs/service.pbgrpc.dart';
 import 'package:poly_inside_server/validator/validator.dart';
+import 'package:shared/shared.dart';
+
 
 class GRPCService extends SearchServiceBase {
   GRPCService({required this.provider});
@@ -26,7 +27,6 @@ class GRPCService extends SearchServiceBase {
   Stream<Professor> getListProfessor(
       ServiceCall call, ListProfessorRequest request) async* {
     l.v('GetListProfessor');
-    l.v(call.remoteAddress.toString());
     final stream = provider.getAllProfessors();
     await for (final list in stream) {
       for (final professor in list) {

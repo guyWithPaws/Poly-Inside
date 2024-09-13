@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: api.proto
+//  source: shared/protobuf/service.proto
 //
 // @dart = 2.12
 
@@ -9,7 +9,6 @@
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
 // ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
-import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
@@ -582,7 +581,7 @@ class User extends $pb.GeneratedMessage {
 
 class Professor extends $pb.GeneratedMessage {
   factory Professor({
-    $core.int? id,
+    $core.String? id,
     $core.String? name,
     $core.String? avatar,
   }) {
@@ -603,7 +602,7 @@ class Professor extends $pb.GeneratedMessage {
   factory Professor.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Professor', createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'avatar')
     ..hasRequiredFields = false
@@ -631,9 +630,9 @@ class Professor extends $pb.GeneratedMessage {
   static Professor? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get id => $_getIZ(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set id($core.int v) { $_setSignedInt32(0, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
@@ -846,39 +845,6 @@ class Review extends $pb.GeneratedMessage {
   $core.bool hasRating() => $_has(10);
   @$pb.TagNumber(13)
   void clearRating() => clearField(13);
-}
-
-class SearchServiceApi {
-  $pb.RpcClient _client;
-  SearchServiceApi(this._client);
-
-  $async.Future<AddProfileResponse> addProfile($pb.ClientContext? ctx, User request) =>
-    _client.invoke<AddProfileResponse>(ctx, 'SearchService', 'AddProfile', request, AddProfileResponse())
-  ;
-  $async.Future<UpdateProfileResponse> updateProfile($pb.ClientContext? ctx, User request) =>
-    _client.invoke<UpdateProfileResponse>(ctx, 'SearchService', 'UpdateProfile', request, UpdateProfileResponse())
-  ;
-  $async.Future<User> getProfile($pb.ClientContext? ctx, UserInfoByUserIdRequest request) =>
-    _client.invoke<User>(ctx, 'SearchService', 'GetProfile', request, User())
-  ;
-  $async.Future<Professor> getListProfessor($pb.ClientContext? ctx, ListProfessorRequest request) =>
-    _client.invoke<Professor>(ctx, 'SearchService', 'GetListProfessor', request, Professor())
-  ;
-  $async.Future<AddReviewResponse> addReview($pb.ClientContext? ctx, Review request) =>
-    _client.invoke<AddReviewResponse>(ctx, 'SearchService', 'AddReview', request, AddReviewResponse())
-  ;
-  $async.Future<Review> getReviewsByProfessorId($pb.ClientContext? ctx, ReviewsByProfessorIdRequest request) =>
-    _client.invoke<Review>(ctx, 'SearchService', 'GetReviewsByProfessorId', request, Review())
-  ;
-  $async.Future<Review> getReviewsByUserId($pb.ClientContext? ctx, ReviewsByUserIdRequest request) =>
-    _client.invoke<Review>(ctx, 'SearchService', 'GetReviewsByUserId', request, Review())
-  ;
-  $async.Future<UpdateReviewResponse> updateReview($pb.ClientContext? ctx, Review request) =>
-    _client.invoke<UpdateReviewResponse>(ctx, 'SearchService', 'UpdateReview', request, UpdateReviewResponse())
-  ;
-  $async.Future<DeleteReviewResponse> deleteReview($pb.ClientContext? ctx, DeleteReviewRequest request) =>
-    _client.invoke<DeleteReviewResponse>(ctx, 'SearchService', 'DeleteReview', request, DeleteReviewResponse())
-  ;
 }
 
 

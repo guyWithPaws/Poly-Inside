@@ -1,4 +1,4 @@
-import 'package:poly_inside_server/generated/protobufs/service.pb.dart';
+import 'package:shared/shared.dart';
 
 abstract interface class DatabaseProvider {
   Future<void> addUser(User user);
@@ -11,4 +11,6 @@ abstract interface class DatabaseProvider {
   Future<bool> updateReview(Review review);
   Future<bool> updateUser(User user);
   Future<int> deleteReview(String reviewId);
+  Future<void> addProfessor(Professor professor);
+  Future<List<Professor>> getOnceAllProfessors();
 }

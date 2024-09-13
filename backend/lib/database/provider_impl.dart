@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:poly_inside_server/database/database.dart';
 import 'package:poly_inside_server/database/provider.dart';
-import 'package:poly_inside_server/generated/protobufs/service.pb.dart';
+import 'package:shared/shared.dart';
 
 class DatabaseProviderImpl implements DatabaseProvider {
   DatabaseProviderImpl({required this.database});
@@ -106,4 +106,19 @@ class DatabaseProviderImpl implements DatabaseProvider {
           ),
         );
   }
+  
+  @override
+  Future<void> addProfessor(Professor professor) async {
+    await database.into(database.professors).insert(
+          ProfessorsCompanion(
+            id: Value<String>(professor.name),
+            name: Value<String>(professor.name),
+            avatar: Value<String>(professor.avatar),
+          ),
+        );
+  }
+
+  @override
+  Future<List<Professor>> getOnceAllProfessors() async =>
+      await database.select(database.professors).get();
 }
