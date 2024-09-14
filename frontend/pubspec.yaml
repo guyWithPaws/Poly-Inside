@@ -42,6 +42,7 @@ dependencies:
   meta: ^1.15.0
   flutter_telegram_web_app: ^0.0.1
   grpc: ^4.0.1
+  cached_network_image: ^3.4.1
 
 
 dev_dependencies:

@@ -1,9 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grpc/grpc.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
-import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:shared/shared.dart';
 
 /// {@template home_page}
@@ -32,9 +31,9 @@ class _HomePageState extends State<HomePage> {
     repository = ClientRepositoryImpl(
       client: SearchServiceClient(
         ClientChannel(
-          '127.0.0.1',
+          '87.228.18.201',
           port: 8080,
-          options: ChannelOptions(
+          options: const ChannelOptions(
             credentials: ChannelCredentials.insecure(),
           ),
         ),
@@ -74,19 +73,12 @@ class _HomePageState extends State<HomePage> {
                       fit: BoxFit.fill,
                       height: 62,
                       width: 62,
-                      'beer.jpg',
+                      'assets/beer.jpg',
                     ),
                   ),
                   const SizedBox(
                     width: 30,
                   ),
-                  const SizedBox(
-                    width: 287,
-                    height: 50,
-                    child: SearchBar(
-                      hintText: 'Найти преподавателя',
-                    ),
-                  )
                 ],
               ),
               const SizedBox(
@@ -119,41 +111,48 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    snapshot.data?.professors[index].avatar ??
+                                  radius: 27,
+                                  child: CachedNetworkImage(
+                                    errorWidget: (_, __, ___) =>
+                                        const ColoredBox(color: Colors.grey),
+                                    imageUrl: snapshot
+                                            .data?.professors[index].avatar ??
                                         '',
+                                    fit: BoxFit.fill,
                                   ),
-                                  radius: 64,
                                 ),
                                 const SizedBox(
-                                  width: 16,
+                                  width: 8,
                                 ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                        snapshot.data?.professors[index].name ??
-                                            ''),
-                                    SizedBox(
-                                      width: 300,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(Icons.star),
-                                              Icon(Icons.star),
-                                              Icon(Icons.star),
-                                              Icon(Icons.star),
-                                              Icon(Icons.star),
-                                              Text(' 5.0'),
-                                            ],
-                                          ),
-                                          Text('6 отзывов')
-                                        ],
+                                      snapshot.data?.professors[index].name ??
+                                          '',
+                                      style: const TextStyle(
+                                        overflow: TextOverflow.clip,
                                       ),
+                                    ),
+                                    const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(Icons.star),
+                                            Icon(Icons.star),
+                                            Icon(Icons.star),
+                                            Icon(Icons.star),
+                                            Icon(Icons.star),
+                                            Text(' 5.0'),
+                                          ],
+                                        ),
+                                        Align(
+                                          child: Text('6 отзывов'),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 )
