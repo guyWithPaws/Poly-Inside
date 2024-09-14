@@ -47,9 +47,16 @@ class DatabaseProviderImpl implements DatabaseProvider {
           );
 
   @override
-  Future<User> getUserByUserId(int userId) async =>
-      await (database.select(database.users)..where((u) => u.id.equals(userId)))
-          .getSingle();
+  Future<User?> getUserByUserId(int userId) async {
+    final users = await (database.select(database.users)
+          ..where(
+            (u) => u.id.equals(
+              userId,
+            ),
+          ))
+        .get();
+    return users.isEmpty ? null : users.first;
+  }
 
   @override
   Future<bool> updateReview(Review review) async =>
@@ -106,7 +113,7 @@ class DatabaseProviderImpl implements DatabaseProvider {
           ),
         );
   }
-  
+
   @override
   Future<void> addProfessor(Professor professor) async {
     await database.into(database.professors).insert(

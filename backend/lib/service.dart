@@ -42,8 +42,8 @@ class GRPCService extends SearchServiceBase {
   Future<User> getProfile(
       ServiceCall call, UserInfoByUserIdRequest request) async {
     l.v('GetProfile with ${request.id}');
-
-    return await provider.getUserByUserId(request.id);
+    final user = await provider.getUserByUserId(request.id);
+    return user ?? User();
   }
 
   @override

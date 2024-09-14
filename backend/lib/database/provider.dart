@@ -2,7 +2,7 @@ import 'package:shared/shared.dart';
 
 abstract interface class DatabaseProvider {
   Future<void> addUser(User user);
-  Future<User> getUserByUserId(int userId);
+  Future<User?> getUserByUserId(int userId);
   Stream<List<Professor>> getAllProfessors();
   Stream<List<Review>> getAllReviewsByProfessor(int professorId);
   Stream<List<Professor>> findProfessorByName(String name);
