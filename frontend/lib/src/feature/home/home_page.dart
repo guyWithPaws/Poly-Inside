@@ -61,111 +61,128 @@ class _HomePageState extends State<HomePage> {
               tertiary: const Color.fromARGB(255, 29, 94, 247),
               outline: Colors.grey.shade700)),
       home: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(320.0),
-                    child: Image.asset(
-                      fit: BoxFit.fill,
-                      height: 62,
-                      width: 62,
-                      'assets/beer.jpg',
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Преподаватели')),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                child: StreamBuilder<GetListProfessorResponse>(
-                  stream: repository?.getAllProfessors(),
-                  builder: (context, snapshot) {
-                    return ListView.separated(
-                      itemCount: snapshot.data?.professors.length ?? 0,
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 25,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(320.0),
+                      child: Image.asset(
+                        fit: BoxFit.fill,
+                        height: 62,
+                        width: 62,
+                        'assets/beer.jpg',
                       ),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 360,
-                          height: 75,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: const Color(0xFFEEF9EF)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 27,
-                                  child: CachedNetworkImage(
-                                    errorWidget: (_, __, ___) =>
-                                        const ColoredBox(color: Colors.grey),
-                                    imageUrl: snapshot
-                                            .data?.professors[index].avatar ??
-                                        '',
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      snapshot.data?.professors[index].name ??
-                                          '',
-                                      style: const TextStyle(
-                                        overflow: TextOverflow.clip,
-                                      ),
-                                    ),
-                                    const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(Icons.star),
-                                            Icon(Icons.star),
-                                            Icon(Icons.star),
-                                            Icon(Icons.star),
-                                            Icon(Icons.star),
-                                            Text(' 5.0'),
-                                          ],
-                                        ),
-                                        Align(
-                                          child: Text('6 отзывов'),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
+                    ),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Преподаватели')),
+                const SizedBox(
+                  height: 16,
+                ),
+                Expanded(
+                  child: StreamBuilder<GetListProfessorResponse>(
+                    stream: repository?.getAllProfessors(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: Text(
+                            'Nothing to show...',
                           ),
                         );
-                      },
-                    );
-                  },
+                      }
+                      if (snapshot.data?.professors.isEmpty ?? true) {
+                        return const Center(
+                          child: Text(
+                            'Nothing to show...',
+                          ),
+                        );
+                      }
+                      return ListView.separated(
+                        itemCount: snapshot.data?.professors.length ?? 0,
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 25,
+                        ),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: 360,
+                            height: 75,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: const Color(0xFFEEF9EF)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 27,
+                                    child: CachedNetworkImage(
+                                      errorWidget: (_, __, ___) =>
+                                          const ColoredBox(color: Colors.grey),
+                                      imageUrl: snapshot
+                                              .data?.professors[index].avatar ??
+                                          '',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data?.professors[index].name ??
+                                            '',
+                                        style: const TextStyle(
+                                          overflow: TextOverflow.clip,
+                                        ),
+                                      ),
+                                      const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(Icons.star),
+                                              Icon(Icons.star),
+                                              Icon(Icons.star),
+                                              Icon(Icons.star),
+                                              Icon(Icons.star),
+                                              Text(' 5.0'),
+                                            ],
+                                          ),
+                                          Align(
+                                            child: Text('6 отзывов'),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
