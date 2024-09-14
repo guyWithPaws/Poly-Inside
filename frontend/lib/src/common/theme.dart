@@ -1,3 +1,5 @@
+// ignore_for_file: use_full_hex_values_for_flutter_colors, deprecated_member_use
+
 import "package:flutter/material.dart";
 
 class MaterialTheme {

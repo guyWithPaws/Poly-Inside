@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:grpc/grpc.dart';
-import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:shared/shared.dart';
@@ -36,12 +35,11 @@ abstract class InitializationEvent {}
 class StartInitialization extends InitializationEvent {}
 
 /// InitializationState data class
-@Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
+@Freezed()
 sealed class InitializationState with _$InitializationState {
   const InitializationState._();
   const factory InitializationState.processing() = Processing;
   const factory InitializationState.idle() = Idle;
   const factory InitializationState.error(Object e) = Error;
   const factory InitializationState.initialized(ClientRepository repository) = Initialized;
-
 }

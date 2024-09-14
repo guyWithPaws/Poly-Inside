@@ -13,6 +13,50 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+class GetListProfessorResponse extends $pb.GeneratedMessage {
+  factory GetListProfessorResponse({
+    $core.Iterable<Professor>? professors,
+  }) {
+    final $result = create();
+    if (professors != null) {
+      $result.professors.addAll(professors);
+    }
+    return $result;
+  }
+  GetListProfessorResponse._() : super();
+  factory GetListProfessorResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetListProfessorResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetListProfessorResponse', createEmptyInstance: create)
+    ..pc<Professor>(1, _omitFieldNames ? '' : 'professors', $pb.PbFieldType.PM, subBuilder: Professor.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetListProfessorResponse clone() => GetListProfessorResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetListProfessorResponse copyWith(void Function(GetListProfessorResponse) updates) => super.copyWith((message) => updates(message as GetListProfessorResponse)) as GetListProfessorResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetListProfessorResponse create() => GetListProfessorResponse._();
+  GetListProfessorResponse createEmptyInstance() => create();
+  static $pb.PbList<GetListProfessorResponse> createRepeated() => $pb.PbList<GetListProfessorResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetListProfessorResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetListProfessorResponse>(create);
+  static GetListProfessorResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<Professor> get professors => $_getList(0);
+}
+
 class DeleteReviewRequest extends $pb.GeneratedMessage {
   factory DeleteReviewRequest({
     $core.String? reviewId,

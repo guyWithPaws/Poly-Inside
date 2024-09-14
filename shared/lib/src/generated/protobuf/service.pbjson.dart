@@ -13,6 +13,19 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
+@$core.Deprecated('Use getListProfessorResponseDescriptor instead')
+const GetListProfessorResponse$json = {
+  '1': 'GetListProfessorResponse',
+  '2': [
+    {'1': 'professors', '3': 1, '4': 3, '5': 11, '6': '.Professor', '10': 'professors'},
+  ],
+};
+
+/// Descriptor for `GetListProfessorResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getListProfessorResponseDescriptor = $convert.base64Decode(
+    'ChhHZXRMaXN0UHJvZmVzc29yUmVzcG9uc2USKgoKcHJvZmVzc29ycxgBIAMoCzIKLlByb2Zlc3'
+    'NvclIKcHJvZmVzc29ycw==');
+
 @$core.Deprecated('Use deleteReviewRequestDescriptor instead')
 const DeleteReviewRequest$json = {
   '1': 'DeleteReviewRequest',
