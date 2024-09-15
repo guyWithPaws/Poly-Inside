@@ -18,7 +18,7 @@ static_resources:
                     routes:
                       - match: { prefix: "/" }
                         route:
-                          cluster: greeter_service
+                          cluster: search_service
                           max_stream_duration:
                             grpc_timeout_header_max: 0s
                     cors:
