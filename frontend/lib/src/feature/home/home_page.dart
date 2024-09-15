@@ -68,13 +68,15 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Row(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(320.0),
-                      child: Image.asset(
-                        fit: BoxFit.fill,
-                        height: 62,
-                        width: 62,
-                        'assets/beer.jpg',
+                    CircleAvatar(
+                      radius: 31,
+                      child: ClipOval(
+                        child: Image.asset(
+                          fit: BoxFit.cover,
+                          height: 62,
+                          width: 62,
+                          'assets/beer.jpg',
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -127,13 +129,17 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                   CircleAvatar(
                                     radius: 27,
-                                    child: CachedNetworkImage(
-                                      errorWidget: (_, __, ___) =>
-                                          const ColoredBox(color: Colors.grey),
-                                      imageUrl: snapshot
-                                              .data?.professors[index].avatar ??
-                                          '',
-                                      fit: BoxFit.fill,
+                                    child: ClipOval(
+                                      child: CachedNetworkImage(
+                                        height: 54,
+                                        width: 54,
+                                        errorWidget: (_, __, ___) =>
+                                            const ColoredBox(color: Colors.grey),
+                                        imageUrl: snapshot
+                                                .data?.professors[index].avatar ??
+                                            '',
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(
