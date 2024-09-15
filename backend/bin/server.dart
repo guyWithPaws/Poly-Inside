@@ -21,7 +21,7 @@ Future<void> main() async {
           final server = Server.create(services: [
             GRPCService(provider: provider),
           ], interceptors: []);
-          await server.serve(port: 8080);
+          await server.serve(port: 9090);
           l.i('Server listening on ${server.port}');
         },
         (e, st) {
