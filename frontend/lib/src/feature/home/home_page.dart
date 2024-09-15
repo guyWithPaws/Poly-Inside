@@ -26,15 +26,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-// ClientChannel(
-//           '87.228.18.201',
-//           port: 8080,
-//           options: const ChannelOptions(
-//             credentials: ChannelCredentials.insecure(),
-//           ),
-//         )
-
-//
   @override
   void didChangeDependencies() {
     repository = ClientRepositoryImpl(
