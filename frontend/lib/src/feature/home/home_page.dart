@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
-import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:shared/shared.dart';
@@ -31,8 +30,12 @@ class _HomePageState extends State<HomePage> {
   void didChangeDependencies() {
     repository = ClientRepositoryImpl(
       client: SearchServiceClient(
-        GrpcWebClientChannel.xhr(
-          Uri.parse('http://87.228.18.201:8080'),
+        ClientChannel(
+          '87.228.18.201',
+          port: 9090,
+          options: const ChannelOptions(
+            credentials: ChannelCredentials.insecure(),
+          ),
         ),
       ),
     );
