@@ -1,0 +1,26 @@
+services:
+
+  envoy:
+    image: envoyproxy/envoy:dev-b10deb602383972cd71ab0a836c846f7eb91b790
+    ports: -"8080:8080"
+    volumes: -'./proxy/envoy/envoy.yaml'
+
+  nginx:
+    image: nginx:stable-alpine
+    ports: -"80:80"
+    volumes: -'./proxy/nginx/nginx.conf'
+    depends_on:
+      - backend
+      - frontend
+
+  backend:
+    build:
+      context: ./backend
+
+  # frontend:
+  #   build:
+  #     context: ./frontend
+
+  # bot:
+  #   build:
+  #     context: ./bot

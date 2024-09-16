@@ -19,7 +19,7 @@ dependencies:
   http: ^1.2.2
   html: ^0.15.4
   shared:
-    path: ../shared
+    path: shared
   # path: ^1.8.0
 
 dev_dependencies:

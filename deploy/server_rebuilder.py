@@ -4,6 +4,12 @@ import os
 import time
 from typing import NoReturn, AnyStr
 
+class ServerRunner:
+    def __init__(self):
+        self.test = 10
+
+
+
 class GithubParser:
     def __init__(self, url: str) -> NoReturn:
         self.url = url
