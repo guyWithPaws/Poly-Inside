@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
+import 'package:poly_inside/src/feature/home/search_bar.dart';
+import 'package:poly_inside/src/feature/home/stars_rating.dart';
+import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
 import 'package:poly_inside/src/feature/profile/profile_page.dart';
 import 'package:shared/shared.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 
 /// {@template home_page}
 /// HomePage widget.
@@ -23,17 +24,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ClientRepository? repository;
+  TextEditingController? _controller;
+  String? searchProfessorPattern;
 
   @override
   void initState() {
+    _controller = TextEditingController();
+    _controller?.addListener(listener);
     super.initState();
   }
 
-// //ClientChannel('87.228.18.201',
-//           port: 8080,
-//           options: const ChannelOptions(
-//               credentials: ChannelCredentials.insecure()))
-//
+  void listener() {
+    setState(() {
+      searchProfessorPattern = _controller?.text.toLowerCase();
+    });
+  }
+
   @override
   void didChangeDependencies() {
     repository = ClientRepositoryImpl(
@@ -94,6 +100,9 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       width: 30,
                     ),
+                    ProfessorSearchBar(
+                      controller: _controller,
+                    )
                   ],
                 ),
                 const SizedBox(
@@ -109,6 +118,7 @@ class _HomePageState extends State<HomePage> {
                   child: StreamBuilder<GetListProfessorResponse>(
                     stream: repository?.getAllProfessors(),
                     builder: (context, snapshot) {
+                      var professorList = <Professor>[];
                       if (!snapshot.hasData) {
                         return const Center(
                           child: Text(
@@ -116,71 +126,95 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       }
+                      if (snapshot.hasData) {
+                        professorList = (searchProfessorPattern != null)
+                            ? snapshot.data!.professors
+                                .where((professor) => professor.name
+                                    .toLowerCase()
+                                    .contains(
+                                        searchProfessorPattern.toString()))
+                                .toList()
+                            : snapshot.data!.professors;
+                      }
+
                       return ListView.separated(
-                        itemCount: snapshot.data?.professors.length ?? 0,
+                        itemCount:
+                            professorList.isNotEmpty ? professorList.length : 0,
                         separatorBuilder: (context, index) => const SizedBox(
                           height: 25,
                         ),
                         itemBuilder: (context, index) {
-                          return Container(
-                            width: 360,
-                            height: 75,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: const Color(0xFFEEF9EF)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 27,
-                                    child: ClipOval(
-                                      child: CachedNetworkImage(
-                                        height: 54,
-                                        width: 54,
-                                        errorWidget: (_, __, ___) =>
-                                            const ColoredBox(
-                                                color: Colors.grey),
-                                        imageUrl: snapshot.data
-                                                ?.professors[index].avatar ??
-                                            '',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                          return Builder(builder: (builderContext) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    builderContext,
+                                    MaterialPageRoute<void>(
+                                        builder: (builderContext) =>
+                                            const ProfessorProfilePage()));
+                              },
+                              child: Container(
+                                width: 360,
+                                height: 75,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: const Color(0xFFEEF9EF)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
                                     children: [
-                                      Text(
-                                        snapshot.data?.professors[index].name ??
-                                            '',
-                                        style: const TextStyle(
-                                          overflow: TextOverflow.clip,
+                                      CircleAvatar(
+                                        radius: 27,
+                                        child: ClipOval(
+                                          child: CachedNetworkImage(
+                                            height: 54,
+                                            width: 54,
+                                            errorWidget: (_, __, ___) =>
+                                                const ColoredBox(
+                                                    color: Colors.grey),
+                                            imageUrl:
+                                                professorList[index].avatar,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
-                                      const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          RatingStars(
-                                            value: 3.5,
-                                          ),
-                                          Align(
-                                            child: Text('6 отзывов'),
-                                          )
-                                        ],
+                                      const SizedBox(
+                                        width: 8,
                                       ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            professorList[index].name,
+                                            style: const TextStyle(
+                                              overflow: TextOverflow.clip,
+                                            ),
+                                          ),
+                                          const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              StarsRating(
+                                                color: Colors.yellow,
+                                                baseColor: Colors.grey,
+                                                value: 4.2,
+                                              ),
+                                              Align(
+                                                child: Text('6 отзывов'),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      )
                                     ],
-                                  )
-                                ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          });
                         },
                       );
                     },
