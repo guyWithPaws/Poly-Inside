@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
+import 'package:poly_inside/src/feature/profile/profile_page.dart';
 import 'package:shared/shared.dart';
+import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 
 /// {@template home_page}
 /// HomePage widget.
@@ -26,6 +29,11 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+// //ClientChannel('87.228.18.201',
+//           port: 8080,
+//           options: const ChannelOptions(
+//               credentials: ChannelCredentials.insecure()))
+//
   @override
   void didChangeDependencies() {
     repository = ClientRepositoryImpl(
@@ -61,17 +69,28 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: 31,
-                      child: ClipOval(
-                        child: Image.asset(
-                          fit: BoxFit.cover,
-                          height: 62,
-                          width: 62,
-                          'assets/beer.jpg',
+                    Builder(builder: (builderContext) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              builderContext,
+                              MaterialPageRoute<void>(
+                                  builder: (builderContext) =>
+                                      const ProfilePage()));
+                        },
+                        child: CircleAvatar(
+                          radius: 31,
+                          child: ClipOval(
+                            child: Image.asset(
+                              fit: BoxFit.cover,
+                              height: 62,
+                              width: 62,
+                              'assets/beer.jpg',
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                     const SizedBox(
                       width: 30,
                     ),
@@ -91,13 +110,6 @@ class _HomePageState extends State<HomePage> {
                     stream: repository?.getAllProfessors(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return const Center(
-                          child: Text(
-                            'Nothing to show...',
-                          ),
-                        );
-                      }
-                      if (snapshot.data?.professors.isEmpty ?? true) {
                         return const Center(
                           child: Text(
                             'Nothing to show...',
@@ -155,15 +167,8 @@ class _HomePageState extends State<HomePage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Icon(Icons.star),
-                                              Icon(Icons.star),
-                                              Icon(Icons.star),
-                                              Icon(Icons.star),
-                                              Icon(Icons.star),
-                                              Text(' 5.0'),
-                                            ],
+                                          RatingStars(
+                                            value: 3.5,
                                           ),
                                           Align(
                                             child: Text('6 отзывов'),

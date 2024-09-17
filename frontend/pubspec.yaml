@@ -43,6 +43,8 @@ dependencies:
   flutter_telegram_web_app: ^0.0.1
   grpc: ^4.0.1
   cached_network_image: ^3.4.1
+  flutter_rating_stars: ^1.1.0
+  flutter_svg: ^2.0.10+1
 
 
 dev_dependencies:
@@ -72,6 +74,7 @@ flutter:
   assets:
     - assets/beer.jpg
     - assets/cool_photo.jpg
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
