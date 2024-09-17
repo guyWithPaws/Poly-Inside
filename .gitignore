@@ -13,6 +13,7 @@ doc/api/
 
 # dotenv environment variables file
 .env*
+*.sqlite
 
 # Avoid committing generated Javascript files:
 *.dart.js
