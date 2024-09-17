@@ -7,7 +7,26 @@ part 'database.g.dart';
 class Professors extends Table {
   TextColumn get id => text()();
   TextColumn get name => text()();
-  TextColumn get avatar => text()();
+  BlobColumn get avatar => blob()();
+  IntColumn get reviewsCount => integer()();
+  RealColumn get rating => real()();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {id};
+}
+
+@UseRowClass(Review)
+class RejectedReviews extends Table {
+  TextColumn get id => text()();
+  IntColumn get userId => integer()();
+  TextColumn get professorId => text()();
+  TextColumn get comment => text()();
+  RealColumn get objectivity => real()();
+  RealColumn get loyalty => real()();
+  RealColumn get professionalism => real()();
+  RealColumn get harshness => real()();
+  TextColumn get date => text()();
+  IntColumn get rating => integer()();
 
   @override
   Set<Column<Object>>? get primaryKey => {id};
@@ -28,7 +47,7 @@ class Users extends Table {
 class Reviews extends Table {
   TextColumn get id => text()();
   IntColumn get userId => integer()();
-  IntColumn get professorId => integer()();
+  TextColumn get professorId => text()();
   TextColumn get comment => text()();
   RealColumn get objectivity => real()();
   RealColumn get loyalty => real()();
@@ -41,7 +60,7 @@ class Reviews extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DriftDatabase(tables: [Professors, Users, Reviews])
+@DriftDatabase(tables: [Professors, Users, Reviews, RejectedReviews])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 

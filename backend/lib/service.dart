@@ -17,6 +17,7 @@ class GRPCService extends SearchServiceBase {
     if (passed) {
       await provider.addReview(request);
     } else {
+      await provider.addRejectedReview(request);
       l.v('Rejected review: ${request.comment}');
     }
     return AddReviewResponse()..passed = passed;
