@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       client: SearchServiceClient(
         GrpcWebClientChannel.xhr(
           Uri.parse(
-            'http://127.0.0.1:9090',
+            'http://87.228.18.201:8080',
           ),
         ),
       ),
