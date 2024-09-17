@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
-import 'package:poly_inside/src/common/repository/client_impl.dart';
-import 'package:shared/shared.dart';
 
 class ProfilePage extends StatefulWidget {
   /// {@macro profile_page}
@@ -92,14 +89,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ))),
               Padding(
-                padding: EdgeInsets.only(top: 14, left: 10),
+                padding: const EdgeInsets.only(top: 14, left: 10),
                 child: Container(
                   width: 20,
                   height: 26,
                   decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 233, 252, 232),
                       borderRadius: BorderRadius.circular(7)),
-                  child: Center(
+                  child: const Center(
                       child: Text(
                     "2",
                     style: TextStyle(

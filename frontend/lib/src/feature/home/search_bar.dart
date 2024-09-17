@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-import 'package:poly_inside/src/common/theme.dart';
 
 /// {@template search_bar}
 /// ProfessorSearchBar widget.

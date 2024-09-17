@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
@@ -46,7 +45,12 @@ class _HomePageState extends State<HomePage> {
   void didChangeDependencies() {
     repository = ClientRepositoryImpl(
       client: SearchServiceClient(
-          GrpcWebClientChannel.xhr(Uri.parse('http://87.228.18.201:8080'))),
+        GrpcWebClientChannel.xhr(
+          Uri.parse(
+            'http://127.0.0.1:9090',
+          ),
+        ),
+      ),
     );
     super.didChangeDependencies();
   }
@@ -168,11 +172,12 @@ class _HomePageState extends State<HomePage> {
                                       CircleAvatar(
                                         radius: 27,
                                         child: ClipOval(
-                                            child: Image.memory(
-                                          Uint8List.fromList(
-                                            professorList[index].avatar,
+                                          child: Image.memory(
+                                            Uint8List.fromList(
+                                              professorList[index].avatar,
+                                            ),
                                           ),
-                                        )),
+                                        ),
                                       ),
                                       const SizedBox(
                                         width: 8,
@@ -200,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               Align(
                                                 child: Text('6 отзывов'),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ],

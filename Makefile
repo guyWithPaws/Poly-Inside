@@ -1,6 +1,10 @@
-.PHONY: get codegen gen fix
+.PHONY: get codegen gen fix precommit
 
 # Get dependencies
+precommit:
+	@dart format .
+	@dart fix --apply
+
 get:
 	@dart pub get --directory backend
 	@dart pub get --directory frontend

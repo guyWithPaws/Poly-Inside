@@ -7,7 +7,7 @@ class App extends StatefulWidget {
   /// {@macro app}
   const App({
     required this.child,
-    super.key,  // ignore: unused_element
+    super.key, // ignore: unused_element
   });
 
   /// The widget below this widget in the tree.
@@ -66,22 +66,22 @@ class _InheritedApp extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   /// For example: `App.maybeOf(context)`.
-  static _InheritedApp? maybeOf(BuildContext context, {bool listen = true}) => listen
-    ? context.dependOnInheritedWidgetOfExactType<_InheritedApp>()
-    : context.getInheritedWidgetOfExactType<_InheritedApp>();
+  static _InheritedApp? maybeOf(BuildContext context, {bool listen = true}) =>
+      listen
+          ? context.dependOnInheritedWidgetOfExactType<_InheritedApp>()
+          : context.getInheritedWidgetOfExactType<_InheritedApp>();
 
-  static Never _notFoundInheritedWidgetOfExactType() =>
-    throw ArgumentError(
-      'Out of scope, not found inherited widget '
-          'a _InheritedApp of the exact type',
-      'out_of_scope',
-    );
+  static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
+        'Out of scope, not found inherited widget '
+            'a _InheritedApp of the exact type',
+        'out_of_scope',
+      );
 
   /// The state from the closest instance of this class
   /// that encloses the given context.
   /// For example: `App.of(context)`.
   static _InheritedApp of(BuildContext context, {bool listen = true}) =>
-    maybeOf(context, listen: listen) ?? _notFoundInheritedWidgetOfExactType();
+      maybeOf(context, listen: listen) ?? _notFoundInheritedWidgetOfExactType();
 
   @override
   bool updateShouldNotify(covariant _InheritedApp oldWidget) => false;

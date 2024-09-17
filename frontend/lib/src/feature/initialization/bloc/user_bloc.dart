@@ -9,7 +9,7 @@ import 'package:flutter_telegram_web_app/flutter_telegram_web_app.dart' as tg;
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc({required final UserState state, required this.repository})
       : super(state) {
-    on<GetUserEvent>((e, emit) async{
+    on<GetUserEvent>((e, emit) async {
       final id = tg.initDataUnsafe.user?.id;
       if (e.id == null) {
         emit(const UserState.processing(data: null));
@@ -21,8 +21,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         }
       }
       final user = await repository.getUserByUserId(id ?? 0);
-      if(!user.hasId()){
-        emit(const UserState.error(data: null, message: 'User not found'),);
+      if (!user.hasId()) {
+        emit(
+          const UserState.error(data: null, message: 'User not found'),
+        );
       }
       emit(UserState.successful(data: user));
     });
