@@ -137,13 +137,13 @@ final $typed_data.Uint8List listProfessorRequestDescriptor = $convert.base64Deco
 const ReviewsByProfessorIdRequest$json = {
   '1': 'ReviewsByProfessorIdRequest',
   '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
   ],
 };
 
 /// Descriptor for `ReviewsByProfessorIdRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List reviewsByProfessorIdRequestDescriptor = $convert.base64Decode(
-    'ChtSZXZpZXdzQnlQcm9mZXNzb3JJZFJlcXVlc3QSDgoCaWQYASABKAVSAmlk');
+    'ChtSZXZpZXdzQnlQcm9mZXNzb3JJZFJlcXVlc3QSDgoCaWQYASABKAlSAmlk');
 
 @$core.Deprecated('Use userDescriptor instead')
 const User$json = {
@@ -167,14 +167,17 @@ const Professor$json = {
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    {'1': 'avatar', '3': 3, '4': 1, '5': 9, '10': 'avatar'},
+    {'1': 'avatar', '3': 3, '4': 1, '5': 12, '10': 'avatar'},
+    {'1': 'rating', '3': 4, '4': 1, '5': 2, '10': 'rating'},
+    {'1': 'reviews_count', '3': 5, '4': 1, '5': 5, '10': 'reviewsCount'},
   ],
 };
 
 /// Descriptor for `Professor`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List professorDescriptor = $convert.base64Decode(
     'CglQcm9mZXNzb3ISDgoCaWQYASABKAlSAmlkEhIKBG5hbWUYAiABKAlSBG5hbWUSFgoGYXZhdG'
-    'FyGAMgASgJUgZhdmF0YXI=');
+    'FyGAMgASgMUgZhdmF0YXISFgoGcmF0aW5nGAQgASgCUgZyYXRpbmcSIwoNcmV2aWV3c19jb3Vu'
+    'dBgFIAEoBVIMcmV2aWV3c0NvdW50');
 
 @$core.Deprecated('Use reviewDescriptor instead')
 const Review$json = {
@@ -189,7 +192,7 @@ const Review$json = {
     {'1': 'harshness', '3': 7, '4': 1, '5': 2, '10': 'harshness'},
     {'1': 'date', '3': 8, '4': 1, '5': 9, '10': 'date'},
     {'1': 'raiting', '3': 9, '4': 1, '5': 5, '10': 'raiting'},
-    {'1': 'professor_id', '3': 11, '4': 1, '5': 5, '10': 'professorId'},
+    {'1': 'professor_id', '3': 11, '4': 1, '5': 9, '10': 'professorId'},
     {'1': 'rating', '3': 13, '4': 1, '5': 5, '10': 'rating'},
   ],
 };
@@ -201,5 +204,5 @@ final $typed_data.Uint8List reviewDescriptor = $convert.base64Decode(
     'b2JqZWN0aXZpdHkSGAoHbG95YWx0eRgFIAEoAlIHbG95YWx0eRIoCg9wcm9mZXNzaW9uYWxpc2'
     '0YBiABKAJSD3Byb2Zlc3Npb25hbGlzbRIcCgloYXJzaG5lc3MYByABKAJSCWhhcnNobmVzcxIS'
     'CgRkYXRlGAggASgJUgRkYXRlEhgKB3JhaXRpbmcYCSABKAVSB3JhaXRpbmcSIQoMcHJvZmVzc2'
-    '9yX2lkGAsgASgFUgtwcm9mZXNzb3JJZBIWCgZyYXRpbmcYDSABKAVSBnJhdGluZw==');
+    '9yX2lkGAsgASgJUgtwcm9mZXNzb3JJZBIWCgZyYXRpbmcYDSABKAVSBnJhdGluZw==');
 

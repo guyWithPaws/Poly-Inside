@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_web.dart';
@@ -166,17 +168,11 @@ class _HomePageState extends State<HomePage> {
                                       CircleAvatar(
                                         radius: 27,
                                         child: ClipOval(
-                                          child: CachedNetworkImage(
-                                            height: 54,
-                                            width: 54,
-                                            errorWidget: (_, __, ___) =>
-                                                const ColoredBox(
-                                                    color: Colors.grey),
-                                            imageUrl:
-                                                professorList[index].avatar,
-                                            fit: BoxFit.cover,
+                                            child: Image.memory(
+                                          Uint8List.fromList(
+                                            professorList[index].avatar,
                                           ),
-                                        ),
+                                        )),
                                       ),
                                       const SizedBox(
                                         width: 8,

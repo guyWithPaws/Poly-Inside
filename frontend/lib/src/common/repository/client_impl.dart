@@ -20,7 +20,7 @@ class ClientRepositoryImpl implements ClientRepository {
       client.getReviewsByUserId(ReviewsByUserIdRequest()..id = userId);
 
   @override
-  Stream<Review> getAllReviewsByProfessor(int professorId) => client
+  Stream<Review> getAllReviewsByProfessor(String professorId) => client
       .getReviewsByProfessorId(ReviewsByProfessorIdRequest()..id = professorId);
 
   @override
