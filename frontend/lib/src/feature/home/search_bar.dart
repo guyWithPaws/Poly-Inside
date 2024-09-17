@@ -6,11 +6,13 @@ import 'package:poly_inside/src/common/theme.dart';
 /// ProfessorSearchBar widget.
 /// {@endtemplate}
 class ProfessorSearchBar extends StatefulWidget {
+  final TextEditingController? controller;
+
   /// {@macro search_bar}
   const ProfessorSearchBar({
-    super.key, // ignore: unused_element
+    super.key,
+    required this.controller, // ignore: unused_element
   });
-
 
   @override
   State<ProfessorSearchBar> createState() => _ProfessorSearchBarState();
@@ -18,10 +20,8 @@ class ProfessorSearchBar extends StatefulWidget {
 
 /// State for widget ProfessorSearchBar.
 class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
-  TextEditingController? _controller;
   @override
   void initState() {
-    _controller = TextEditingController();
     super.initState();
   }
 
@@ -37,14 +37,14 @@ class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
 
   @override
   void dispose() {
-    _controller?.dispose();
+    widget.controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical:  0),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
       width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         color: const Color(0xffEEF9EF),
@@ -73,34 +73,11 @@ class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
                 hintText: 'Найти преподавателя',
                 border: InputBorder.none,
               ),
-              controller: _controller,
+              controller: widget.controller,
             ),
           ),
         ],
       ),
     );
-    // return Container(
-    //     width: MediaQuery.of(context).size.width / 2,
-    //     decoration: BoxDecoration(
-    //       color: const Color(0xffEEF9EF),
-    //       borderRadius: BorderRadius.circular(12),
-    //     ),
-    //     child: Padding(
-    //       padding: const EdgeInsets.all(5.0),
-    //       child: TextField(
-    //         textAlign: TextAlign.start,
-    //         maxLines: 1,
-    //         cursorColor: Colors.black,
-    //         decoration: InputDecoration(
-    //           hintStyle: TextStyle(
-    //             color: Color(0xff8A8A8A),
-    //           ),
-    //           hintText: 'Найти преподавателя',
-    //           border: InputBorder.none,
-    //         ),
-    //         controller: _controller,
-    //       ),
-    //     ),
-    //   );
   }
 }
