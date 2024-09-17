@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
@@ -150,6 +151,8 @@ class _HomePageState extends State<HomePage> {
                           height: 25,
                         ),
                         itemBuilder: (context, index) {
+                          debugPrint(
+                              '${professorList[index].avatar}  ${index}');
                           return Builder(builder: (builderContext) {
                             return GestureDetector(
                               onTap: () {
@@ -170,45 +173,72 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: [
                                       CircleAvatar(
+                                        backgroundColor: Colors.grey[200],
                                         radius: 27,
                                         child: ClipOval(
-                                          child: Image.memory(
-                                            Uint8List.fromList(
-                                              professorList[index].avatar,
-                                            ),
-                                          ),
+                                          child: Uint8List.fromList(
+                                                      professorList[index]
+                                                          .avatar)
+                                                  .isNotEmpty
+                                              ? Image.memory(
+                                                  height: 60,
+                                                  width: 60,
+                                                  fit: BoxFit.cover,
+                                                  Uint8List.fromList(
+                                                    professorList[index].avatar,
+                                                  ),
+                                                )
+                                              : SvgPicture.asset(
+                                                  'assets/icons/no_photo.svg'),
                                         ),
                                       ),
                                       const SizedBox(
                                         width: 8,
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            professorList[index].name,
-                                            style: const TextStyle(
-                                              overflow: TextOverflow.clip,
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              professorList[index].name,
+                                              style: const TextStyle(
+                                                overflow: TextOverflow.clip,
+                                              ),
                                             ),
-                                          ),
-                                          const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              StarsRating(
-                                                color: Colors.yellow,
-                                                baseColor: Colors.grey,
-                                                value: 4.2,
+                                            Stack(children: [
+                                              Row(
+                                                children: [
+                                                  StarsRating(
+                                                    color: Colors.yellow,
+                                                    baseColor: Colors.grey,
+                                                    value: professorList[index]
+                                                        .rating,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Text(
+                                                      '${professorList[index].rating}')
+                                                ],
                                               ),
                                               Align(
-                                                child: Text('6 отзывов'),
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Text(
+                                                    (professorList[index]
+                                                                .rating ==
+                                                            0)
+                                                        ? 'нет отзывов'
+                                                        : professorList[index]
+                                                            .reviewsCount
+                                                            .toString()),
                                               ),
-                                            ],
-                                          ),
-                                        ],
+                                            ]),
+                                          ],
+                                        ),
                                       )
                                     ],
                                   ),
