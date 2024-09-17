@@ -5,7 +5,6 @@ import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:shared/shared.dart';
 
-
 class ProfilePage extends StatefulWidget {
   /// {@macro profile_page}
   const ProfilePage({
@@ -26,10 +25,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void didChangeDependencies() {
-    repository = ClientRepositoryImpl(
-      client: SearchServiceClient(
-          GrpcWebClientChannel.xhr(Uri.parse('http://87.228.18.201:8080'))),
-    );
     super.didChangeDependencies();
   }
 
@@ -53,7 +48,9 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Color.fromARGB(255, 185, 185, 185),
             shape: BoxShape.circle,
           ),
-          child: SvgPicture.asset('assets/icons/cross.svg'),
+          child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: SvgPicture.asset('assets/icons/cross.svg')),
         ),
       ),
       body: Column(
@@ -67,7 +64,6 @@ class _ProfilePageState extends State<ProfilePage> {
               width: 158,
               fit: BoxFit.cover,
             )),
-            //FileImage(File('C:\\Users\\user\\Pictures\\Saved Pictures\\52.png')),
           ),
           const Padding(
               padding: EdgeInsets.only(top: 13, bottom: 0),
