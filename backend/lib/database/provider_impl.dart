@@ -24,27 +24,58 @@ class DatabaseProviderImpl implements DatabaseProvider {
           .watch();
 
   @override
-  Stream<List<Review>> getAllReviewsByProfessor(int professorId) =>
+  Stream<List<Review>> getAllReviewsByProfessor(String professorId) =>
       (database.select(database.reviews)
             ..where((u) => u.professorId.equals(professorId)))
           .watch();
 
   @override
-  Future<int> addReview(Review review) async =>
-      await database.into(database.reviews).insert(
-            ReviewsCompanion(
-              id: Value('${review.userId}${review.date}'),
-              rating: Value(review.rating),
-              professorId: Value(review.professorId),
-              professionalism: Value(review.professionalism),
-              userId: Value(review.userId),
-              comment: Value(review.comment),
-              date: Value(review.date),
-              objectivity: Value(review.objectivity),
-              loyalty: Value(review.loyalty),
-              harshness: Value(review.harshness),
+  Future<int> addReview(Review review) async {
+    final reviews = await (database.select(database.reviews)
+          ..where((u) => u.professorId.equals(review.professorId)))
+        .get();
+    final reviewsCount = reviews.length;
+    final professor = await (database.select(database.professors)
+          ..where((e) => e.id.equals(review.professorId)))
+        .getSingle();
+    final rating = professor.rating;
+
+    final newRating = (rating +
+            ((review.harshness +
+                    review.loyalty +
+                    review.objectivity +
+                    review.professionalism) /
+                4)) /
+        (reviewsCount + 1);
+    await database.update(database.professors).replace(
+          ProfessorsCompanion(
+            id: Value<String>(professor.id),
+            name: Value<String>(professor.name),
+            avatar: Value<Uint8List>(
+              Uint8List.fromList(
+                professor.avatar,
+              ),
             ),
-          );
+            reviewsCount: Value<int>(reviewsCount + 1),
+            rating: Value<double>(newRating),
+          ),
+        );
+
+    return await database.into(database.reviews).insert(
+          ReviewsCompanion(
+            id: Value('${review.userId}${review.date}'),
+            rating: Value(review.rating),
+            professorId: Value(review.professorId),
+            professionalism: Value(review.professionalism),
+            userId: Value(review.userId),
+            comment: Value(review.comment),
+            date: Value(review.date),
+            objectivity: Value(review.objectivity),
+            loyalty: Value(review.loyalty),
+            harshness: Value(review.harshness),
+          ),
+        );
+  }
 
   @override
   Future<User?> getUserByUserId(int userId) async {
@@ -118,9 +149,15 @@ class DatabaseProviderImpl implements DatabaseProvider {
   Future<void> addProfessor(Professor professor) async {
     await database.into(database.professors).insert(
           ProfessorsCompanion(
-            id: Value<String>(professor.name),
+            reviewsCount: Value<int>(professor.reviewsCount),
+            rating: Value<double>(professor.rating),
+            id: Value<String>(professor.id),
             name: Value<String>(professor.name),
-            avatar: Value<String>(professor.avatar),
+            avatar: Value<Uint8List>(
+              Uint8List.fromList(
+                professor.avatar,
+              ),
+            ),
           ),
         );
   }
@@ -128,4 +165,22 @@ class DatabaseProviderImpl implements DatabaseProvider {
   @override
   Future<List<Professor>> getOnceAllProfessors() async =>
       await database.select(database.professors).get();
+
+  @override
+  Future<void> addRejectedReview(Review review) async {
+    await database.into(database.rejectedReviews).insert(
+          ReviewsCompanion(
+            id: Value('${review.userId}${review.date}'),
+            rating: Value(review.rating),
+            professorId: Value(review.professorId),
+            professionalism: Value(review.professionalism),
+            userId: Value(review.userId),
+            comment: Value(review.comment),
+            date: Value(review.date),
+            objectivity: Value(review.objectivity),
+            loyalty: Value(review.loyalty),
+            harshness: Value(review.harshness),
+          ),
+        );
+  }
 }

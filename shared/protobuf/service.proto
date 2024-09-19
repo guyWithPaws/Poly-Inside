@@ -49,7 +49,7 @@ message ReviewsByUserIdRequest{
 message ListProfessorRequest{}
 
 message ReviewsByProfessorIdRequest {
-  int32 id = 1;
+  string id = 1;
 }
 
 message User {
@@ -62,7 +62,9 @@ message User {
 message Professor {
   string id = 1;
   string name = 2;
-  string avatar = 3;
+  bytes avatar = 3;
+  float rating = 4;
+  int32 reviews_count = 5;
 }
 
 message Review {
@@ -75,6 +77,6 @@ message Review {
   float harshness = 7;
   string date = 8;
   int32 raiting = 9;
-  int32 professor_id = 11;
+  string professor_id = 11;
   int32 rating = 13;
 }

@@ -41,5 +41,6 @@ sealed class InitializationState with _$InitializationState {
   const factory InitializationState.processing() = Processing;
   const factory InitializationState.idle() = Idle;
   const factory InitializationState.error(Object e) = Error;
-  const factory InitializationState.initialized(ClientRepository repository) = Initialized;
+  const factory InitializationState.initialized(ClientRepository repository) =
+      Initialized;
 }

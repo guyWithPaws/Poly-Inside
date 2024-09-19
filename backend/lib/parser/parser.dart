@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:html/parser.dart';
@@ -94,6 +95,12 @@ class Parser {
 
             var professorAvatar = 'https://www.spbstu.ru/$avatarSublink';
 
+            Uint8List? image;
+
+            if (!avatarSublink.contains('no-photo-user-available')) {
+              var data = await http.get(Uri.parse(professorAvatar));
+              image = data.bodyBytes;
+            }
             var professorIdBytes =
                 utf8.encode(professorName + DateTime.now().toString());
 
@@ -101,9 +108,12 @@ class Parser {
 
             await provider.addProfessor(
               Professor(
-                  id: professorId,
-                  name: professorName,
-                  avatar: professorAvatar),
+                reviewsCount: 0,
+                rating: 0,
+                id: professorId,
+                name: professorName,
+                avatar: image?.toList(),
+              ),
             );
           }
         }

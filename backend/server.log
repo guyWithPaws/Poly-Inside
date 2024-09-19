@@ -1,0 +1,24 @@
+#0      $ProfessorsTable.map (package:poly_inside_server/database/database.g.dart:98:71)
+#1      MappedListIterable.elementAt (dart:_internal/iterable.dart:425:31)
+#2      ListIterator.moveNext (dart:_internal/iterable.dart:354:26)
+#3      new _GrowableList._ofEfficientLengthIterable (dart:core-patch/growable_array.dart:189:27)
+#4      new _GrowableList.of (dart:core-patch/growable_array.dart:150:28)
+#5      new List.of (dart:core-patch/array_patch.dart:39:18)
+#6      ListIterable.toList (dart:_internal/iterable.dart:224:7)
+#7      MapAndAwait.mapAsyncAndAwait (package:drift/src/utils/async.dart:12:26)
+#8      SimpleSelectStatement._mapResponse (package:drift/src/runtime/query_builder/statements/select/select.dart:91:17)
+#9      _rootRunUnary (dart:async/zone.dart:1407:47)
+#10     _CustomZone.runUnary (dart:async/zone.dart:1308:19)
+<asynchronous suspension>
+#11     DatabaseProviderImpl.getOnceAllProfessors (package:poly_inside_server/database/provider_impl.dart:167:7)
+<asynchronous suspension>
+#12     Parser.getListOfProfessorsNames (package:poly_inside_server/parser/parser.dart:35:28)
+<asynchronous suspension>
+#13     Parser.fillDatabase (package:poly_inside_server/parser/parser.dart:66:27)
+<asynchronous suspension>
+#14     main.<anonymous closure>.<anonymous closure> (file:///Users/guywithpaws/Poly-Inside/backend/bin/server.dart:23:11)
+<asynchronous suspension>
+#15     main.<anonymous closure> (file:///Users/guywithpaws/Poly-Inside/backend/bin/server.dart:17:7)
+<asynchronous suspension>
+#16     main (file:///Users/guywithpaws/Poly-Inside/backend/bin/server.dart:15:3)
+<asynchronous suspension>
