@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                               builderContext,
                               MaterialPageRoute<void>(
                                   builder: (builderContext) =>
-                                      const ProfilePage()));
+                                      const ProfessorProfilePage()));
                         },
                         child: CircleAvatar(
                           radius: 31,
