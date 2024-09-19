@@ -86,11 +86,18 @@ class _HomePageState extends State<HomePage> {
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
+<<<<<<< HEAD
                             builderContext,
                             MaterialPageRoute<void>(
                               builder: (builderContext) => const ProfilePage(),
                             ),
                           );
+=======
+                              builderContext,
+                              MaterialPageRoute<void>(
+                                  builder: (builderContext) =>
+                                      const ProfessorProfilePage()));
+>>>>>>> 9cc473234300c1f96397fc3eb9914441099dcd6e
                         },
                         child: CircleAvatar(
                           radius: 31,
