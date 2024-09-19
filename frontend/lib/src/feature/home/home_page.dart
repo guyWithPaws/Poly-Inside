@@ -26,20 +26,41 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ClientRepository? repository;
-  TextEditingController? _controller;
+  TextEditingController? _textEditingController;
+  ScrollController? _scrollController;
+
   String? searchProfessorPattern;
+  int? listViewCounter;
+  static const int amountOfContentLoaded = 40;
 
   @override
   void initState() {
-    _controller = TextEditingController();
-    _controller?.addListener(listener);
+    _textEditingController = TextEditingController();
+    _textEditingController?.addListener(textEditingListener);
+
+    _scrollController = ScrollController();
+    _scrollController?.addListener(scrollListener);
+
+    setState(() {
+      listViewCounter = amountOfContentLoaded;
+    });
+
     super.initState();
   }
 
-  void listener() {
+  void textEditingListener() {
     setState(() {
-      searchProfessorPattern = _controller?.text.toLowerCase();
+      searchProfessorPattern = _textEditingController?.text.toLowerCase();
     });
+  }
+
+  void scrollListener() {
+    if (_scrollController?.position.pixels ==
+        _scrollController?.position.maxScrollExtent) {
+      setState(() {
+        listViewCounter = (listViewCounter! + amountOfContentLoaded);
+      });
+    }
   }
 
   @override
@@ -86,18 +107,10 @@ class _HomePageState extends State<HomePage> {
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
-<<<<<<< HEAD
-                            builderContext,
-                            MaterialPageRoute<void>(
-                              builder: (builderContext) => const ProfilePage(),
-                            ),
-                          );
-=======
                               builderContext,
                               MaterialPageRoute<void>(
                                   builder: (builderContext) =>
-                                      const ProfessorProfilePage()));
->>>>>>> 9cc473234300c1f96397fc3eb9914441099dcd6e
+                                      const ProfilePage()));
                         },
                         child: CircleAvatar(
                           radius: 31,
@@ -116,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                       width: 30,
                     ),
                     ProfessorSearchBar(
-                      controller: _controller,
+                      controller: _textEditingController,
                     )
                   ],
                 ),
@@ -133,8 +146,8 @@ class _HomePageState extends State<HomePage> {
                   height: 16,
                 ),
                 Expanded(
-                  child: StreamBuilder<GetListProfessorResponse>(
-                    stream: repository?.getAllProfessors().take(10),
+                  child: FutureBuilder<GetListProfessorResponse>(
+                    future: repository!.getAllProfessors(listViewCounter!),
                     builder: (context, snapshot) {
                       var professorList = <Professor>[];
                       if (!snapshot.hasData) {
@@ -156,6 +169,7 @@ class _HomePageState extends State<HomePage> {
                       }
 
                       return ListView.separated(
+                        controller: _scrollController,
                         itemCount:
                             professorList.isNotEmpty ? professorList.length : 0,
                         separatorBuilder: (context, index) => const SizedBox(
