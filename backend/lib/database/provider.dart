@@ -3,9 +3,9 @@ import 'package:shared/shared.dart';
 abstract interface class DatabaseProvider {
   Future<void> addUser(User user);
   Future<User?> getUserByUserId(int userId);
-  Stream<List<Professor>> getAllProfessors();
+  Future<List<Professor>> getAllProfessors(int count);
   Stream<List<Review>> getAllReviewsByProfessor(String professorId);
-  Stream<List<Professor>> findProfessorByName(String name);
+  Future<List<Professor>> findProfessorByName(String name, int count);
   Stream<List<Review>> getAllReviewByUser(int userId);
   Future<int> addReview(Review review);
   Future<bool> updateReview(Review review);

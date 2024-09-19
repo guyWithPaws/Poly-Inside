@@ -111,7 +111,7 @@ class Parser {
                 reviewsCount: 0,
                 rating: 0,
                 id: professorId,
-                name: professorName,
+                name: professorName.toLowerCase(),
                 avatar: image?.toList(),
               ),
             );

@@ -9,19 +9,20 @@ class DatabaseProviderImpl implements DatabaseProvider {
   final AppDatabase database;
 
   @override
-  Stream<List<Professor>> findProfessorByName(String name) =>
+  Future<List<Professor>> findProfessorByName(String name, int count) =>
       (database.select(database.professors)
-            ..where((u) => u.name.contains(name)))
-          .watch();
+            ..where((u) => u.name.like('%$name%'))..limit(count))
+          .get();
 
   @override
-  Stream<List<Professor>> getAllProfessors() =>
-      database.select(database.professors).watch();
+  Future<List<Professor>> getAllProfessors(int count) => (database
+      .select(database.professors)
+      ..limit(count)).get();
 
   @override
   Stream<List<Review>> getAllReviewByUser(int userId) =>
       (database.select(database.reviews)..where((u) => u.userId.equals(userId)))
-          .watch();
+          .watch().asBroadcastStream();
 
   @override
   Stream<List<Review>> getAllReviewsByProfessor(String professorId) =>
@@ -164,7 +165,7 @@ class DatabaseProviderImpl implements DatabaseProvider {
 
   @override
   Future<List<Professor>> getOnceAllProfessors() async =>
-      await database.select(database.professors).get();
+      await (database.select(database.professors)..limit(4000)).get();
 
   @override
   Future<void> addRejectedReview(Review review) async {

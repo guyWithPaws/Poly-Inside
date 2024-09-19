@@ -86,10 +86,11 @@ class _HomePageState extends State<HomePage> {
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
-                              builderContext,
-                              MaterialPageRoute<void>(
-                                  builder: (builderContext) =>
-                                      const ProfilePage()));
+                            builderContext,
+                            MaterialPageRoute<void>(
+                              builder: (builderContext) => const ProfilePage(),
+                            ),
+                          );
                         },
                         child: CircleAvatar(
                           radius: 31,
@@ -116,14 +117,17 @@ class _HomePageState extends State<HomePage> {
                   height: 16,
                 ),
                 const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Преподаватели')),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Преподаватели',
+                  ),
+                ),
                 const SizedBox(
                   height: 16,
                 ),
                 Expanded(
                   child: StreamBuilder<GetListProfessorResponse>(
-                    stream: repository?.getAllProfessors(),
+                    stream: repository?.getAllProfessors().take(10),
                     builder: (context, snapshot) {
                       var professorList = <Professor>[];
                       if (!snapshot.hasData) {
@@ -151,23 +155,24 @@ class _HomePageState extends State<HomePage> {
                           height: 25,
                         ),
                         itemBuilder: (context, index) {
-                          debugPrint(
-                              '${professorList[index].avatar}  ${index}');
                           return Builder(builder: (builderContext) {
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
-                                    builderContext,
-                                    MaterialPageRoute<void>(
-                                        builder: (builderContext) =>
-                                            const ProfessorProfilePage()));
+                                  builderContext,
+                                  MaterialPageRoute<void>(
+                                    builder: (builderContext) =>
+                                        const ProfessorProfilePage(),
+                                  ),
+                                );
                               },
                               child: Container(
                                 width: 360,
                                 height: 75,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: const Color(0xFFEEF9EF)),
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: const Color(0xFFEEF9EF),
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
@@ -177,9 +182,8 @@ class _HomePageState extends State<HomePage> {
                                         radius: 27,
                                         child: ClipOval(
                                           child: Uint8List.fromList(
-                                                      professorList[index]
-                                                          .avatar)
-                                                  .isNotEmpty
+                                            professorList[index].avatar,
+                                          ).isNotEmpty
                                               ? Image.memory(
                                                   height: 60,
                                                   width: 60,
@@ -189,7 +193,8 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 )
                                               : SvgPicture.asset(
-                                                  'assets/icons/no_photo.svg'),
+                                                  'assets/icons/no_photo.svg',
+                                                ),
                                         ),
                                       ),
                                       const SizedBox(
@@ -208,35 +213,40 @@ class _HomePageState extends State<HomePage> {
                                                 overflow: TextOverflow.clip,
                                               ),
                                             ),
-                                            Stack(children: [
-                                              Row(
-                                                children: [
-                                                  StarsRating(
-                                                    color: Colors.yellow,
-                                                    baseColor: Colors.grey,
-                                                    value: professorList[index]
-                                                        .rating,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 8,
-                                                  ),
-                                                  Text(
-                                                      '${professorList[index].rating}')
-                                                ],
-                                              ),
-                                              Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(
+                                            Stack(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    StarsRating(
+                                                      color: Colors.yellow,
+                                                      baseColor: Colors.grey,
+                                                      value:
+                                                          professorList[index]
+                                                              .rating,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    Text(
+                                                      '${professorList[index].rating}',
+                                                    )
+                                                  ],
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
                                                     (professorList[index]
                                                                 .rating ==
                                                             0)
                                                         ? 'нет отзывов'
                                                         : professorList[index]
                                                             .reviewsCount
-                                                            .toString()),
-                                              ),
-                                            ]),
+                                                            .toString(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       )

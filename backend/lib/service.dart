@@ -24,13 +24,11 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Stream<GetListProfessorResponse> getListProfessor(
-      ServiceCall call, ListProfessorRequest request) async* {
+  Future<GetListProfessorResponse> getListProfessor(
+      ServiceCall call, ListProfessorRequest request) async {
     l.v('GetListProfessor');
-    final stream = provider.getAllProfessors();
-    await for (final list in stream) {
-      yield GetListProfessorResponse(professors: list);
-    }
+    final professors = await provider.getAllProfessors(request.count);
+    return GetListProfessorResponse(professors: professors);
   }
 
   @override
@@ -98,5 +96,22 @@ class GRPCService extends SearchServiceBase {
 
     await provider.addUser(request);
     return AddProfileResponse();
+  }
+
+  @override
+  Future<GetListProfessorResponse> getAllProfessorsOnce(
+      ServiceCall call, GetAllProfessorsOnceRequest request) async {
+    final list = await provider.getOnceAllProfessors();
+    return GetListProfessorResponse(professors: list);
+  }
+
+  @override
+  Future<SearchResponse> searchProfessorByName(
+      ServiceCall call, SearchRequest request) async {
+    final list = await provider.findProfessorByName(
+      request.name,
+      request.count,
+    );
+    return SearchResponse(professors: list);
   }
 }
