@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
+import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:shared/shared.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -44,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Container(
             width: 30,
             height: 30,
-            margin: EdgeInsets.all(12),
+            margin: const EdgeInsets.all(12),
             alignment: Alignment.center,
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 185, 185, 185),
@@ -56,7 +57,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: CustomScrollView(slivers: [
         SliverAppBar(
-          leading: Text('huuuuuui'),
           centerTitle: true,
           expandedHeight: 300,
           pinned: true,
@@ -84,12 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
         SliverList.separated(
           itemCount: 20,
           itemBuilder: (context, index) {
-            return Container(
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.red,
-              ),
-            );
+            return const ReviewTitle();
           },
           separatorBuilder: (context, index) => const SizedBox(
             height: 8,

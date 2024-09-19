@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 /// {@template home_page}
@@ -6,16 +6,15 @@ import 'package:flutter_svg/svg.dart';
 /// {@endtemplate}
 class StarsRating extends StatelessWidget {
   static const String imageUrl = 'assets/icons/star.svg';
-  final Color color;
-  final Color baseColor;
+  static const Color color = Colors.yellow;
+  static const Color baseColor = Colors.grey;
   final double value;
+  final Size size;
 
   /// {@macro home_page}
   const StarsRating({
     super.key,
-    required this.color,
-    required this.value,
-    required this.baseColor, // ignore: unused_element
+    required this.value, required this.size,
   });
 
   @override
@@ -25,9 +24,13 @@ class StarsRating extends StatelessWidget {
         for (int i = 0; i < 5; i++)
           Stack(
             children: [
-              SvgPicture.asset(
-                imageUrl,
-                colorFilter: ColorFilter.mode(baseColor, BlendMode.srcIn),
+              SizedBox(
+                width: size.width,
+                height: size.height,
+                child: SvgPicture.asset(
+                  imageUrl,
+                  colorFilter: const ColorFilter.mode(baseColor, BlendMode.srcIn),
+                ),
               ),
               ShaderMask(
                 shaderCallback: (bounds) {
@@ -46,9 +49,13 @@ class StarsRating extends StatelessWidget {
                   return fillGradient.createShader(bounds);
                 },
                 blendMode: BlendMode.srcATop,
-                child: SvgPicture.asset(
-                  imageUrl,
-                  colorFilter: ColorFilter.mode(baseColor, BlendMode.srcIn),
+                child: SizedBox(
+                  width: size.width,
+                  height: size.height,
+                  child: SvgPicture.asset(
+                    imageUrl,
+                    colorFilter: const ColorFilter.mode(baseColor, BlendMode.srcIn),
+                  ),
                 ),
               ),
             ],

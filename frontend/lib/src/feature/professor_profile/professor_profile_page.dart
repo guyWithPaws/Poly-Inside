@@ -1,7 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
-import 'package:poly_inside/src/feature/home/stars_rating.dart';
+import 'package:poly_inside/src/common/widgets/review_title.dart';
+import 'package:poly_inside/src/common/widgets/stars_rating.dart';
+import 'package:poly_inside/src/feature/review/review_page.dart';
 
 /// {@template professor_profile_page}
 /// ProfessorProfilePage widget.
@@ -24,11 +28,31 @@ class ProfessorProfilePage extends StatefulWidget {
 
 /// State for widget ProfessorProfilePage.
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
+  ScrollController? _scrollController;
+  bool? enable;
+
   /* #region Lifecycle */
   @override
   void initState() {
+    _scrollController = ScrollController();
+    _scrollController?.addListener(scrollListener);
+
+    enable = false;
     super.initState();
     // Initial state initialization
+  }
+
+  void scrollListener() {
+    if (_scrollController?.position.pixels !=
+        _scrollController?.position.minScrollExtent) {
+      setState(() {
+        enable = true;
+      });
+    } else {
+      setState(() {
+        enable = false;
+      });
+    }
   }
 
   @override
@@ -54,24 +78,28 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.green,
-          ),
-          width: 200,
-          height: 64,
-          child: const Center(
-            child: Text('Написать отзыв'),
-          ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          enable!
+              ? _scrollController?.jumpTo(0)
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                      builder: (builderContext) => const ReviewPage()));
+        },
+        backgroundColor: Colors.green,
+        label: Center(
+          child: enable!
+              ? const Icon(CupertinoIcons.up_arrow)
+              : const Text('Написать отзыв'),
         ),
       ),
       body: SafeArea(
         child: CustomScrollView(
+          controller: _scrollController,
           slivers: [
             SliverAppBar(
-              //pinned: true,
+              pinned: true,
               expandedHeight: 500,
               flexibleSpace: FlexibleSpaceBar(
                 background: Column(
@@ -98,9 +126,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         StarsRating(
-                            color: Colors.yellow,
-                            value: 4.8,
-                            baseColor: Colors.grey),
+                          value: 4.8,
+                          size: Size(40, 40),
+                        ),
                         SizedBox(width: 16.0),
                         Text('4.8')
                       ],
@@ -145,38 +173,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               itemCount: 15,
               separatorBuilder: (context, index) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xffEEF9EF),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 32,
-                      height: 100,
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 20,
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    'assets/beer.jpg',
-                                    height: 40,
-                                    width: 40,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+                return const Padding(
+                    padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                    child: ReviewTitle());
               },
             ),
           ],

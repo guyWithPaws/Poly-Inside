@@ -1,12 +1,14 @@
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
+import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/feature/home/search_bar.dart';
-import 'package:poly_inside/src/feature/home/stars_rating.dart';
+import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
 import 'package:poly_inside/src/feature/profile/profile_page.dart';
 import 'package:shared/shared.dart';
@@ -29,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController? _textEditingController;
   ScrollController? _scrollController;
 
+  bool? showFloatingButton;
   String? searchProfessorPattern;
   int? listViewCounter;
   static const int amountOfContentLoaded = 40;
@@ -41,6 +44,7 @@ class _HomePageState extends State<HomePage> {
     _scrollController = ScrollController();
     _scrollController?.addListener(scrollListener);
 
+    showFloatingButton = false;
     setState(() {
       listViewCounter = amountOfContentLoaded;
     });
@@ -96,6 +100,14 @@ class _HomePageState extends State<HomePage> {
               tertiary: const Color.fromARGB(255, 29, 94, 247),
               outline: Colors.grey.shade700)),
       home: Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          isExtended: showFloatingButton!,
+          onPressed: () {},
+          backgroundColor: Colors.green,
+          label: const Center(
+            child: Icon(CupertinoIcons.up_arrow),
+          ),
+        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -160,18 +172,16 @@ class _HomePageState extends State<HomePage> {
                       if (snapshot.hasData) {
                         professorList = (searchProfessorPattern != null)
                             ? snapshot.data!.professors
-                                .where((professor) => professor.name
-                                    .toLowerCase()
-                                    .contains(
-                                        searchProfessorPattern.toString()))
+                                .where((professor) => professor.name.contains(
+                                    searchProfessorPattern.toString()))
                                 .toList()
-                            : snapshot.data!.professors;
-                      }
+                            : snapshot.data!.professors.toList();
 
+                        debugPrint(professorList.toString());
+                      }
                       return ListView.separated(
                         controller: _scrollController,
-                        itemCount:
-                            professorList.isNotEmpty ? professorList.length : 0,
+                        itemCount: professorList.length,
                         separatorBuilder: (context, index) => const SizedBox(
                           height: 25,
                         ),
@@ -229,7 +239,9 @@ class _HomePageState extends State<HomePage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              professorList[index].name,
+                                              professorList[index]
+                                                  .name
+                                                  .capitalize(),
                                               style: const TextStyle(
                                                 overflow: TextOverflow.clip,
                                               ),
@@ -239,8 +251,7 @@ class _HomePageState extends State<HomePage> {
                                                 Row(
                                                   children: [
                                                     StarsRating(
-                                                      color: Colors.yellow,
-                                                      baseColor: Colors.grey,
+                                                      size: const Size(20, 20),
                                                       value:
                                                           professorList[index]
                                                               .rating,
