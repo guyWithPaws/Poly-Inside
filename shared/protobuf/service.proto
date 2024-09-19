@@ -4,14 +4,27 @@ service SearchService {
   rpc AddProfile (User) returns (AddProfileResponse);
   rpc UpdateProfile (User) returns (UpdateProfileResponse);
   rpc GetProfile(UserInfoByUserIdRequest) returns (User);
-  rpc GetListProfessor(ListProfessorRequest) returns (stream GetListProfessorResponse);
+  rpc GetListProfessor(ListProfessorRequest) returns (GetListProfessorResponse);
+  rpc SearchProfessorByName(SearchRequest) returns (SearchResponse);
 
+  rpc GetAllProfessorsOnce (GetAllProfessorsOnceRequest) returns (GetListProfessorResponse);
   rpc AddReview(Review) returns (AddReviewResponse);
   rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream Review);
   rpc GetReviewsByUserId(ReviewsByUserIdRequest) returns (stream Review);
   rpc UpdateReview(Review) returns (UpdateReviewResponse);
   rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse);
 }
+
+message SearchResponse{
+  repeated Professor professors = 1;
+}
+
+message SearchRequest{
+  string name = 1;
+  int32 count = 2;
+}
+
+message GetAllProfessorsOnceRequest {}
 
 message GetListProfessorResponse{
   repeated Professor professors = 1;
@@ -46,7 +59,9 @@ message ReviewsByUserIdRequest{
   int32 id = 1;
 }
 
-message ListProfessorRequest{}
+message ListProfessorRequest{
+  int32 count = 1;
+}
 
 message ReviewsByProfessorIdRequest {
   string id = 1;
