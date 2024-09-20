@@ -1,7 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
-import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +6,6 @@ import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
-import 'package:poly_inside/src/feature/home/home_page.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
 
@@ -29,6 +24,7 @@ class ProfessorProfilePage extends StatefulWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   @internal
+  // ignore: library_private_types_in_public_api
   static _ProfessorProfilePageState? maybeOf(BuildContext context) =>
       context.findAncestorStateOfType<_ProfessorProfilePageState>();
 
@@ -40,7 +36,6 @@ class ProfessorProfilePage extends StatefulWidget {
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueListenable;
-  bool? enable;
 
   /* #region Lifecycle */
   @override
@@ -48,9 +43,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     _scrollController = ScrollController();
     _scrollController?.addListener(scrollListener);
 
-    enable = false;
-
-    _valueListenable = ValueNotifier(true);
+    _valueListenable = ValueNotifier(false);
 
     super.initState();
     // Initial state initialization
@@ -140,17 +133,29 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: 69,
-                          child: ClipOval(
-                              child: Image.memory(
-                            height: 138,
-                            width: 138,
-                            fit: BoxFit.cover,
-                            Uint8List.fromList(
-                              widget.professor.avatar,
+                        Hero(
+                          tag: widget.professor.id,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey[200],
+                            radius: 69,
+                            child: ClipOval(
+                              child: Uint8List.fromList(
+                                widget.professor.avatar,
+                              ).isNotEmpty
+                                  ? Image.memory(
+                                      height: 138,
+                                      width: 138,
+                                      fit: BoxFit.cover,
+                                      Uint8List.fromList(
+                                        widget.professor.avatar,
+                                      ),
+                                    )
+                                  : SvgPicture.asset(
+                                      'assets/icons/no_photo.svg',
+                                      width: 69,
+                                    ),
                             ),
-                          )),
+                          ),
                         ),
                         Text(
                           textAlign: TextAlign.center,

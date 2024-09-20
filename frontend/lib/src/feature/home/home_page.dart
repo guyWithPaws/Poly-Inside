@@ -196,24 +196,27 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.grey[200],
-                                    radius: 27,
-                                    child: ClipOval(
-                                      child: Uint8List.fromList(
-                                        professorList[index].avatar,
-                                      ).isNotEmpty
-                                          ? Image.memory(
-                                              height: 60,
-                                              width: 60,
-                                              fit: BoxFit.cover,
-                                              Uint8List.fromList(
-                                                professorList[index].avatar,
+                                  Hero(
+                                    tag: professorList[index].id,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.grey[200],
+                                      radius: 27,
+                                      child: ClipOval(
+                                        child: Uint8List.fromList(
+                                          professorList[index].avatar,
+                                        ).isNotEmpty
+                                            ? Image.memory(
+                                                height: 60,
+                                                width: 60,
+                                                fit: BoxFit.cover,
+                                                Uint8List.fromList(
+                                                  professorList[index].avatar,
+                                                ),
+                                              )
+                                            : SvgPicture.asset(
+                                                'assets/icons/no_photo.svg',
                                               ),
-                                            )
-                                          : SvgPicture.asset(
-                                              'assets/icons/no_photo.svg',
-                                            ),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(
