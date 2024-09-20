@@ -1,19 +1,29 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
+import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
+import 'package:poly_inside/src/feature/home/home_page.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
+import 'package:shared/shared.dart';
 
 /// {@template professor_profile_page}
 /// ProfessorProfilePage widget.
 /// {@endtemplate}
 class ProfessorProfilePage extends StatefulWidget {
+  final Professor professor;
+
   /// {@macro professor_profile_page}
   const ProfessorProfilePage({
-    super.key, // ignore: unused_element
+    super.key,
+    required this.professor, // ignore: unused_element
   });
 
   /// The state from the closest instance of this class
@@ -29,6 +39,7 @@ class ProfessorProfilePage extends StatefulWidget {
 /// State for widget ProfessorProfilePage.
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
+  ValueNotifier<bool>? _valueListenable;
   bool? enable;
 
   /* #region Lifecycle */
@@ -38,6 +49,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     _scrollController?.addListener(scrollListener);
 
     enable = false;
+
+    _valueListenable = ValueNotifier(true);
+
     super.initState();
     // Initial state initialization
   }
@@ -45,13 +59,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   void scrollListener() {
     if (_scrollController?.position.pixels !=
         _scrollController?.position.minScrollExtent) {
-      setState(() {
-        enable = true;
-      });
+      _valueListenable?.value = true;
     } else {
-      setState(() {
-        enable = false;
-      });
+      _valueListenable?.value = false;
     }
   }
 
@@ -78,20 +88,28 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          enable!
-              ? _scrollController?.jumpTo(0)
-              : Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                      builder: (builderContext) => const ReviewPage()));
-        },
-        backgroundColor: Colors.green,
-        label: Center(
-          child: enable!
-              ? const Icon(CupertinoIcons.up_arrow)
-              : const Text('Написать отзыв'),
+      floatingActionButton: ValueListenableBuilder(
+        valueListenable: _valueListenable!,
+        builder: (context, value, _) => FloatingActionButton.extended(
+          onPressed: () {
+            value
+                ? _scrollController?.animateTo(0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut)
+                : Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (builderContext) => const ReviewPage()));
+          },
+          backgroundColor: Colors.green,
+          label: AnimatedSize(
+            duration: const Duration(milliseconds: 150),
+            child: Center(
+              child: value
+                  ? const Icon(CupertinoIcons.up_arrow)
+                  : const Text('Написать отзыв'),
+            ),
+          ),
         ),
       ),
       body: SafeArea(
@@ -100,73 +118,95 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
           slivers: [
             SliverAppBar(
               pinned: true,
-              expandedHeight: 500,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Column(
-                  children: [
-                    Center(
-                      child: CircleAvatar(
-                        radius: 79,
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/beer.jpg',
-                            height: 158,
-                            width: 158,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Text(
-                      'Руль Игорь Николаевич',
-                      style:
-                          TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        StarsRating(
-                          value: 4.8,
-                          size: Size(40, 40),
-                        ),
-                        SizedBox(width: 16.0),
-                        Text('4.8')
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 32,
-                      height: 180,
-                      decoration: BoxDecoration(
-                          color: const Color(0xffEEF9EF),
-                          borderRadius: BorderRadius.circular(12)),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      children: [
-                        const Text('Отзывы'),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Container(
-                          width: 31,
-                          height: 26,
-                          decoration: BoxDecoration(
-                              color: const Color(0xffEEF9EF),
-                              borderRadius: BorderRadius.circular(7)),
-                          child: const Center(
-                            child: Text('15'),
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                  ],
+              leading: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  margin: const EdgeInsets.all(12),
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 185, 185, 185),
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset('assets/icons/cross.svg'),
                 ),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 69,
+                          child: ClipOval(
+                              child: Image.memory(
+                            height: 138,
+                            width: 138,
+                            fit: BoxFit.cover,
+                            Uint8List.fromList(
+                              widget.professor.avatar,
+                            ),
+                          )),
+                        ),
+                        Text(
+                          textAlign: TextAlign.center,
+                          widget.professor.name.capitalize(),
+                          style: const TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            StarsRating(
+                              value: 4.8,
+                              size: Size(32, 32),
+                            ),
+                            SizedBox(width: 16.0),
+                            Text('4.8')
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                          width: MediaQuery.of(context).size.width - 32,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            color: const Color(0xffEEF9EF),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          children: [
+                            const Text('Отзывы'),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Container(
+                              width: 31,
+                              height: 26,
+                              decoration: BoxDecoration(
+                                color: const Color(0xffEEF9EF),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: const Center(
+                                child: Text('15'),
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             SliverList.separated(
@@ -174,8 +214,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               separatorBuilder: (context, index) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
                 return const Padding(
-                    padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                    child: ReviewTitle());
+                  padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                  child: ReviewTitle(),
+                );
               },
             ),
           ],
@@ -184,111 +225,3 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     );
   }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(
-//           child: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           children: [
-//             Center(
-//               child: CircleAvatar(
-//                 radius: 79,
-//                 child: ClipOval(
-//                   child: Image.asset(
-//                     'assets/beer.jpg',
-//                     height: 138,
-//                     width: 138,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             const Text(
-//               'Руль Игорь Николаевич',
-//               style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
-//             ),
-//             const Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 StarsRating(
-//                     color: Colors.yellow, value: 4.8, baseColor: Colors.grey),
-//                 SizedBox(width: 16.0),
-//                 Text('4.8')
-//               ],
-//             ),
-//             const SizedBox(height: 16),
-//             Container(
-//               width: MediaQuery.of(context).size.width - 32,
-//               height: 180,
-//               decoration: BoxDecoration(
-//                   color: Colors.green, borderRadius: BorderRadius.circular(12)),
-//             ),
-//             const SizedBox(
-//               height: 16,
-//             ),
-//             Row(
-//               children: [
-//                 const Text('Отзывы'),
-//                 const SizedBox(
-//                   width: 8,
-//                 ),
-//                 Container(
-//                   width: 31,
-//                   height: 26,
-//                   decoration: BoxDecoration(
-//                       color: Colors.green,
-//                       borderRadius: BorderRadius.circular(7)),
-//                   child: const Center(
-//                     child: Text('15'),
-//                   ),
-//                 )
-//               ],
-//             ),
-//             const SizedBox(
-//               height: 8,
-//             ),
-//             Expanded(
-//               child: ListView.separated(
-//                 itemCount: 15,
-//                 separatorBuilder: (context, index) => const SizedBox(
-//                   height: 8,
-//                 ),
-//                 itemBuilder: (context, index) {
-//                   return Container(
-//                     width: MediaQuery.of(context).size.width - 32,
-//                     height: 290,
-//                     decoration: BoxDecoration(
-//                       color: Colors.green,
-//                       borderRadius: BorderRadius.circular(12)
-//                     ),
-//                     child: Column(
-//                       children: [
-//                         Row(
-//                           children: [
-//                             CircleAvatar(
-//                               radius: 20,
-//                               child: ClipOval(
-//                                 child: Image.asset(
-//                                   'assets/beer.jpg',
-//                                   height: 40,
-//                                   width: 40,
-//                                   fit: BoxFit.cover,
-//                                 ),
-//                               ),
-//                             )
-//                           ],
-//                         )
-//                       ],
-//                     ),
-//                   );
-//                 },
-//               ),
-//             )
-//           ],
-//         ),
-//       )),
-//     );
-//   }
-// }

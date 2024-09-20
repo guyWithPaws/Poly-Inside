@@ -78,7 +78,37 @@ class _ReviewPageState extends State<ReviewPage> {
         backgroundColor: Colors.green,
         label: const Center(child: Text('Опубликовать')),
       ),
-      body: const SafeArea(child: Column(children: [Text('hui')])),
+      body: SafeArea(
+          child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(children: [
+          const Text('Оцените преподавателя'),
+          const SizedBox(
+            height: 32,
+          ),
+          const Text('Рейгинт по категориям'),
+          const SizedBox(
+            height: 16,
+          ),
+          Container(
+            width: 360,
+            height: 284,
+            decoration: BoxDecoration(
+                color: Colors.green, borderRadius: BorderRadius.circular(12)),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          const Text(''),
+          const SizedBox(
+            height: 16,
+          ),
+          const TextField(
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+          )
+        ]),
+      )),
     );
   }
 }

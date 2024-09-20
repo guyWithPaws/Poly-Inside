@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:poly_inside/src/feature/home/home_page.dart';
 
 /// {@template app}
 /// App widget.
@@ -6,12 +8,10 @@ import 'package:flutter/widgets.dart';
 class App extends StatefulWidget {
   /// {@macro app}
   const App({
-    required this.child,
     super.key, // ignore: unused_element
   });
 
   /// The widget below this widget in the tree.
-  final Widget child;
 
   @override
   State<App> createState() => _AppState();
@@ -50,7 +50,16 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) => _InheritedApp(
         state: this,
-        child: widget.child,
+        child: MaterialApp(
+          title: 'Poly Inside',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              colorScheme: ColorScheme.light(
+                  surface: Colors.white,
+                  onSurface: Colors.black,
+                  outline: Colors.grey.shade700)),
+          home: const HomePage(),
+        ),
       );
 }
 
