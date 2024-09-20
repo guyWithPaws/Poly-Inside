@@ -38,47 +38,94 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            width: 30,
-            height: 30,
-            margin: const EdgeInsets.all(12),
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 185, 185, 185),
-              shape: BoxShape.circle,
-            ),
-            child: SvgPicture.asset('assets/icons/cross.svg'),
-          ),
-        ),
-      ),
       body: CustomScrollView(slivers: [
         SliverAppBar(
-          centerTitle: true,
-          expandedHeight: 300,
+          automaticallyImplyLeading: false,
+          collapsedHeight: 72,
+          expandedHeight: 360,
           pinned: true,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  margin: const EdgeInsets.all(12),
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 185, 185, 185),
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset('assets/icons/cross.svg'),
+                ),
+              ),
+              SvgPicture.asset('assets/icons/profileeditbutton.svg',
+                  alignment: Alignment.topRight)
+            ],
+          ),
           flexibleSpace: LayoutBuilder(
             builder: (context, constraints) {
               return FlexibleSpaceBar(
                 title: FittedBox(
                   fit: BoxFit.cover,
-                  child: CircleAvatar(
-                    radius: 158 / 2,
-                    child: ClipOval(
-                      child: Image.asset(
-                        'assets/beer.jpg',
-                        height: 158,
-                        width: 158,
-                        fit: BoxFit.cover,
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 158 / 2,
+                        child: ClipOval(
+                          child: Image.asset(
+                            'assets/beer.jpg',
+                            height: 158,
+                            width: 158,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
+                      const Text("ID: 7921375",
+                          style: TextStyle(color: Colors.grey, fontSize: 14)),
+                      const Text("goxa",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold)),
+                      const Text("Мудрец",
+                          style: TextStyle(color: Colors.grey, fontSize: 16)),
+                    ],
                   ),
                 ),
               );
             },
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Row(
+            children: [
+              const Text(
+                "Отзывы",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 233, 252, 232),
+                    borderRadius: BorderRadius.circular(7)),
+                child: const Center(
+                    child: Text(
+                  "2",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+              )
+            ],
           ),
         ),
         SliverList.separated(
@@ -87,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
             return const ReviewTitle();
           },
           separatorBuilder: (context, index) => const SizedBox(
-            height: 8,
+            height: 20,
           ),
         )
       ]),
@@ -114,40 +161,40 @@ class _ProfilePageState extends State<ProfilePage> {
 //                 )),
 //               ),
 //             ),
-//             const Text("ID: 7921375",
-//                 style: TextStyle(color: Colors.grey, fontSize: 14)),
-//             const Text("goxa",
-//                 style: TextStyle(
-//                     color: Colors.black,
-//                     fontSize: 36,
-//                     fontWeight: FontWeight.bold)),
-//             const Text("Мудрец",
-//                 style: TextStyle(color: Colors.grey, fontSize: 16)),
-//             Row(
-//               children: [
-//                 const Text(
-//                   "Отзывы",
-//                   style: TextStyle(
-//                     fontSize: 20,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 ),
-//                 const SizedBox(width: 8),
-//                 Container(
-//                   width: 30,
-//                   height: 30,
-//                   decoration: BoxDecoration(
-//                       color: const Color.fromARGB(255, 233, 252, 232),
-//                       borderRadius: BorderRadius.circular(7)),
-//                   child: const Center(
-//                       child: Text(
-//                     "2",
-//                     style: TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   )),
-//                 )
+            // const Text("ID: 7921375",
+            //     style: TextStyle(color: Colors.grey, fontSize: 14)),
+            // const Text("goxa",
+            //     style: TextStyle(
+            //         color: Colors.black,
+            //         fontSize: 36,
+            //         fontWeight: FontWeight.bold)),
+            // const Text("Мудрец",
+            //     style: TextStyle(color: Colors.grey, fontSize: 16)),
+            // Row(
+            //   children: [
+            //     const Text(
+            //       "Отзывы",
+            //       style: TextStyle(
+            //         fontSize: 20,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //     const SizedBox(width: 8),
+            //     Container(
+            //       width: 30,
+            //       height: 30,
+            //       decoration: BoxDecoration(
+            //           color: const Color.fromARGB(255, 233, 252, 232),
+            //           borderRadius: BorderRadius.circular(7)),
+            //       child: const Center(
+            //           child: Text(
+            //         "2",
+            //         style: TextStyle(
+            //           fontSize: 14,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       )),
+            //     )
 //               ],
 //             ),
 //             const SizedBox(
