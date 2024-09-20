@@ -32,4 +32,10 @@ class ClientRepositoryImpl implements ClientRepository {
 
   @override
   Future<void> updateUser(User user) => client.updateProfile(user);
+
+  @override
+  Future<SearchResponse> findProfessorByName(String name, int count) =>
+      client.searchProfessorByName(SearchRequest()
+        ..name = name
+        ..count = count);
 }

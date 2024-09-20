@@ -10,4 +10,5 @@ abstract class ClientRepository {
   Future<void> addReview(Review review);
   Future<void> updateReview(Review review);
   Future<void> updateUser(User user);
+  Future<SearchResponse> findProfessorByName(String name, int count);
 }

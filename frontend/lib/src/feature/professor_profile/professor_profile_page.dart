@@ -35,7 +35,7 @@ class ProfessorProfilePage extends StatefulWidget {
 /// State for widget ProfessorProfilePage.
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
-  ValueNotifier<bool>? _valueListenable;
+  ValueNotifier<bool>? _valueNotifier;
 
   /* #region Lifecycle */
   @override
@@ -43,7 +43,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     _scrollController = ScrollController();
     _scrollController?.addListener(scrollListener);
 
-    _valueListenable = ValueNotifier(false);
+    _valueNotifier = ValueNotifier(false);
 
     super.initState();
     // Initial state initialization
@@ -52,9 +52,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   void scrollListener() {
     if (_scrollController?.position.pixels !=
         _scrollController?.position.minScrollExtent) {
-      _valueListenable?.value = true;
+      _valueNotifier?.value = true;
     } else {
-      _valueListenable?.value = false;
+      _valueNotifier?.value = false;
     }
   }
 
@@ -82,7 +82,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ValueListenableBuilder(
-        valueListenable: _valueListenable!,
+        valueListenable: _valueNotifier!,
         builder: (context, value, _) => FloatingActionButton.extended(
           onPressed: () {
             value
@@ -110,7 +110,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
           controller: _scrollController,
           slivers: [
             SliverAppBar(
-              pinned: true,
+              pinned: false,
               leading: GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: Container(
@@ -130,7 +130,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               delegate: SliverChildListDelegate(
                 [
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(left: 16, right: 16),
                     child: Column(
                       children: [
                         Hero(
@@ -157,24 +157,27 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             ),
                           ),
                         ),
-                        Text(
-                          textAlign: TextAlign.center,
-                          widget.professor.name.capitalize(),
-                          style: const TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            widget.professor.name.capitalize(),
+                            style: const TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             StarsRating(
-                              value: 4.8,
-                              size: Size(32, 32),
+                              value: widget.professor.rating,
+                              size: const Size(32, 32),
                             ),
-                            SizedBox(width: 16.0),
-                            Text('4.8')
+                            const SizedBox(width: 16.0),
+                            Text('${widget.professor.rating}')
                           ],
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 32),
                         Container(
                           width: MediaQuery.of(context).size.width - 32,
                           height: 120,
@@ -184,11 +187,14 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 16,
+                          height: 8,
                         ),
                         Row(
                           children: [
-                            const Text('Отзывы'),
+                            const Text(
+                              'Отзывы',
+                              style: TextStyle(fontSize: 20),
+                            ),
                             const SizedBox(
                               width: 8,
                             ),

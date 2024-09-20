@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:poly_inside/src/feature/review/review_page.dart';
 
 /// {@template review_title}
 /// ReviewTitle widget.
@@ -44,9 +45,15 @@ class ReviewTitle extends StatelessWidget {
                     ),
                   ],
                 ),
-                SvgPicture.asset(
-                  'assets/icons/editpen.svg',
-                  alignment: Alignment.topRight,
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                          builder: (builderContext) => const ReviewPage())),
+                  child: SvgPicture.asset(
+                    'assets/icons/editpen.svg',
+                    alignment: Alignment.topRight,
+                  ),
                 ),
               ],
             ),
@@ -56,8 +63,8 @@ class ReviewTitle extends StatelessWidget {
               style: TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 8),
-            Container(
-              child: const Row(
+            const SizedBox(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
@@ -90,16 +97,16 @@ class ReviewTitle extends StatelessWidget {
                       SizedBox(height: 30),
                       Column(
                         children: [
-                          const Text('5.0',
+                          Text('5.0',
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
-                          const Text('5.0',
+                          Text('5.0',
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
-                          const Text('5.0',
+                          Text('5.0',
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
-                          const Text('5.0',
+                          Text('5.0',
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
                         ],

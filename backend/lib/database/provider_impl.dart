@@ -11,18 +11,19 @@ class DatabaseProviderImpl implements DatabaseProvider {
   @override
   Future<List<Professor>> findProfessorByName(String name, int count) =>
       (database.select(database.professors)
-            ..where((u) => u.name.like('%$name%'))..limit(count))
+            ..where((u) => u.name.like('%$name%'))
+            ..limit(count))
           .get();
 
   @override
-  Future<List<Professor>> getAllProfessors(int count) => (database
-      .select(database.professors)
-      ..limit(count)).get();
+  Future<List<Professor>> getAllProfessors(int count) =>
+      (database.select(database.professors)..limit(count)).get();
 
   @override
   Stream<List<Review>> getAllReviewByUser(int userId) =>
       (database.select(database.reviews)..where((u) => u.userId.equals(userId)))
-          .watch().asBroadcastStream();
+          .watch()
+          .asBroadcastStream();
 
   @override
   Stream<List<Review>> getAllReviewsByProfessor(String professorId) =>
