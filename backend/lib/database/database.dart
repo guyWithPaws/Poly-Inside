@@ -54,7 +54,8 @@ class Reviews extends Table {
   RealColumn get professionalism => real()();
   RealColumn get harshness => real()();
   TextColumn get date => text()();
-  IntColumn get rating => integer()();
+  IntColumn get likes => integer()();
+  IntColumn get dislikes => integer()();
 
   @override
   Set<Column<Object>>? get primaryKey => {id};

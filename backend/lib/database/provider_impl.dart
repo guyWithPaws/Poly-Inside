@@ -28,16 +28,15 @@ class DatabaseProviderImpl implements DatabaseProvider {
           .get();
 
   @override
-  Stream<List<Review>> getAllReviewByUser(int userId) =>
+  Future<List<Review>> getAllReviewByUser(int userId) =>
       (database.select(database.reviews)..where((u) => u.userId.equals(userId)))
-          .watch()
-          .asBroadcastStream();
+          .get();
 
   @override
-  Stream<List<Review>> getAllReviewsByProfessor(String professorId) =>
+  Future<List<Review>> getAllReviewsByProfessor(String professorId) =>
       (database.select(database.reviews)
             ..where((u) => u.professorId.equals(professorId)))
-          .watch();
+          .get();
 
   @override
   Future<int> addReview(Review review) async {
@@ -74,7 +73,8 @@ class DatabaseProviderImpl implements DatabaseProvider {
     return await database.into(database.reviews).insert(
           ReviewsCompanion(
             id: Value('${review.userId}${review.date}'),
-            rating: Value(review.rating),
+            likes: Value(review.likes),
+            dislikes: Value(review.dislikes),
             professorId: Value(review.professorId),
             professionalism: Value(review.professionalism),
             userId: Value(review.userId),
@@ -104,7 +104,8 @@ class DatabaseProviderImpl implements DatabaseProvider {
       await database.update(database.reviews).replace(
             ReviewsCompanion(
               id: Value(review.reviewId),
-              rating: Value(review.rating),
+              likes: Value(review.likes),
+              dislikes: Value(review.dislikes),
               professorId: Value(review.professorId),
               professionalism: Value(review.professionalism),
               userId: Value(review.userId),
@@ -181,7 +182,8 @@ class DatabaseProviderImpl implements DatabaseProvider {
     await database.into(database.rejectedReviews).insert(
           ReviewsCompanion(
             id: Value('${review.userId}${review.date}'),
-            rating: Value(review.rating),
+            likes: Value(review.likes),
+            dislikes: Value(review.dislikes),
             professorId: Value(review.professorId),
             professionalism: Value(review.professionalism),
             userId: Value(review.userId),

@@ -4,9 +4,9 @@ abstract interface class DatabaseProvider {
   Future<void> addUser(User user);
   Future<User?> getUserByUserId(int userId);
   Future<List<Professor>> getAllProfessors(int count);
-  Stream<List<Review>> getAllReviewsByProfessor(String professorId);
+  Future<List<Review>> getAllReviewsByProfessor(String professorId);
   Future<List<Professor>> findProfessorByName(String name, int count);
-  Stream<List<Review>> getAllReviewByUser(int userId);
+  Future<List<Review>> getAllReviewByUser(int userId);
   Future<int> addReview(Review review);
   Future<bool> updateReview(Review review);
   Future<bool> updateUser(User user);

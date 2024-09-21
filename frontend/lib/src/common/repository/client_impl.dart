@@ -16,12 +16,18 @@ class ClientRepositoryImpl implements ClientRepository {
       client.getListProfessor(ListProfessorRequest(count: count));
 
   @override
-  Stream<Review> getAllReviewByUser(int userId) =>
-      client.getReviewsByUserId(ReviewsByUserIdRequest()..id = userId);
+  Future<List<Review>> getAllReviewByUser(int userId) async {
+    final response =
+        await client.getReviewsByUserId(ReviewsByUserIdRequest()..id = userId);
+    return response.reviews;
+  }
 
   @override
-  Stream<Review> getAllReviewsByProfessor(String professorId) => client
-      .getReviewsByProfessorId(ReviewsByProfessorIdRequest()..id = professorId);
+  Future<List<Review>> getAllReviewsByProfessor(String professorId) async {
+    final response = await client.getReviewsByProfessorId(
+        ReviewsByProfessorIdRequest()..id = professorId);
+    return response.reviews;
+  }
 
   @override
   Future<User> getUserByUserId(int userId) =>

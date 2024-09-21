@@ -227,8 +227,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 ],
               ),
             ),
-            StreamBuilder<Object>(
-                stream:
+            FutureBuilder<List<Review>>(
+                future:
                     repository?.getAllReviewsByProfessor(widget.professor.id),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {

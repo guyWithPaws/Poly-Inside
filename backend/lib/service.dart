@@ -40,28 +40,20 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Stream<Review> getReviewsByProfessorId(
-      ServiceCall call, ReviewsByProfessorIdRequest request) async* {
+  Future<ReviewStream> getReviewsByProfessorId(
+      ServiceCall call, ReviewsByProfessorIdRequest request) async {
     l.v('GetReviewsByProfessorId with ${request.id}');
-    final stream = provider.getAllReviewsByProfessor(request.id);
-    await for (final list in stream) {
-      for (final e in list) {
-        yield e;
-      }
-    }
+    final stream = await provider.getAllReviewsByProfessor(request.id);
+    return ReviewStream(reviews: stream);
   }
 
   @override
-  Stream<Review> getReviewsByUserId(
-      ServiceCall call, ReviewsByUserIdRequest request) async* {
+  Future<ReviewStream> getReviewsByUserId(
+      ServiceCall call, ReviewsByUserIdRequest request) async {
     l.v('GetReviewsByUserId with ${request.id}');
 
-    final stream = provider.getAllReviewByUser(request.id);
-    await for (final list in stream) {
-      for (final e in list) {
-        yield e;
-      }
-    }
+    final stream = await provider.getAllReviewByUser(request.id);
+    return ReviewStream(reviews: stream);
   }
 
   @override

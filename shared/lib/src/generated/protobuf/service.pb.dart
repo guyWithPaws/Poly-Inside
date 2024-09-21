@@ -13,6 +13,50 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+class ReviewStream extends $pb.GeneratedMessage {
+  factory ReviewStream({
+    $core.Iterable<Review>? reviews,
+  }) {
+    final $result = create();
+    if (reviews != null) {
+      $result.reviews.addAll(reviews);
+    }
+    return $result;
+  }
+  ReviewStream._() : super();
+  factory ReviewStream.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ReviewStream.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ReviewStream', createEmptyInstance: create)
+    ..pc<Review>(1, _omitFieldNames ? '' : 'reviews', $pb.PbFieldType.PM, subBuilder: Review.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ReviewStream clone() => ReviewStream()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ReviewStream copyWith(void Function(ReviewStream) updates) => super.copyWith((message) => updates(message as ReviewStream)) as ReviewStream;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ReviewStream create() => ReviewStream._();
+  ReviewStream createEmptyInstance() => create();
+  static $pb.PbList<ReviewStream> createRepeated() => $pb.PbList<ReviewStream>();
+  @$core.pragma('dart2js:noInline')
+  static ReviewStream getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ReviewStream>(create);
+  static ReviewStream? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<Review> get reviews => $_getList(0);
+}
+
 class SearchResponse extends $pb.GeneratedMessage {
   factory SearchResponse({
     $core.Iterable<Professor>? professors,
@@ -897,9 +941,9 @@ class Review extends $pb.GeneratedMessage {
     $core.double? professionalism,
     $core.double? harshness,
     $core.String? date,
-    $core.int? raiting,
     $core.String? professorId,
-    $core.int? rating,
+    $core.int? likes,
+    $core.int? dislikes,
   }) {
     final $result = create();
     if (reviewId != null) {
@@ -926,14 +970,14 @@ class Review extends $pb.GeneratedMessage {
     if (date != null) {
       $result.date = date;
     }
-    if (raiting != null) {
-      $result.raiting = raiting;
-    }
     if (professorId != null) {
       $result.professorId = professorId;
     }
-    if (rating != null) {
-      $result.rating = rating;
+    if (likes != null) {
+      $result.likes = likes;
+    }
+    if (dislikes != null) {
+      $result.dislikes = dislikes;
     }
     return $result;
   }
@@ -950,9 +994,9 @@ class Review extends $pb.GeneratedMessage {
     ..a<$core.double>(6, _omitFieldNames ? '' : 'professionalism', $pb.PbFieldType.OF)
     ..a<$core.double>(7, _omitFieldNames ? '' : 'harshness', $pb.PbFieldType.OF)
     ..aOS(8, _omitFieldNames ? '' : 'date')
-    ..a<$core.int>(9, _omitFieldNames ? '' : 'raiting', $pb.PbFieldType.O3)
-    ..aOS(11, _omitFieldNames ? '' : 'professorId')
-    ..a<$core.int>(13, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.O3)
+    ..aOS(9, _omitFieldNames ? '' : 'professorId')
+    ..a<$core.int>(10, _omitFieldNames ? '' : 'likes', $pb.PbFieldType.O3)
+    ..a<$core.int>(11, _omitFieldNames ? '' : 'dislikes', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -1050,31 +1094,31 @@ class Review extends $pb.GeneratedMessage {
   void clearDate() => clearField(8);
 
   @$pb.TagNumber(9)
-  $core.int get raiting => $_getIZ(8);
+  $core.String get professorId => $_getSZ(8);
   @$pb.TagNumber(9)
-  set raiting($core.int v) { $_setSignedInt32(8, v); }
+  set professorId($core.String v) { $_setString(8, v); }
   @$pb.TagNumber(9)
-  $core.bool hasRaiting() => $_has(8);
+  $core.bool hasProfessorId() => $_has(8);
   @$pb.TagNumber(9)
-  void clearRaiting() => clearField(9);
+  void clearProfessorId() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.int get likes => $_getIZ(9);
+  @$pb.TagNumber(10)
+  set likes($core.int v) { $_setSignedInt32(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasLikes() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearLikes() => clearField(10);
 
   @$pb.TagNumber(11)
-  $core.String get professorId => $_getSZ(9);
+  $core.int get dislikes => $_getIZ(10);
   @$pb.TagNumber(11)
-  set professorId($core.String v) { $_setString(9, v); }
+  set dislikes($core.int v) { $_setSignedInt32(10, v); }
   @$pb.TagNumber(11)
-  $core.bool hasProfessorId() => $_has(9);
+  $core.bool hasDislikes() => $_has(10);
   @$pb.TagNumber(11)
-  void clearProfessorId() => clearField(11);
-
-  @$pb.TagNumber(13)
-  $core.int get rating => $_getIZ(10);
-  @$pb.TagNumber(13)
-  set rating($core.int v) { $_setSignedInt32(10, v); }
-  @$pb.TagNumber(13)
-  $core.bool hasRating() => $_has(10);
-  @$pb.TagNumber(13)
-  void clearRating() => clearField(13);
+  void clearDislikes() => clearField(11);
 }
 
 

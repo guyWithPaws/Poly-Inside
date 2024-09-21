@@ -9,10 +9,14 @@ service SearchService {
 
   rpc GetAllProfessorsOnce (GetAllProfessorsOnceRequest) returns (GetListProfessorResponse);
   rpc AddReview(Review) returns (AddReviewResponse);
-  rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream Review);
-  rpc GetReviewsByUserId(ReviewsByUserIdRequest) returns (stream Review);
+  rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (ReviewStream);
+  rpc GetReviewsByUserId(ReviewsByUserIdRequest) returns (ReviewStream);
   rpc UpdateReview(Review) returns (UpdateReviewResponse);
   rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse);
+}
+
+message ReviewStream{
+  repeated Review reviews = 1;
 }
 
 message SearchResponse{
@@ -91,7 +95,7 @@ message Review {
   float professionalism = 6;
   float harshness = 7;
   string date = 8;
-  int32 raiting = 9;
-  string professor_id = 11;
-  int32 rating = 13;
+  string professor_id = 9;
+  int32 likes = 10;
+  int32 dislikes = 11;
 }

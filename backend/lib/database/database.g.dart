@@ -422,10 +422,16 @@ class $ReviewsTable extends Reviews with TableInfo<$ReviewsTable, Review> {
   late final GeneratedColumn<String> date = GeneratedColumn<String>(
       'date', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _ratingMeta = const VerificationMeta('rating');
+  static const VerificationMeta _likesMeta = const VerificationMeta('likes');
   @override
-  late final GeneratedColumn<int> rating = GeneratedColumn<int>(
-      'rating', aliasedName, false,
+  late final GeneratedColumn<int> likes = GeneratedColumn<int>(
+      'likes', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _dislikesMeta =
+      const VerificationMeta('dislikes');
+  @override
+  late final GeneratedColumn<int> dislikes = GeneratedColumn<int>(
+      'dislikes', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
@@ -438,7 +444,8 @@ class $ReviewsTable extends Reviews with TableInfo<$ReviewsTable, Review> {
         professionalism,
         harshness,
         date,
-        rating
+        likes,
+        dislikes
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -509,11 +516,17 @@ class $ReviewsTable extends Reviews with TableInfo<$ReviewsTable, Review> {
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
-    if (data.containsKey('rating')) {
-      context.handle(_ratingMeta,
-          rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta));
+    if (data.containsKey('likes')) {
+      context.handle(
+          _likesMeta, likes.isAcceptableOrUnknown(data['likes']!, _likesMeta));
     } else if (isInserting) {
-      context.missing(_ratingMeta);
+      context.missing(_likesMeta);
+    }
+    if (data.containsKey('dislikes')) {
+      context.handle(_dislikesMeta,
+          dislikes.isAcceptableOrUnknown(data['dislikes']!, _dislikesMeta));
+    } else if (isInserting) {
+      context.missing(_dislikesMeta);
     }
     return context;
   }
@@ -540,8 +553,10 @@ class $ReviewsTable extends Reviews with TableInfo<$ReviewsTable, Review> {
           .read(DriftSqlType.string, data['${effectivePrefix}date'])!,
       professorId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}professor_id'])!,
-      rating: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}rating'])!,
+      likes: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}likes'])!,
+      dislikes: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}dislikes'])!,
     );
   }
 
@@ -561,7 +576,8 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
   final Value<double> professionalism;
   final Value<double> harshness;
   final Value<String> date;
-  final Value<int> rating;
+  final Value<int> likes;
+  final Value<int> dislikes;
   final Value<int> rowid;
   const ReviewsCompanion({
     this.id = const Value.absent(),
@@ -573,7 +589,8 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
     this.professionalism = const Value.absent(),
     this.harshness = const Value.absent(),
     this.date = const Value.absent(),
-    this.rating = const Value.absent(),
+    this.likes = const Value.absent(),
+    this.dislikes = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ReviewsCompanion.insert({
@@ -586,7 +603,8 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
     required double professionalism,
     required double harshness,
     required String date,
-    required int rating,
+    required int likes,
+    required int dislikes,
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         userId = Value(userId),
@@ -597,7 +615,8 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
         professionalism = Value(professionalism),
         harshness = Value(harshness),
         date = Value(date),
-        rating = Value(rating);
+        likes = Value(likes),
+        dislikes = Value(dislikes);
   static Insertable<Review> custom({
     Expression<String>? id,
     Expression<int>? userId,
@@ -608,7 +627,8 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
     Expression<double>? professionalism,
     Expression<double>? harshness,
     Expression<String>? date,
-    Expression<int>? rating,
+    Expression<int>? likes,
+    Expression<int>? dislikes,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -621,7 +641,8 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
       if (professionalism != null) 'professionalism': professionalism,
       if (harshness != null) 'harshness': harshness,
       if (date != null) 'date': date,
-      if (rating != null) 'rating': rating,
+      if (likes != null) 'likes': likes,
+      if (dislikes != null) 'dislikes': dislikes,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -636,7 +657,8 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
       Value<double>? professionalism,
       Value<double>? harshness,
       Value<String>? date,
-      Value<int>? rating,
+      Value<int>? likes,
+      Value<int>? dislikes,
       Value<int>? rowid}) {
     return ReviewsCompanion(
       id: id ?? this.id,
@@ -648,7 +670,8 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
       professionalism: professionalism ?? this.professionalism,
       harshness: harshness ?? this.harshness,
       date: date ?? this.date,
-      rating: rating ?? this.rating,
+      likes: likes ?? this.likes,
+      dislikes: dislikes ?? this.dislikes,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -683,8 +706,11 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
     if (date.present) {
       map['date'] = Variable<String>(date.value);
     }
-    if (rating.present) {
-      map['rating'] = Variable<int>(rating.value);
+    if (likes.present) {
+      map['likes'] = Variable<int>(likes.value);
+    }
+    if (dislikes.present) {
+      map['dislikes'] = Variable<int>(dislikes.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -704,7 +730,8 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
           ..write('professionalism: $professionalism, ')
           ..write('harshness: $harshness, ')
           ..write('date: $date, ')
-          ..write('rating: $rating, ')
+          ..write('likes: $likes, ')
+          ..write('dislikes: $dislikes, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -886,8 +913,6 @@ class $RejectedReviewsTable extends RejectedReviews
           .read(DriftSqlType.string, data['${effectivePrefix}date'])!,
       professorId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}professor_id'])!,
-      rating: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}rating'])!,
     );
   }
 
@@ -1349,7 +1374,8 @@ typedef $$ReviewsTableCreateCompanionBuilder = ReviewsCompanion Function({
   required double professionalism,
   required double harshness,
   required String date,
-  required int rating,
+  required int likes,
+  required int dislikes,
   Value<int> rowid,
 });
 typedef $$ReviewsTableUpdateCompanionBuilder = ReviewsCompanion Function({
@@ -1362,7 +1388,8 @@ typedef $$ReviewsTableUpdateCompanionBuilder = ReviewsCompanion Function({
   Value<double> professionalism,
   Value<double> harshness,
   Value<String> date,
-  Value<int> rating,
+  Value<int> likes,
+  Value<int> dislikes,
   Value<int> rowid,
 });
 
@@ -1414,8 +1441,13 @@ class $$ReviewsTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<int> get rating => $state.composableBuilder(
-      column: $state.table.rating,
+  ColumnFilters<int> get likes => $state.composableBuilder(
+      column: $state.table.likes,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get dislikes => $state.composableBuilder(
+      column: $state.table.dislikes,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 }
@@ -1468,8 +1500,13 @@ class $$ReviewsTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<int> get rating => $state.composableBuilder(
-      column: $state.table.rating,
+  ColumnOrderings<int> get likes => $state.composableBuilder(
+      column: $state.table.likes,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get dislikes => $state.composableBuilder(
+      column: $state.table.dislikes,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
@@ -1503,7 +1540,8 @@ class $$ReviewsTableTableManager extends RootTableManager<
             Value<double> professionalism = const Value.absent(),
             Value<double> harshness = const Value.absent(),
             Value<String> date = const Value.absent(),
-            Value<int> rating = const Value.absent(),
+            Value<int> likes = const Value.absent(),
+            Value<int> dislikes = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               ReviewsCompanion(
@@ -1516,7 +1554,8 @@ class $$ReviewsTableTableManager extends RootTableManager<
             professionalism: professionalism,
             harshness: harshness,
             date: date,
-            rating: rating,
+            likes: likes,
+            dislikes: dislikes,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -1529,7 +1568,8 @@ class $$ReviewsTableTableManager extends RootTableManager<
             required double professionalism,
             required double harshness,
             required String date,
-            required int rating,
+            required int likes,
+            required int dislikes,
             Value<int> rowid = const Value.absent(),
           }) =>
               ReviewsCompanion.insert(
@@ -1542,7 +1582,8 @@ class $$ReviewsTableTableManager extends RootTableManager<
             professionalism: professionalism,
             harshness: harshness,
             date: date,
-            rating: rating,
+            likes: likes,
+            dislikes: dislikes,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0

@@ -49,14 +49,14 @@ class SearchServiceClient extends $grpc.Client {
       '/SearchService/AddReview',
       ($0.Review value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.AddReviewResponse.fromBuffer(value));
-  static final _$getReviewsByProfessorId = $grpc.ClientMethod<$0.ReviewsByProfessorIdRequest, $0.Review>(
+  static final _$getReviewsByProfessorId = $grpc.ClientMethod<$0.ReviewsByProfessorIdRequest, $0.ReviewStream>(
       '/SearchService/GetReviewsByProfessorId',
       ($0.ReviewsByProfessorIdRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.Review.fromBuffer(value));
-  static final _$getReviewsByUserId = $grpc.ClientMethod<$0.ReviewsByUserIdRequest, $0.Review>(
+      ($core.List<$core.int> value) => $0.ReviewStream.fromBuffer(value));
+  static final _$getReviewsByUserId = $grpc.ClientMethod<$0.ReviewsByUserIdRequest, $0.ReviewStream>(
       '/SearchService/GetReviewsByUserId',
       ($0.ReviewsByUserIdRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.Review.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.ReviewStream.fromBuffer(value));
   static final _$updateReview = $grpc.ClientMethod<$0.Review, $0.UpdateReviewResponse>(
       '/SearchService/UpdateReview',
       ($0.Review value) => value.writeToBuffer(),
@@ -100,12 +100,12 @@ class SearchServiceClient extends $grpc.Client {
     return $createUnaryCall(_$addReview, request, options: options);
   }
 
-  $grpc.ResponseStream<$0.Review> getReviewsByProfessorId($0.ReviewsByProfessorIdRequest request, {$grpc.CallOptions? options}) {
-    return $createStreamingCall(_$getReviewsByProfessorId, $async.Stream.fromIterable([request]), options: options);
+  $grpc.ResponseFuture<$0.ReviewStream> getReviewsByProfessorId($0.ReviewsByProfessorIdRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getReviewsByProfessorId, request, options: options);
   }
 
-  $grpc.ResponseStream<$0.Review> getReviewsByUserId($0.ReviewsByUserIdRequest request, {$grpc.CallOptions? options}) {
-    return $createStreamingCall(_$getReviewsByUserId, $async.Stream.fromIterable([request]), options: options);
+  $grpc.ResponseFuture<$0.ReviewStream> getReviewsByUserId($0.ReviewsByUserIdRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getReviewsByUserId, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.UpdateReviewResponse> updateReview($0.Review request, {$grpc.CallOptions? options}) {
@@ -171,20 +171,20 @@ abstract class SearchServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Review.fromBuffer(value),
         ($0.AddReviewResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ReviewsByProfessorIdRequest, $0.Review>(
+    $addMethod($grpc.ServiceMethod<$0.ReviewsByProfessorIdRequest, $0.ReviewStream>(
         'GetReviewsByProfessorId',
         getReviewsByProfessorId_Pre,
         false,
-        true,
+        false,
         ($core.List<$core.int> value) => $0.ReviewsByProfessorIdRequest.fromBuffer(value),
-        ($0.Review value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ReviewsByUserIdRequest, $0.Review>(
+        ($0.ReviewStream value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ReviewsByUserIdRequest, $0.ReviewStream>(
         'GetReviewsByUserId',
         getReviewsByUserId_Pre,
         false,
-        true,
+        false,
         ($core.List<$core.int> value) => $0.ReviewsByUserIdRequest.fromBuffer(value),
-        ($0.Review value) => value.writeToBuffer()));
+        ($0.ReviewStream value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.Review, $0.UpdateReviewResponse>(
         'UpdateReview',
         updateReview_Pre,
@@ -229,12 +229,12 @@ abstract class SearchServiceBase extends $grpc.Service {
     return addReview(call, await request);
   }
 
-  $async.Stream<$0.Review> getReviewsByProfessorId_Pre($grpc.ServiceCall call, $async.Future<$0.ReviewsByProfessorIdRequest> request) async* {
-    yield* getReviewsByProfessorId(call, await request);
+  $async.Future<$0.ReviewStream> getReviewsByProfessorId_Pre($grpc.ServiceCall call, $async.Future<$0.ReviewsByProfessorIdRequest> request) async {
+    return getReviewsByProfessorId(call, await request);
   }
 
-  $async.Stream<$0.Review> getReviewsByUserId_Pre($grpc.ServiceCall call, $async.Future<$0.ReviewsByUserIdRequest> request) async* {
-    yield* getReviewsByUserId(call, await request);
+  $async.Future<$0.ReviewStream> getReviewsByUserId_Pre($grpc.ServiceCall call, $async.Future<$0.ReviewsByUserIdRequest> request) async {
+    return getReviewsByUserId(call, await request);
   }
 
   $async.Future<$0.UpdateReviewResponse> updateReview_Pre($grpc.ServiceCall call, $async.Future<$0.Review> request) async {
@@ -252,8 +252,8 @@ abstract class SearchServiceBase extends $grpc.Service {
   $async.Future<$0.SearchResponse> searchProfessorByName($grpc.ServiceCall call, $0.SearchRequest request);
   $async.Future<$0.GetListProfessorResponse> getAllProfessorsOnce($grpc.ServiceCall call, $0.GetAllProfessorsOnceRequest request);
   $async.Future<$0.AddReviewResponse> addReview($grpc.ServiceCall call, $0.Review request);
-  $async.Stream<$0.Review> getReviewsByProfessorId($grpc.ServiceCall call, $0.ReviewsByProfessorIdRequest request);
-  $async.Stream<$0.Review> getReviewsByUserId($grpc.ServiceCall call, $0.ReviewsByUserIdRequest request);
+  $async.Future<$0.ReviewStream> getReviewsByProfessorId($grpc.ServiceCall call, $0.ReviewsByProfessorIdRequest request);
+  $async.Future<$0.ReviewStream> getReviewsByUserId($grpc.ServiceCall call, $0.ReviewsByUserIdRequest request);
   $async.Future<$0.UpdateReviewResponse> updateReview($grpc.ServiceCall call, $0.Review request);
   $async.Future<$0.DeleteReviewResponse> deleteReview($grpc.ServiceCall call, $0.DeleteReviewRequest request);
 }
