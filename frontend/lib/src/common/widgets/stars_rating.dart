@@ -84,10 +84,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+// ignore: must_be_immutable
 class StarsRating extends StatefulWidget {
   static const String imageUrl = 'assets/icons/star.svg';
   static const Color color = Colors.yellow;
   static const Color baseColor = Colors.grey;
+  final ValueNotifier<double>? valueNotifier;
   final double spaceBetween;
   final Size size;
   final bool enableDragDetector;
@@ -98,7 +100,8 @@ class StarsRating extends StatefulWidget {
       required this.size,
       this.value = 0,
       this.enableDragDetector = false,
-      required this.spaceBetween});
+      required this.spaceBetween,
+      this.valueNotifier});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -112,14 +115,18 @@ class _StarsRatingState extends State<StarsRating> {
       onPanStart: (details) {
         if (widget.enableDragDetector) {
           setState(() {
-            widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
+            widget.value =
+                (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
+            widget.valueNotifier!.value = widget.value;
           });
         }
       },
       onPanUpdate: (details) {
         if (widget.enableDragDetector) {
           setState(() {
-            widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
+            widget.value =
+                (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
+            widget.valueNotifier!.value = widget.value;
           });
         }
       },

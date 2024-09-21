@@ -10,11 +10,13 @@ import 'package:shared/shared.dart';
 /// {@endtemplate}
 class ReviewTitle extends StatelessWidget {
   final ClientRepository repository;
+  final Review review;
 
   /// {@macro review_title}
   const ReviewTitle({
     super.key,
-    required this.repository, // ignore: unused_element
+    required this.repository,
+    required this.review, // ignore: unused_element
   });
 
   @override
@@ -67,18 +69,21 @@ class ReviewTitle extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Лучший препод эвер!!! Спасибо что имел на протяжении сема на каждой практике и лабе. Тупа лучший!!!',
-              style: TextStyle(fontSize: 14),
+            Text(
+              textAlign: TextAlign.start,
+              review.comment,
+              style: const TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 8),
-            const ProfessorFeatures(),
+            ProfessorFeatures(
+              review: review,
+            ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Июнь 2024",
-                    style: TextStyle(fontSize: 10, color: Colors.grey)),
+                Text(review.date,
+                    style: const TextStyle(fontSize: 10, color: Colors.grey)),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -92,9 +97,10 @@ class ReviewTitle extends StatelessWidget {
                         const SizedBox(
                           width: 8,
                         ),
-                        const Text(
-                          "5",
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        Text(
+                          '${review.likes}',
+                          style:
+                              const TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -109,9 +115,10 @@ class ReviewTitle extends StatelessWidget {
                         const SizedBox(
                           width: 8,
                         ),
-                        const Text(
-                          "5",
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        Text(
+                          '${review.dislikes}',
+                          style:
+                              const TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                       ],
                     ),

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:shared/shared.dart';
 
 /// {@template teacher_features}
 /// TeacherFeatures widget.
 /// {@endtemplate}
 class ProfessorFeatures extends StatelessWidget {
+  final List<Review>? reviews;
+  final Review? review;
+
   /// {@macro teacher_features}
   const ProfessorFeatures({
-    super.key, // ignore: unused_element
+    super.key,
+    this.reviews,
+    this.review, // ignore: unused_element
   });
+
+  void getProfessorQualities() {}
 
   @override
   Widget build(BuildContext context) {

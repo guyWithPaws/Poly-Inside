@@ -189,39 +189,45 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                 ],
                               ),
                               const SizedBox(height: 32),
-                              const ProfessorFeatures(),
+                              ProfessorFeatures(
+                                reviews: snapshot.hasData ? snapshot.data! : [],
+                              ),
                               const SizedBox(
                                 height: 8,
                               ),
-                              Row(
-                                children: [
-                                  const Text(
-                                    'Отзывы',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Container(
-                                    width: 31,
-                                    height: 26,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffEEF9EF),
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        snapshot.hasData
-                                            ? snapshot.data!.length.toString()
-                                            : '0',
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
+                              (snapshot.hasData && snapshot.data!.isNotEmpty)
+                                  ? Row(
+                                      children: [
+                                        const Text(
+                                          'Отзывы',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Container(
+                                          width: 31,
+                                          height: 26,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xffEEF9EF),
+                                            borderRadius:
+                                                BorderRadius.circular(7),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              snapshot.hasData
+                                                  ? snapshot.data!.length
+                                                      .toString()
+                                                  : '0',
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox(),
                               const SizedBox(
                                 height: 8,
                               ),
@@ -241,6 +247,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                               padding: const EdgeInsets.only(
                                   left: 16.0, right: 16.0),
                               child: ReviewTitle(
+                                review: snapshot.data![index],
                                 repository: widget.repository,
                               ),
                             );

@@ -132,6 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
           itemCount: 20,
           itemBuilder: (context, index) {
             return ReviewTitle(
+              review: Review(),
               repository: repository!,
             );
           },

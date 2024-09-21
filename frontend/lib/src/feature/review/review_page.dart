@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
+import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
+import 'package:poly_inside/src/feature/home/home_page.dart';
 import 'package:shared/shared.dart';
 
 /// {@template review_page}
@@ -33,16 +37,35 @@ class ReviewPage extends StatefulWidget {
 /// State for widget ReviewPage.
 class _ReviewPageState extends State<ReviewPage> {
   TextEditingController? _textEditingController;
+  ValueNotifier<double>? _valueLoayltyNotifier;
+  ValueNotifier<double>? _valueProfessionalismNotifier;
+  ValueNotifier<double>? _valueHarshnessNotifier;
+  ValueNotifier<double>? _valueObjectivityNotifier;
+
+  String? textComment;
   /* #region Lifecycle */
   @override
   void initState() {
     _textEditingController = TextEditingController();
     _textEditingController?.addListener(_textEditingListener);
+
+    _valueLoayltyNotifier = ValueNotifier(1.0);
+    _valueLoayltyNotifier = ValueNotifier(1.0);
+    _valueProfessionalismNotifier = ValueNotifier(1.0);
+    _valueHarshnessNotifier = ValueNotifier(1.0);
+    _valueObjectivityNotifier = ValueNotifier(1.0);
+
+    textComment = '';
+
     super.initState();
     // Initial state initialization
   }
 
-  void _textEditingListener() {}
+  void _textEditingListener() {
+    setState(() {
+      textComment = _textEditingController!.text.trim();
+    });
+  }
 
   @override
   void didUpdateWidget(covariant ReviewPage oldWidget) {
@@ -105,18 +128,17 @@ class _ReviewPageState extends State<ReviewPage> {
           //     );
           //   },
           // ).then((a) {
-          debugPrint('Trying to add review///');
           widget.repository.addReview(
             Review(
-                objectivity: 1,
-                loyalty: 1,
+                objectivity: _valueObjectivityNotifier!.value,
+                loyalty: _valueLoayltyNotifier!.value,
                 likes: 5,
                 dislikes: 3,
-                harshness: 1,
-                professionalism: 1,
+                harshness: _valueHarshnessNotifier!.value,
+                professionalism: _valueProfessionalismNotifier!.value,
                 date: DateTime.now().toString(),
                 userId: 123,
-                comment: 'Бим бим бам бам',
+                comment: textComment,
                 professorId: widget.professor.id),
           );
         },
@@ -124,29 +146,101 @@ class _ReviewPageState extends State<ReviewPage> {
         label: const Center(child: Text('Опубликовать')),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         child: SingleChildScrollView(
           child: Column(children: [
-            const Text('Рейтинг по категориям'),
+            Row(
+              children: [
+                Hero(
+                  tag: widget.professor.id,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    radius: 35,
+                    child: ClipOval(
+                      child: Uint8List.fromList(
+                        widget.professor.avatar,
+                      ).isNotEmpty
+                          ? Image.memory(
+                              height: 70,
+                              width: 70,
+                              fit: BoxFit.cover,
+                              Uint8List.fromList(
+                                widget.professor.avatar,
+                              ),
+                            )
+                          : SvgPicture.asset(
+                              'assets/icons/no_photo.svg',
+                              width: 69,
+                            ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 32,
+                ),
+                Text(
+                  widget.professor.name.capitalize(),
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            const Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Рейтинг по категориям')),
             const SizedBox(
               height: 16,
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 270,
+              height: 170,
               decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 238, 249, 237),
                   borderRadius: BorderRadius.circular(12)),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text('Объективность'),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text('Объективность'),
+                        Text('Лояльность'),
+                        Text('Профессионализм'),
+                        Text('Резкость'),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         StarsRating(
+                          valueNotifier: _valueObjectivityNotifier,
+                          value: 1,
+                          size: const Size(30, 30),
+                          enableDragDetector: true,
+                          spaceBetween: 16,
+                        ),
+                        StarsRating(
+                          valueNotifier: _valueLoayltyNotifier,
+                          value: 1,
+                          size: const Size(30, 30),
+                          enableDragDetector: true,
+                          spaceBetween: 16,
+                        ),
+                        StarsRating(
+                          valueNotifier: _valueProfessionalismNotifier,
+                          value: 1,
+                          size: const Size(30, 30),
+                          enableDragDetector: true,
+                          spaceBetween: 16,
+                        ),
+                        StarsRating(
+                          valueNotifier: _valueHarshnessNotifier,
                           value: 1,
                           size: const Size(30, 30),
                           enableDragDetector: true,
@@ -154,46 +248,6 @@ class _ReviewPageState extends State<ReviewPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    const Text('Лояльность'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        StarsRating(
-                          value: 1,
-                          size: const Size(30, 30),
-                          enableDragDetector: true,
-                          spaceBetween: 16,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    const Text('Профессионализм'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        StarsRating(
-                          value: 1,
-                          size: const Size(30, 30),
-                          enableDragDetector: true,
-                          spaceBetween: 16,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    const Text('Резкость'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        StarsRating(
-                          value: 1,
-                          size: const Size(30, 30),
-                          enableDragDetector: true,
-                          spaceBetween: 16,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
                   ],
                 ),
               ),
@@ -214,11 +268,12 @@ class _ReviewPageState extends State<ReviewPage> {
               width: MediaQuery.of(context).size.width,
               child: GestureDetector(
                 onTap: () {},
-                child: const TextField(
+                child: TextField(
+                  controller: _textEditingController,
                   keyboardType: TextInputType.multiline,
                   minLines: 9,
                   maxLines: null,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                   ),
                 ),
