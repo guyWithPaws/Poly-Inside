@@ -37,12 +37,12 @@ class ReviewPage extends StatefulWidget {
 /// State for widget ReviewPage.
 class _ReviewPageState extends State<ReviewPage> {
   TextEditingController? _textEditingController;
+  ValueNotifier<String>? _valueTextFormNotifier;
   ValueNotifier<double>? _valueLoayltyNotifier;
   ValueNotifier<double>? _valueProfessionalismNotifier;
   ValueNotifier<double>? _valueHarshnessNotifier;
   ValueNotifier<double>? _valueObjectivityNotifier;
 
-  String? textComment;
   /* #region Lifecycle */
   @override
   void initState() {
@@ -55,16 +55,14 @@ class _ReviewPageState extends State<ReviewPage> {
     _valueHarshnessNotifier = ValueNotifier(1.0);
     _valueObjectivityNotifier = ValueNotifier(1.0);
 
-    textComment = '';
+    _valueTextFormNotifier = ValueNotifier('');
 
     super.initState();
     // Initial state initialization
   }
 
   void _textEditingListener() {
-    setState(() {
-      textComment = _textEditingController!.text.trim();
-    });
+    _valueTextFormNotifier!.value = _textEditingController!.text.trim();
   }
 
   @override
@@ -138,7 +136,7 @@ class _ReviewPageState extends State<ReviewPage> {
                 professionalism: _valueProfessionalismNotifier!.value,
                 date: DateTime.now().toString(),
                 userId: 123,
-                comment: textComment,
+                comment: _valueTextFormNotifier!.value,
                 professorId: widget.professor.id),
           );
         },
@@ -170,7 +168,7 @@ class _ReviewPageState extends State<ReviewPage> {
                             )
                           : SvgPicture.asset(
                               'assets/icons/no_photo.svg',
-                              width: 69,
+                              width: 40,
                             ),
                     ),
                   ),

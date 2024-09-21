@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
-import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:shared/shared.dart';
 

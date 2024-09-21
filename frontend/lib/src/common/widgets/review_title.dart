@@ -4,6 +4,7 @@ import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
+import 'package:intl/intl.dart';
 
 /// {@template review_title}
 /// ReviewTitle widget.
@@ -82,8 +83,14 @@ class ReviewTitle extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(review.date,
-                    style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                Text(
+                    DateFormat.yMMMM('en_US').format(
+                        DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS')
+                            .parse(review.date)),
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500)),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

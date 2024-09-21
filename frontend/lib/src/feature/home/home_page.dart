@@ -12,6 +12,7 @@ import 'package:poly_inside/src/feature/home/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
+import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
 import 'package:shared/shared.dart';
 
 /// {@template home_page}
@@ -80,7 +81,7 @@ class _HomePageState extends State<HomePage> {
   void didChangeDependencies() {
     repository = ClientRepositoryImpl(
       client: SearchServiceClient(ClientChannel(
-        'localhost',
+        '87.228.18.201',
         port: 9090,
         options:
             const ChannelOptions(credentials: ChannelCredentials.insecure()),
@@ -136,10 +137,8 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             builderContext,
                             MaterialPageRoute<void>(
-                                builder: (builderContext) => ReviewPage(
-                                      repository: repository!,
-                                      professor: Professor(),
-                                    )));
+                                builder: (builderContext) =>
+                                    const ProfilePage()));
                       },
                       child: CircleAvatar(
                         radius: 31,
