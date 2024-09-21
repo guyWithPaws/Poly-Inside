@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:grpc/grpc.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
-import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
@@ -186,9 +184,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                   StarsRating(
                                     value: widget.professor.rating,
                                     size: const Size(32, 32),
+                                    spaceBetween: 16,
                                   ),
-                                  const SizedBox(width: 16.0),
-                                  Text('${widget.professor.rating}')
                                 ],
                               ),
                               const SizedBox(height: 32),
@@ -212,8 +209,15 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                       color: const Color(0xffEEF9EF),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
-                                    child: const Center(
-                                      child: Text('15'),
+                                    child: Center(
+                                      child: Text(
+                                        snapshot.hasData
+                                            ? snapshot.data!.length.toString()
+                                            : '0',
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   )
                                 ],
@@ -234,7 +238,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                               const SizedBox(height: 16),
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                              padding: const EdgeInsets.only(
+                                  left: 16.0, right: 16.0),
                               child: ReviewTitle(
                                 repository: widget.repository,
                               ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:grpc/grpc.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
-import 'package:poly_inside/src/common/repository/client_impl.dart';
+import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:shared/shared.dart';
 
 /// {@template review_page}
@@ -69,12 +68,11 @@ class _ReviewPageState extends State<ReviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
-        title: const Center(
-            child: Text(
+        title: const Text(
           'Оцените преподавателя',
-          textAlign: TextAlign.center,
-        )),
+        ),
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
@@ -135,45 +133,67 @@ class _ReviewPageState extends State<ReviewPage> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 230,
+              height: 270,
               decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(12)),
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
+                  color: const Color.fromARGB(255, 238, 249, 237),
+                  borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Text(''),
+                    const Text('Объективность'),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(width: 300, child: LinearProgressIndicator()),
-                        Text('5.0')
+                        StarsRating(
+                          value: 1,
+                          size: const Size(30, 30),
+                          enableDragDetector: true,
+                          spaceBetween: 16,
+                        ),
                       ],
                     ),
-                    SizedBox(height: 8),
-                    Text(''),
+                    const SizedBox(height: 8),
+                    const Text('Лояльность'),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(width: 300, child: LinearProgressIndicator()),
-                        Text('5.0')
+                        StarsRating(
+                          value: 1,
+                          size: const Size(30, 30),
+                          enableDragDetector: true,
+                          spaceBetween: 16,
+                        ),
                       ],
                     ),
-                    SizedBox(height: 8),
-                    Text(''),
+                    const SizedBox(height: 8),
+                    const Text('Профессионализм'),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(width: 300, child: LinearProgressIndicator()),
-                        Text('5.0')
+                        StarsRating(
+                          value: 1,
+                          size: const Size(30, 30),
+                          enableDragDetector: true,
+                          spaceBetween: 16,
+                        ),
                       ],
                     ),
-                    SizedBox(height: 8),
-                    Text(''),
+                    const SizedBox(height: 8),
+                    const Text('Резкость'),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(width: 300, child: LinearProgressIndicator()),
-                        Text('5.0')
+                        StarsRating(
+                          value: 1,
+                          size: const Size(30, 30),
+                          enableDragDetector: true,
+                          spaceBetween: 16,
+                        ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),
@@ -189,15 +209,18 @@ class _ReviewPageState extends State<ReviewPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                  color: Colors.green[300],
+                  color: const Color.fromARGB(255, 238, 249, 237),
                   borderRadius: BorderRadius.circular(12)),
               width: MediaQuery.of(context).size.width,
-              child: const TextField(
-                keyboardType: TextInputType.multiline,
-                minLines: 10,
-                maxLines: null,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
+              child: GestureDetector(
+                onTap: () {},
+                child: const TextField(
+                  keyboardType: TextInputType.multiline,
+                  minLines: 9,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
             )

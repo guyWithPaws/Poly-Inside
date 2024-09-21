@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                             builderContext,
                             MaterialPageRoute<void>(
                                 builder: (builderContext) => ReviewPage(
-                                  repository: repository!,
+                                      repository: repository!,
                                       professor: Professor(),
                                     )));
                       },
@@ -177,8 +177,7 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: searchProfessorPattern!.isEmpty
                     ? FutureBuilder<GetListProfessorResponse>(
-                        future:
-                            repository!.getAllProfessors(listViewCounter!),
+                        future: repository!.getAllProfessors(listViewCounter!),
                         builder: (context, snapshot) {
                           var professorList = <Professor>[];
                           if (!snapshot.hasData) {
@@ -192,12 +191,12 @@ class _HomePageState extends State<HomePage> {
                             professorList = (searchProfessorPattern != null)
                                 ? snapshot.data!.professors
                                     .where((professor) => professor.name
-                                        .contains(searchProfessorPattern
-                                            .toString()))
+                                        .contains(
+                                            searchProfessorPattern.toString()))
                                     .toList()
                                 : snapshot.data!.professors.toList();
                           }
-    
+
                           if (snapshot.hasData && professorList.isEmpty) {
                             return const Center(
                               child: Text(
@@ -205,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           }
-    
+
                           return ListView.separated(
                             controller: _scrollController,
                             itemCount: professorList.length,
@@ -221,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                                     MaterialPageRoute<void>(
                                       builder: (builderContext) =>
                                           ProfessorProfilePage(
-                                            repository: repository!,
+                                        repository: repository!,
                                         professor: professorList[index],
                                       ),
                                     ),
@@ -282,22 +281,11 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               Stack(
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      StarsRating(
-                                                        size: const Size(
-                                                            20, 20),
-                                                        value: professorList[
-                                                                index]
-                                                            .rating,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 8,
-                                                      ),
-                                                      Text(
-                                                        '${professorList[index].rating}',
-                                                      )
-                                                    ],
+                                                  StarsRating(
+                                                    size: const Size(20, 20),
+                                                    value: professorList[index]
+                                                        .rating,
+                                                    spaceBetween: 8,
                                                   ),
                                                   Align(
                                                     alignment:
@@ -307,10 +295,7 @@ class _HomePageState extends State<HomePage> {
                                                                   .rating ==
                                                               0)
                                                           ? 'нет отзывов'
-                                                          : professorList[
-                                                                  index]
-                                                              .reviewsCount
-                                                              .toString(),
+                                                          : '${professorList[index].reviewsCount} отзывов',
                                                     ),
                                                   ),
                                                 ],
@@ -343,12 +328,12 @@ class _HomePageState extends State<HomePage> {
                             professorList = (searchProfessorPattern != null)
                                 ? snapshot.data!.professors
                                     .where((professor) => professor.name
-                                        .contains(searchProfessorPattern
-                                            .toString()))
+                                        .contains(
+                                            searchProfessorPattern.toString()))
                                     .toList()
                                 : snapshot.data!.professors.toList();
                           }
-    
+
                           if (snapshot.hasData && professorList.isEmpty) {
                             return const Center(
                               child: Text(
@@ -356,7 +341,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           }
-    
+
                           return ListView.separated(
                             controller: _scrollController,
                             itemCount: professorList.length,
@@ -372,7 +357,7 @@ class _HomePageState extends State<HomePage> {
                                     MaterialPageRoute<void>(
                                       builder: (builderContext) =>
                                           ProfessorProfilePage(
-                                            repository: repository!,
+                                        repository: repository!,
                                         professor: professorList[index],
                                       ),
                                     ),
@@ -433,22 +418,11 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               Stack(
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      StarsRating(
-                                                        size: const Size(
-                                                            20, 20),
-                                                        value: professorList[
-                                                                index]
-                                                            .rating,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 8,
-                                                      ),
-                                                      Text(
-                                                        '${professorList[index].rating}',
-                                                      )
-                                                    ],
+                                                  StarsRating(
+                                                    size: const Size(20, 20),
+                                                    value: professorList[index]
+                                                        .rating,
+                                                    spaceBetween: 8,
                                                   ),
                                                   Align(
                                                     alignment:
@@ -458,8 +432,7 @@ class _HomePageState extends State<HomePage> {
                                                                   .rating ==
                                                               0)
                                                           ? 'нет отзывов'
-                                                          : professorList[
-                                                                  index]
+                                                          : professorList[index]
                                                               .reviewsCount
                                                               .toString(),
                                                     ),
