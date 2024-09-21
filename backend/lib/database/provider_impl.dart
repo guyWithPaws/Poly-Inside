@@ -17,7 +17,15 @@ class DatabaseProviderImpl implements DatabaseProvider {
 
   @override
   Future<List<Professor>> getAllProfessors(int count) =>
-      (database.select(database.professors)..limit(count)).get();
+      (database.select(database.professors)
+            ..orderBy([
+              (u) => OrderingTerm(
+                    expression: database.professors.avatar.isNotNull(),
+                  ),
+              (u) => OrderingTerm(expression: database.professors.name)
+            ])
+            ..limit(count))
+          .get();
 
   @override
   Stream<List<Review>> getAllReviewByUser(int userId) =>
