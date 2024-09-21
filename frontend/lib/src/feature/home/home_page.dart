@@ -10,6 +10,7 @@ import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/feature/home/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
+import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
 import 'package:shared/shared.dart';
 
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                             builderContext,
                             MaterialPageRoute<void>(
                                 builder: (builderContext) =>
-                                    const ProfilePage()));
+                                    const ReviewPage()));
                       },
                       child: CircleAvatar(
                         radius: 31,

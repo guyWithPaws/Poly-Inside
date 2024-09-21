@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:grpc/grpc_web.dart';
 import 'package:meta/meta.dart';
+import 'package:poly_inside/src/common/repository/client.dart';
+import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
+import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
 
@@ -34,6 +38,7 @@ class ProfessorProfilePage extends StatefulWidget {
 
 /// State for widget ProfessorProfilePage.
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
+  ClientRepository? repository;
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
 
@@ -66,6 +71,15 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
 
   @override
   void didChangeDependencies() {
+    repository = ClientRepositoryImpl(
+      client: SearchServiceClient(
+        GrpcWebClientChannel.xhr(
+          Uri.parse(
+            'http://87.228.18.201:8080',
+          ),
+        ),
+      ),
+    );
     super.didChangeDependencies();
     // The configuration of InheritedWidgets has changed
     // Also called after initState but before build
@@ -178,14 +192,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           ],
                         ),
                         const SizedBox(height: 32),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 32,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            color: const Color(0xffEEF9EF),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
+                        const ProfessorFeatures(),
                         const SizedBox(
                           height: 8,
                         ),
@@ -220,16 +227,28 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 ],
               ),
             ),
-            SliverList.separated(
-              itemCount: 15,
-              separatorBuilder: (context, index) => const SizedBox(height: 16),
-              itemBuilder: (context, index) {
-                return const Padding(
-                  padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                  child: ReviewTitle(),
-                );
-              },
-            ),
+            StreamBuilder<Object>(
+                stream:
+                    repository?.getAllReviewsByProfessor(widget.professor.id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return const Center(
+                      child: Text('Отзывов пока нет'),
+                    );
+                  }
+                  return SliverList.separated(
+                    itemCount: 10,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 16),
+                    itemBuilder: (context, index) {
+                      debugPrint(snapshot.toString());
+                      return const Padding(
+                        padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                        child: ReviewTitle(),
+                      );
+                    },
+                  );
+                }),
           ],
         ),
       ),

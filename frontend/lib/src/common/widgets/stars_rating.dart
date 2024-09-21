@@ -10,57 +10,67 @@ class StarsRating extends StatelessWidget {
   static const Color baseColor = Colors.grey;
   final double value;
   final Size size;
+  final bool enableDragDetector;
 
   /// {@macro home_page}
-  const StarsRating({
-    super.key,
-    required this.value, required this.size,
-  });
+  const StarsRating(
+      {super.key,
+      required this.value,
+      required this.size,
+      this.enableDragDetector = false});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (int i = 0; i < 5; i++)
-          Stack(
-            children: [
-              SizedBox(
-                width: size.width,
-                height: size.height,
-                child: SvgPicture.asset(
-                  imageUrl,
-                  colorFilter: const ColorFilter.mode(baseColor, BlendMode.srcIn),
-                ),
-              ),
-              ShaderMask(
-                shaderCallback: (bounds) {
-                  final fillGradient = LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      color,
-                      color.withOpacity(0),
-                    ],
-                    stops: [
-                      (value - i >= 1) ? 100 : ((value - i) * 100) / 100,
-                      (value - i >= 1) ? 100 : ((value - i) * 100) / 100,
-                    ],
-                  );
-                  return fillGradient.createShader(bounds);
-                },
-                blendMode: BlendMode.srcATop,
-                child: SizedBox(
+    return GestureDetector(
+      onPanStart: (details) =>
+          enableDragDetector ? debugPrint('hhhhhhhhhui') : null,
+      onPanUpdate: (details) => enableDragDetector ? debugPrint('pizda') : null,
+      onPanEnd: (details) => enableDragDetector ? debugPrint('h') : null,
+      child: Row(
+        children: [
+          for (int i = 0; i < 5; i++)
+            Stack(
+              children: [
+                SizedBox(
                   width: size.width,
                   height: size.height,
                   child: SvgPicture.asset(
                     imageUrl,
-                    colorFilter: const ColorFilter.mode(baseColor, BlendMode.srcIn),
+                    colorFilter:
+                        const ColorFilter.mode(baseColor, BlendMode.srcIn),
                   ),
                 ),
-              ),
-            ],
-          )
-      ],
+                ShaderMask(
+                  shaderCallback: (bounds) {
+                    final fillGradient = LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        color,
+                        color.withOpacity(0),
+                      ],
+                      stops: [
+                        (value - i >= 1) ? 100 : ((value - i) * 100) / 100,
+                        (value - i >= 1) ? 100 : ((value - i) * 100) / 100,
+                      ],
+                    );
+                    return fillGradient.createShader(bounds);
+                  },
+                  blendMode: BlendMode.srcATop,
+                  child: SizedBox(
+                    width: size.width,
+                    height: size.height,
+                    child: SvgPicture.asset(
+                      imageUrl,
+                      colorFilter:
+                          const ColorFilter.mode(baseColor, BlendMode.srcIn),
+                    ),
+                  ),
+                ),
+              ],
+            )
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
 
@@ -16,6 +14,7 @@ class ReviewPage extends StatefulWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   @internal
+  // ignore: library_private_types_in_public_api
   static _ReviewPageState? maybeOf(BuildContext context) =>
       context.findAncestorStateOfType<_ReviewPageState>();
 
@@ -57,6 +56,11 @@ class _ReviewPageState extends State<ReviewPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        title: const Center(
+            child: Text(
+          'Оцените преподавателя',
+          textAlign: TextAlign.center,
+        )),
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
@@ -74,41 +78,93 @@ class _ReviewPageState extends State<ReviewPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (builderContext) {
+              return const AlertDialog(
+                content: SizedBox(
+                  width: 100,
+                  height: 50,
+                  child: Center(
+                    child: Text('Загружаем Ваш отзыв..'),
+                  ),
+                ),
+              );
+            },
+          );
+        },
         backgroundColor: Colors.green,
         label: const Center(child: Text('Опубликовать')),
       ),
-      body: SafeArea(
-          child: Padding(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(children: [
-          const Text('Оцените преподавателя'),
-          const SizedBox(
-            height: 32,
-          ),
-          const Text('Рейгинт по категориям'),
+          const Text('Рейтинг по категориям'),
           const SizedBox(
             height: 16,
           ),
           Container(
-            width: 360,
+            width: MediaQuery.of(context).size.width,
             height: 284,
             decoration: BoxDecoration(
                 color: Colors.green, borderRadius: BorderRadius.circular(12)),
+            child: const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(''),
+                  Row(
+                    children: [
+                      SizedBox(width: 300, child: LinearProgressIndicator()),
+                      Text('5.0')
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Text(''),
+                  Row(
+                    children: [
+                      SizedBox(width: 300, child: LinearProgressIndicator()),
+                      Text('5.0')
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Text(''),
+                  Row(
+                    children: [
+                      SizedBox(width: 300, child: LinearProgressIndicator()),
+                      Text('5.0')
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Text(''),
+                  Row(
+                    children: [
+                      SizedBox(width: 300, child: LinearProgressIndicator()),
+                      Text('5.0')
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                ],
+              ),
+            ),
           ),
           const SizedBox(
             height: 16,
           ),
-          const Text(''),
+          const Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Оставьте комментарий:')),
           const SizedBox(
             height: 16,
           ),
-          const TextField(
+          TextField(
             keyboardType: TextInputType.multiline,
-            maxLines: null,
+            minLines: 10,
+            maxLines: 11,
           )
         ]),
-      )),
+      ),
     );
   }
 }

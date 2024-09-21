@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 
 /// {@template review_title}
@@ -63,59 +64,7 @@ class ReviewTitle extends StatelessWidget {
               style: TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 8),
-            const SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Объективность'),
-                      Text('Лояльнось'),
-                      Text('Профессионализм'),
-                      Text('Резкость'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                              width: 150, child: LinearProgressIndicator()),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                              width: 150, child: LinearProgressIndicator()),
-                          SizedBox(
-                              width: 150, child: LinearProgressIndicator()),
-                          SizedBox(
-                              width: 150, child: LinearProgressIndicator()),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      Column(
-                        children: [
-                          Text('5.0',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
-                          Text('5.0',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
-                          Text('5.0',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
-                          Text('5.0',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            const ProfessorFeatures(),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
