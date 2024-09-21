@@ -24,12 +24,17 @@ class ReviewPage extends StatefulWidget {
 
 /// State for widget ReviewPage.
 class _ReviewPageState extends State<ReviewPage> {
+  TextEditingController? _textEditingController;
   /* #region Lifecycle */
   @override
   void initState() {
+    _textEditingController = TextEditingController();
+    _textEditingController?.addListener(_textEditingListener);
     super.initState();
     // Initial state initialization
   }
+
+  void _textEditingListener() {}
 
   @override
   void didUpdateWidget(covariant ReviewPage oldWidget) {
@@ -99,71 +104,82 @@ class _ReviewPageState extends State<ReviewPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(children: [
-          const Text('Рейтинг по категориям'),
-          const SizedBox(
-            height: 16,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 284,
-            decoration: BoxDecoration(
-                color: Colors.green, borderRadius: BorderRadius.circular(12)),
-            child: const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Text(''),
-                  Row(
-                    children: [
-                      SizedBox(width: 300, child: LinearProgressIndicator()),
-                      Text('5.0')
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Text(''),
-                  Row(
-                    children: [
-                      SizedBox(width: 300, child: LinearProgressIndicator()),
-                      Text('5.0')
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Text(''),
-                  Row(
-                    children: [
-                      SizedBox(width: 300, child: LinearProgressIndicator()),
-                      Text('5.0')
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Text(''),
-                  Row(
-                    children: [
-                      SizedBox(width: 300, child: LinearProgressIndicator()),
-                      Text('5.0')
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                ],
+        child: SingleChildScrollView(
+          child: Column(children: [
+            const Text('Рейтинг по категориям'),
+            const SizedBox(
+              height: 16,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 230,
+              decoration: BoxDecoration(
+                  color: Colors.green, borderRadius: BorderRadius.circular(12)),
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text(''),
+                    Row(
+                      children: [
+                        SizedBox(width: 300, child: LinearProgressIndicator()),
+                        Text('5.0')
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Text(''),
+                    Row(
+                      children: [
+                        SizedBox(width: 300, child: LinearProgressIndicator()),
+                        Text('5.0')
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Text(''),
+                    Row(
+                      children: [
+                        SizedBox(width: 300, child: LinearProgressIndicator()),
+                        Text('5.0')
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Text(''),
+                    Row(
+                      children: [
+                        SizedBox(width: 300, child: LinearProgressIndicator()),
+                        Text('5.0')
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Оставьте комментарий:')),
-          const SizedBox(
-            height: 16,
-          ),
-          TextField(
-            keyboardType: TextInputType.multiline,
-            minLines: 10,
-            maxLines: 11,
-          )
-        ]),
+            const SizedBox(
+              height: 16,
+            ),
+            const Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Оставьте комментарий:')),
+            const SizedBox(
+              height: 16,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.green[300],
+                  borderRadius: BorderRadius.circular(12)),
+              width: MediaQuery.of(context).size.width,
+              child: const TextField(
+                keyboardType: TextInputType.multiline,
+                minLines: 10,
+                maxLines: null,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                ),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }

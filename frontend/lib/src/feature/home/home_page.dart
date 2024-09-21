@@ -41,10 +41,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _textEditingController = TextEditingController();
-    _textEditingController?.addListener(textEditingListener);
+    _textEditingController?.addListener(_textEditingListener);
 
     _scrollController = ScrollController();
-    _scrollController?.addListener(scrollListener);
+    _scrollController?.addListener(_scrollListener);
 
     searchProfessorPattern = '';
     _valueNotifier = ValueNotifier(false);
@@ -55,13 +55,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void textEditingListener() {
+  void _textEditingListener() {
     setState(() {
       searchProfessorPattern = _textEditingController?.text.toLowerCase();
     });
   }
 
-  void scrollListener() {
+  void _scrollListener() {
     if (_scrollController?.position.pixels ==
         _scrollController?.position.maxScrollExtent) {
       setState(() {
