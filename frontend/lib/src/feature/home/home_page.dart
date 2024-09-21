@@ -3,7 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:grpc/grpc_web.dart';
+import 'package:grpc/grpc.dart';
+//import 'package:grpc/service_api.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
@@ -11,7 +12,6 @@ import 'package:poly_inside/src/feature/home/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
-import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
 import 'package:shared/shared.dart';
 
 /// {@template home_page}
@@ -79,13 +79,18 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     repository = ClientRepositoryImpl(
-      client: SearchServiceClient(
-        GrpcWebClientChannel.xhr(
-          Uri.parse(
-            'http://87.228.18.201:8080',
+      client: SearchServiceClient(ClientChannel(
+        'localhost',
+        port: 9090,
+        options:
+            const ChannelOptions(credentials: ChannelCredentials.insecure()),
+      )
+          // GrpcWebClientChannel.xhr(
+          //   Uri.parse(
+          //     'http://87.228.18.201:8080',
+          //   ),
+          // ),
           ),
-        ),
-      ),
     );
     super.didChangeDependencies();
   }
@@ -131,8 +136,10 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             builderContext,
                             MaterialPageRoute<void>(
-                                builder: (builderContext) =>
-                                    const ReviewPage()));
+                                builder: (builderContext) => ReviewPage(
+                                  repository: repository!,
+                                      professor: Professor(),
+                                    )));
                       },
                       child: CircleAvatar(
                         radius: 31,
@@ -170,7 +177,8 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: searchProfessorPattern!.isEmpty
                     ? FutureBuilder<GetListProfessorResponse>(
-                        future: repository!.getAllProfessors(listViewCounter!),
+                        future:
+                            repository!.getAllProfessors(listViewCounter!),
                         builder: (context, snapshot) {
                           var professorList = <Professor>[];
                           if (!snapshot.hasData) {
@@ -184,12 +192,12 @@ class _HomePageState extends State<HomePage> {
                             professorList = (searchProfessorPattern != null)
                                 ? snapshot.data!.professors
                                     .where((professor) => professor.name
-                                        .contains(
-                                            searchProfessorPattern.toString()))
+                                        .contains(searchProfessorPattern
+                                            .toString()))
                                     .toList()
                                 : snapshot.data!.professors.toList();
                           }
-
+    
                           if (snapshot.hasData && professorList.isEmpty) {
                             return const Center(
                               child: Text(
@@ -197,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           }
-
+    
                           return ListView.separated(
                             controller: _scrollController,
                             itemCount: professorList.length,
@@ -213,6 +221,7 @@ class _HomePageState extends State<HomePage> {
                                     MaterialPageRoute<void>(
                                       builder: (builderContext) =>
                                           ProfessorProfilePage(
+                                            repository: repository!,
                                         professor: professorList[index],
                                       ),
                                     ),
@@ -276,11 +285,11 @@ class _HomePageState extends State<HomePage> {
                                                   Row(
                                                     children: [
                                                       StarsRating(
-                                                        size:
-                                                            const Size(20, 20),
-                                                        value:
-                                                            professorList[index]
-                                                                .rating,
+                                                        size: const Size(
+                                                            20, 20),
+                                                        value: professorList[
+                                                                index]
+                                                            .rating,
                                                       ),
                                                       const SizedBox(
                                                         width: 8,
@@ -298,7 +307,8 @@ class _HomePageState extends State<HomePage> {
                                                                   .rating ==
                                                               0)
                                                           ? 'нет отзывов'
-                                                          : professorList[index]
+                                                          : professorList[
+                                                                  index]
                                                               .reviewsCount
                                                               .toString(),
                                                     ),
@@ -333,12 +343,12 @@ class _HomePageState extends State<HomePage> {
                             professorList = (searchProfessorPattern != null)
                                 ? snapshot.data!.professors
                                     .where((professor) => professor.name
-                                        .contains(
-                                            searchProfessorPattern.toString()))
+                                        .contains(searchProfessorPattern
+                                            .toString()))
                                     .toList()
                                 : snapshot.data!.professors.toList();
                           }
-
+    
                           if (snapshot.hasData && professorList.isEmpty) {
                             return const Center(
                               child: Text(
@@ -346,7 +356,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           }
-
+    
                           return ListView.separated(
                             controller: _scrollController,
                             itemCount: professorList.length,
@@ -362,6 +372,7 @@ class _HomePageState extends State<HomePage> {
                                     MaterialPageRoute<void>(
                                       builder: (builderContext) =>
                                           ProfessorProfilePage(
+                                            repository: repository!,
                                         professor: professorList[index],
                                       ),
                                     ),
@@ -425,11 +436,11 @@ class _HomePageState extends State<HomePage> {
                                                   Row(
                                                     children: [
                                                       StarsRating(
-                                                        size:
-                                                            const Size(20, 20),
-                                                        value:
-                                                            professorList[index]
-                                                                .rating,
+                                                        size: const Size(
+                                                            20, 20),
+                                                        value: professorList[
+                                                                index]
+                                                            .rating,
                                                       ),
                                                       const SizedBox(
                                                         width: 8,
@@ -447,7 +458,8 @@ class _HomePageState extends State<HomePage> {
                                                                   .rating ==
                                                               0)
                                                           ? 'нет отзывов'
-                                                          : professorList[index]
+                                                          : professorList[
+                                                                  index]
                                                               .reviewsCount
                                                               .toString(),
                                                     ),

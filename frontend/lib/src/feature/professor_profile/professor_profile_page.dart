@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:grpc/grpc_web.dart';
+import 'package:grpc/grpc.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
@@ -18,11 +18,13 @@ import 'package:shared/shared.dart';
 /// {@endtemplate}
 class ProfessorProfilePage extends StatefulWidget {
   final Professor professor;
+  final ClientRepository repository;
 
   /// {@macro professor_profile_page}
   const ProfessorProfilePage({
     super.key,
-    required this.professor, // ignore: unused_element
+    required this.professor,
+    required this.repository, // ignore: unused_element
   });
 
   /// The state from the closest instance of this class
@@ -38,7 +40,6 @@ class ProfessorProfilePage extends StatefulWidget {
 
 /// State for widget ProfessorProfilePage.
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
-  ClientRepository? repository;
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
 
@@ -71,15 +72,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
 
   @override
   void didChangeDependencies() {
-    repository = ClientRepositoryImpl(
-      client: SearchServiceClient(
-        GrpcWebClientChannel.xhr(
-          Uri.parse(
-            'http://87.228.18.201:8080',
-          ),
-        ),
-      ),
-    );
     super.didChangeDependencies();
     // The configuration of InheritedWidgets has changed
     // Also called after initState but before build
@@ -106,7 +98,10 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 : Navigator.push(
                     context,
                     MaterialPageRoute<void>(
-                        builder: (builderContext) => const ReviewPage()));
+                        builder: (builderContext) => ReviewPage(
+                              repository: widget.repository,
+                              professor: widget.professor,
+                            )));
           },
           backgroundColor: Colors.green,
           label: AnimatedSize(
@@ -120,137 +115,141 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
         ),
       ),
       body: SafeArea(
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverAppBar(
-              pinned: false,
-              leading: GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  width: 30,
-                  height: 30,
-                  margin: const EdgeInsets.all(12),
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 185, 185, 185),
-                    shape: BoxShape.circle,
+        child: FutureBuilder<List<Review>>(
+            future:
+                widget.repository.getAllReviewsByProfessor(widget.professor.id),
+            builder: (context, snapshot) {
+              return CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  SliverAppBar(
+                    pinned: false,
+                    leading: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        margin: const EdgeInsets.all(12),
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 185, 185, 185),
+                          shape: BoxShape.circle,
+                        ),
+                        child: SvgPicture.asset('assets/icons/cross.svg'),
+                      ),
+                    ),
                   ),
-                  child: SvgPicture.asset('assets/icons/cross.svg'),
-                ),
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Column(
-                      children: [
-                        Hero(
-                          tag: widget.professor.id,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey[200],
-                            radius: 69,
-                            child: ClipOval(
-                              child: Uint8List.fromList(
-                                widget.professor.avatar,
-                              ).isNotEmpty
-                                  ? Image.memory(
-                                      height: 138,
-                                      width: 138,
-                                      fit: BoxFit.cover,
-                                      Uint8List.fromList(
-                                        widget.professor.avatar,
-                                      ),
-                                    )
-                                  : SvgPicture.asset(
-                                      'assets/icons/no_photo.svg',
-                                      width: 69,
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, right: 16),
+                          child: Column(
+                            children: [
+                              Hero(
+                                tag: widget.professor.id,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[200],
+                                  radius: 69,
+                                  child: ClipOval(
+                                    child: Uint8List.fromList(
+                                      widget.professor.avatar,
+                                    ).isNotEmpty
+                                        ? Image.memory(
+                                            height: 138,
+                                            width: 138,
+                                            fit: BoxFit.cover,
+                                            Uint8List.fromList(
+                                              widget.professor.avatar,
+                                            ),
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/icons/no_photo.svg',
+                                            width: 69,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.5,
+                                child: Text(
+                                  textAlign: TextAlign.center,
+                                  widget.professor.name.capitalize(),
+                                  style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StarsRating(
+                                    value: widget.professor.rating,
+                                    size: const Size(32, 32),
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  Text('${widget.professor.rating}')
+                                ],
+                              ),
+                              const SizedBox(height: 32),
+                              const ProfessorFeatures(),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Отзывы',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Container(
+                                    width: 31,
+                                    height: 26,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xffEEF9EF),
+                                      borderRadius: BorderRadius.circular(7),
                                     ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            widget.professor.name.capitalize(),
-                            style: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            StarsRating(
-                              value: widget.professor.rating,
-                              size: const Size(32, 32),
-                            ),
-                            const SizedBox(width: 16.0),
-                            Text('${widget.professor.rating}')
-                          ],
-                        ),
-                        const SizedBox(height: 32),
-                        const ProfessorFeatures(),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              'Отзывы',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              width: 31,
-                              height: 26,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffEEF9EF),
-                                borderRadius: BorderRadius.circular(7),
+                                    child: const Center(
+                                      child: Text('15'),
+                                    ),
+                                  )
+                                ],
                               ),
-                              child: const Center(
-                                child: Text('15'),
+                              const SizedBox(
+                                height: 8,
                               ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
+                  snapshot.hasData
+                      ? SliverList.separated(
+                          itemCount: snapshot.data!.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 16),
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                              child: ReviewTitle(
+                                repository: widget.repository,
+                              ),
+                            );
+                          },
+                        )
+                      : SliverList(
+                          delegate: SliverChildListDelegate([
+                          const Center(
+                            child: Text('Нет данных'),
+                          )
+                        ]))
                 ],
-              ),
-            ),
-            FutureBuilder<List<Review>>(
-                future:
-                    repository?.getAllReviewsByProfessor(widget.professor.id),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return const Center(
-                      child: Text('Отзывов пока нет'),
-                    );
-                  }
-                  return SliverList.separated(
-                    itemCount: 10,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 16),
-                    itemBuilder: (context, index) {
-                      debugPrint(snapshot.toString());
-                      return const Padding(
-                        padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                        child: ReviewTitle(),
-                      );
-                    },
-                  );
-                }),
-          ],
-        ),
+              );
+            }),
       ),
     );
   }

@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:grpc/grpc.dart';
 import 'package:meta/meta.dart';
+import 'package:poly_inside/src/common/repository/client.dart';
+import 'package:poly_inside/src/common/repository/client_impl.dart';
+import 'package:shared/shared.dart';
 
 /// {@template review_page}
 /// ReviewPage widget.
 /// {@endtemplate}
 class ReviewPage extends StatefulWidget {
+  final Professor professor;
+  final ClientRepository repository;
+
   /// {@macro review_page}
   const ReviewPage({
-    super.key, // ignore: unused_element
+    super.key,
+    required this.professor,
+    required this.repository, // ignore: unused_element
   });
 
   /// The state from the closest instance of this class
@@ -84,19 +93,33 @@ class _ReviewPageState extends State<ReviewPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (builderContext) {
-              return const AlertDialog(
-                content: SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: Center(
-                    child: Text('Загружаем Ваш отзыв..'),
-                  ),
-                ),
-              );
-            },
+          // showDialog(
+          //   context: context,
+          //   builder: (builderContext) {
+          //     return const AlertDialog(
+          //       content: SizedBox(
+          //         width: 100,
+          //         height: 50,
+          //         child: Center(
+          //           child: Text('Загружаем Ваш отзыв..'),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ).then((a) {
+          debugPrint('Trying to add review///');
+          widget.repository.addReview(
+            Review(
+                objectivity: 1,
+                loyalty: 1,
+                likes: 5,
+                dislikes: 3,
+                harshness: 1,
+                professionalism: 1,
+                date: DateTime.now().toString(),
+                userId: 123,
+                comment: 'Бим бим бам бам',
+                professorId: widget.professor.id),
           );
         },
         backgroundColor: Colors.green,

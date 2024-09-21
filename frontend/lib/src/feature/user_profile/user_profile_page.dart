@@ -131,7 +131,9 @@ class _ProfilePageState extends State<ProfilePage> {
         SliverList.separated(
           itemCount: 20,
           itemBuilder: (context, index) {
-            return const ReviewTitle();
+            return ReviewTitle(
+              repository: repository!,
+            );
           },
           separatorBuilder: (context, index) => const SizedBox(
             height: 20,

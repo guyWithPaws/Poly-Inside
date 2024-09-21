@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
+import 'package:shared/shared.dart';
 
 /// {@template review_title}
 /// ReviewTitle widget.
 /// {@endtemplate}
 class ReviewTitle extends StatelessWidget {
+  final ClientRepository repository;
+
   /// {@macro review_title}
   const ReviewTitle({
-    super.key, // ignore: unused_element
+    super.key,
+    required this.repository, // ignore: unused_element
   });
 
   @override
@@ -50,7 +55,10 @@ class ReviewTitle extends StatelessWidget {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                          builder: (builderContext) => const ReviewPage())),
+                          builder: (builderContext) => ReviewPage(
+                                repository: repository,
+                                professor: Professor(),
+                              ))),
                   child: SvgPicture.asset(
                     'assets/icons/editpen.svg',
                     alignment: Alignment.topRight,
