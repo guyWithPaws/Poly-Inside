@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -98,17 +97,19 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 : Navigator.push(
                     context,
                     MaterialPageRoute<void>(
-                        builder: (builderContext) => ReviewPage(
-                              repository: widget.repository,
-                              professor: widget.professor,
-                            )));
+                      builder: (builderContext) => ReviewPage(
+                        repository: widget.repository,
+                        professor: widget.professor,
+                      ),
+                    ),
+                  );
           },
           backgroundColor: Colors.green,
           label: AnimatedSize(
             duration: const Duration(milliseconds: 150),
             child: Center(
               child: value
-                  ? const Icon(CupertinoIcons.up_arrow)
+                  ? const Icon(Icons.arrow_upward)
                   : const Text('Написать отзыв'),
             ),
           ),
@@ -270,6 +271,11 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           ],
                         ),
                       ),
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 100,
+                  ),
+                )
               ],
             );
           },
