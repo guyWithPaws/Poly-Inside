@@ -26,7 +26,8 @@ class Reactions extends StatelessWidget {
   /// {@macro reactions}
   const Reactions({
     super.key,
-    required this.type, this.review, // ignore: unused_element
+    required this.type,
+    this.review, // ignore: unused_element
   });
 
   @override

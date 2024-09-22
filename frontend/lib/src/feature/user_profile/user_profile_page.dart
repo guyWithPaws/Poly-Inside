@@ -190,40 +190,40 @@ class _ProfilePageState extends State<ProfilePage> {
 //                 )),
 //               ),
 //             ),
-            // const Text("ID: 7921375",
-            //     style: TextStyle(color: Colors.grey, fontSize: 14)),
-            // const Text("goxa",
-            //     style: TextStyle(
-            //         color: Colors.black,
-            //         fontSize: 36,
-            //         fontWeight: FontWeight.bold)),
-            // const Text("Мудрец",
-            //     style: TextStyle(color: Colors.grey, fontSize: 16)),
-            // Row(
-            //   children: [
-            //     const Text(
-            //       "Отзывы",
-            //       style: TextStyle(
-            //         fontSize: 20,
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //     const SizedBox(width: 8),
-            //     Container(
-            //       width: 30,
-            //       height: 30,
-            //       decoration: BoxDecoration(
-            //           color: const Color.fromARGB(255, 233, 252, 232),
-            //           borderRadius: BorderRadius.circular(7)),
-            //       child: const Center(
-            //           child: Text(
-            //         "2",
-            //         style: TextStyle(
-            //           fontSize: 14,
-            //           fontWeight: FontWeight.bold,
-            //         ),
-            //       )),
-            //     )
+// const Text("ID: 7921375",
+//     style: TextStyle(color: Colors.grey, fontSize: 14)),
+// const Text("goxa",
+//     style: TextStyle(
+//         color: Colors.black,
+//         fontSize: 36,
+//         fontWeight: FontWeight.bold)),
+// const Text("Мудрец",
+//     style: TextStyle(color: Colors.grey, fontSize: 16)),
+// Row(
+//   children: [
+//     const Text(
+//       "Отзывы",
+//       style: TextStyle(
+//         fontSize: 20,
+//         fontWeight: FontWeight.bold,
+//       ),
+//     ),
+//     const SizedBox(width: 8),
+//     Container(
+//       width: 30,
+//       height: 30,
+//       decoration: BoxDecoration(
+//           color: const Color.fromARGB(255, 233, 252, 232),
+//           borderRadius: BorderRadius.circular(7)),
+//       child: const Center(
+//           child: Text(
+//         "2",
+//         style: TextStyle(
+//           fontSize: 14,
+//           fontWeight: FontWeight.bold,
+//         ),
+//       )),
+//     )
 //               ],
 //             ),
 //             const SizedBox(

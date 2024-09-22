@@ -24,8 +24,9 @@ class ReviewTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 238, 249, 237),
-          borderRadius: BorderRadius.circular(12)),
+        color: const Color.fromARGB(255, 238, 249, 237),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -39,12 +40,13 @@ class ReviewTitle extends StatelessWidget {
                     CircleAvatar(
                       radius: 20,
                       child: ClipOval(
-                          child: Image.network(
-                        'https://img.gazeta.ru/files3/98/13461098/instapic-96812-pic905-895x505-66022.jpg',
-                        height: 40,
-                        width: 40,
-                        fit: BoxFit.cover,
-                      )),
+                        child: Image.network(
+                          'https://img.gazeta.ru/files3/98/13461098/instapic-96812-pic905-895x505-66022.jpg',
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 16),
                     const Text(
@@ -56,12 +58,14 @@ class ReviewTitle extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                          builder: (builderContext) => ReviewPage(
-                                repository: repository,
-                                professor: Professor(),
-                              ))),
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (builderContext) => ReviewPage(
+                        repository: repository,
+                        professor: Professor(),
+                      ),
+                    ),
+                  ),
                   child: SvgPicture.asset(
                     'assets/icons/editpen.svg',
                     alignment: Alignment.topRight,
@@ -77,7 +81,10 @@ class ReviewTitle extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             ProfessorFeatures(
-              review: review,
+              objectivity: review.objectivity,
+              harshness: review.harshness,
+              loyalty: review.loyalty,
+              professionalism: review.professionalism,
             ),
             const SizedBox(height: 16),
             Row(

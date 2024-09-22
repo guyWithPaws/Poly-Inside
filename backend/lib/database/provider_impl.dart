@@ -16,16 +16,10 @@ class DatabaseProviderImpl implements DatabaseProvider {
           .get();
 
   @override
-  Future<List<Professor>> getAllProfessors(int count) =>
-      (database.select(database.professors)
-            ..orderBy([
-              (u) => OrderingTerm(
-                    expression: database.professors.avatar.isNotNull(),
-                  ),
-              (u) => OrderingTerm(expression: database.professors.name)
-            ])
-            ..limit(count))
-          .get();
+  Stream<List<Professor>> getAllProfessors(int count) =>
+      (database.select(database.professors)..limit(count))
+          .watch()
+          .asBroadcastStream();
 
   @override
   Future<List<Review>> getAllReviewByUser(int userId) =>
@@ -49,15 +43,36 @@ class DatabaseProviderImpl implements DatabaseProvider {
         .getSingle();
     final rating = professor.rating;
 
-    final newRating = (rating +
-            ((review.harshness +
-                    review.loyalty +
+    final newRating = (rating * (reviewsCount == 0 ? 1 : reviewsCount) +
+            (review.harshness +
                     review.objectivity +
-                    review.professionalism) /
-                4)) /
+                    review.professionalism +
+                    review.loyalty) /
+                4) /
         (reviewsCount + 1);
+    final newHarshness =
+        (professor.harshness * (reviewsCount == 0 ? 1 : reviewsCount) +
+                review.harshness) /
+            (reviewsCount + 1);
+    final newObjectivity =
+        (professor.objectivity * (reviewsCount == 0 ? 1 : reviewsCount) +
+                review.objectivity) /
+            (reviewsCount + 1);
+    final newLoyalty =
+        (professor.loyalty * (reviewsCount == 0 ? 1 : reviewsCount) +
+                review.loyalty) /
+            (reviewsCount + 1);
+    final newProfessionalism =
+        (professor.professionalism * (reviewsCount == 0 ? 1 : reviewsCount) +
+                review.professionalism) /
+            (reviewsCount + 1);
+
     await database.update(database.professors).replace(
           ProfessorsCompanion(
+            professionalism: Value<double>(newProfessionalism),
+            loyalty: Value<double>(newLoyalty),
+            objectivity: Value<double>(newObjectivity),
+            harshness: Value<double>(newHarshness),
             id: Value<String>(professor.id),
             name: Value<String>(professor.name),
             avatar: Value<Uint8List>(
@@ -76,13 +91,13 @@ class DatabaseProviderImpl implements DatabaseProvider {
             likes: Value(review.likes),
             dislikes: Value(review.dislikes),
             professorId: Value(review.professorId),
-            professionalism: Value(review.professionalism),
             userId: Value(review.userId),
             comment: Value(review.comment),
             date: Value(review.date),
             objectivity: Value(review.objectivity),
             loyalty: Value(review.loyalty),
             harshness: Value(review.harshness),
+            professionalism: Value(review.professionalism),
           ),
         );
   }
@@ -160,6 +175,10 @@ class DatabaseProviderImpl implements DatabaseProvider {
   Future<void> addProfessor(Professor professor) async {
     await database.into(database.professors).insert(
           ProfessorsCompanion(
+            objectivity: Value(professor.objectivity),
+            loyalty: Value(professor.loyalty),
+            harshness: Value(professor.harshness),
+            professionalism: Value(professor.professionalism),
             reviewsCount: Value<int>(professor.reviewsCount),
             rating: Value<double>(professor.rating),
             id: Value<String>(professor.id),
