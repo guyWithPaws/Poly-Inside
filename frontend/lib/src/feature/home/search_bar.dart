@@ -65,9 +65,8 @@ class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
               textAlign: TextAlign.start,
               maxLines: 1,
               cursorColor: Colors.black,
-              decoration: InputDecoration(
-                suffixIcon: SvgPicture.asset('assets/icons/cross.svg'),
-                hintStyle: const TextStyle(
+              decoration: const InputDecoration(
+                hintStyle: TextStyle(
                   color: Color(0xff8A8A8A),
                 ),
                 hintText: 'Найти преподавателя',
@@ -76,6 +75,7 @@ class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
               controller: widget.controller,
             ),
           ),
+
         ],
       ),
     );
