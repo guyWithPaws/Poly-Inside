@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
@@ -5,8 +6,11 @@ import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:shared/shared.dart';
 
 class ProfilePage extends StatefulWidget {
+  ClientRepository? repository;
+
   /// {@macro profile_page}
-  const ProfilePage({
+  ProfilePage({
+    this.repository,
     super.key, // ignore: unused_element
   });
 
@@ -15,11 +19,28 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  ClientRepository? repository;
+  ScrollController? _scrollController;
+  ValueNotifier<bool>? _valueNotifier;
 
+  /* #region Lifecycle */
   @override
   void initState() {
+    _scrollController = ScrollController();
+    _scrollController?.addListener(scrollListener);
+
+    _valueNotifier = ValueNotifier(false);
+
     super.initState();
+    // Initial state initialization
+  }
+
+  void scrollListener() {
+    if (_scrollController?.position.pixels !=
+        _scrollController?.position.minScrollExtent) {
+      _valueNotifier?.value = true;
+    } else {
+      _valueNotifier?.value = false;
+    }
   }
 
   @override
@@ -29,377 +50,181 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void dispose() {
+    _scrollController?.dispose();
+    _valueNotifier?.dispose();
+    // Permanent removal of a tree stent
     super.dispose();
   }
+  /* #endregion */
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(slivers: [
-        SliverAppBar(
-          automaticallyImplyLeading: false,
-          surfaceTintColor: Colors.white,
-          collapsedHeight: 60,
-          expandedHeight: 310,
-          pinned: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  width: 30,
-                  height: 30,
-                  margin: const EdgeInsets.only(left: 5),
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 185, 185, 185),
-                    shape: BoxShape.circle,
-                  ),
-                  child: SvgPicture.asset('assets/icons/cross.svg'),
-                ),
-              ),
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  width: 26,
-                  height: 26,
-                  margin: const EdgeInsets.only(right: 5),
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: SvgPicture.asset('assets/icons/profileeditbutton.svg'),
-                ),
-              ),
-            ],
-          ),
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            titlePadding: EdgeInsets.only(top: 5, bottom: 5),
-            expandedTitleScale: 1,
-            title: FittedBox(
-              fit: BoxFit.cover,
-              child: Column(children: [
-                CircleAvatar(
-                  radius: 158 / 2,
-                  child: ClipOval(
-                    child: Image.asset(
-                      'assets/beer.jpg',
-                      height: 158,
-                      width: 158,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 13,
-                ),
-                const Text("ID: 7921375",
-                    style: TextStyle(color: Colors.grey, fontSize: 14)),
-                const Text("goxa",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold)),
-                SizedBox(
-                  height: 10,
-                ),
-                const Text("Мудрец",
-                    style: TextStyle(color: Colors.grey, fontSize: 16)),
-              ]),
+      floatingActionButton: ValueListenableBuilder(
+        valueListenable: _valueNotifier!,
+        builder: (context, value, _) => Visibility(
+          visible: _valueNotifier!.value,
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              _scrollController?.animateTo(0,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut);
+            },
+            backgroundColor: Colors.green,
+            label: const AnimatedSize(
+              duration: Duration(milliseconds: 150),
+              child: Center(child: Icon(CupertinoIcons.up_arrow)),
             ),
           ),
         ),
-        SliverToBoxAdapter(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 6,
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 21,
-                  ),
-                  const Text(
-                    "Отзывы",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 233, 252, 232),
-                        borderRadius: BorderRadius.circular(7)),
-                    child: const Center(
-                        child: Text(
-                      "2",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+      ),
+      backgroundColor: Colors.white,
+      body: FutureBuilder<List<Review>>(
+          future: widget.repository!.getAllReviewByUser(123),
+          builder: (context, snapshot) {
+            return CustomScrollView(slivers: [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                surfaceTintColor: Colors.white,
+                expandedHeight: 60,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        margin: const EdgeInsets.only(left: 5),
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 185, 185, 185),
+                          shape: BoxShape.circle,
+                        ),
+                        child: SvgPicture.asset('assets/icons/cross.svg'),
                       ),
-                    )),
-                  )
-                ],
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        width: 26,
+                        height: 26,
+                        margin: const EdgeInsets.only(right: 5),
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: SvgPicture.asset(
+                            'assets/icons/profileeditbutton.svg'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(
-                height: 6,
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.cover,
+                      child: Column(children: [
+                        CircleAvatar(
+                          radius: 158 / 2,
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/beer.jpg',
+                              height: 158,
+                              width: 158,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 13,
+                        ),
+                        const Text("ID: 7921375",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600)),
+                        const Text("goxa",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 36,
+                                fontWeight: FontWeight.w600)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text("Мудрец",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500)),
+                      ]),
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 21,
+                        ),
+                        const Text(
+                          "Отзывы",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 20,
+                          height: 26,
+                          decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 233, 252, 232),
+                              borderRadius: BorderRadius.circular(7)),
+                          child: const Center(
+                              child: Text(
+                            "2",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-        SliverList.separated(
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return ReviewTitle(
-              review: Review(),
-              repository: repository!,
-            );
-          },
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 20,
-          ),
-        )
-      ]),
+              snapshot.hasData
+                  ? SliverList.separated(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return ReviewTitle(
+                          review: snapshot.data![index],
+                          repository: widget.repository!,
+                          professor: Professor(),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 20,
+                      ),
+                    )
+                  : SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          const Center(
+                            child: Text('Нет данных'),
+                          )
+                        ],
+                      ),
+                    ),
+            ]);
+          }),
     );
   }
 }
-
-// Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           children: [
-//             AnimatedPositioned(
-//               left: 10,
-//               top: 50,
-//               duration: Duration(seconds: 2),
-//               child: CircleAvatar(
-//                 radius: 79,
-//                 child: ClipOval(
-//                     child: Image.asset(
-//                   'assets/beer.jpg',
-//                   height: 158,
-//                   width: 158,
-//                   fit: BoxFit.cover,
-//                 )),
-//               ),
-//             ),
-// const Text("ID: 7921375",
-//     style: TextStyle(color: Colors.grey, fontSize: 14)),
-// const Text("goxa",
-//     style: TextStyle(
-//         color: Colors.black,
-//         fontSize: 36,
-//         fontWeight: FontWeight.bold)),
-// const Text("Мудрец",
-//     style: TextStyle(color: Colors.grey, fontSize: 16)),
-// Row(
-//   children: [
-//     const Text(
-//       "Отзывы",
-//       style: TextStyle(
-//         fontSize: 20,
-//         fontWeight: FontWeight.bold,
-//       ),
-//     ),
-//     const SizedBox(width: 8),
-//     Container(
-//       width: 30,
-//       height: 30,
-//       decoration: BoxDecoration(
-//           color: const Color.fromARGB(255, 233, 252, 232),
-//           borderRadius: BorderRadius.circular(7)),
-//       child: const Center(
-//           child: Text(
-//         "2",
-//         style: TextStyle(
-//           fontSize: 14,
-//           fontWeight: FontWeight.bold,
-//         ),
-//       )),
-//     )
-//               ],
-//             ),
-//             const SizedBox(
-//               height: 16,
-//             ),
-//             Expanded(
-//               child: ListView.separated(
-//                 separatorBuilder: (context, index) =>
-//                     const SizedBox(height: 20),
-//                 itemCount: 10,
-//                 itemBuilder: (context, index) {
-//                   return Container(
-//                     decoration: BoxDecoration(
-//                         color: const Color.fromARGB(255, 238, 249, 237),
-//                         borderRadius: BorderRadius.circular(12)),
-//                     child: Padding(
-//                       padding: const EdgeInsets.all(16.0),
-//                       child: Column(
-//                         children: [
-//                           Row(
-//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                             children: [
-//                               Row(
-//                                 crossAxisAlignment: CrossAxisAlignment.center,
-//                                 children: [
-//                                   CircleAvatar(
-//                                     radius: 20,
-//                                     child: ClipOval(
-//                                         child: Image.network(
-//                                       'https://img.gazeta.ru/files3/98/13461098/instapic-96812-pic905-895x505-66022.jpg',
-//                                       height: 40,
-//                                       width: 40,
-//                                       fit: BoxFit.cover,
-//                                     )),
-//                                   ),
-//                                   const SizedBox(width: 16),
-//                                   const Text(
-//                                     "Руль Николай Игоревич",
-//                                     style: TextStyle(
-//                                         fontSize: 16,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                 ],
-//                               ),
-//                               SvgPicture.asset(
-//                                 'assets/icons/editpen.svg',
-//                                 alignment: Alignment.topRight,
-//                               ),
-//                             ],
-//                           ),
-//                           const SizedBox(height: 8),
-//                           const Text(
-//                             'Лучший препод эвер!!! Спасибо что имел на протяжении сема на каждой практике и лабе. Тупа лучший!!!',
-//                             style: TextStyle(fontSize: 14),
-//                           ),
-//                           const SizedBox(height: 8),
-//                           Container(
-//                             child: const Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                               children: [
-//                                 Column(
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   children: [
-//                                     Text('Объективность'),
-//                                     Text('Лояльнось'),
-//                                     Text('Профессионализм'),
-//                                     Text('Резкость'),
-//                                   ],
-//                                 ),
-//                                 Row(
-//                                   children: [
-//                                     Column(
-//                                       mainAxisAlignment:
-//                                           MainAxisAlignment.spaceBetween,
-//                                       children: [
-//                                         SizedBox(
-//                                             width: 150,
-//                                             child: LinearProgressIndicator()),
-//                                         SizedBox(
-//                                           height: 20,
-//                                         ),
-//                                         SizedBox(
-//                                             width: 150,
-//                                             child: LinearProgressIndicator()),
-//                                         SizedBox(
-//                                             width: 150,
-//                                             child: LinearProgressIndicator()),
-//                                         SizedBox(
-//                                             width: 150,
-//                                             child: LinearProgressIndicator()),
-//                                       ],
-//                                     ),
-//                                     SizedBox(height: 30),
-//                                     Column(
-//                                       children: [
-//                                         const Text('5.0',
-//                                             style: TextStyle(
-//                                                 fontSize: 14,
-//                                                 fontWeight: FontWeight.bold)),
-//                                         const Text('5.0',
-//                                             style: TextStyle(
-//                                                 fontSize: 14,
-//                                                 fontWeight: FontWeight.bold)),
-//                                         const Text('5.0',
-//                                             style: TextStyle(
-//                                                 fontSize: 14,
-//                                                 fontWeight: FontWeight.bold)),
-//                                         const Text('5.0',
-//                                             style: TextStyle(
-//                                                 fontSize: 14,
-//                                                 fontWeight: FontWeight.bold)),
-//                                       ],
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                           const SizedBox(height: 16),
-//                           Row(
-//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                             children: [
-//                               const Text("Июнь 2024",
-//                                   style: TextStyle(
-//                                       fontSize: 10, color: Colors.grey)),
-//                               Row(
-//                                 crossAxisAlignment: CrossAxisAlignment.center,
-//                                 children: [
-//                                   Row(
-//                                     crossAxisAlignment:
-//                                         CrossAxisAlignment.center,
-//                                     children: [
-//                                       SvgPicture.asset(
-//                                         'assets/icons/like.svg',
-//                                         alignment: Alignment.bottomRight,
-//                                       ),
-//                                       const SizedBox(
-//                                         width: 8,
-//                                       ),
-//                                       const Text(
-//                                         "5",
-//                                         style: TextStyle(
-//                                             fontSize: 16, color: Colors.grey),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   const SizedBox(width: 16),
-//                                   Row(
-//                                     crossAxisAlignment:
-//                                         CrossAxisAlignment.center,
-//                                     children: [
-//                                       SvgPicture.asset(
-//                                         'assets/icons/dislike.svg',
-//                                         alignment: Alignment.bottomRight,
-//                                       ),
-//                                       const SizedBox(
-//                                         width: 8,
-//                                       ),
-//                                       const Text(
-//                                         "5",
-//                                         style: TextStyle(
-//                                             fontSize: 16, color: Colors.grey),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ],
-//                               ),
-//                             ],
-//                           )
-//                         ],
-//                       ),
-//                     ),
-//                   );
-//                 },
-//               ),
-//             )
-//           ],
-//         ),
-//       ),

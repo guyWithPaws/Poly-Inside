@@ -253,6 +253,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             child: ReviewTitle(
                               review: snapshot.data![index],
                               repository: widget.repository,
+                              professor: widget.professor,
                             ),
                           );
                         },

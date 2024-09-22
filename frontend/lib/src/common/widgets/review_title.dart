@@ -12,12 +12,14 @@ import 'package:intl/intl.dart';
 class ReviewTitle extends StatelessWidget {
   final ClientRepository repository;
   final Review review;
+  final Professor professor;
 
   /// {@macro review_title}
   const ReviewTitle({
     super.key,
     required this.repository,
-    required this.review, // ignore: unused_element
+    required this.review,
+    required this.professor, // ignore: unused_element
   });
 
   @override
@@ -62,7 +64,8 @@ class ReviewTitle extends StatelessWidget {
                     MaterialPageRoute<void>(
                       builder: (builderContext) => ReviewPage(
                         repository: repository,
-                        professor: Professor(),
+                        professor: professor,
+                        review: review,
                       ),
                     ),
                   ),
