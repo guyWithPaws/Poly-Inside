@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
@@ -16,11 +17,30 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   ClientRepository? repository;
+  ScrollController? _scrollController;
+  ValueNotifier<bool>? _valueNotifier;
 
+  /* #region Lifecycle */
   @override
   void initState() {
+    _scrollController = ScrollController();
+    _scrollController?.addListener(scrollListener);
+
+    _valueNotifier = ValueNotifier(false);
+
     super.initState();
+    // Initial state initialization
   }
+  void scrollListener() {
+    if (_scrollController?.position.pixels !=
+        _scrollController?.position.minScrollExtent) {
+      _valueNotifier?.value = true;
+    } else {
+      _valueNotifier?.value = false;
+    }
+  }
+
+
 
   @override
   void didChangeDependencies() {
@@ -29,20 +49,41 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void dispose() {
+    _scrollController?.dispose();
+    _valueNotifier?.dispose();
+    // Permanent removal of a tree stent
     super.dispose();
   }
+  /* #endregion */
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: ValueListenableBuilder(
+        valueListenable: _valueNotifier!,
+        builder: (context, value, _) => Visibility(
+          visible: _valueNotifier!.value,
+          child: FloatingActionButton.extended(
+            onPressed: () {_scrollController?.animateTo(0,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut);
+            },
+            backgroundColor: Colors.green,
+            label: AnimatedSize(
+              duration: const Duration(milliseconds: 150),
+              child: Center(
+                child: const Icon(CupertinoIcons.up_arrow)
+              ),
+            ),
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: CustomScrollView(slivers: [
         SliverAppBar(
           automaticallyImplyLeading: false,
           surfaceTintColor: Colors.white,
-          collapsedHeight: 60,
           expandedHeight: 310,
-          pinned: true,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -97,17 +138,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 13,
                 ),
                 const Text("ID: 7921375",
-                    style: TextStyle(color: Colors.grey, fontSize: 14)),
+                    style: TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600)),
                 const Text("goxa",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 36,
-                        fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.w600)),
                 SizedBox(
                   height: 10,
                 ),
                 const Text("Мудрец",
-                    style: TextStyle(color: Colors.grey, fontSize: 16)),
+                    style: TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.w500)),
               ]),
             ),
           ),
@@ -127,13 +168,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     "Отзывы",
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    width: 30,
-                    height: 30,
+                    width: 20,
+                    height: 26,
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 233, 252, 232),
                         borderRadius: BorderRadius.circular(7)),
@@ -142,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       "2",
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     )),
                   )
