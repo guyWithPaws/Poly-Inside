@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_inside/src/feature/home/home_page.dart';
 
 /// {@template app}
@@ -53,10 +54,13 @@ class _AppState extends State<App> {
           title: 'Poly Inside',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              colorScheme: ColorScheme.light(
-                  surface: Colors.white,
-                  onSurface: Colors.black,
-                  outline: Colors.grey.shade700)),
+            textTheme: GoogleFonts.montserratTextTheme(),
+            colorScheme: ColorScheme.light(
+              surface: Colors.white,
+              onSurface: Colors.black,
+              outline: Colors.grey.shade700,
+            ),
+          ),
           home: const HomePage(),
         ),
       );

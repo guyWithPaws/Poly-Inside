@@ -178,6 +178,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   }
+                  debugPrint(snapshot.data!.professors.toString());
                   return ListView.separated(
                     controller: _scrollController,
                     itemCount: snapshot.data!.professors.length,
