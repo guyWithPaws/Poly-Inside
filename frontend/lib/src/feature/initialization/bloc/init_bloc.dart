@@ -20,7 +20,7 @@ class InitializationBloc
       emit(const InitializationState.processing());
       try {
         final channel = ClientChannel(
-          'localhost',
+          '87.228.18.201',
           port: 9090,
           options: const ChannelOptions(
             credentials: ChannelCredentials.insecure(),

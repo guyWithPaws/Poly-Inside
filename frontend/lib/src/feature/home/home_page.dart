@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           builderContext,
                           MaterialPageRoute<void>(
-                            builder: (builderContext) => ProfilePage(),
+                            builder: (builderContext) => const ProfilePage(),
                           ),
                         );
                       },

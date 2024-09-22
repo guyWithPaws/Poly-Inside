@@ -115,136 +115,98 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
         ),
       ),
       body: SafeArea(
-        child: StreamBuilder<ReviewStream>(
-          stream:
-              widget.repository.getAllReviewsByProfessor(widget.professor.id),
-          builder: (context, snapshot) {
-            return CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                SliverAppBar(
-                  pinned: false,
-                  leading: GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      margin: const EdgeInsets.all(12),
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 185, 185, 185),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset('assets/icons/cross.svg'),
-                    ),
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverAppBar(
+              pinned: false,
+              leading: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  margin: const EdgeInsets.all(12),
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 185, 185, 185),
+                    shape: BoxShape.circle,
                   ),
+                  child: SvgPicture.asset('assets/icons/cross.svg'),
                 ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Column(
-                          children: [
-                            Hero(
-                              tag: widget.professor.id,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.grey[200],
-                                radius: 69,
-                                child: RepaintBoundary(
-                                  child: ClipOval(
-                                    child: Uint8List.fromList(
-                                      widget.professor.avatar,
-                                    ).isNotEmpty
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    child: Column(
+                      children: [
+                        Hero(
+                          tag: widget.professor.id,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey[200],
+                            radius: 69,
+                            child: RepaintBoundary(
+                              child: ClipOval(
+                                child:
+                                    Uint8List.fromList(widget.professor.avatar)
+                                            .isNotEmpty
                                         ? Image.memory(
                                             height: 138,
                                             width: 138,
                                             fit: BoxFit.cover,
                                             Uint8List.fromList(
-                                              widget.professor.avatar,
-                                            ),
+                                                widget.professor.avatar),
                                           )
                                         : SvgPicture.asset(
                                             'assets/icons/no_photo.svg',
                                             width: 69,
                                           ),
-                                  ),
-                                ),
                               ),
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 1.5,
-                              child: Text(
-                                textAlign: TextAlign.center,
-                                widget.professor.name.capitalize(),
-                                style: const TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                StarsRating(
-                                  value: widget.professor.rating,
-                                  size: const Size(32, 32),
-                                  spaceBetween: 16,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 32),
-                            ProfessorFeatures(
-                              objectivity: widget.professor.objectivity,
-                              harshness: widget.professor.harshness,
-                              loyalty: widget.professor.loyalty,
-                              professionalism: widget.professor.professionalism,
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            (snapshot.hasData &&
-                                    snapshot.data!.reviews.isNotEmpty)
-                                ? Row(
-                                    children: [
-                                      const Text(
-                                        'Отзывы',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      Container(
-                                        width: 31,
-                                        height: 26,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xffEEF9EF),
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            snapshot.hasData
-                                                ? snapshot.data!.reviews.length
-                                                    .toString()
-                                                : '0',
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                : const SizedBox(),
-                            const SizedBox(
-                              height: 8,
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            widget.professor.name.capitalize(),
+                            style: const TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            StarsRating(
+                              value: widget.professor.rating,
+                              size: const Size(32, 32),
+                              spaceBetween: 16,
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 32),
+                        ProfessorFeatures(
+                          objectivity: widget.professor.objectivity,
+                          harshness: widget.professor.harshness,
+                          loyalty: widget.professor.loyalty,
+                          professionalism: widget.professor.professionalism,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                snapshot.hasData
+                ],
+              ),
+            ),
+            StreamBuilder<ReviewStream>(
+              stream: widget.repository
+                  .getAllReviewsByProfessor(widget.professor.id),
+              builder: (context, snapshot) {
+                return snapshot.hasData
                     ? SliverList.separated(
                         itemCount: snapshot.data!.reviews.length,
                         separatorBuilder: (context, index) =>
@@ -268,15 +230,15 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             )
                           ],
                         ),
-                      ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 100,
-                  ),
-                )
-              ],
-            );
-          },
+                      );
+              },
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 100,
+              ),
+            )
+          ],
         ),
       ),
     );
