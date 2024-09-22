@@ -832,6 +832,10 @@ class Professor extends $pb.GeneratedMessage {
     $core.List<$core.int>? avatar,
     $core.double? rating,
     $core.int? reviewsCount,
+    $core.double? objectivity,
+    $core.double? loyalty,
+    $core.double? professionalism,
+    $core.double? harshness,
   }) {
     final $result = create();
     if (id != null) {
@@ -849,6 +853,18 @@ class Professor extends $pb.GeneratedMessage {
     if (reviewsCount != null) {
       $result.reviewsCount = reviewsCount;
     }
+    if (objectivity != null) {
+      $result.objectivity = objectivity;
+    }
+    if (loyalty != null) {
+      $result.loyalty = loyalty;
+    }
+    if (professionalism != null) {
+      $result.professionalism = professionalism;
+    }
+    if (harshness != null) {
+      $result.harshness = harshness;
+    }
     return $result;
   }
   Professor._() : super();
@@ -861,6 +877,10 @@ class Professor extends $pb.GeneratedMessage {
     ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'avatar', $pb.PbFieldType.OY)
     ..a<$core.double>(4, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.OF)
     ..a<$core.int>(5, _omitFieldNames ? '' : 'reviewsCount', $pb.PbFieldType.O3)
+    ..a<$core.double>(6, _omitFieldNames ? '' : 'objectivity', $pb.PbFieldType.OF)
+    ..a<$core.double>(7, _omitFieldNames ? '' : 'loyalty', $pb.PbFieldType.OF)
+    ..a<$core.double>(8, _omitFieldNames ? '' : 'professionalism', $pb.PbFieldType.OF)
+    ..a<$core.double>(9, _omitFieldNames ? '' : 'harshness', $pb.PbFieldType.OF)
     ..hasRequiredFields = false
   ;
 
@@ -929,6 +949,42 @@ class Professor extends $pb.GeneratedMessage {
   $core.bool hasReviewsCount() => $_has(4);
   @$pb.TagNumber(5)
   void clearReviewsCount() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.double get objectivity => $_getN(5);
+  @$pb.TagNumber(6)
+  set objectivity($core.double v) { $_setFloat(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasObjectivity() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearObjectivity() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.double get loyalty => $_getN(6);
+  @$pb.TagNumber(7)
+  set loyalty($core.double v) { $_setFloat(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasLoyalty() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearLoyalty() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.double get professionalism => $_getN(7);
+  @$pb.TagNumber(8)
+  set professionalism($core.double v) { $_setFloat(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasProfessionalism() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearProfessionalism() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.double get harshness => $_getN(8);
+  @$pb.TagNumber(9)
+  set harshness($core.double v) { $_setFloat(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasHarshness() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearHarshness() => clearField(9);
 }
 
 class Review extends $pb.GeneratedMessage {

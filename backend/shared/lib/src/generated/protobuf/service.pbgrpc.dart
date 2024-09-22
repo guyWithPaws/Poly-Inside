@@ -84,8 +84,8 @@ class SearchServiceClient extends $grpc.Client {
     return $createUnaryCall(_$getProfile, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetListProfessorResponse> getListProfessor($0.ListProfessorRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getListProfessor, request, options: options);
+  $grpc.ResponseStream<$0.GetListProfessorResponse> getListProfessor($0.ListProfessorRequest request, {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$getListProfessor, $async.Stream.fromIterable([request]), options: options);
   }
 
   $grpc.ResponseFuture<$0.SearchResponse> searchProfessorByName($0.SearchRequest request, {$grpc.CallOptions? options}) {
@@ -147,7 +147,7 @@ abstract class SearchServiceBase extends $grpc.Service {
         'GetListProfessor',
         getListProfessor_Pre,
         false,
-        false,
+        true,
         ($core.List<$core.int> value) => $0.ListProfessorRequest.fromBuffer(value),
         ($0.GetListProfessorResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.SearchRequest, $0.SearchResponse>(
@@ -213,8 +213,8 @@ abstract class SearchServiceBase extends $grpc.Service {
     return getProfile(call, await request);
   }
 
-  $async.Future<$0.GetListProfessorResponse> getListProfessor_Pre($grpc.ServiceCall call, $async.Future<$0.ListProfessorRequest> request) async {
-    return getListProfessor(call, await request);
+  $async.Stream<$0.GetListProfessorResponse> getListProfessor_Pre($grpc.ServiceCall call, $async.Future<$0.ListProfessorRequest> request) async* {
+    yield* getListProfessor(call, await request);
   }
 
   $async.Future<$0.SearchResponse> searchProfessorByName_Pre($grpc.ServiceCall call, $async.Future<$0.SearchRequest> request) async {
@@ -248,7 +248,7 @@ abstract class SearchServiceBase extends $grpc.Service {
   $async.Future<$0.AddProfileResponse> addProfile($grpc.ServiceCall call, $0.User request);
   $async.Future<$0.UpdateProfileResponse> updateProfile($grpc.ServiceCall call, $0.User request);
   $async.Future<$0.User> getProfile($grpc.ServiceCall call, $0.UserInfoByUserIdRequest request);
-  $async.Future<$0.GetListProfessorResponse> getListProfessor($grpc.ServiceCall call, $0.ListProfessorRequest request);
+  $async.Stream<$0.GetListProfessorResponse> getListProfessor($grpc.ServiceCall call, $0.ListProfessorRequest request);
   $async.Future<$0.SearchResponse> searchProfessorByName($grpc.ServiceCall call, $0.SearchRequest request);
   $async.Future<$0.GetListProfessorResponse> getAllProfessorsOnce($grpc.ServiceCall call, $0.GetAllProfessorsOnceRequest request);
   $async.Future<$0.AddReviewResponse> addReview($grpc.ServiceCall call, $0.Review request);

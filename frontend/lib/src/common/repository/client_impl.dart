@@ -12,7 +12,7 @@ class ClientRepositoryImpl implements ClientRepository {
   Future<void> addUser(User user) => client.addProfile(user);
 
   @override
-  Future<GetListProfessorResponse> getAllProfessors(int count) =>
+  Stream<GetListProfessorResponse> getAllProfessors(int count) =>
       client.getListProfessor(ListProfessorRequest(count: count));
 
   @override

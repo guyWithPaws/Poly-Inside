@@ -6,7 +6,6 @@ import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
-import 'package:poly_inside/src/feature/home/home_page.dart';
 import 'package:shared/shared.dart';
 
 /// {@template review_page}
@@ -111,7 +110,7 @@ class _ReviewPageState extends State<ReviewPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
+        onPressed: () async {
           // showDialog(
           //   context: context,
           //   builder: (builderContext) {
@@ -126,7 +125,7 @@ class _ReviewPageState extends State<ReviewPage> {
           //     );
           //   },
           // ).then((a) {
-          widget.repository.addReview(
+          await widget.repository.addReview(
             Review(
                 objectivity: _valueObjectivityNotifier!.value,
                 loyalty: _valueLoayltyNotifier!.value,
@@ -139,6 +138,14 @@ class _ReviewPageState extends State<ReviewPage> {
                 comment: _valueTextFormNotifier!.value,
                 professorId: widget.professor.id),
           );
+          if (context.mounted) {
+            Navigator.of(context).popUntil(
+              ModalRoute.withName('/'),
+            );
+          }
+
+          // final homePage = HomePage.of(context);
+          // homePage?.setState(() {});
         },
         backgroundColor: Colors.green,
         label: const Center(child: Text('Опубликовать')),

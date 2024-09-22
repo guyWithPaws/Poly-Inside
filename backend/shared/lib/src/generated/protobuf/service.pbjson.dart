@@ -221,6 +221,10 @@ const Professor$json = {
     {'1': 'avatar', '3': 3, '4': 1, '5': 12, '10': 'avatar'},
     {'1': 'rating', '3': 4, '4': 1, '5': 2, '10': 'rating'},
     {'1': 'reviews_count', '3': 5, '4': 1, '5': 5, '10': 'reviewsCount'},
+    {'1': 'objectivity', '3': 6, '4': 1, '5': 2, '10': 'objectivity'},
+    {'1': 'loyalty', '3': 7, '4': 1, '5': 2, '10': 'loyalty'},
+    {'1': 'professionalism', '3': 8, '4': 1, '5': 2, '10': 'professionalism'},
+    {'1': 'harshness', '3': 9, '4': 1, '5': 2, '10': 'harshness'},
   ],
 };
 
@@ -228,7 +232,9 @@ const Professor$json = {
 final $typed_data.Uint8List professorDescriptor = $convert.base64Decode(
     'CglQcm9mZXNzb3ISDgoCaWQYASABKAlSAmlkEhIKBG5hbWUYAiABKAlSBG5hbWUSFgoGYXZhdG'
     'FyGAMgASgMUgZhdmF0YXISFgoGcmF0aW5nGAQgASgCUgZyYXRpbmcSIwoNcmV2aWV3c19jb3Vu'
-    'dBgFIAEoBVIMcmV2aWV3c0NvdW50');
+    'dBgFIAEoBVIMcmV2aWV3c0NvdW50EiAKC29iamVjdGl2aXR5GAYgASgCUgtvYmplY3Rpdml0eR'
+    'IYCgdsb3lhbHR5GAcgASgCUgdsb3lhbHR5EigKD3Byb2Zlc3Npb25hbGlzbRgIIAEoAlIPcHJv'
+    'ZmVzc2lvbmFsaXNtEhwKCWhhcnNobmVzcxgJIAEoAlIJaGFyc2huZXNz');
 
 @$core.Deprecated('Use reviewDescriptor instead')
 const Review$json = {

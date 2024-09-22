@@ -108,6 +108,10 @@ class Parser {
 
             await provider.addProfessor(
               Professor(
+                professionalism: 0,
+                loyalty: 0,
+                objectivity: 0,
+                harshness: 0,
                 reviewsCount: 0,
                 rating: 0,
                 id: professorId,

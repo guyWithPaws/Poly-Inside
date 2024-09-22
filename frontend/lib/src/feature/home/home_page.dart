@@ -11,7 +11,6 @@ import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/feature/home/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
-import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
 import 'package:shared/shared.dart';
 
@@ -19,6 +18,9 @@ import 'package:shared/shared.dart';
 /// HomePage widget.
 /// {@endtemplate}
 class HomePage extends StatefulWidget {
+  static _HomePageState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_HomePageState>();
+
   /// {@macro home_page}
   const HomePage({
     super.key, // ignore: unused_element
@@ -36,8 +38,6 @@ class _HomePageState extends State<HomePage> {
 
   bool? showFloatingButton;
   String? searchProfessorPattern;
-  int? listViewCounter;
-  static const int amountOfContentLoaded = 40;
 
   @override
   void initState() {
@@ -47,12 +47,7 @@ class _HomePageState extends State<HomePage> {
     _scrollController = ScrollController();
     _scrollController?.addListener(_scrollListener);
 
-    searchProfessorPattern = '';
     _valueNotifier = ValueNotifier(false);
-    setState(() {
-      listViewCounter = amountOfContentLoaded;
-    });
-
     super.initState();
   }
 
@@ -63,12 +58,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _scrollListener() {
-    if (_scrollController?.position.pixels ==
-        _scrollController?.position.maxScrollExtent) {
-      setState(() {
-        listViewCounter = (listViewCounter! + amountOfContentLoaded);
-      });
-    }
     if (_scrollController?.position.pixels !=
         _scrollController?.position.minScrollExtent) {
       _valueNotifier?.value = true;
@@ -80,18 +69,20 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     repository = ClientRepositoryImpl(
-      client: SearchServiceClient(ClientChannel(
-        '87.228.18.201',
-        port: 9090,
-        options:
-            const ChannelOptions(credentials: ChannelCredentials.insecure()),
-      )
-          // GrpcWebClientChannel.xhr(
-          //   Uri.parse(
-          //     'http://87.228.18.201:8080',
-          //   ),
-          // ),
+      client: SearchServiceClient(
+        ClientChannel(
+          'localhost',
+          port: 9090,
+          options: const ChannelOptions(
+            credentials: ChannelCredentials.insecure(),
           ),
+        ),
+        // GrpcWebClientChannel.xhr(
+        //   Uri.parse(
+        //     'http://87.228.18.201:8080',
+        //   ),
+        // ),
+      ),
     );
     super.didChangeDependencies();
   }
@@ -124,7 +115,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: SafeArea(
+      body: 
+      SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -135,10 +127,11 @@ class _HomePageState extends State<HomePage> {
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            builderContext,
-                            MaterialPageRoute<void>(
-                                builder: (builderContext) =>
-                                    const ProfilePage()));
+                          builderContext,
+                          MaterialPageRoute<void>(
+                            builder: (builderContext) => const ProfilePage(),
+                          ),
+                        );
                       },
                       child: CircleAvatar(
                         radius: 31,
@@ -174,283 +167,119 @@ class _HomePageState extends State<HomePage> {
                 height: 16,
               ),
               Expanded(
-                child: searchProfessorPattern!.isEmpty
-                    ? FutureBuilder<GetListProfessorResponse>(
-                        future: repository!.getAllProfessors(listViewCounter!),
-                        builder: (context, snapshot) {
-                          var professorList = <Professor>[];
-                          if (!snapshot.hasData) {
-                            return const Center(
-                              child: Text(
-                                'Загрузка данных...',
-                              ),
-                            );
-                          }
-                          if (snapshot.hasData) {
-                            professorList = (searchProfessorPattern != null)
-                                ? snapshot.data!.professors
-                                    .where((professor) => professor.name
-                                        .contains(
-                                            searchProfessorPattern.toString()))
-                                    .toList()
-                                : snapshot.data!.professors.toList();
-                          }
-
-                          if (snapshot.hasData && professorList.isEmpty) {
-                            return const Center(
-                              child: Text(
-                                'Ничего не найдено...',
-                              ),
-                            );
-                          }
-
-                          return ListView.separated(
-                            controller: _scrollController,
-                            itemCount: professorList.length,
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                              height: 25,
-                            ),
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (builderContext) =>
-                                          ProfessorProfilePage(
-                                        repository: repository!,
-                                        professor: professorList[index],
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  width: 360,
-                                  height: 75,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: const Color(0xFFEEF9EF),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Hero(
-                                          tag: professorList[index].id,
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.grey[200],
-                                            radius: 27,
-                                            child: ClipOval(
-                                              child: Uint8List.fromList(
-                                                professorList[index].avatar,
-                                              ).isNotEmpty
-                                                  ? Image.memory(
-                                                      height: 60,
-                                                      width: 60,
-                                                      fit: BoxFit.cover,
-                                                      Uint8List.fromList(
-                                                        professorList[index]
-                                                            .avatar,
-                                                      ),
-                                                    )
-                                                  : SvgPicture.asset(
-                                                      'assets/icons/no_photo.svg',
-                                                    ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                professorList[index]
-                                                    .name
-                                                    .capitalize(),
-                                                style: const TextStyle(
-                                                  overflow: TextOverflow.clip,
-                                                ),
-                                              ),
-                                              Stack(
-                                                children: [
-                                                  StarsRating(
-                                                    size: const Size(20, 20),
-                                                    value: professorList[index]
-                                                        .rating,
-                                                    spaceBetween: 8,
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Text(
-                                                      (professorList[index]
-                                                                  .rating ==
-                                                              0)
-                                                          ? 'нет отзывов'
-                                                          : '${professorList[index].reviewsCount} отзывов',
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      )
-                    : FutureBuilder(
-                        future: repository?.findProfessorByName(
-                            searchProfessorPattern!, amountOfContentLoaded),
-                        builder: (context, snapshot) {
-                          var professorList = <Professor>[];
-                          if (!snapshot.hasData) {
-                            return const Center(
-                              child: Text(
-                                'Загрузка данных...',
-                              ),
-                            );
-                          }
-                          if (snapshot.hasData) {
-                            professorList = (searchProfessorPattern != null)
-                                ? snapshot.data!.professors
-                                    .where((professor) => professor.name
-                                        .contains(
-                                            searchProfessorPattern.toString()))
-                                    .toList()
-                                : snapshot.data!.professors.toList();
-                          }
-
-                          if (snapshot.hasData && professorList.isEmpty) {
-                            return const Center(
-                              child: Text(
-                                'Ничего не найдено...',
-                              ),
-                            );
-                          }
-
-                          return ListView.separated(
-                            controller: _scrollController,
-                            itemCount: professorList.length,
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                              height: 25,
-                            ),
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (builderContext) =>
-                                          ProfessorProfilePage(
-                                        repository: repository!,
-                                        professor: professorList[index],
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  width: 360,
-                                  height: 75,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: const Color(0xFFEEF9EF),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Hero(
-                                          tag: professorList[index].id,
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.grey[200],
-                                            radius: 27,
-                                            child: ClipOval(
-                                              child: Uint8List.fromList(
-                                                professorList[index].avatar,
-                                              ).isNotEmpty
-                                                  ? Image.memory(
-                                                      height: 60,
-                                                      width: 60,
-                                                      fit: BoxFit.cover,
-                                                      Uint8List.fromList(
-                                                        professorList[index]
-                                                            .avatar,
-                                                      ),
-                                                    )
-                                                  : SvgPicture.asset(
-                                                      'assets/icons/no_photo.svg',
-                                                    ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                professorList[index]
-                                                    .name
-                                                    .capitalize(),
-                                                style: const TextStyle(
-                                                  overflow: TextOverflow.clip,
-                                                ),
-                                              ),
-                                              Stack(
-                                                children: [
-                                                  StarsRating(
-                                                    size: const Size(20, 20),
-                                                    value: professorList[index]
-                                                        .rating,
-                                                    spaceBetween: 8,
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Text(
-                                                      (professorList[index]
-                                                                  .rating ==
-                                                              0)
-                                                          ? 'нет отзывов'
-                                                          : professorList[index]
-                                                              .reviewsCount
-                                                              .toString(),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
+                  child: StreamBuilder<GetListProfessorResponse>(
+                stream: repository!.getAllProfessors(20),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: Text(
+                        'Загрузка данных...',
                       ),
-              ),
+                    );
+                  }
+                  return ListView.separated(
+                    controller: _scrollController,
+                    itemCount: snapshot.data!.professors.length,
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 25,
+                    ),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (builderContext) => ProfessorProfilePage(
+                                repository: repository!,
+                                professor: snapshot.data!.professors[index],
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 360,
+                          height: 75,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: const Color(0xFFEEF9EF),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Hero(
+                                  tag: snapshot.data!.professors[index].id,
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.grey[200],
+                                    radius: 27,
+                                    child: ClipOval(
+                                      child: Uint8List.fromList(
+                                        snapshot.data!.professors[index].avatar,
+                                      ).isNotEmpty
+                                          ? Image.memory(
+                                              height: 60,
+                                              width: 60,
+                                              fit: BoxFit.cover,
+                                              Uint8List.fromList(
+                                                snapshot.data!.professors[index]
+                                                    .avatar,
+                                              ),
+                                            )
+                                          : SvgPicture.asset(
+                                              'assets/icons/no_photo.svg',
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.professors[index].name
+                                            .capitalize(),
+                                        style: const TextStyle(
+                                          overflow: TextOverflow.clip,
+                                        ),
+                                      ),
+                                      Stack(
+                                        children: [
+                                          StarsRating(
+                                            size: const Size(20, 20),
+                                            value: snapshot
+                                                .data!.professors[index].rating,
+                                            spaceBetween: 8,
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Text(
+                                              (snapshot.data!.professors[index]
+                                                          .rating ==
+                                                      0)
+                                                  ? 'нет отзывов'
+                                                  : '${snapshot.data!.professors[index].reviewsCount} отзывов',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              )),
             ],
           ),
         ),

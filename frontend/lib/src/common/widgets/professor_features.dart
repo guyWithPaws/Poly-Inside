@@ -5,17 +5,19 @@ import 'package:shared/shared.dart';
 /// TeacherFeatures widget.
 /// {@endtemplate}
 class ProfessorFeatures extends StatelessWidget {
-  final List<Review>? reviews;
-  final Review? review;
+  final double objectivity;
+  final double loyalty;
+  final double professionalism;
+  final double harshness;
 
   /// {@macro teacher_features}
   const ProfessorFeatures({
     super.key,
-    this.reviews,
-    this.review, // ignore: unused_element
+    required this.objectivity,
+    required this.loyalty,
+    required this.professionalism,
+    required this.harshness, // ignore: unused_element
   });
-
-  void getProfessorQualities() {}
 
   @override
   Widget build(BuildContext context) {
@@ -41,64 +43,71 @@ class ProfessorFeatures extends StatelessWidget {
                 Text('Резкость'),
               ],
             ),
-            Column(
-              //crossAxisAlignment: CrossAxisAlignment.baseline,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2.5,
+              child: Column(
+                //crossAxisAlignment: CrossAxisAlignment.baseline,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  LinearProgressIndicator(
                     color: Colors.green,
                     backgroundColor: const Color.fromARGB(255, 182, 248, 186),
-                    value: 0.5,
+                    value: objectivity / 5,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
+                  LinearProgressIndicator(
                     color: Colors.green,
                     backgroundColor: const Color.fromARGB(255, 182, 248, 186),
-                    value: 0.5,
+                    value: loyalty / 5,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
+                  LinearProgressIndicator(
                     color: Colors.green,
                     backgroundColor: const Color.fromARGB(255, 182, 248, 186),
-                    value: 0.5,
+                    value: professionalism / 5,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
+                  LinearProgressIndicator(
                     color: Colors.green,
                     backgroundColor: const Color.fromARGB(255, 182, 248, 186),
-                    value: 0.5,
+                    value: harshness / 5,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('5.0',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('5.0',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('5.0',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('5.0',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                Text(
+                  objectivity.toStringAsFixed(1),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  loyalty.toStringAsFixed(1),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  professionalism.toStringAsFixed(1),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  harshness.toStringAsFixed(1),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ],

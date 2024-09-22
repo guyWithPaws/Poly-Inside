@@ -4,7 +4,7 @@ service SearchService {
   rpc AddProfile (User) returns (AddProfileResponse);
   rpc UpdateProfile (User) returns (UpdateProfileResponse);
   rpc GetProfile(UserInfoByUserIdRequest) returns (User);
-  rpc GetListProfessor(ListProfessorRequest) returns (GetListProfessorResponse);
+  rpc GetListProfessor(ListProfessorRequest) returns (stream GetListProfessorResponse);
   rpc SearchProfessorByName(SearchRequest) returns (SearchResponse);
 
   rpc GetAllProfessorsOnce (GetAllProfessorsOnceRequest) returns (GetListProfessorResponse);
@@ -84,6 +84,10 @@ message Professor {
   bytes avatar = 3;
   float rating = 4;
   int32 reviews_count = 5;
+  float objectivity = 6;
+  float loyalty = 7;
+  float professionalism = 8;
+  float harshness = 9;
 }
 
 message Review {
