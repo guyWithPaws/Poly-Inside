@@ -164,10 +164,7 @@ class _HomePageState extends State<HomePage> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Преподаватели',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
               ),
               const SizedBox(
@@ -219,22 +216,25 @@ class _HomePageState extends State<HomePage> {
                                   child: CircleAvatar(
                                     backgroundColor: Colors.grey[200],
                                     radius: 27,
-                                    child: ClipOval(
-                                      child: Uint8List.fromList(
-                                        snapshot.data!.professors[index].avatar,
-                                      ).isNotEmpty
-                                          ? Image.memory(
-                                              height: 60,
-                                              width: 60,
-                                              fit: BoxFit.cover,
-                                              Uint8List.fromList(
-                                                snapshot.data!.professors[index]
-                                                    .avatar,
+                                    child: RepaintBoundary(
+                                      child: ClipOval(
+                                        child: Uint8List.fromList(
+                                          snapshot
+                                              .data!.professors[index].avatar,
+                                        ).isNotEmpty
+                                            ? Image.memory(
+                                                height: 60,
+                                                width: 60,
+                                                fit: BoxFit.cover,
+                                                Uint8List.fromList(
+                                                  snapshot.data!
+                                                      .professors[index].avatar,
+                                                ),
+                                              )
+                                            : SvgPicture.asset(
+                                                'assets/icons/no_photo.svg',
                                               ),
-                                            )
-                                          : SvgPicture.asset(
-                                              'assets/icons/no_photo.svg',
-                                            ),
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -26,11 +26,8 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   @override
-  Future<List<Review>> getAllReviewsByProfessor(String professorId) async {
-    final response = await client.getReviewsByProfessorId(
-        ReviewsByProfessorIdRequest()..id = professorId);
-    return response.reviews;
-  }
+  Stream<ReviewStream> getAllReviewsByProfessor(String professorId) => client
+      .getReviewsByProfessorId(ReviewsByProfessorIdRequest()..id = professorId);
 
   @override
   Future<User> getUserByUserId(int userId) =>

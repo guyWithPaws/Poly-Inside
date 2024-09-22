@@ -9,7 +9,7 @@ service SearchService {
 
   rpc GetAllProfessorsOnce (GetAllProfessorsOnceRequest) returns (GetListProfessorResponse);
   rpc AddReview(Review) returns (AddReviewResponse);
-  rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (ReviewStream);
+  rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream ReviewStream);
   rpc GetReviewsByUserId(ReviewsByUserIdRequest) returns (ReviewStream);
   rpc UpdateReview(Review) returns (UpdateReviewResponse);
   rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse);

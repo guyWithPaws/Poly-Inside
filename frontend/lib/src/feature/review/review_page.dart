@@ -144,7 +144,6 @@ class _ReviewPageState extends State<ReviewPage> {
                   child: Center(
                     child: Column(
                       children: [
-                        //if (!passed) const CircularProgressIndicator(),
                         (passed)
                             ? const Text('Ваш отзыв успешно сохранён')
                             : const Text('Проверьте свой отзыв'),

@@ -115,8 +115,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
         ),
       ),
       body: SafeArea(
-        child: FutureBuilder<List<Review>>(
-          future:
+        child: StreamBuilder<ReviewStream>(
+          stream:
               widget.repository.getAllReviewsByProfessor(widget.professor.id),
           builder: (context, snapshot) {
             return CustomScrollView(
@@ -151,22 +151,24 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                               child: CircleAvatar(
                                 backgroundColor: Colors.grey[200],
                                 radius: 69,
-                                child: ClipOval(
-                                  child: Uint8List.fromList(
-                                    widget.professor.avatar,
-                                  ).isNotEmpty
-                                      ? Image.memory(
-                                          height: 138,
-                                          width: 138,
-                                          fit: BoxFit.cover,
-                                          Uint8List.fromList(
-                                            widget.professor.avatar,
+                                child: RepaintBoundary(
+                                  child: ClipOval(
+                                    child: Uint8List.fromList(
+                                      widget.professor.avatar,
+                                    ).isNotEmpty
+                                        ? Image.memory(
+                                            height: 138,
+                                            width: 138,
+                                            fit: BoxFit.cover,
+                                            Uint8List.fromList(
+                                              widget.professor.avatar,
+                                            ),
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/icons/no_photo.svg',
+                                            width: 69,
                                           ),
-                                        )
-                                      : SvgPicture.asset(
-                                          'assets/icons/no_photo.svg',
-                                          width: 69,
-                                        ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -199,7 +201,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             const SizedBox(
                               height: 8,
                             ),
-                            (snapshot.hasData && snapshot.data!.isNotEmpty)
+                            (snapshot.hasData &&
+                                    snapshot.data!.reviews.isNotEmpty)
                                 ? Row(
                                     children: [
                                       const Text(
@@ -220,7 +223,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                         child: Center(
                                           child: Text(
                                             snapshot.hasData
-                                                ? snapshot.data!.length
+                                                ? snapshot.data!.reviews.length
                                                     .toString()
                                                 : '0',
                                             style: const TextStyle(
@@ -243,7 +246,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 ),
                 snapshot.hasData
                     ? SliverList.separated(
-                        itemCount: snapshot.data!.length,
+                        itemCount: snapshot.data!.reviews.length,
                         separatorBuilder: (context, index) =>
                             const SizedBox(height: 16),
                         itemBuilder: (context, index) {
@@ -251,7 +254,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             padding:
                                 const EdgeInsets.only(left: 16.0, right: 16.0),
                             child: ReviewTitle(
-                              review: snapshot.data![index],
+                              review: snapshot.data!.reviews[index],
                               repository: widget.repository,
                               professor: widget.professor,
                             ),

@@ -27,10 +27,10 @@ class DatabaseProviderImpl implements DatabaseProvider {
           .get();
 
   @override
-  Future<List<Review>> getAllReviewsByProfessor(String professorId) =>
+  Stream<List<Review>> getAllReviewsByProfessor(String professorId) =>
       (database.select(database.reviews)
             ..where((u) => u.professorId.equals(professorId)))
-          .get();
+          .watch();
 
   @override
   Future<int> addReview(Review review) async {
