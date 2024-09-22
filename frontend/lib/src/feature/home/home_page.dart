@@ -21,6 +21,7 @@ import 'package:shared/shared.dart';
 /// HomePage widget.
 /// {@endtemplate}
 class HomePage extends StatefulWidget {
+  // ignore: library_private_types_in_public_api
   static _HomePageState? of(BuildContext context) =>
       context.findAncestorStateOfType<_HomePageState>();
 
@@ -46,6 +47,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    _valueNotifier = ValueNotifier(false);
     _scrollController = ScrollController()
       ..addListener(() {
         if (_scrollController?.position.pixels ==
@@ -53,10 +55,16 @@ class _HomePageState extends State<HomePage> {
           count += 20;
           _bloc?.add(ListRequested(count: count));
         }
+        if (_scrollController?.position.pixels !=
+            _scrollController?.position.minScrollExtent) {
+          _valueNotifier?.value = true;
+        } else {
+          _valueNotifier?.value = false;
+        }
       });
     _textEditingController = TextEditingController()
-      ..addListener(() => _bloc
-          ?.add(TextFieldChanged(name: _textEditingController?.text.toLowerCase() ?? '')));
+      ..addListener(() => _bloc?.add(TextFieldChanged(
+          name: _textEditingController?.text.toLowerCase() ?? '')));
     _valueNotifier = ValueNotifier(false);
     super.initState();
   }
@@ -98,9 +106,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: ValueListenableBuilder(
         valueListenable: _valueNotifier!,
         builder: (context, value, _) => Visibility(
-          visible: value,
+          visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
-            onPressed: () {},
+            onPressed: () {
+              _scrollController!.animateTo(0,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn);
+            },
             backgroundColor: Colors.green,
             label: const Center(
               child: Icon(CupertinoIcons.up_arrow),
