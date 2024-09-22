@@ -86,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
               SliverAppBar(
                 automaticallyImplyLeading: false,
                 surfaceTintColor: Colors.white,
-                expandedHeight: 310,
+                expandedHeight: 60,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -120,52 +120,47 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  titlePadding: const EdgeInsets.only(top: 5, bottom: 5),
-                  expandedTitleScale: 1,
-                  title: FittedBox(
-                    fit: BoxFit.cover,
-                    child: Column(children: [
-                      CircleAvatar(
-                        radius: 158 / 2,
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/beer.jpg',
-                            height: 158,
-                            width: 158,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 13,
-                      ),
-                      const Text("ID: 7921375",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600)),
-                      const Text("goxa",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 36,
-                              fontWeight: FontWeight.w600)),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text("Мудрец",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500)),
-                    ]),
-                  ),
-                ),
               ),
               SliverToBoxAdapter(
                 child: Column(
                   children: [
+                    FittedBox(
+                      fit: BoxFit.cover,
+                      child: Column(children: [
+                        CircleAvatar(
+                          radius: 158 / 2,
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/beer.jpg',
+                              height: 158,
+                              width: 158,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 13,
+                        ),
+                        const Text("ID: 7921375",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600)),
+                        const Text("goxa",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 36,
+                                fontWeight: FontWeight.w600)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text("Мудрец",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500)),
+                      ]),
+                    ),
                     const SizedBox(
                       height: 6,
                     ),

@@ -164,6 +164,10 @@ class _HomePageState extends State<HomePage> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Преподаватели',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600
+                  ),
                 ),
               ),
               const SizedBox(
