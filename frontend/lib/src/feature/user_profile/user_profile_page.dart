@@ -39,8 +39,9 @@ class _ProfilePageState extends State<ProfilePage> {
       body: CustomScrollView(slivers: [
         SliverAppBar(
           automaticallyImplyLeading: false,
-          collapsedHeight: 72,
-          expandedHeight: 360,
+          surfaceTintColor: Colors.white,
+          collapsedHeight: 60,
+          expandedHeight: 310,
           pinned: true,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Container(
                   width: 30,
                   height: 30,
-                  margin: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.only(left: 5),
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 185, 185, 185),
@@ -59,70 +60,97 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: SvgPicture.asset('assets/icons/cross.svg'),
                 ),
               ),
-              SvgPicture.asset('assets/icons/profileeditbutton.svg',
-                  alignment: Alignment.topRight)
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  width: 26,
+                  height: 26,
+                  margin: const EdgeInsets.only(right: 5),
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: SvgPicture.asset('assets/icons/profileeditbutton.svg'),
+                ),
+              ),
             ],
           ),
-          flexibleSpace: LayoutBuilder(
-            builder: (context, constraints) {
-              return FlexibleSpaceBar(
-                title: FittedBox(
-                  fit: BoxFit.cover,
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 158 / 2,
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/beer.jpg',
-                            height: 158,
-                            width: 158,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      const Text("ID: 7921375",
-                          style: TextStyle(color: Colors.grey, fontSize: 14)),
-                      const Text("goxa",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold)),
-                      const Text("Мудрец",
-                          style: TextStyle(color: Colors.grey, fontSize: 16)),
-                    ],
+          flexibleSpace: FlexibleSpaceBar(
+            centerTitle: true,
+            titlePadding: EdgeInsets.only(top: 5, bottom: 5),
+            expandedTitleScale: 1,
+            title: FittedBox(
+              fit: BoxFit.cover,
+              child: Column(children: [
+                CircleAvatar(
+                  radius: 158 / 2,
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/beer.jpg',
+                      height: 158,
+                      width: 158,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              );
-            },
+                SizedBox(
+                  height: 13,
+                ),
+                const Text("ID: 7921375",
+                    style: TextStyle(color: Colors.grey, fontSize: 14)),
+                const Text("goxa",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: 10,
+                ),
+                const Text("Мудрец",
+                    style: TextStyle(color: Colors.grey, fontSize: 16)),
+              ]),
+            ),
           ),
         ),
         SliverToBoxAdapter(
-          child: Row(
+          child: Column(
             children: [
-              const Text(
-                "Отзывы",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              SizedBox(
+                height: 6,
               ),
-              const SizedBox(width: 8),
-              Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 233, 252, 232),
-                    borderRadius: BorderRadius.circular(7)),
-                child: const Center(
-                    child: Text(
-                  "2",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+              Row(
+                children: [
+                  SizedBox(
+                    width: 21,
                   ),
-                )),
-              )
+                  const Text(
+                    "Отзывы",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 233, 252, 232),
+                        borderRadius: BorderRadius.circular(7)),
+                    child: const Center(
+                        child: Text(
+                      "2",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 6,
+              ),
             ],
           ),
         ),
