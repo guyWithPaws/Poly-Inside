@@ -14,12 +14,16 @@ import 'package:shared/shared.dart';
 class ReviewPage extends StatefulWidget {
   final Professor professor;
   final ClientRepository repository;
+  final Review? review;
+  final bool edit;
 
   /// {@macro review_page}
   const ReviewPage({
     super.key,
     required this.professor,
-    required this.repository, // ignore: unused_element
+    required this.repository,
+    this.edit = false,
+    this.review, // ignore: unused_element
   });
 
   /// The state from the closest instance of this class
@@ -47,6 +51,12 @@ class _ReviewPageState extends State<ReviewPage> {
   void initState() {
     _textEditingController = TextEditingController();
     _textEditingController?.addListener(_textEditingListener);
+
+    if (widget.review != null) {
+      setState(() {
+        _textEditingController!.text = widget.review!.comment;
+      });
+    }
 
     _valueLoayltyNotifier = ValueNotifier(1.0);
     _valueLoayltyNotifier = ValueNotifier(1.0);
@@ -224,28 +234,28 @@ class _ReviewPageState extends State<ReviewPage> {
                       children: [
                         StarsRating(
                           valueNotifier: _valueObjectivityNotifier,
-                          value: 1,
+                          value: widget.review?.objectivity ?? 1,
                           size: const Size(30, 30),
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
                         StarsRating(
                           valueNotifier: _valueLoayltyNotifier,
-                          value: 1,
+                          value: widget.review?.loyalty ?? 1,
                           size: const Size(30, 30),
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
                         StarsRating(
                           valueNotifier: _valueProfessionalismNotifier,
-                          value: 1,
+                          value: widget.review?.professionalism ?? 1,
                           size: const Size(30, 30),
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
                         StarsRating(
                           valueNotifier: _valueHarshnessNotifier,
-                          value: 1,
+                          value: widget.review?.harshness ?? 1,
                           size: const Size(30, 30),
                           enableDragDetector: true,
                           spaceBetween: 16,
@@ -272,13 +282,16 @@ class _ReviewPageState extends State<ReviewPage> {
               width: MediaQuery.of(context).size.width,
               child: GestureDetector(
                 onTap: () {},
-                child: TextField(
-                  controller: _textEditingController,
-                  keyboardType: TextInputType.multiline,
-                  minLines: 9,
-                  maxLines: null,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    controller: _textEditingController,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 9,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
               ),
