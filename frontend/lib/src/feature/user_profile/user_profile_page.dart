@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
+import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:shared/shared.dart';
 
 class ProfilePage extends StatefulWidget {
-  ClientRepository? repository;
 
   /// {@macro profile_page}
-  ProfilePage({
-    this.repository,
+  const ProfilePage({
     super.key, // ignore: unused_element
   });
 
@@ -80,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<Review>>(
-          future: widget.repository!.getAllReviewByUser(123),
+          future: InitializationScope.repositoryOf(context).getAllReviewByUser(123),
           builder: (context, snapshot) {
             return CustomScrollView(slivers: [
               SliverAppBar(
@@ -206,7 +204,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       itemBuilder: (context, index) {
                         return ReviewTitle(
                           review: snapshot.data![index],
-                          repository: widget.repository!,
                           professor: Professor(),
                         );
                       },

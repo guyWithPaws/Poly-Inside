@@ -98,7 +98,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                     context,
                     MaterialPageRoute<void>(
                       builder: (builderContext) => ReviewPage(
-                        repository: widget.repository,
                         professor: widget.professor,
                       ),
                     ),
@@ -256,7 +255,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                 const EdgeInsets.only(left: 16.0, right: 16.0),
                             child: ReviewTitle(
                               review: snapshot.data!.reviews[index],
-                              repository: widget.repository,
                               professor: widget.professor,
                             ),
                           );

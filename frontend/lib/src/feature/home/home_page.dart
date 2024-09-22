@@ -4,18 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:grpc/grpc.dart';
 //import 'package:grpc/service_api.dart';
-import 'package:poly_inside/src/common/repository/client.dart';
-import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/utils/word_formatter.dart';
 import 'package:poly_inside/src/feature/home/home_bloc.dart';
 import 'package:poly_inside/src/feature/home/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
+import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
 import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
-import 'package:shared/shared.dart';
 
 /// {@template home_page}
 /// HomePage widget.
@@ -35,7 +32,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ClientRepository? repository;
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   HomeBloc? _bloc;
@@ -71,23 +67,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void didChangeDependencies() {
-    repository ??= ClientRepositoryImpl(
-      client: SearchServiceClient(
-        ClientChannel(
-          'localhost',
-          port: 9090,
-          options: const ChannelOptions(
-            credentials: ChannelCredentials.insecure(),
-          ),
-        ),
-        // GrpcWebClientChannel.xhr(
-        //   Uri.parse(
-        //     'http://87.228.18.201:8080',
-        //   ),
-        // ),
-      ),
-    );
-    _bloc ??= HomeBloc(repository: repository!)
+    _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))
       ..add(ListRequested(count: count));
     super.didChangeDependencies();
   }
@@ -133,9 +113,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           builderContext,
                           MaterialPageRoute<void>(
-                            builder: (builderContext) => ProfilePage(
-                              repository: repository,
-                            ),
+                            builder: (builderContext) => ProfilePage(),
                           ),
                         );
                       },
@@ -202,7 +180,9 @@ class _HomePageState extends State<HomePage> {
                                   MaterialPageRoute<void>(
                                     builder: (builderContext) =>
                                         ProfessorProfilePage(
-                                      repository: repository!,
+                                      repository:
+                                          InitializationScope.repositoryOf(
+                                              context),
                                       professor: professors[index],
                                     ),
                                   ),

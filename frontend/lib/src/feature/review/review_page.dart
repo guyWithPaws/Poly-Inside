@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
-import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
+import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:shared/shared.dart';
 
 /// {@template review_page}
@@ -13,7 +13,6 @@ import 'package:shared/shared.dart';
 /// {@endtemplate}
 class ReviewPage extends StatefulWidget {
   final Professor professor;
-  final ClientRepository repository;
   final Review? review;
   final bool edit;
 
@@ -21,7 +20,6 @@ class ReviewPage extends StatefulWidget {
   const ReviewPage({
     super.key,
     required this.professor,
-    required this.repository,
     this.edit = false,
     this.review, // ignore: unused_element
   });
@@ -121,7 +119,7 @@ class _ReviewPageState extends State<ReviewPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          bool passed = await widget.repository.addReview(
+          bool passed = await InitializationScope.repositoryOf(context).addReview(
             Review(
                 objectivity: _valueObjectivityNotifier!.value,
                 loyalty: _valueLoayltyNotifier!.value,

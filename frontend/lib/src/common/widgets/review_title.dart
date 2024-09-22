@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
@@ -10,14 +9,12 @@ import 'package:intl/intl.dart';
 /// ReviewTitle widget.
 /// {@endtemplate}
 class ReviewTitle extends StatelessWidget {
-  final ClientRepository repository;
   final Review review;
   final Professor professor;
 
   /// {@macro review_title}
   const ReviewTitle({
     super.key,
-    required this.repository,
     required this.review,
     required this.professor, // ignore: unused_element
   });
@@ -63,7 +60,6 @@ class ReviewTitle extends StatelessWidget {
                     context,
                     MaterialPageRoute<void>(
                       builder: (builderContext) => ReviewPage(
-                        repository: repository,
                         professor: professor,
                         review: review,
                       ),

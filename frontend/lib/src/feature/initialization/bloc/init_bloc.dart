@@ -19,7 +19,13 @@ class InitializationBloc
     on<StartInitialization>((e, emit) async {
       emit(const InitializationState.processing());
       try {
-        final channel = ClientChannel('127.0.0.1', port: 8080);
+        final channel = ClientChannel(
+          'localhost',
+          port: 9090,
+          options: const ChannelOptions(
+            credentials: ChannelCredentials.insecure(),
+          ),
+        );
         final client = SearchServiceClient(channel);
         final repostory = ClientRepositoryImpl(client: client);
         emit(InitializationState.initialized(repostory));
