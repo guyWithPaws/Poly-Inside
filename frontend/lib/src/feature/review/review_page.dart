@@ -6,7 +6,6 @@ import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
-import 'package:poly_inside/src/feature/home/home_page.dart';
 import 'package:shared/shared.dart';
 
 /// {@template review_page}

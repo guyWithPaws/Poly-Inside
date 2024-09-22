@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 /// {@template search_bar}
 /// ProfessorSearchBar widget.
@@ -64,8 +65,9 @@ class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
               textAlign: TextAlign.start,
               maxLines: 1,
               cursorColor: Colors.black,
-              decoration: const InputDecoration(
-                hintStyle: TextStyle(
+              decoration: InputDecoration(
+                suffixIcon: SvgPicture.asset('assets/icons/cross.svg'),
+                hintStyle: const TextStyle(
                   color: Color(0xff8A8A8A),
                 ),
                 hintText: 'Найти преподавателя',

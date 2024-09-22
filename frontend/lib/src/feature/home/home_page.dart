@@ -8,10 +8,10 @@ import 'package:grpc/grpc.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
+import 'package:poly_inside/src/common/utils/word_formatter.dart';
 import 'package:poly_inside/src/feature/home/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
-import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
 import 'package:shared/shared.dart';
 
@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   String? searchProfessorPattern;
   int? listViewCounter;
   static const int amountOfContentLoaded = 40;
+  String reviewInRussian = 'отзыв';
 
   @override
   void initState() {
@@ -81,7 +82,7 @@ class _HomePageState extends State<HomePage> {
   void didChangeDependencies() {
     repository = ClientRepositoryImpl(
       client: SearchServiceClient(ClientChannel(
-        '87.228.18.201',
+        'localhost',
         port: 9090,
         options:
             const ChannelOptions(credentials: ChannelCredentials.insecure()),
@@ -294,7 +295,7 @@ class _HomePageState extends State<HomePage> {
                                                                   .rating ==
                                                               0)
                                                           ? 'нет отзывов'
-                                                          : '${professorList[index].reviewsCount} отзывов',
+                                                          : '${professorList[index].reviewsCount} ${reviewInRussian.formatReview(professorList[index].reviewsCount)}',
                                                     ),
                                                   ),
                                                 ],

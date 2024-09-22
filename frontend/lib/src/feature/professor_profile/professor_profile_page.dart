@@ -77,6 +77,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
 
   @override
   void dispose() {
+    _scrollController?.dispose();
+    _valueNotifier?.dispose();
     // Permanent removal of a tree stent
     super.dispose();
   }
