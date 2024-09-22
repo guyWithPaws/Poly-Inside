@@ -6,7 +6,10 @@ class ClientRepositoryImpl implements ClientRepository {
   ClientRepositoryImpl({required this.client});
 
   @override
-  Future<void> addReview(Review review) => client.addReview(review);
+  Future<bool> addReview(Review review) async {
+    final responce = await client.addReview(review);
+    return responce.passed;
+  }
 
   @override
   Future<void> addUser(User user) => client.addProfile(user);

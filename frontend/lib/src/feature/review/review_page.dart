@@ -111,21 +111,7 @@ class _ReviewPageState extends State<ReviewPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          // showDialog(
-          //   context: context,
-          //   builder: (builderContext) {
-          //     return const AlertDialog(
-          //       content: SizedBox(
-          //         width: 100,
-          //         height: 50,
-          //         child: Center(
-          //           child: Text('Загружаем Ваш отзыв..'),
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ).then((a) {
-          await widget.repository.addReview(
+          bool passed = await widget.repository.addReview(
             Review(
                 objectivity: _valueObjectivityNotifier!.value,
                 loyalty: _valueLoayltyNotifier!.value,
@@ -138,14 +124,27 @@ class _ReviewPageState extends State<ReviewPage> {
                 comment: _valueTextFormNotifier!.value,
                 professorId: widget.professor.id),
           );
-          if (context.mounted) {
-            Navigator.of(context).popUntil(
-              ModalRoute.withName('/'),
-            );
-          }
-
-          // final homePage = HomePage.of(context);
-          // homePage?.setState(() {});
+          await showDialog(
+            context: context,
+            builder: (builderContext) {
+              return AlertDialog(
+                content: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        //if (!passed) const CircularProgressIndicator(),
+                        (passed)
+                            ? const Text('Ваш отзыв успешно сохранён')
+                            : const Text('Проверьте свой отзыв'),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
         },
         backgroundColor: Colors.green,
         label: const Center(child: Text('Опубликовать')),

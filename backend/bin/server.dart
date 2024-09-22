@@ -16,7 +16,7 @@ Future<void> main() async {
       await runZonedGuarded(
         () async {
           await Filter.instance.initializeAsyncLoaders();
-          final database = AppDatabase(NativeDatabase(File('db_1.sqlite')));
+          final database = AppDatabase(NativeDatabase(File('db.sqlite')));
           final provider = DatabaseProviderImpl(database: database);
           // final parser = Parser(provider: provider);
           // await parser.fillDatabase();
