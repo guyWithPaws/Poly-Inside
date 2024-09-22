@@ -6,7 +6,6 @@ import 'package:grpc/grpc.dart';
 import 'package:l/l.dart';
 import 'package:poly_inside_server/database/database.dart';
 import 'package:poly_inside_server/database/provider_impl.dart';
-import 'package:poly_inside_server/parser/parser.dart';
 import 'package:poly_inside_server/service.dart';
 import 'package:poly_inside_server/validator/validator.dart';
 
@@ -17,7 +16,7 @@ Future<void> main() async {
       await runZonedGuarded(
         () async {
           await Filter.instance.initializeAsyncLoaders();
-          final database = AppDatabase(NativeDatabase(File('db.sqlite')));
+          final database = AppDatabase(NativeDatabase(File('db_1.sqlite')));
           final provider = DatabaseProviderImpl(database: database);
           // final parser = Parser(provider: provider);
           // await parser.fillDatabase();

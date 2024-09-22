@@ -3,8 +3,9 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:image/image.dart' as img;
 import 'package:l/l.dart';
 import 'package:poly_inside_server/database/provider.dart';
 import 'package:shared/shared.dart';
@@ -96,11 +97,18 @@ class Parser {
             var professorAvatar = 'https://www.spbstu.ru/$avatarSublink';
 
             Uint8List? image;
+            Uint8List? compressedImage;
 
             if (!avatarSublink.contains('no-photo-user-available')) {
               var data = await http.get(Uri.parse(professorAvatar));
               image = data.bodyBytes;
+
+              var decodeImage = img.decodeImage(image);
+
+              compressedImage =
+                  Uint8List.fromList(img.encodeJpg(decodeImage!, quality: 60));
             }
+
             var professorIdBytes =
                 utf8.encode(professorName + DateTime.now().toString());
 
@@ -116,7 +124,7 @@ class Parser {
                 rating: 0,
                 id: professorId,
                 name: professorName.toLowerCase(),
-                avatar: image?.toList(),
+                avatar: compressedImage?.toList(),
               ),
             );
           }

@@ -8,7 +8,6 @@ import 'package:grpc/grpc.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
-import 'package:poly_inside/src/common/utils/word_formatter.dart';
 import 'package:poly_inside/src/feature/home/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
@@ -117,8 +116,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: 
-      SafeArea(
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

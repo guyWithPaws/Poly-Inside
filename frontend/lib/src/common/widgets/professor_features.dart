@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared/shared.dart';
 
 /// {@template teacher_features}
 /// TeacherFeatures widget.
