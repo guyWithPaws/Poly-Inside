@@ -173,7 +173,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             textAlign: TextAlign.center,
                             widget.professor.name.capitalize(),
                             style: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+                                fontSize: 25, fontWeight: FontWeight.w600),
                           ),
                         ),
                         Row(
@@ -182,7 +182,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             StarsRating(
                               value: widget.professor.rating,
                               size: const Size(32, 32),
-                              spaceBetween: 16,
+                              spaceBetween: 23,
+                              textSize: 28,
                             ),
                           ],
                         ),
@@ -192,6 +193,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           harshness: widget.professor.harshness,
                           loyalty: widget.professor.loyalty,
                           professionalism: widget.professor.professionalism,
+                          textSize: 12,
+                          fontWeight: FontWeight.w600,
                         ),
                         const SizedBox(
                           height: 8,
