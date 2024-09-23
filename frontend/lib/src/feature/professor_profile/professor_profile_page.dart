@@ -39,13 +39,14 @@ class ProfessorProfilePage extends StatefulWidget {
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
+  ValueNotifier<int>? _count;
 
   /* #region Lifecycle */
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController?.addListener(scrollListener);
-
+    _count = ValueNotifier(0);
     _valueNotifier = ValueNotifier(false);
 
     super.initState();
@@ -201,6 +202,42 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           fontWeight: FontWeight.w600,
                         ),
                         const SizedBox(
+                          height: 16,
+                        ),
+                        if (_count?.value != 0)
+                          Row(
+                            children: [
+                              const Text(
+                                "Отзывы",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                width: 20,
+                                height: 26,
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 233, 252, 232),
+                                    borderRadius: BorderRadius.circular(7)),
+                                child: Center(
+                                  child: ValueListenableBuilder(
+                                    valueListenable: _count!,
+                                    builder: (_, value, ___) => Text(
+                                      '$value',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        const SizedBox(
                           height: 8,
                         ),
                       ],
@@ -213,31 +250,30 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               stream: widget.repository
                   .getAllReviewsByProfessor(widget.professor.id),
               builder: (context, snapshot) {
-                return snapshot.hasData
-                    ? SliverList.separated(
-                        itemCount: snapshot.data!.reviews.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 16),
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.only(left: 16.0, right: 16.0),
-                            child: ReviewTitle(
-                              review: snapshot.data!.reviews[index],
-                              professor: widget.professor,
-                            ),
-                          );
-                        },
-                      )
-                    : SliverList(
-                        delegate: SliverChildListDelegate(
-                          [
-                            const Center(
-                              child: Text('Нет данных'),
-                            )
-                          ],
-                        ),
+                if (snapshot.hasData) {
+                  _count?.value = snapshot.data!.reviews.length;
+                  return SliverList.separated(
+                    itemCount: snapshot.data!.reviews.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 16),
+                    itemBuilder: (context, index) {
+                      return ReviewTitle(
+                        review: snapshot.data!.reviews[index],
+                        professor: widget.professor,
                       );
+                    },
+                  );
+                } else {
+                  return SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        const Center(
+                          child: Text('Нет данных'),
+                        )
+                      ],
+                    ),
+                  );
+                }
               },
             ),
             const SliverToBoxAdapter(

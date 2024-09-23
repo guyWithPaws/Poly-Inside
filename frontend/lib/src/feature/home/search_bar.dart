@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 /// {@endtemplate}
 class ProfessorSearchBar extends StatefulWidget {
   final TextEditingController? controller;
+  final FocusNode? node;
 
   /// {@macro search_bar}
   const ProfessorSearchBar({
     super.key,
     required this.controller, // ignore: unused_element
+    required this.node,
   });
 
   @override
@@ -43,7 +45,7 @@ class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-      width: MediaQuery.of(context).size.width / 1.5,
+      width: MediaQuery.of(context).size.width - 62 - 36 - 18,
       decoration: BoxDecoration(
         color: const Color(0xffEEF9EF),
         borderRadius: BorderRadius.circular(12),
@@ -61,6 +63,7 @@ class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
           SizedBox(
             width: MediaQuery.of(context).size.width / 1.5 - 16 - 29,
             child: TextField(
+              focusNode: widget.node,
               textAlign: TextAlign.start,
               maxLines: 1,
               cursorColor: Colors.black,

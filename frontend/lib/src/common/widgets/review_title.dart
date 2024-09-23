@@ -22,7 +22,7 @@ class ReviewTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 26, right: 26),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 238, 249, 237),
         borderRadius: BorderRadius.circular(12),

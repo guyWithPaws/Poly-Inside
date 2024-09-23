@@ -38,11 +38,13 @@ class _HomePageState extends State<HomePage> {
   TextEditingController? _textEditingController;
   bool? showFloatingButton;
   String? searchProfessorPattern;
+  FocusNode? _node;
   String reviewInRussian = 'отзыв';
   int count = 20;
 
   @override
   void initState() {
+    _node = FocusNode();
     _valueNotifier = ValueNotifier(false);
     _scrollController = ScrollController()
       ..addListener(() {
@@ -74,6 +76,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    _bloc?.close();
+    _node?.dispose();
     _textEditingController?.dispose();
     _scrollController?.dispose();
     _valueNotifier?.dispose();
@@ -87,14 +91,14 @@ class _HomePageState extends State<HomePage> {
         valueListenable: _valueNotifier!,
         builder: (context, value, _) => Visibility(
           visible: _valueNotifier!.value,
-          child: FloatingActionButton.extended(
+          child: FloatingActionButton(
             onPressed: () {
               _scrollController!.animateTo(0,
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeIn);
             },
             backgroundColor: Colors.green,
-            label: const Center(
+            child: const Center(
               child: Icon(CupertinoIcons.up_arrow),
             ),
           ),
@@ -102,7 +106,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(18.0),
           child: Column(
             children: [
               Row(
@@ -131,9 +135,10 @@ class _HomePageState extends State<HomePage> {
                     );
                   }),
                   const SizedBox(
-                    width: 30,
+                    width: 18,
                   ),
                   ProfessorSearchBar(
+                    node: _node,
                     controller: _textEditingController,
                   )
                 ],
@@ -174,7 +179,6 @@ class _HomePageState extends State<HomePage> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                _textEditingController?.clear();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute<void>(
@@ -187,10 +191,11 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 );
+                                _textEditingController?.clear();
+                                _node?.unfocus();
                               },
                               child: Container(
                                 width: 360,
-                                height: 75,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   color: const Color(0xFFEEF9EF),
@@ -266,15 +271,16 @@ class _HomePageState extends State<HomePage> {
                                                             ? 'нет отзывов'
                                                             : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
                                                         style: const TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    138,
-                                                                    138,
-                                                                    138)),
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Color.fromARGB(
+                                                            255,
+                                                            138,
+                                                            138,
+                                                            138,
+                                                          ),
+                                                        ),
                                                       ),
                                                     ],
                                                   ),

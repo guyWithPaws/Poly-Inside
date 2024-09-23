@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:grpc/grpc.dart';
+// import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:shared/shared.dart';
@@ -26,6 +27,7 @@ class InitializationBloc
             credentials: ChannelCredentials.insecure(),
           ),
         );
+        // final channel = GrpcWebClientChannel.xhr(Uri.parse('http://87.228.18.201:8080'));
         final client = SearchServiceClient(channel);
         final repostory = ClientRepositoryImpl(client: client);
         emit(InitializationState.initialized(repostory));

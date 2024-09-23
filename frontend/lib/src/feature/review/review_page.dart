@@ -191,10 +191,16 @@ class _ReviewPageState extends State<ReviewPage> {
                 const SizedBox(
                   width: 32,
                 ),
-                Text(
-                  widget.professor.name.capitalize(),
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.bold),
+                Expanded(
+                  child: Text(
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    widget.professor.name.capitalize(),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 )
               ],
             ),
@@ -235,7 +241,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           valueNotifier: _valueObjectivityNotifier,
                           value: widget.review?.objectivity ?? 1,
                           size: const Size(30, 30),
-                          textSize: 28,
+                          textSize: 20,
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
@@ -243,7 +249,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           valueNotifier: _valueLoayltyNotifier,
                           value: widget.review?.loyalty ?? 1,
                           size: const Size(30, 30),
-                          textSize: 28,
+                          textSize: 20,
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
@@ -251,7 +257,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           valueNotifier: _valueProfessionalismNotifier,
                           value: widget.review?.professionalism ?? 1,
                           size: const Size(30, 30),
-                          textSize: 28,
+                          textSize: 20,
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
@@ -259,7 +265,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           valueNotifier: _valueHarshnessNotifier,
                           value: widget.review?.harshness ?? 1,
                           size: const Size(30, 30),
-                          textSize: 28,
+                          textSize: 20,
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
