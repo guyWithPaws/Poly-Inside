@@ -45,7 +45,7 @@ class GRPCService extends SearchServiceBase {
   Stream<ReviewStream> getReviewsByProfessorId(
       ServiceCall call, ReviewsByProfessorIdRequest request) async* {
     l.v('GetReviewsByProfessorId with ${request.id}');
-    final stream = await provider.getAllReviewsByProfessor(request.id);
+    final stream = provider.getAllReviewsByProfessor(request.id);
     await for (final list in stream) {
       yield ReviewStream(reviews: list);
     }

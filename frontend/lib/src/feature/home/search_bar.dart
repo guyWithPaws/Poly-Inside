@@ -74,7 +74,6 @@ class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
               controller: widget.controller,
             ),
           ),
-
         ],
       ),
     );

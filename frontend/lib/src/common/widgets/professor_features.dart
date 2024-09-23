@@ -18,7 +18,7 @@ class ProfessorFeatures extends StatelessWidget {
     required this.loyalty,
     required this.professionalism,
     required this.harshness,
-    required this.textSize, 
+    required this.textSize,
     required this.fontWeight, // ignore: unused_element
   });
 
@@ -40,10 +40,22 @@ class ProfessorFeatures extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Объективность', style: TextStyle(fontSize: textSize, fontWeight: fontWeight),),
-                Text('Лояльность', style: TextStyle(fontSize: textSize, fontWeight: fontWeight),),
-                Text('Профессионализм', style: TextStyle(fontSize: textSize, fontWeight: fontWeight),),
-                Text('Резкость', style: TextStyle(fontSize: textSize, fontWeight: fontWeight),),
+                Text(
+                  'Объективность',
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
+                ),
+                Text(
+                  'Лояльность',
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
+                ),
+                Text(
+                  'Профессионализм',
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
+                ),
+                Text(
+                  'Резкость',
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
+                ),
               ],
             ),
             SizedBox(

@@ -115,8 +115,10 @@ class ReviewTitle extends StatelessWidget {
                         ),
                         Text(
                           '${review.likes}',
-                          style:
-                              const TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.w400),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400),
                         ),
                       ],
                     ),

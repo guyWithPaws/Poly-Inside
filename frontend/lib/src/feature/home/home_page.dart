@@ -238,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                                                   .capitalize(),
                                               style: const TextStyle(
                                                 overflow: TextOverflow.clip,
-                                                fontSize: 16, 
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -256,13 +256,25 @@ class _HomePageState extends State<HomePage> {
                                                       Alignment.centerRight,
                                                   child: Column(
                                                     children: [
-                                                      SizedBox(height: 3,),
+                                                      const SizedBox(
+                                                        height: 3,
+                                                      ),
                                                       Text(
-                                                        (professors[index].rating ==
+                                                        (professors[index]
+                                                                    .rating ==
                                                                 0)
                                                             ? 'нет отзывов'
                                                             : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
-                                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 138, 138, 138)),
+                                                        style: const TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    138,
+                                                                    138,
+                                                                    138)),
                                                       ),
                                                     ],
                                                   ),

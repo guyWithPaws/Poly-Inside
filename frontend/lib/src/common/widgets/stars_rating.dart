@@ -182,8 +182,14 @@ class _StarsRatingState extends State<StarsRating> {
           SizedBox(width: widget.spaceBetween),
           Column(
             children: [
-              SizedBox(height: 3,),
-              Text(widget.value.toStringAsFixed(1), style: TextStyle(fontSize: widget.textSize, fontWeight: FontWeight.w500,)),
+              const SizedBox(
+                height: 3,
+              ),
+              Text(widget.value.toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: widget.textSize,
+                    fontWeight: FontWeight.w500,
+                  )),
             ],
           )
         ],

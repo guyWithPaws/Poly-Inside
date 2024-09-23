@@ -15,6 +15,9 @@ class UserScope extends StatefulWidget {
     super.key, // ignore: unused_element
   });
 
+  static User userOf(BuildContext context) =>
+      _InheritedUserScope.of(context).user;
+
   /// The widget below this widget in the tree.
   final Widget child;
 
@@ -61,9 +64,9 @@ class _UserScopeState extends State<UserScope> {
   @override
   Widget build(BuildContext context) => BlocBuilder<UserBloc, UserState>(
         builder: (context, state) => state.when(
-            processing: () => Placeholder(),
-            idle: () => Placeholder(),
-            error: (e) => Placeholder(),
+            processing: () => const Placeholder(),
+            idle: () => const Placeholder(),
+            error: (e) => const Placeholder(),
             loaded: (user) => _InheritedUserScope(
                   user: user,
                   state: this,

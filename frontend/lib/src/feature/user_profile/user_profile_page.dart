@@ -6,7 +6,6 @@ import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:shared/shared.dart';
 
 class ProfilePage extends StatefulWidget {
-
   /// {@macro profile_page}
   const ProfilePage({
     super.key, // ignore: unused_element
@@ -78,7 +77,8 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<Review>>(
-          future: InitializationScope.repositoryOf(context).getAllReviewByUser(123),
+          future:
+              InitializationScope.repositoryOf(context).getAllReviewByUser(123),
           builder: (context, snapshot) {
             return CustomScrollView(slivers: [
               SliverAppBar(

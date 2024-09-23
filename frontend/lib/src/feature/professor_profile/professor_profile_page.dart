@@ -109,7 +109,11 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
             child: Center(
               child: value
                   ? const Icon(Icons.arrow_upward)
-                  : const Text('Написать отзыв', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),),
+                  : const Text(
+                      'Написать отзыв',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
             ),
           ),
         ),
