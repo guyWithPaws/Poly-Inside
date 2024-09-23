@@ -119,7 +119,8 @@ class _ReviewPageState extends State<ReviewPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          bool passed = await InitializationScope.repositoryOf(context).addReview(
+          bool passed =
+              await InitializationScope.repositoryOf(context).addReview(
             Review(
                 objectivity: _valueObjectivityNotifier!.value,
                 loyalty: _valueLoayltyNotifier!.value,
@@ -142,6 +143,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   child: Center(
                     child: Column(
                       children: [
+                        Image.asset('assets/success.gif'),
                         (passed)
                             ? const Text('Ваш отзыв успешно сохранён')
                             : const Text('Проверьте свой отзыв'),
