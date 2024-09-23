@@ -22,6 +22,7 @@ class ReviewTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(left: 26, right: 26),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 238, 249, 237),
         borderRadius: BorderRadius.circular(12),
@@ -51,7 +52,7 @@ class ReviewTitle extends StatelessWidget {
                     const Text(
                       "Руль Николай Игоревич",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -76,7 +77,7 @@ class ReviewTitle extends StatelessWidget {
             Text(
               textAlign: TextAlign.start,
               review.comment,
-              style: const TextStyle(fontSize: 14),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
             ProfessorFeatures(
@@ -84,6 +85,8 @@ class ReviewTitle extends StatelessWidget {
               harshness: review.harshness,
               loyalty: review.loyalty,
               professionalism: review.professionalism,
+              textSize: 10,
+              fontWeight: FontWeight.w500,
             ),
             const SizedBox(height: 16),
             Row(
@@ -113,7 +116,7 @@ class ReviewTitle extends StatelessWidget {
                         Text(
                           '${review.likes}',
                           style:
-                              const TextStyle(fontSize: 16, color: Colors.grey),
+                              const TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.w400),
                         ),
                       ],
                     ),

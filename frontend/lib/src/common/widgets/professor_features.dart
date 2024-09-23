@@ -8,6 +8,8 @@ class ProfessorFeatures extends StatelessWidget {
   final double loyalty;
   final double professionalism;
   final double harshness;
+  final double? textSize;
+  final FontWeight fontWeight;
 
   /// {@macro teacher_features}
   const ProfessorFeatures({
@@ -15,7 +17,9 @@ class ProfessorFeatures extends StatelessWidget {
     required this.objectivity,
     required this.loyalty,
     required this.professionalism,
-    required this.harshness, // ignore: unused_element
+    required this.harshness,
+    required this.textSize, 
+    required this.fontWeight, // ignore: unused_element
   });
 
   @override
@@ -32,14 +36,14 @@ class ProfessorFeatures extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Объективность'),
-                Text('Лояльность'),
-                Text('Профессионализм'),
-                Text('Резкость'),
+                Text('Объективность', style: TextStyle(fontSize: textSize, fontWeight: fontWeight),),
+                Text('Лояльность', style: TextStyle(fontSize: textSize, fontWeight: fontWeight),),
+                Text('Профессионализм', style: TextStyle(fontSize: textSize, fontWeight: fontWeight),),
+                Text('Резкость', style: TextStyle(fontSize: textSize, fontWeight: fontWeight),),
               ],
             ),
             SizedBox(
@@ -81,30 +85,30 @@ class ProfessorFeatures extends StatelessWidget {
               children: [
                 Text(
                   objectivity.toStringAsFixed(1),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  style: TextStyle(
+                    fontSize: textSize,
+                    fontWeight: fontWeight,
                   ),
                 ),
                 Text(
                   loyalty.toStringAsFixed(1),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  style: TextStyle(
+                    fontSize: textSize,
+                    fontWeight: fontWeight,
                   ),
                 ),
                 Text(
                   professionalism.toStringAsFixed(1),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  style: TextStyle(
+                    fontSize: textSize,
+                    fontWeight: fontWeight,
                   ),
                 ),
                 Text(
                   harshness.toStringAsFixed(1),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  style: TextStyle(
+                    fontSize: textSize,
+                    fontWeight: fontWeight,
                   ),
                 ),
               ],

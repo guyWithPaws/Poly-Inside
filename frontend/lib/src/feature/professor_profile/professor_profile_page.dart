@@ -109,7 +109,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
             child: Center(
               child: value
                   ? const Icon(Icons.arrow_upward)
-                  : const Text('Написать отзыв'),
+                  : const Text('Написать отзыв', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),),
             ),
           ),
         ),
@@ -178,7 +178,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                 textAlign: TextAlign.center,
                                 widget.professor.name.capitalize(),
                                 style: const TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
+                                    fontSize: 25, fontWeight: FontWeight.w600),
                               ),
                             ),
                             Row(
@@ -187,7 +187,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                 StarsRating(
                                   value: widget.professor.rating,
                                   size: const Size(32, 32),
-                                  spaceBetween: 16,
+                                  textSize: 28,
+                                  spaceBetween: 23,
                                 ),
                               ],
                             ),
@@ -197,6 +198,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                               harshness: widget.professor.harshness,
                               loyalty: widget.professor.loyalty,
                               professionalism: widget.professor.professionalism,
+                              textSize: 12,
+                              fontWeight: FontWeight.w600,
                             ),
                             const SizedBox(
                               height: 8,
@@ -207,7 +210,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                     children: [
                                       const Text(
                                         'Отзывы',
-                                        style: TextStyle(fontSize: 20),
+                                        style: TextStyle(fontSize: 20,
+                                        fontWeight: FontWeight.w600),
                                       ),
                                       const SizedBox(
                                         width: 8,
@@ -227,8 +231,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                                     .toString()
                                                 : '0',
                                             style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w600),
                                           ),
                                         ),
                                       )
