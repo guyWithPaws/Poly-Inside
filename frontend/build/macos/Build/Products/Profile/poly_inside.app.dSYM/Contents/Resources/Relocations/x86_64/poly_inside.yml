@@ -1,0 +1,20 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/guywithpaws/Poly-Inside/frontend/build/macos/Build/Products/Profile/poly_inside.app/Contents/MacOS/poly_inside'
+relocations:
+  - { offset: 0xCDE6B, size: 0x8, addend: 0x0, symName: '_$s11poly_inside17MainFlutterWindowC12awakeFromNibyyFTo', symObjAddr: 0x0, symBinAddr: 0x100002360, symSize: 0x100 }
+  - { offset: 0xCDFA1, size: 0x8, addend: 0x0, symName: '_$s11poly_inside17MainFlutterWindowCMa', symObjAddr: 0x1B0, symBinAddr: 0x100002510, symSize: 0x20 }
+  - { offset: 0xCDFB5, size: 0x8, addend: 0x0, symName: '_$s11poly_inside24RegisterGeneratedPlugins8registryySo21FlutterPluginRegistry_p_tFTf4e_nSo0G14ViewControllerC_Tg5', symObjAddr: 0x1D0, symBinAddr: 0x100002530, symSize: 0xF1 }
+  - { offset: 0xCE078, size: 0x8, addend: 0x0, symName: '_$s11poly_inside17MainFlutterWindowC12awakeFromNibyyFTo', symObjAddr: 0x0, symBinAddr: 0x100002360, symSize: 0x100 }
+  - { offset: 0xCE19A, size: 0x8, addend: 0x0, symName: '_$s11poly_inside17MainFlutterWindowC11contentRect9styleMask7backing5deferACSo6CGRectV_So013NSWindowStyleI0VSo18NSBackingStoreTypeVSbtcfcTo', symObjAddr: 0x100, symBinAddr: 0x100002460, symSize: 0x80 }
+  - { offset: 0xCE1F4, size: 0x8, addend: 0x0, symName: '_$s11poly_inside17MainFlutterWindowCfD', symObjAddr: 0x180, symBinAddr: 0x1000024E0, symSize: 0x30 }
+  - { offset: 0xCE34B, size: 0x8, addend: 0x0, symName: '_$s11poly_inside11AppDelegateC47applicationShouldTerminateAfterLastWindowClosedySbSo13NSApplicationCFTo', symObjAddr: 0x0, symBinAddr: 0x100002630, symSize: 0x10 }
+  - { offset: 0xCE3DC, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x70, symBinAddr: 0x1000026A0, symSize: 0x30 }
+  - { offset: 0xCE426, size: 0x8, addend: 0x0, symName: '_$s11poly_inside11AppDelegateCMa', symObjAddr: 0xA0, symBinAddr: 0x1000026D0, symSize: 0x14 }
+  - { offset: 0xCE473, size: 0x8, addend: 0x0, symName: '_$s11poly_inside11AppDelegateC47applicationShouldTerminateAfterLastWindowClosedySbSo13NSApplicationCFTo', symObjAddr: 0x0, symBinAddr: 0x100002630, symSize: 0x10 }
+  - { offset: 0xCE4A0, size: 0x8, addend: 0x0, symName: '_$s11poly_inside11AppDelegateCACycfcTo', symObjAddr: 0x10, symBinAddr: 0x100002640, symSize: 0x30 }
+  - { offset: 0xCE4DB, size: 0x8, addend: 0x0, symName: '_$s11poly_inside11AppDelegateCfD', symObjAddr: 0x40, symBinAddr: 0x100002670, symSize: 0x30 }
+  - { offset: 0xCE653, size: 0x8, addend: 0x0, symName: '_$s11poly_inside19ResourceBundleClass33_8FF23CD0DB257897610CC5E471303D1DLLCfD', symObjAddr: 0x0, symBinAddr: 0x1000026F0, symSize: 0x20 }
+  - { offset: 0xCE695, size: 0x8, addend: 0x0, symName: '_$s11poly_inside19ResourceBundleClass33_8FF23CD0DB257897610CC5E471303D1DLLCMa', symObjAddr: 0x20, symBinAddr: 0x100002710, symSize: 0x14 }
+  - { offset: 0xCE6B0, size: 0x8, addend: 0x0, symName: '_$s11poly_inside19ResourceBundleClass33_8FF23CD0DB257897610CC5E471303D1DLLCfD', symObjAddr: 0x0, symBinAddr: 0x1000026F0, symSize: 0x20 }
+...

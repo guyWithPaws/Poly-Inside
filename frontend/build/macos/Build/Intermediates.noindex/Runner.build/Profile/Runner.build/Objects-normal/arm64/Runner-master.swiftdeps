@@ -1,0 +1,10 @@
+version: "Apple Swift version 6.0 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)"
+options: "dbb3d3f00a854ffc77a7eb53a86ec00a8eb0c89d90ae765035887905b4b5ec74"
+build_start_time: [1727034500, 629315000]
+build_end_time: [1727034509, 630078000]
+inputs:
+  ? "/Users/guywithpaws/Poly-Inside/frontend/build/macos/Build/Intermediates.noindex/Runner.build/Profile/Runner.build/DerivedSources/GeneratedAssetSymbols.swift"
+  : [1727034500, 564088978]
+  "/Users/guywithpaws/Poly-Inside/frontend/macos/Flutter/GeneratedPluginRegistrant.swift": [1727034433, 294476281]
+  "/Users/guywithpaws/Poly-Inside/frontend/macos/Runner/AppDelegate.swift": [1727002875, 746837804]
+  "/Users/guywithpaws/Poly-Inside/frontend/macos/Runner/MainFlutterWindow.swift": [1727002875, 754860594]
