@@ -77,10 +77,11 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<Review>>(
-          future:
-              InitializationScope.repositoryOf(context).getAllReviewByUser(123),
-          builder: (context, snapshot) {
-            return CustomScrollView(slivers: [
+        future:
+            InitializationScope.repositoryOf(context).getAllReviewByUser(123),
+        builder: (context, snapshot) {
+          return CustomScrollView(
+            slivers: [
               SliverAppBar(
                 automaticallyImplyLeading: false,
                 surfaceTintColor: Colors.white,
@@ -124,40 +125,48 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     FittedBox(
                       fit: BoxFit.cover,
-                      child: Column(children: [
-                        CircleAvatar(
-                          radius: 158 / 2,
-                          child: ClipOval(
-                            child: Image.asset(
-                              'assets/beer.jpg',
-                              height: 158,
-                              width: 158,
-                              fit: BoxFit.cover,
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 158 / 2,
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/beer.jpg',
+                                height: 158,
+                                width: 158,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 13,
-                        ),
-                        const Text("ID: 7921375",
+                          const SizedBox(
+                            height: 13,
+                          ),
+                          const Text("ID: 7921375",
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600)),
+                          const Text(
+                            "goxa",
                             style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600)),
-                        const Text("goxa",
+                              color: Colors.black,
+                              fontSize: 36,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            "Мудрец",
                             style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 36,
-                                fontWeight: FontWeight.w600)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text("Мудрец",
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500)),
-                      ]),
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 6,
@@ -179,17 +188,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: 20,
                           height: 26,
                           decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 233, 252, 232),
-                              borderRadius: BorderRadius.circular(7)),
+                            color: const Color.fromARGB(255, 233, 252, 232),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
                           child: const Center(
-                              child: Text(
-                            "2",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
+                            child: Text(
+                              "2",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          )),
-                        )
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -220,8 +231,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-            ]);
-          }),
+            ],
+          );
+        },
+      ),
     );
   }
 }

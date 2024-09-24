@@ -40,6 +40,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   ValueNotifier<int>? _count;
+  final int _reviewsCount = 0;
 
   /* #region Lifecycle */
   @override
@@ -204,7 +205,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                         const SizedBox(
                           height: 16,
                         ),
-                        if (_count?.value != 0)
+                        if (_count!.value != 0)
                           Row(
                             children: [
                               const Text(
@@ -219,9 +220,10 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                 width: 20,
                                 height: 26,
                                 decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 233, 252, 232),
-                                    borderRadius: BorderRadius.circular(7)),
+                                  color:
+                                      const Color.fromARGB(255, 233, 252, 232),
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
                                 child: Center(
                                   child: ValueListenableBuilder(
                                     valueListenable: _count!,
@@ -251,7 +253,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                   .getAllReviewsByProfessor(widget.professor.id),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  _count?.value = snapshot.data!.reviews.length;
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _count?.value = snapshot.data!.reviews.length;
+                  });
                   return SliverList.separated(
                     itemCount: snapshot.data!.reviews.length,
                     separatorBuilder: (context, index) =>

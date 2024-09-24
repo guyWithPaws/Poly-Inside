@@ -1,6 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -36,8 +35,6 @@ class _HomePageState extends State<HomePage> {
   ValueNotifier<bool>? _valueNotifier;
   HomeBloc? _bloc;
   TextEditingController? _textEditingController;
-  bool? showFloatingButton;
-  String? searchProfessorPattern;
   FocusNode? _node;
   String reviewInRussian = 'отзыв';
   int count = 20;
@@ -55,15 +52,14 @@ class _HomePageState extends State<HomePage> {
         }
         if (_scrollController?.position.pixels !=
             _scrollController?.position.minScrollExtent) {
-          _valueNotifier?.value = true;
+          _valueNotifier!.value = true;
         } else {
-          _valueNotifier?.value = false;
+          _valueNotifier!.value = false;
         }
       });
     _textEditingController = TextEditingController()
       ..addListener(() => _bloc?.add(TextFieldChanged(
           name: _textEditingController?.text.toLowerCase() ?? '')));
-    _valueNotifier = ValueNotifier(false);
     super.initState();
   }
 
@@ -89,20 +85,22 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: ValueListenableBuilder(
         valueListenable: _valueNotifier!,
-        builder: (context, value, _) => Visibility(
-          visible: _valueNotifier!.value,
-          child: FloatingActionButton(
-            onPressed: () {
-              _scrollController!.animateTo(0,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeIn);
-            },
-            backgroundColor: Colors.green,
-            child: const Center(
-              child: Icon(CupertinoIcons.up_arrow),
-            ),
-          ),
-        ),
+        builder: (_, value, child) => value
+            ? FloatingActionButton(
+                onPressed: () {
+                  _scrollController!.animateTo(0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeIn);
+                },
+                backgroundColor: Colors.green,
+                child: const Center(
+                  child: Icon(CupertinoIcons.up_arrow),
+                ),
+              )
+            : const SizedBox(
+                width: 0,
+                height: 0,
+              ),
       ),
       body: SafeArea(
         child: Padding(
@@ -164,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                       processing: () => const Center(
                         child: CircularProgressIndicator(),
                       ),
-                      idle: () => const Placeholder(),
+                      idle: () => const SizedBox(),
                       error: (error) => Center(
                         child: Text(error.toString()),
                       ),
@@ -177,120 +175,125 @@ class _HomePageState extends State<HomePage> {
                             height: 25,
                           ),
                           itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (builderContext) =>
-                                        ProfessorProfilePage(
-                                      repository:
-                                          InitializationScope.repositoryOf(
-                                              context),
-                                      professor: professors[index],
+                            return RepaintBoundary(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (builderContext) =>
+                                          ProfessorProfilePage(
+                                        repository:
+                                            InitializationScope.repositoryOf(
+                                                context),
+                                        professor: professors[index],
+                                      ),
                                     ),
+                                  );
+                                  _textEditingController?.clear();
+                                  _node?.unfocus();
+                                },
+                                child: Container(
+                                  width: 360,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: const Color(0xFFEEF9EF),
                                   ),
-                                );
-                                _textEditingController?.clear();
-                                _node?.unfocus();
-                              },
-                              child: Container(
-                                width: 360,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: const Color(0xFFEEF9EF),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Hero(
-                                        tag: professors[index].id,
-                                        child: CircleAvatar(
-                                          backgroundColor: Colors.grey[200],
-                                          radius: 27,
-                                          child: ClipOval(
-                                            child: Uint8List.fromList(
-                                              professors[index].avatar,
-                                            ).isNotEmpty
-                                                ? Image.memory(
-                                                    height: 60,
-                                                    width: 60,
-                                                    fit: BoxFit.cover,
-                                                    Uint8List.fromList(
-                                                      professors[index].avatar,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Hero(
+                                          tag: professors[index].id,
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.grey[200],
+                                            radius: 27,
+                                            child: ClipOval(
+                                              child: Uint8List.fromList(
+                                                professors[index].avatar,
+                                              ).isNotEmpty
+                                                  ? Image.memory(
+                                                      height: 60,
+                                                      width: 60,
+                                                      fit: BoxFit.cover,
+                                                      Uint8List.fromList(
+                                                        professors[index]
+                                                            .avatar,
+                                                      ),
+                                                    )
+                                                  : SvgPicture.asset(
+                                                      'assets/icons/no_photo.svg',
                                                     ),
-                                                  )
-                                                : SvgPicture.asset(
-                                                    'assets/icons/no_photo.svg',
-                                                  ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              professors[index]
-                                                  .name
-                                                  .capitalize(),
-                                              style: const TextStyle(
-                                                overflow: TextOverflow.clip,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            Stack(
-                                              children: [
-                                                StarsRating(
-                                                  size: const Size(20, 20),
-                                                  textSize: 16,
-                                                  value:
-                                                      professors[index].rating,
-                                                  spaceBetween: 8,
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                professors[index]
+                                                    .name
+                                                    .capitalize(),
+                                                style: const TextStyle(
+                                                  overflow: TextOverflow.clip,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  child: Column(
-                                                    children: [
-                                                      const SizedBox(
-                                                        height: 3,
-                                                      ),
-                                                      Text(
-                                                        (professors[index]
-                                                                    .rating ==
-                                                                0)
-                                                            ? 'нет отзывов'
-                                                            : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Color.fromARGB(
-                                                            255,
-                                                            138,
-                                                            138,
-                                                            138,
+                                              ),
+                                              Stack(
+                                                children: [
+                                                  StarsRating(
+                                                    size: const Size(20, 20),
+                                                    textSize: 16,
+                                                    value: professors[index]
+                                                        .rating,
+                                                    spaceBetween: 8,
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Column(
+                                                      children: [
+                                                        const SizedBox(
+                                                          height: 3,
+                                                        ),
+                                                        Text(
+                                                          (professors[index]
+                                                                      .rating ==
+                                                                  0)
+                                                              ? 'нет отзывов'
+                                                              : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Color.fromARGB(
+                                                              255,
+                                                              138,
+                                                              138,
+                                                              138,
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

@@ -64,14 +64,15 @@ class _UserScopeState extends State<UserScope> {
   @override
   Widget build(BuildContext context) => BlocBuilder<UserBloc, UserState>(
         builder: (context, state) => state.when(
-            processing: () => const Placeholder(),
-            idle: () => const Placeholder(),
-            error: (e) => const Placeholder(),
-            loaded: (user) => _InheritedUserScope(
-                  user: user,
-                  state: this,
-                  child: widget.child,
-                )),
+          processing: () => const Placeholder(),
+          idle: () => const Placeholder(),
+          error: (e) => const Placeholder(),
+          loaded: (user) => _InheritedUserScope(
+            user: user,
+            state: this,
+            child: widget.child,
+          ),
+        ),
         bloc: _bloc,
       );
 }

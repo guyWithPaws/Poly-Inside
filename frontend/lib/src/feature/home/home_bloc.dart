@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared/shared.dart';
 
 part 'home_bloc.freezed.dart';
@@ -71,24 +72,44 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
         .listen((event) => add(AddListToState(professors: event)));
     on<AddListToState>(
         (event, emit) => emit(HomePageState.loaded(event.professors)));
-    on<ListRequested>((event, emit) async {
-      try {
-        final stream = repository.getAllProfessors(event.count);
-        stream.listen((e) => add(AddListToState(professors: e.professors)));
-      } on Object catch (error, _) {
-        emit(HomePageState.error(error));
-        rethrow;
-      }
-    });
-    on<TextFieldChanged>((event, emit) async {
-      try {
-        final list = await repository.findProfessorByName(event.name, 30);
-        _controller?.add(list.professors);
-      } on Object catch (error, _) {
-        emit(HomePageState.error(error));
-        rethrow;
-      }
-    });
+    on<ListRequested>(
+      (event, emit) async {
+        try {
+          final stream = repository.getAllProfessors(event.count);
+          stream.listen((e) => add(AddListToState(professors: e.professors)));
+        } on Object catch (error, _) {
+          emit(HomePageState.error(error));
+          rethrow;
+        }
+      },
+      transformer: (events, mapper) => events
+          .debounceTime(
+            const Duration(milliseconds: 100),
+          )
+          .throttleTime(
+            const Duration(milliseconds: 100),
+          )
+          .asyncExpand(mapper),
+    );
+    on<TextFieldChanged>(
+      (event, emit) async {
+        try {
+          final list = await repository.findProfessorByName(event.name, 30);
+          _controller?.add(list.professors);
+        } on Object catch (error, _) {
+          emit(HomePageState.error(error));
+          rethrow;
+        }
+      },
+      transformer: (events, mapper) => events
+          .debounceTime(
+            const Duration(milliseconds: 100),
+          )
+          .throttleTime(
+            const Duration(milliseconds: 100),
+          )
+          .asyncExpand(mapper),
+    );
   }
 
   @override

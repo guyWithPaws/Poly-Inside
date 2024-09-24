@@ -208,8 +208,11 @@ class _ReviewPageState extends State<ReviewPage> {
               height: 16,
             ),
             const Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Рейтинг по категориям')),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Рейтинг по категориям',
+              ),
+            ),
             const SizedBox(
               height: 16,
             ),
