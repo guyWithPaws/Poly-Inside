@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "41745264423",
+    "project_id": "polyinside",
+    "storage_bucket": "polyinside.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41745264423:android:428e57a3c2ecb37020c302",
+        "android_client_info": {
+          "package_name": "com.example.poly_inside"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbqbs0IyxtB3q_tJ9kB-kk8_RxB9iRpLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,11 @@
 // ignore_for_file: camel_case_types
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:shared/shared.dart';
-// import 'package:flutter_telegram_web_app/flutter_telegram_web_app.dart' as tg;
+import 'package:flutter_telegram_web_app/flutter_telegram_web_app.dart' as tg;
 
 part 'user_bloc.freezed.dart';
 
@@ -17,17 +18,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(const UserState.processing());
 
       try {
-        final id = getId();
+        final id = tg.initDataUnsafe.user?.id;
+        if (id == null) {
+          throw Exception('User ID is null');
+        }
         var user = await repository.getUserByUserId(id);
         if (!user.hasId()) {
           await repository.addUser(
             User()
               ..id = id
-              ..name = 'goxa',
+              ..name = 'anonymous',
           );
           user = await repository.getUserByUserId(id);
         }
-
+        await FirebaseAnalytics.instance
+            .logLogin(parameters: <String, Object>{'UserID': user.id});
         emit(UserState.loaded(user));
       } on Object catch (error, _) {
         emit(UserState.error(error));

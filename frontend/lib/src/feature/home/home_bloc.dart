@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:rxdart/rxdart.dart';
@@ -93,6 +94,7 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
     );
     on<TextFieldChanged>(
       (event, emit) async {
+        await FirebaseAnalytics.instance.logSearch(searchTerm: event.name);
         try {
           final list = await repository.findProfessorByName(event.name, 30);
           _controller?.add(list.professors);
