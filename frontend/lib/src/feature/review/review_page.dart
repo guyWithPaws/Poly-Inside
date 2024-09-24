@@ -1,7 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
@@ -179,7 +178,9 @@ class _ReviewPageState extends State<ReviewPage> {
                 ),
               );
             },
-          );
+          ).then((_) {
+            if (passed) Navigator.of(context).pop();
+          });
         },
         backgroundColor: Colors.green,
         label: const Center(child: Text('Опубликовать')),

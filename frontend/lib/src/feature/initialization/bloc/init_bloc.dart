@@ -27,7 +27,8 @@ class InitializationBloc
         //     credentials: ChannelCredentials.insecure(),
         //   ),
         // );
-        final channel = GrpcWebClientChannel.xhr(Uri.parse('http://87.228.18.201:8080'));
+        final channel =
+            GrpcWebClientChannel.xhr(Uri.parse('http://87.228.18.201:8080'));
         final client = SearchServiceClient(channel);
         final repostory = ClientRepositoryImpl(client: client);
         emit(InitializationState.initialized(repostory));
