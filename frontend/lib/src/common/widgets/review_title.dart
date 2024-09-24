@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
+import 'package:poly_inside/src/common/widgets/reactions.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
 import 'package:intl/intl.dart';
@@ -93,55 +94,16 @@ class ReviewTitle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                    DateFormat.yMMMM('en_US').format(
+                    DateFormat.yMMMMd('ru_RU').format(
                         DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS')
                             .parse(review.date)),
                     style: const TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                         fontWeight: FontWeight.w500)),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/like.svg',
-                          alignment: Alignment.bottomRight,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          '${review.likes}',
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 16),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/dislike.svg',
-                          alignment: Alignment.bottomRight,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          '${review.dislikes}',
-                          style:
-                              const TextStyle(fontSize: 16, color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                //Reactions(
+                //  review: review,
+                //),
               ],
             )
           ],

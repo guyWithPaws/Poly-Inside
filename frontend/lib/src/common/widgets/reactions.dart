@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared/shared.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 enum ReactionType {
   like,
@@ -16,19 +17,27 @@ enum ReactionType {
   }
 }
 
-/// {@template reactions}
-/// Reactions widget.
-/// {@endtemplate}
-class Reactions extends StatelessWidget {
-  final ReactionType type;
+class Reactions extends StatefulWidget {
   final Review? review;
 
-  /// {@macro reactions}
   const Reactions({
     super.key,
-    required this.type,
     this.review, // ignore: unused_element
   });
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _ReactionsState createState() => _ReactionsState();
+}
+
+class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
+  AnimationController? _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +47,23 @@ class Reactions extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/icons/like.svg',
-              alignment: Alignment.bottomRight,
+            GestureDetector(
+              onTap: () {
+                _animationController?.forward();
+              },
+              child: ScaleTransition(
+                scale: _animationController!,
+                child: SvgPicture.asset(
+                  'assets/icons/like.svg',
+                  alignment: Alignment.bottomRight,
+                ),
+              ),
             ),
             const SizedBox(
               width: 8,
             ),
             Text(
-              '${review!.likes}',
+              '${widget.review!.likes}',
               style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ],
@@ -63,7 +80,7 @@ class Reactions extends StatelessWidget {
               width: 8,
             ),
             Text(
-              '${review!.dislikes}',
+              '${widget.review!.dislikes}',
               style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ],
