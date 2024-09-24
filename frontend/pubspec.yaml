@@ -50,12 +50,9 @@ dependencies:
   rxdart: ^0.28.0
   rive: ^0.13.13
   animated_text_kit: ^4.2.2
-<<<<<<< HEAD
   flutter_animate: ^4.5.0
-=======
   firebase_core: ^3.5.0
   firebase_analytics: ^11.3.2
->>>>>>> d078ee42c867f65500779a0c73e85b53b37bd433
 
 
 dev_dependencies:
