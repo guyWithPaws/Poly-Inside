@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_inside/src/feature/initialization/initialization.dart';
@@ -64,9 +65,21 @@ class _UserScopeState extends State<UserScope> {
   @override
   Widget build(BuildContext context) => BlocBuilder<UserBloc, UserState>(
         builder: (context, state) => state.when(
-          processing: () => const Placeholder(),
-          idle: () => const Placeholder(),
-          error: (e) => const Placeholder(),
+          processing: () => const MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
+          idle: () => const SizedBox(),
+          error: (e) => MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: Text('$e'),
+              ),
+            ),
+          ),
           loaded: (user) => _InheritedUserScope(
             user: user,
             state: this,
