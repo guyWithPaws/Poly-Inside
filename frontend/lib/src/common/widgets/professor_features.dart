@@ -61,7 +61,6 @@ class ProfessorFeatures extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width / 2.5,
               child: Column(
-                //crossAxisAlignment: CrossAxisAlignment.baseline,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   LinearProgressIndicator(
