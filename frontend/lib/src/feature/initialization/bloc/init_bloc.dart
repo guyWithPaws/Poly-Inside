@@ -1,9 +1,11 @@
 // ignore_for_file: camel_case_types
+import 'package:firebase_core/firebase_core.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:bloc/bloc.dart';
 // import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_web.dart';
+import 'package:poly_inside/firebase_options.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';
 import 'package:shared/shared.dart';
@@ -29,6 +31,9 @@ class InitializationBloc
         // );
         final channel =
             GrpcWebClientChannel.xhr(Uri.parse('http://87.228.18.201:8080'));
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
         final client = SearchServiceClient(channel);
         final repostory = ClientRepositoryImpl(client: client);
         emit(InitializationState.initialized(repostory));
