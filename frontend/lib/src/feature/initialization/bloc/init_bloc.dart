@@ -2,7 +2,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:bloc/bloc.dart';
+<<<<<<< HEAD
 // import 'package:grpc/grpc.dart';
+=======
+//import 'package:grpc/grpc.dart';
+>>>>>>> 256027dace2c92f633d28cea38cbc2c3466774bf
 import 'package:grpc/grpc_web.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/repository/client_impl.dart';

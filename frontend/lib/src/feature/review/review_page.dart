@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
@@ -7,6 +8,7 @@ import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:shared/shared.dart';
+import 'package:rive/rive.dart' as rive;
 
 /// {@template review_page}
 /// ReviewPage widget.
@@ -133,20 +135,44 @@ class _ReviewPageState extends State<ReviewPage> {
                 comment: _valueTextFormNotifier!.value,
                 professorId: widget.professor.id),
           );
+
           await showDialog(
             context: context,
             builder: (builderContext) {
               return AlertDialog(
                 content: SizedBox(
-                  width: 100,
-                  height: 100,
+                  width: 300,
+                  height: (passed) ? 130 : 200,
                   child: Center(
                     child: Column(
                       children: [
-                        Image.asset('assets/success.gif'),
                         (passed)
-                            ? const Text('Ваш отзыв успешно сохранён')
-                            : const Text('Проверьте свой отзыв'),
+                            ? const SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: rive.RiveAnimation.asset(
+                                    'assets/rive/success.riv'),
+                              )
+                            : const SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: rive.RiveAnimation.asset(
+                                    'assets/rive/error.riv'),
+                              ),
+                        (passed)
+                            ? AnimatedTextKit(
+                                isRepeatingAnimation: false,
+                                animatedTexts: [
+                                  TyperAnimatedText(
+                                      'Ваш отзыв успешно сохранён')
+                                ],
+                              )
+                            : AnimatedTextKit(
+                                isRepeatingAnimation: false,
+                                animatedTexts: [
+                                  TyperAnimatedText('Проверьте свой отзыв')
+                                ],
+                              ),
                       ],
                     ),
                   ),
