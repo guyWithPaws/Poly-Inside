@@ -6,13 +6,16 @@ class ClientRepositoryImpl implements ClientRepository {
   ClientRepositoryImpl({required this.client});
 
   @override
-  Future<void> addReview(Review review) => client.addReview(review);
+  Future<bool> addReview(Review review) async {
+    final responce = await client.addReview(review);
+    return responce.passed;
+  }
 
   @override
   Future<void> addUser(User user) => client.addProfile(user);
 
   @override
-  Future<GetListProfessorResponse> getAllProfessors(int count) =>
+  Stream<GetListProfessorResponse> getAllProfessors(int count) =>
       client.getListProfessor(ListProfessorRequest(count: count));
 
   @override
@@ -23,11 +26,8 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   @override
-  Future<List<Review>> getAllReviewsByProfessor(String professorId) async {
-    final response = await client.getReviewsByProfessorId(
-        ReviewsByProfessorIdRequest()..id = professorId);
-    return response.reviews;
-  }
+  Stream<ReviewStream> getAllReviewsByProfessor(String professorId) => client
+      .getReviewsByProfessorId(ReviewsByProfessorIdRequest()..id = professorId);
 
   @override
   Future<User> getUserByUserId(int userId) =>

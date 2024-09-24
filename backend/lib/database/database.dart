@@ -10,7 +10,10 @@ class Professors extends Table {
   BlobColumn get avatar => blob()();
   IntColumn get reviewsCount => integer()();
   RealColumn get rating => real()();
-
+  RealColumn get objectivity => real()();
+  RealColumn get loyalty => real()();
+  RealColumn get professionalism => real()();
+  RealColumn get harshness => real()();
   @override
   Set<Column<Object>>? get primaryKey => {id};
 }
@@ -26,7 +29,8 @@ class RejectedReviews extends Table {
   RealColumn get professionalism => real()();
   RealColumn get harshness => real()();
   TextColumn get date => text()();
-  IntColumn get rating => integer()();
+  IntColumn get likes => integer()();
+  IntColumn get dislikes => integer()();
 
   @override
   Set<Column<Object>>? get primaryKey => {id};

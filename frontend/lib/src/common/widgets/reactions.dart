@@ -1,4 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:shared/shared.dart';
 
 enum ReactionType {
   like,
@@ -19,13 +21,54 @@ enum ReactionType {
 /// {@endtemplate}
 class Reactions extends StatelessWidget {
   final ReactionType type;
+  final Review? review;
 
   /// {@macro reactions}
   const Reactions({
     super.key,
-    required this.type, // ignore: unused_element
+    required this.type,
+    this.review, // ignore: unused_element
   });
 
   @override
-  Widget build(BuildContext context) => const Placeholder();
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/icons/like.svg',
+              alignment: Alignment.bottomRight,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              '${review!.likes}',
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ],
+        ),
+        const SizedBox(width: 16),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/icons/dislike.svg',
+              alignment: Alignment.bottomRight,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              '${review!.dislikes}',
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }

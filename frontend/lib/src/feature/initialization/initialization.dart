@@ -13,6 +13,9 @@ class InitializationScope extends StatefulWidget {
     super.key, // ignore: unused_element
   });
 
+  static ClientRepository repositoryOf(BuildContext context) =>
+      _InheritedInitializationScope.of(context).repository;
+
   /// The widget below this widget in the tree.
   final Widget child;
 
@@ -38,7 +41,8 @@ class _InitializationScopeState extends State<InitializationScope> {
 
   @override
   void didChangeDependencies() {
-    _bloc ??= InitializationBloc(const InitializationState.idle());
+    _bloc ??= InitializationBloc(const InitializationState.idle())
+      ..add(StartInitialization());
     super.didChangeDependencies();
     // The configuration of InheritedWidgets has changed
     // Also called after initState but before build
@@ -60,7 +64,9 @@ class _InitializationScopeState extends State<InitializationScope> {
           processing: () => const Stub(
             child: CircularProgressIndicator(),
           ),
-          idle: () => const Stub(),
+          idle: () => const Stub(
+            child: Placeholder(),
+          ),
           error: (e) => Stub(
             child: Center(
               child: Text(
@@ -118,11 +124,13 @@ class _InheritedInitializationScope extends InheritedWidget {
 }
 
 class Stub extends StatelessWidget {
-  final Widget? child;
+  final Widget child;
 
-  const Stub({super.key, this.child});
+  const Stub({super.key, required this.child});
   @override
-  Widget build(BuildContext context) => const MaterialApp(
-        home: Scaffold(),
+  Widget build(BuildContext context) => MaterialApp(
+        home: Scaffold(
+          body: child,
+        ),
       );
 }

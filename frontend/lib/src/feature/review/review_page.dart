@@ -1,26 +1,28 @@
-import 'dart:typed_data';
-
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
-import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
-import 'package:poly_inside/src/feature/home/home_page.dart';
+import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:shared/shared.dart';
+import 'package:rive/rive.dart' as rive;
 
 /// {@template review_page}
 /// ReviewPage widget.
 /// {@endtemplate}
 class ReviewPage extends StatefulWidget {
   final Professor professor;
-  final ClientRepository repository;
+  final Review? review;
+  final bool edit;
 
   /// {@macro review_page}
   const ReviewPage({
     super.key,
     required this.professor,
-    required this.repository, // ignore: unused_element
+    this.edit = false,
+    this.review, // ignore: unused_element
   });
 
   /// The state from the closest instance of this class
@@ -37,17 +39,23 @@ class ReviewPage extends StatefulWidget {
 /// State for widget ReviewPage.
 class _ReviewPageState extends State<ReviewPage> {
   TextEditingController? _textEditingController;
+  ValueNotifier<String>? _valueTextFormNotifier;
   ValueNotifier<double>? _valueLoayltyNotifier;
   ValueNotifier<double>? _valueProfessionalismNotifier;
   ValueNotifier<double>? _valueHarshnessNotifier;
   ValueNotifier<double>? _valueObjectivityNotifier;
 
-  String? textComment;
   /* #region Lifecycle */
   @override
   void initState() {
     _textEditingController = TextEditingController();
     _textEditingController?.addListener(_textEditingListener);
+
+    if (widget.review != null) {
+      setState(() {
+        _textEditingController!.text = widget.review!.comment;
+      });
+    }
 
     _valueLoayltyNotifier = ValueNotifier(1.0);
     _valueLoayltyNotifier = ValueNotifier(1.0);
@@ -55,16 +63,14 @@ class _ReviewPageState extends State<ReviewPage> {
     _valueHarshnessNotifier = ValueNotifier(1.0);
     _valueObjectivityNotifier = ValueNotifier(1.0);
 
-    textComment = '';
+    _valueTextFormNotifier = ValueNotifier('');
 
     super.initState();
     // Initial state initialization
   }
 
   void _textEditingListener() {
-    setState(() {
-      textComment = _textEditingController!.text.trim();
-    });
+    _valueTextFormNotifier!.value = _textEditingController!.text.trim();
   }
 
   @override
@@ -113,22 +119,9 @@ class _ReviewPageState extends State<ReviewPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // showDialog(
-          //   context: context,
-          //   builder: (builderContext) {
-          //     return const AlertDialog(
-          //       content: SizedBox(
-          //         width: 100,
-          //         height: 50,
-          //         child: Center(
-          //           child: Text('Загружаем Ваш отзыв..'),
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ).then((a) {
-          widget.repository.addReview(
+        onPressed: () async {
+          bool passed =
+              await InitializationScope.repositoryOf(context).addReview(
             Review(
                 objectivity: _valueObjectivityNotifier!.value,
                 loyalty: _valueLoayltyNotifier!.value,
@@ -138,9 +131,56 @@ class _ReviewPageState extends State<ReviewPage> {
                 professionalism: _valueProfessionalismNotifier!.value,
                 date: DateTime.now().toString(),
                 userId: 123,
-                comment: textComment,
+                comment: _valueTextFormNotifier!.value,
                 professorId: widget.professor.id),
           );
+
+          await showDialog(
+            context: context,
+            builder: (builderContext) {
+              return AlertDialog(
+                content: SizedBox(
+                  width: 300,
+                  height: (passed) ? 130 : 200,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        (passed)
+                            ? const SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: rive.RiveAnimation.asset(
+                                    'assets/rive/success.riv'),
+                              )
+                            : const SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: rive.RiveAnimation.asset(
+                                    'assets/rive/error.riv'),
+                              ),
+                        (passed)
+                            ? AnimatedTextKit(
+                                isRepeatingAnimation: false,
+                                animatedTexts: [
+                                  TyperAnimatedText(
+                                      'Ваш отзыв успешно сохранён')
+                                ],
+                              )
+                            : AnimatedTextKit(
+                                isRepeatingAnimation: false,
+                                animatedTexts: [
+                                  TyperAnimatedText('Проверьте свой отзыв')
+                                ],
+                              ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ).then((_) {
+            if (passed) Navigator.of(context).pop();
+          });
         },
         backgroundColor: Colors.green,
         label: const Center(child: Text('Опубликовать')),
@@ -170,7 +210,7 @@ class _ReviewPageState extends State<ReviewPage> {
                             )
                           : SvgPicture.asset(
                               'assets/icons/no_photo.svg',
-                              width: 69,
+                              width: 40,
                             ),
                     ),
                   ),
@@ -178,10 +218,16 @@ class _ReviewPageState extends State<ReviewPage> {
                 const SizedBox(
                   width: 32,
                 ),
-                Text(
-                  widget.professor.name.capitalize(),
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.bold),
+                Expanded(
+                  child: Text(
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    widget.professor.name.capitalize(),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 )
               ],
             ),
@@ -189,8 +235,11 @@ class _ReviewPageState extends State<ReviewPage> {
               height: 16,
             ),
             const Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Рейтинг по категориям')),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Рейтинг по категориям',
+              ),
+            ),
             const SizedBox(
               height: 16,
             ),
@@ -220,29 +269,33 @@ class _ReviewPageState extends State<ReviewPage> {
                       children: [
                         StarsRating(
                           valueNotifier: _valueObjectivityNotifier,
-                          value: 1,
+                          value: widget.review?.objectivity ?? 1,
                           size: const Size(30, 30),
+                          textSize: 20,
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
                         StarsRating(
                           valueNotifier: _valueLoayltyNotifier,
-                          value: 1,
+                          value: widget.review?.loyalty ?? 1,
                           size: const Size(30, 30),
+                          textSize: 20,
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
                         StarsRating(
                           valueNotifier: _valueProfessionalismNotifier,
-                          value: 1,
+                          value: widget.review?.professionalism ?? 1,
                           size: const Size(30, 30),
+                          textSize: 20,
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
                         StarsRating(
                           valueNotifier: _valueHarshnessNotifier,
-                          value: 1,
+                          value: widget.review?.harshness ?? 1,
                           size: const Size(30, 30),
+                          textSize: 20,
                           enableDragDetector: true,
                           spaceBetween: 16,
                         ),
@@ -268,13 +321,16 @@ class _ReviewPageState extends State<ReviewPage> {
               width: MediaQuery.of(context).size.width,
               child: GestureDetector(
                 onTap: () {},
-                child: TextField(
-                  controller: _textEditingController,
-                  keyboardType: TextInputType.multiline,
-                  minLines: 9,
-                  maxLines: null,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    controller: _textEditingController,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 9,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
               ),

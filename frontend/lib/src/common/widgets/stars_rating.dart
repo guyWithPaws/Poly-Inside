@@ -92,12 +92,14 @@ class StarsRating extends StatefulWidget {
   final ValueNotifier<double>? valueNotifier;
   final double spaceBetween;
   final Size size;
+  final double? textSize;
   final bool enableDragDetector;
   double value;
 
   StarsRating(
       {super.key,
       required this.size,
+      required this.textSize,
       this.value = 0,
       this.enableDragDetector = false,
       required this.spaceBetween,
@@ -178,7 +180,18 @@ class _StarsRatingState extends State<StarsRating> {
             ],
           ),
           SizedBox(width: widget.spaceBetween),
-          Text(widget.value.toStringAsFixed(1))
+          Column(
+            children: [
+              const SizedBox(
+                height: 3,
+              ),
+              Text(widget.value.toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: widget.textSize,
+                    fontWeight: FontWeight.w500,
+                  )),
+            ],
+          )
         ],
       ),
     );

@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:shared/shared.dart';
 
 /// {@template teacher_features}
 /// TeacherFeatures widget.
 /// {@endtemplate}
 class ProfessorFeatures extends StatelessWidget {
-  final List<Review>? reviews;
-  final Review? review;
+  final double objectivity;
+  final double loyalty;
+  final double professionalism;
+  final double harshness;
+  final double? textSize;
+  final FontWeight fontWeight;
 
   /// {@macro teacher_features}
   const ProfessorFeatures({
     super.key,
-    this.reviews,
-    this.review, // ignore: unused_element
+    required this.objectivity,
+    required this.loyalty,
+    required this.professionalism,
+    required this.harshness,
+    required this.textSize,
+    required this.fontWeight, // ignore: unused_element
   });
-
-  void getProfessorQualities() {}
 
   @override
   Widget build(BuildContext context) {
@@ -31,74 +36,93 @@ class ProfessorFeatures extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Объективность'),
-                Text('Лояльность'),
-                Text('Профессионализм'),
-                Text('Резкость'),
+                Text(
+                  'Объективность',
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
+                ),
+                Text(
+                  'Лояльность',
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
+                ),
+                Text(
+                  'Профессионализм',
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
+                ),
+                Text(
+                  'Резкость',
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
+                ),
               ],
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2.5,
+              child: Column(
+                //crossAxisAlignment: CrossAxisAlignment.baseline,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  LinearProgressIndicator(
+                    color: Colors.green,
+                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
+                    value: objectivity / 5,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  LinearProgressIndicator(
+                    color: Colors.green,
+                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
+                    value: loyalty / 5,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  LinearProgressIndicator(
+                    color: Colors.green,
+                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
+                    value: professionalism / 5,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  LinearProgressIndicator(
+                    color: Colors.green,
+                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
+                    value: harshness / 5,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ],
+              ),
             ),
             Column(
-              //crossAxisAlignment: CrossAxisAlignment.baseline,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
-                    color: Colors.green,
-                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
-                    value: 0.5,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
-                    color: Colors.green,
-                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
-                    value: 0.5,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
-                    color: Colors.green,
-                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
-                    value: 0.5,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
-                    color: Colors.green,
-                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
-                    value: 0.5,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ],
-            ),
-            const Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('5.0',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('5.0',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('5.0',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('5.0',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                Text(
+                  objectivity.toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: textSize,
+                    fontWeight: fontWeight,
+                  ),
+                ),
+                Text(
+                  loyalty.toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: textSize,
+                    fontWeight: fontWeight,
+                  ),
+                ),
+                Text(
+                  professionalism.toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: textSize,
+                    fontWeight: fontWeight,
+                  ),
+                ),
+                Text(
+                  harshness.toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: textSize,
+                    fontWeight: fontWeight,
+                  ),
+                ),
               ],
             ),
           ],

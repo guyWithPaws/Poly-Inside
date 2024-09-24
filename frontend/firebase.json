@@ -1,0 +1,41 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "polyinside",
+                    "appId": "1:41745264423:android:428e57a3c2ecb37020c302",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "polyinside",
+                    "appId": "1:41745264423:ios:ecc5e83ba695c81e20c302",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            },
+            "macos": {
+                "default": {
+                    "projectId": "polyinside",
+                    "appId": "1:41745264423:ios:ecc5e83ba695c81e20c302",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "macos/Runner/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "polyinside",
+                    "configurations": {
+                        "android": "1:41745264423:android:428e57a3c2ecb37020c302",
+                        "ios": "1:41745264423:ios:ecc5e83ba695c81e20c302",
+                        "macos": "1:41745264423:ios:ecc5e83ba695c81e20c302",
+                        "web": "1:41745264423:web:936aa612684564bd20c302",
+                        "windows": "1:41745264423:web:61626b849497fc4120c302"
+                    }
+                }
+            }
+        }
+    }
+}
