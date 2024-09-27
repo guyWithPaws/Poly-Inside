@@ -65,10 +65,16 @@ class _UserScopeState extends State<UserScope> {
   @override
   Widget build(BuildContext context) => BlocBuilder<UserBloc, UserState>(
         builder: (context, state) => state.when(
-          processing: () => const MaterialApp(
+          processing: (stage) => MaterialApp(
             home: Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const CircularProgressIndicator(),
+                    Text(state.toString()),
+                  ],
+                ),
               ),
             ),
           ),

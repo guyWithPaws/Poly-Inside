@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$UserState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() processing,
+    required TResult Function(String stage) processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
@@ -26,7 +26,7 @@ mixin _$UserState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? processing,
+    TResult? Function(String stage)? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
@@ -34,7 +34,7 @@ mixin _$UserState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? processing,
+    TResult Function(String stage)? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,
@@ -93,6 +93,8 @@ abstract class _$$ProcessingStateImplCopyWith<$Res> {
   factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value,
           $Res Function(_$ProcessingStateImpl) then) =
       __$$ProcessingStateImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String stage});
 }
 
 /// @nodoc
@@ -105,60 +107,95 @@ class __$$ProcessingStateImplCopyWithImpl<$Res>
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? stage = null,
+  }) {
+    return _then(_$ProcessingStateImpl(
+      null == stage
+          ? _value.stage
+          : stage // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$ProcessingStateImpl extends ProcessingState {
-  const _$ProcessingStateImpl() : super._();
+class _$ProcessingStateImpl extends ProcessingState
+    with DiagnosticableTreeMixin {
+  const _$ProcessingStateImpl(this.stage) : super._();
 
   @override
-  String toString() {
-    return 'UserState.processing()';
+  final String stage;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserState.processing(stage: $stage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UserState.processing'))
+      ..add(DiagnosticsProperty('stage', stage));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProcessingStateImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$ProcessingStateImpl &&
+            (identical(other.stage, stage) || other.stage == stage));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, stage);
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith =>
+      __$$ProcessingStateImplCopyWithImpl<_$ProcessingStateImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() processing,
+    required TResult Function(String stage) processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
   }) {
-    return processing();
+    return processing(stage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? processing,
+    TResult? Function(String stage)? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
   }) {
-    return processing?.call();
+    return processing?.call(stage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? processing,
+    TResult Function(String stage)? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,
     required TResult orElse(),
   }) {
     if (processing != null) {
-      return processing();
+      return processing(stage);
     }
     return orElse();
   }
@@ -202,8 +239,16 @@ class _$ProcessingStateImpl extends ProcessingState {
 }
 
 abstract class ProcessingState extends UserState {
-  const factory ProcessingState() = _$ProcessingStateImpl;
+  const factory ProcessingState(final String stage) = _$ProcessingStateImpl;
   const ProcessingState._() : super._();
+
+  String get stage;
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -227,12 +272,18 @@ class __$$IdleStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$IdleStateImpl extends IdleState {
+class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   const _$IdleStateImpl() : super._();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserState.idle()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'UserState.idle'));
   }
 
   @override
@@ -247,7 +298,7 @@ class _$IdleStateImpl extends IdleState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() processing,
+    required TResult Function(String stage) processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
@@ -258,7 +309,7 @@ class _$IdleStateImpl extends IdleState {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? processing,
+    TResult? Function(String stage)? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
@@ -269,7 +320,7 @@ class _$IdleStateImpl extends IdleState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? processing,
+    TResult Function(String stage)? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,
@@ -356,15 +407,23 @@ class __$$ErrorStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorStateImpl extends ErrorState {
+class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   const _$ErrorStateImpl(this.e) : super._();
 
   @override
   final Object e;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserState.error(e: $e)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UserState.error'))
+      ..add(DiagnosticsProperty('e', e));
   }
 
   @override
@@ -390,7 +449,7 @@ class _$ErrorStateImpl extends ErrorState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() processing,
+    required TResult Function(String stage) processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
@@ -401,7 +460,7 @@ class _$ErrorStateImpl extends ErrorState {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? processing,
+    TResult? Function(String stage)? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
@@ -412,7 +471,7 @@ class _$ErrorStateImpl extends ErrorState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? processing,
+    TResult Function(String stage)? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,
@@ -510,15 +569,23 @@ class __$$LoadedStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadedStateImpl extends LoadedState {
+class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
   const _$LoadedStateImpl(this.user) : super._();
 
   @override
   final User user;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserState.loaded(user: $user)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UserState.loaded'))
+      ..add(DiagnosticsProperty('user', user));
   }
 
   @override
@@ -543,7 +610,7 @@ class _$LoadedStateImpl extends LoadedState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() processing,
+    required TResult Function(String stage) processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
@@ -554,7 +621,7 @@ class _$LoadedStateImpl extends LoadedState {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? processing,
+    TResult? Function(String stage)? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
@@ -565,7 +632,7 @@ class _$LoadedStateImpl extends LoadedState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? processing,
+    TResult Function(String stage)? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,

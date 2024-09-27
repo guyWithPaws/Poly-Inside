@@ -110,4 +110,18 @@ class GRPCService extends SearchServiceBase {
     );
     return SearchResponse(professors: list);
   }
+
+  @override
+  Future<LikeResponse> likeReview(
+          ServiceCall call, LikeRequest request) async =>
+      LikeResponse();
+
+  @override
+  Stream<ReviewWithProfessorResponse> getReviewWithProfessor(
+      ServiceCall call, ReviewsByUserIdRequest request) async* {
+    final stream = provider.getReviewsWithProfessor(request.id);
+    await for (final list in stream) {
+      yield ReviewWithProfessorResponse(list: list);
+    }
+  }
 }

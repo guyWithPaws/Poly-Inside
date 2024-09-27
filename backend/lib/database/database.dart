@@ -18,6 +18,17 @@ class Professors extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
+class Likes extends Table{
+  TextColumn get id => text()();
+  IntColumn get userId => integer()();
+  TextColumn get professorId => text()();
+  TextColumn get reviewId => text()();
+  BoolColumn get liked => boolean()();
+
+  @override 
+  Set<Column<Object>>? get primaryKey => {id};
+}
+
 @UseRowClass(Review)
 class RejectedReviews extends Table {
   TextColumn get id => text()();
@@ -65,7 +76,7 @@ class Reviews extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DriftDatabase(tables: [Professors, Users, Reviews, RejectedReviews])
+@DriftDatabase(tables: [Professors, Users, Reviews, RejectedReviews, Likes])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 

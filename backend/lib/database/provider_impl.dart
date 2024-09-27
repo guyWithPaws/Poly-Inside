@@ -214,4 +214,25 @@ class DatabaseProviderImpl implements DatabaseProvider {
           ),
         );
   }
+
+  @override
+  Stream<List<ReviewWithProfessor>> getReviewsWithProfessor(int userId) =>
+      (database.select(database.reviews)..where((u) => u.userId.equals(userId)))
+          .join([
+            innerJoin(database.professors,
+                database.professors.id.equalsExp(database.reviews.professorId))
+          ])
+          .watch()
+          .map(
+            (rows) => rows
+                .map(
+                  (r) => ReviewWithProfessor(
+                    professor: r.readTable(database.professors),
+                    review: r.readTable(
+                      database.reviews,
+                    ),
+                  ),
+                )
+                .toList(),
+          );
 }

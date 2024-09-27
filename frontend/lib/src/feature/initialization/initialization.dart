@@ -61,11 +61,16 @@ class _InitializationScopeState extends State<InitializationScope> {
       BlocBuilder<InitializationBloc, InitializationState>(
         bloc: _bloc,
         builder: (context, state) => state.when(
-          processing: () => const Stub(
-            child: CircularProgressIndicator(),
+          processing: () => Stub(
+            child: Column(
+              children: [
+                const CircularProgressIndicator(),
+                Text(state.toString()),
+              ],
+            ),
           ),
           idle: () => const Stub(
-            child: Placeholder(),
+            child: SizedBox(),
           ),
           error: (e) => Stub(
             child: Center(

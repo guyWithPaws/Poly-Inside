@@ -17,24 +17,31 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc({required final UserState state, required this.repository})
       : super(state) {
     on<GetUserEvent>((e, emit) async {
-      emit(const UserState.processing());
+      emit(const UserState.processing('Start logging in'));
 
       try {
         final id = getId();
         if (id == null) {
           throw Exception('User ID is null');
         }
+        emit(const UserState.processing('Getting user from database'));
+
         var user = await repository.getUserByUserId(id);
         if (!user.hasId()) {
+          emit(const UserState.processing('Adding user to database'));
+
           await repository.addUser(
             User()
               ..id = id
               ..name = 'anonymous',
           );
+          emit(const UserState.processing('Getting user from database after logging'));
           user = await repository.getUserByUserId(id);
         }
         await FirebaseAnalytics.instance
             .logLogin(parameters: <String, Object>{'UserID': user.id});
+        emit(const UserState.processing('Loaded user'));
+
         emit(UserState.loaded(user));
       } on Object catch (error, _) {
         debugPrint(error.toString());
@@ -56,7 +63,7 @@ class GetUserEvent extends UserEvent {
 @Freezed()
 sealed class UserState with _$UserState {
   const UserState._();
-  const factory UserState.processing() = ProcessingState;
+  const factory UserState.processing(String stage) = ProcessingState;
   const factory UserState.idle() = IdleState;
   const factory UserState.error(Object e) = ErrorState;
   const factory UserState.loaded(User user) = LoadedState;
