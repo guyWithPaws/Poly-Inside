@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/initialization/initialization.dart';
+import 'package:poly_inside/src/feature/telegram/user_scope.dart';
 import 'package:shared/shared.dart';
 import 'package:rive/rive.dart' as rive;
 
@@ -125,12 +126,12 @@ class _ReviewPageState extends State<ReviewPage> {
             Review(
                 objectivity: _valueObjectivityNotifier!.value,
                 loyalty: _valueLoayltyNotifier!.value,
-                likes: 5,
-                dislikes: 3,
+                likes: 0,
+                dislikes: 0,
                 harshness: _valueHarshnessNotifier!.value,
                 professionalism: _valueProfessionalismNotifier!.value,
                 date: DateTime.now().toString(),
-                userId: 123,
+                userId: UserScope.userOf(context).id,
                 comment: _valueTextFormNotifier!.value,
                 professorId: widget.professor.id),
           );
@@ -188,154 +189,156 @@ class _ReviewPageState extends State<ReviewPage> {
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: SingleChildScrollView(
-          child: Column(children: [
-            Row(
-              children: [
-                Hero(
-                  tag: widget.professor.id,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 35,
-                    child: ClipOval(
-                      child: Uint8List.fromList(
-                        widget.professor.avatar,
-                      ).isNotEmpty
-                          ? Image.memory(
-                              height: 70,
-                              width: 70,
-                              fit: BoxFit.cover,
-                              Uint8List.fromList(
-                                widget.professor.avatar,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Hero(
+                    tag: widget.professor.id,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[200],
+                      radius: 35,
+                      child: ClipOval(
+                        child: Uint8List.fromList(
+                          widget.professor.avatar,
+                        ).isNotEmpty
+                            ? Image.memory(
+                                height: 70,
+                                width: 70,
+                                fit: BoxFit.cover,
+                                Uint8List.fromList(
+                                  widget.professor.avatar,
+                                ),
+                              )
+                            : SvgPicture.asset(
+                                'assets/icons/no_photo.svg',
+                                width: 40,
                               ),
-                            )
-                          : SvgPicture.asset(
-                              'assets/icons/no_photo.svg',
-                              width: 40,
-                            ),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 32,
-                ),
-                Expanded(
-                  child: Text(
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    widget.professor.name.capitalize(),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  const SizedBox(
+                    width: 32,
                   ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Рейтинг по категориям',
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 170,
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 238, 249, 237),
-                  borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text('Объективность'),
-                        Text('Лояльность'),
-                        Text('Профессионализм'),
-                        Text('Резкость'),
-                      ],
+                  Expanded(
+                    child: Text(
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      widget.professor.name.capitalize(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        StarsRating(
-                          valueNotifier: _valueObjectivityNotifier,
-                          value: widget.review?.objectivity ?? 1,
-                          size: const Size(30, 30),
-                          textSize: 20,
-                          enableDragDetector: true,
-                          spaceBetween: 16,
-                        ),
-                        StarsRating(
-                          valueNotifier: _valueLoayltyNotifier,
-                          value: widget.review?.loyalty ?? 1,
-                          size: const Size(30, 30),
-                          textSize: 20,
-                          enableDragDetector: true,
-                          spaceBetween: 16,
-                        ),
-                        StarsRating(
-                          valueNotifier: _valueProfessionalismNotifier,
-                          value: widget.review?.professionalism ?? 1,
-                          size: const Size(30, 30),
-                          textSize: 20,
-                          enableDragDetector: true,
-                          spaceBetween: 16,
-                        ),
-                        StarsRating(
-                          valueNotifier: _valueHarshnessNotifier,
-                          value: widget.review?.harshness ?? 1,
-                          size: const Size(30, 30),
-                          textSize: 20,
-                          enableDragDetector: true,
-                          spaceBetween: 16,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  )
+                ],
               ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Align(
+              const SizedBox(
+                height: 16,
+              ),
+              const Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Оставьте комментарий:')),
-            const SizedBox(
-              height: 16,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 238, 249, 237),
-                  borderRadius: BorderRadius.circular(12)),
-              width: MediaQuery.of(context).size.width,
-              child: GestureDetector(
-                onTap: () {},
+                child: Text(
+                  'Рейтинг по категориям',
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 170,
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 238, 249, 237),
+                    borderRadius: BorderRadius.circular(12)),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                    controller: _textEditingController,
-                    keyboardType: TextInputType.multiline,
-                    minLines: 9,
-                    maxLines: null,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text('Объективность'),
+                          Text('Лояльность'),
+                          Text('Профессионализм'),
+                          Text('Резкость'),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          StarsRating(
+                            valueNotifier: _valueObjectivityNotifier,
+                            value: widget.review?.objectivity ?? 1,
+                            size: const Size(30, 30),
+                            textSize: 20,
+                            enableDragDetector: true,
+                            spaceBetween: 16,
+                          ),
+                          StarsRating(
+                            valueNotifier: _valueLoayltyNotifier,
+                            value: widget.review?.loyalty ?? 1,
+                            size: const Size(30, 30),
+                            textSize: 20,
+                            enableDragDetector: true,
+                            spaceBetween: 16,
+                          ),
+                          StarsRating(
+                            valueNotifier: _valueProfessionalismNotifier,
+                            value: widget.review?.professionalism ?? 1,
+                            size: const Size(30, 30),
+                            textSize: 20,
+                            enableDragDetector: true,
+                            spaceBetween: 16,
+                          ),
+                          StarsRating(
+                            valueNotifier: _valueHarshnessNotifier,
+                            value: widget.review?.harshness ?? 1,
+                            size: const Size(30, 30),
+                            textSize: 20,
+                            enableDragDetector: true,
+                            spaceBetween: 16,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
-            )
-          ]),
+              const SizedBox(
+                height: 16,
+              ),
+              const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Оставьте комментарий:')),
+              const SizedBox(
+                height: 16,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 238, 249, 237),
+                    borderRadius: BorderRadius.circular(12)),
+                width: MediaQuery.of(context).size.width,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextField(
+                      controller: _textEditingController,
+                      keyboardType: TextInputType.multiline,
+                      minLines: 9,
+                      maxLines: null,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

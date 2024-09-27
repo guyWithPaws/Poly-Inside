@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/feature/initialization/initialization.dart';
+import 'package:poly_inside/src/feature/telegram/user_scope.dart';
 import 'package:shared/shared.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,6 +19,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
+  ValueNotifier<bool>? _isEditingProfile;
+  final TextEditingController _textEditingController = TextEditingController();
 
   /* #region Lifecycle */
   @override
@@ -26,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _scrollController?.addListener(scrollListener);
 
     _valueNotifier = ValueNotifier(false);
+    _isEditingProfile = ValueNotifier(false);
 
     super.initState();
     // Initial state initialization
@@ -42,6 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void didChangeDependencies() {
+    _textEditingController.text = UserScope.userOf(context).name;
     super.didChangeDependencies();
   }
 
@@ -49,6 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void dispose() {
     _scrollController?.dispose();
     _valueNotifier?.dispose();
+    _textEditingController.dispose();
     // Permanent removal of a tree stent
     super.dispose();
   }
@@ -70,15 +76,17 @@ class _ProfilePageState extends State<ProfilePage> {
             backgroundColor: Colors.green,
             label: const AnimatedSize(
               duration: Duration(milliseconds: 150),
-              child: Center(child: Icon(CupertinoIcons.up_arrow)),
+              child: Center(
+                child: Icon(CupertinoIcons.up_arrow),
+              ),
             ),
           ),
         ),
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<Review>>(
-        future:
-            InitializationScope.repositoryOf(context).getAllReviewByUser(123),
+        future: InitializationScope.repositoryOf(context)
+            .getAllReviewByUser(UserScope.userOf(context).id),
         builder: (context, snapshot) {
           return CustomScrollView(
             slivers: [
@@ -104,7 +112,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () =>
+                          _isEditingProfile!.value = !_isEditingProfile!.value,
                       child: Container(
                         width: 26,
                         height: 26,
@@ -113,8 +122,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         decoration: const BoxDecoration(
                           color: Colors.white,
                         ),
-                        child: SvgPicture.asset(
-                            'assets/icons/profileeditbutton.svg'),
+                        child: ValueListenableBuilder(
+                          valueListenable: _isEditingProfile!,
+                          builder: (context, value, _) => !value
+                              ? SvgPicture.asset(
+                                  'assets/icons/profileeditbutton.svg')
+                              : SvgPicture.asset('assets/icons/check.svg'),
+                        ),
                       ),
                     ),
                   ],
@@ -127,31 +141,76 @@ class _ProfilePageState extends State<ProfilePage> {
                       fit: BoxFit.cover,
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            radius: 158 / 2,
-                            child: ClipOval(
-                              child: Image.asset(
-                                'assets/beer.jpg',
-                                height: 158,
-                                width: 158,
-                                fit: BoxFit.cover,
+                          Hero(
+                            tag: UserScope.userOf(context).id,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.grey[200],
+                              radius: 158 / 2,
+                              child: ClipOval(
+                                child:
+                                    UserScope.userOf(context).avatar.isNotEmpty
+                                        ? Image.asset(
+                                            'assets/beer.jpg',
+                                            height: 158,
+                                            width: 158,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/icons/no_photo.svg',
+                                            width: 69,
+                                          ),
                               ),
                             ),
                           ),
                           const SizedBox(
                             height: 13,
                           ),
-                          const Text("ID: 7921375",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600)),
-                          const Text(
-                            "goxa",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 36,
-                              fontWeight: FontWeight.w600,
+                          Text(
+                            'ID: ${UserScope.userOf(context).id}',
+                            style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          ValueListenableBuilder(
+                            valueListenable: _isEditingProfile!,
+                            builder: (context, value, _) =>
+                                ValueListenableBuilder(
+                              valueListenable: _textEditingController,
+                              builder: (context, textValue, _) =>
+                                  AnimatedContainer(
+                                width: textValue.text.isNotEmpty
+                                    ? textValue.text.length * 25
+                                    : 100,
+                                duration: const Duration(milliseconds: 200),
+                                decoration: BoxDecoration(
+                                  border: value
+                                      ? Border.all(
+                                          color: textValue.text.length < 15
+                                              ? const Color.fromARGB(
+                                                  255, 168, 239, 171)
+                                              : Colors.red,
+                                          width: 1)
+                                      : null,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: TextFormField(
+                                  maxLength: 15,
+                                  controller: _textEditingController,
+                                  readOnly: !value,
+                                  textAlign: TextAlign.center,
+                                  textAlignVertical: TextAlignVertical.center,
+                                  decoration: const InputDecoration(
+                                      counterText: '',
+                                      counter: null,
+                                      border: InputBorder.none),
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -171,40 +230,43 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(
                       height: 6,
                     ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 21,
-                        ),
-                        const Text(
-                          "Отзывы",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          width: 20,
-                          height: 26,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 233, 252, 232),
-                            borderRadius: BorderRadius.circular(7),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              "2",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                    snapshot.hasData
+                        ? Row(
+                            children: [
+                              const SizedBox(
+                                width: 21,
                               ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                              const Text(
+                                "Отзывы",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                width: 20,
+                                height: 26,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 233, 252, 232),
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "${snapshot.data!.length}",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : const SizedBox(),
                     const SizedBox(
-                      height: 19,
+                      height: 8,
                     ),
                   ],
                 ),
@@ -215,7 +277,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       itemBuilder: (context, index) {
                         return ReviewTitle(
                           review: snapshot.data![index],
-                          professor: Professor(),
                         );
                       },
                       separatorBuilder: (context, index) => const SizedBox(

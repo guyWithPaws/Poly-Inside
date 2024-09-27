@@ -6,11 +6,13 @@ import 'package:flutter_svg/svg.dart';
 //import 'package:grpc/service_api.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/utils/word_formatter.dart';
+import 'package:poly_inside/src/feature/error/error_page.dart';
 import 'package:poly_inside/src/feature/home/home_bloc.dart';
 import 'package:poly_inside/src/feature/home/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
+import 'package:poly_inside/src/feature/telegram/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
 
 /// {@template home_page}
@@ -115,18 +117,27 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           builderContext,
                           MaterialPageRoute<void>(
-                            builder: (builderContext) => const ProfilePage(),
+                            builder: (builderContext) => const ErrorPage(),
                           ),
                         );
                       },
-                      child: CircleAvatar(
-                        radius: 31,
-                        child: ClipOval(
-                          child: Image.asset(
-                            fit: BoxFit.cover,
-                            height: 62,
-                            width: 62,
-                            'assets/beer.jpg',
+                      child: Hero(
+                        tag: UserScope.userOf(context).id,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey[200],
+                          radius: 31,
+                          child: ClipOval(
+                            child: UserScope.userOf(context).avatar.isNotEmpty
+                                ? Image.asset(
+                                    fit: BoxFit.cover,
+                                    height: 62,
+                                    width: 62,
+                                    'assets/beer.jpg',
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/no_photo.svg',
+                                    width: 35,
+                                  ),
                           ),
                         ),
                       ),
@@ -167,7 +178,6 @@ class _HomePageState extends State<HomePage> {
                         child: Text(error.toString()),
                       ),
                       loaded: (professors) {
-                        // debugPrint(professors.toString());
                         return ListView.separated(
                           controller: _scrollController,
                           itemCount: professors.length,

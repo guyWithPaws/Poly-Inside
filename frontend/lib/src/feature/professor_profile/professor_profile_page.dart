@@ -8,6 +8,7 @@ import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
+import 'package:poly_inside/src/feature/telegram/user_scope.dart';
 import 'package:shared/shared.dart';
 
 /// {@template professor_profile_page}
@@ -40,7 +41,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   ValueNotifier<int>? _count;
-  final int _reviewsCount = 0;
+  ValueNotifier<bool>? _isUsersReviewExists;
 
   /* #region Lifecycle */
   @override
@@ -49,6 +50,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     _scrollController?.addListener(scrollListener);
     _count = ValueNotifier(0);
     _valueNotifier = ValueNotifier(false);
+    _isUsersReviewExists = ValueNotifier(false);
 
     super.initState();
     // Initial state initialization
@@ -80,6 +82,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   void dispose() {
     _scrollController?.dispose();
     _valueNotifier?.dispose();
+    _count?.dispose();
+    _isUsersReviewExists?.dispose();
     // Permanent removal of a tree stent
     super.dispose();
   }
@@ -111,10 +115,15 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
             child: Center(
               child: value
                   ? const Icon(Icons.arrow_upward)
-                  : const Text(
-                      'Написать отзыв',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  : ValueListenableBuilder(
+                      valueListenable: _isUsersReviewExists!,
+                      builder: (context, value, _) => Text(
+                        value
+                            ? 'К моему отзыву'
+                            : 'Написать отзыв',
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
                     ),
             ),
           ),
@@ -256,6 +265,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     _count?.value = snapshot.data!.reviews.length;
                   });
+                  _isUsersReviewExists!.value = snapshot.data!.reviews.any(
+                      (review) =>
+                          review.userId == UserScope.userOf(context).id);
                   return SliverList.separated(
                     itemCount: snapshot.data!.reviews.length,
                     separatorBuilder: (context, index) =>
