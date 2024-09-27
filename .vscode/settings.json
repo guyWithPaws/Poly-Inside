@@ -1,3 +1,4 @@
 {
-    "makefile.configureOnOpen": false
+    "makefile.configureOnOpen": false,
+    "cmake.sourceDirectory": "C:/Users/dorov/Documents/fluttersufffering/Poly-Inside/frontend/linux"
 }
