@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class IntroPage extends StatefulWidget {
+  const IntroPage({super.key});
 
   @override
-  State<MyApp> createState() => _MyWidgetState();
+  State<IntroPage> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<MyApp> {
+class _MyWidgetState extends State<IntroPage> {
   bool checkedValue = false;
   bool value = false;
 
