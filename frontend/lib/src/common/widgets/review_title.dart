@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
-import 'package:poly_inside/src/common/widgets/reactions.dart';
+import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
 import 'package:intl/intl.dart';
+
+import '../../feature/telegram/user_scope.dart';
 
 /// {@template review_title}
 /// ReviewTitle widget.
 /// {@endtemplate}
 class ReviewTitle extends StatelessWidget {
   final Review review;
-  final Professor professor;
+  final Professor? professor;
 
   /// {@macro review_title}
   const ReviewTitle({
     super.key,
     required this.review,
-    required this.professor, // ignore: unused_element
+    this.professor, // ignore: unused_element
   });
 
   @override
@@ -39,39 +41,55 @@ class ReviewTitle extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
+                      backgroundColor: Colors.grey[200],
                       radius: 20,
                       child: ClipOval(
-                        child: Image.network(
-                          'https://img.gazeta.ru/files3/98/13461098/instapic-96812-pic905-895x505-66022.jpg',
-                          height: 40,
-                          width: 40,
-                          fit: BoxFit.cover,
-                        ),
+                        child: UserScope.userOf(context).avatar.isNotEmpty
+                            ? Image.asset(
+                                'assets/beer.jpg',
+                                height: 40,
+                                width: 40,
+                                fit: BoxFit.cover,
+                              )
+                            : SvgPicture.asset(
+                                'assets/icons/no_photo.svg',
+                                width: 30,
+                              ),
                       ),
                     ),
                     const SizedBox(width: 16),
-                    const Text(
-                      "Руль Николай Игоревич",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    FutureBuilder<User>(
+                      future: InitializationScope.repositoryOf(context)
+                          .getUserByUserId(review.userId),
+                      builder: (context, snapshot) {
+                        return Text(
+                          snapshot.hasData
+                              ? snapshot.data!.name
+                              : snapshot.data.toString(),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
+                        );
+                      },
                     ),
                   ],
                 ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (builderContext) => ReviewPage(
-                        professor: professor,
-                        review: review,
-                      ),
-                    ),
-                  ),
-                  child: SvgPicture.asset(
-                    'assets/icons/editpen.svg',
-                    alignment: Alignment.topRight,
-                  ),
-                ),
+                (UserScope.userOf(context).id == review.userId)
+                    ? GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (builderContext) => ReviewPage(
+                              professor: Professor(),
+                              review: review,
+                            ),
+                          ),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/icons/editpen.svg',
+                          alignment: Alignment.topRight,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
             const SizedBox(height: 8),
@@ -101,9 +119,9 @@ class ReviewTitle extends StatelessWidget {
                         fontSize: 14,
                         color: Colors.grey,
                         fontWeight: FontWeight.w500)),
-                //Reactions(
+                // Reactions(
                 //  review: review,
-                //),
+                // ),
               ],
             )
           ],
