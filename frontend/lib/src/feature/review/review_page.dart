@@ -179,9 +179,11 @@ class _ReviewPageState extends State<ReviewPage> {
                 ),
               );
             },
-          ).then((_) {
-            if (passed) Navigator.of(context).pop();
-          });
+          ).then(
+            (_) {
+              if (passed) Navigator.of(context).pop();
+            },
+          );
         },
         backgroundColor: Colors.green,
         label: const Center(child: Text('Опубликовать')),

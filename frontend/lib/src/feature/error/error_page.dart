@@ -15,6 +15,7 @@ class ErrorPage extends StatefulWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   @internal
+  // ignore: library_private_types_in_public_api
   static _ErrorPageState? maybeOf(BuildContext context) =>
       context.findAncestorStateOfType<_ErrorPageState>();
 

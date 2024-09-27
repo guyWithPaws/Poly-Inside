@@ -12,9 +12,8 @@ Future<int> main([List<String>? args]) async {
     ),
   );
   final client = SearchServiceClient(channel);
-  final data = client.getReviewWithProfessor(ReviewsByUserIdRequest(id: 123));
-  final e = await data.forEach((u) => print(u.list.map(
-      (e) => '${e.review.comment} ${e.professor.name} ${e.review.userId}')));
+  // ignore: cascade_invocations
+  client.getReviewWithProfessor(ReviewsByUserIdRequest(id: 123));
   await channel.shutdown();
   return 0;
 }
