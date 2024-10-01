@@ -2,16 +2,16 @@
 
 echo "download is starting..."
 
-apt update && upgrade
+sudo apt update && upgrade
 echo "installing git"
 
-apt install git
+sudo apt install git
 
 cd /home
-mkdir server
+sudo mkdir server
 cd server
 
-git clone https://github.com/guyWithPaws/Poly-Inside.git
+sudo git clone https://github.com/guyWithPaws/Poly-Inside.git
 
 echo "installing dart sdk"
 sudo apt-get update && sudo apt-get install apt-transport-https -y
@@ -26,9 +26,9 @@ sudo apt-get update && sudo apt-get install dart -y
 sudo apt-get install sqlite3 libsqlite3-dev -y
 
 cd Poly-Inside
-make get
+sudo dart pub get 
 
 cd backend
-dart compile exe bin/server.dart
-./bin/server.exe
+sudo dart compile exe bin/server.dart
+sudo ./bin/server.exe
 
