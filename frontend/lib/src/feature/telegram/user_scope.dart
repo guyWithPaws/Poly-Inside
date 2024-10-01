@@ -16,8 +16,7 @@ class UserScope extends StatefulWidget {
     super.key, // ignore: unused_element
   });
 
-  static User userOf(BuildContext context) =>
-      _InheritedUserScope.of(context).user;
+  static User userOf(BuildContext context) => _InheritedUserScope.of(context).user;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -109,11 +108,9 @@ class _InheritedUserScope extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   /// For example: `UserScope.maybeOf(context)`.
-  static _InheritedUserScope? maybeOf(BuildContext context,
-          {bool listen = true}) =>
-      listen
-          ? context.dependOnInheritedWidgetOfExactType<_InheritedUserScope>()
-          : context.getInheritedWidgetOfExactType<_InheritedUserScope>();
+  static _InheritedUserScope? maybeOf(BuildContext context, {bool listen = true}) => listen
+      ? context.dependOnInheritedWidgetOfExactType<_InheritedUserScope>()
+      : context.getInheritedWidgetOfExactType<_InheritedUserScope>();
 
   static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
         'Out of scope, not found inherited widget '

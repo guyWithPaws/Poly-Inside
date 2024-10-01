@@ -20,18 +20,16 @@ class ClientRepositoryImpl implements ClientRepository {
 
   @override
   Future<List<Review>> getAllReviewByUser(int userId) async {
-    final response =
-        await client.getReviewsByUserId(ReviewsByUserIdRequest()..id = userId);
+    final response = await client.getReviewsByUserId(ReviewsByUserIdRequest()..id = userId);
     return response.reviews;
   }
 
   @override
-  Stream<ReviewStream> getAllReviewsByProfessor(String professorId) => client
-      .getReviewsByProfessorId(ReviewsByProfessorIdRequest()..id = professorId);
+  Stream<ReviewStream> getAllReviewsByProfessor(String professorId) =>
+      client.getReviewsByProfessorId(ReviewsByProfessorIdRequest()..id = professorId);
 
   @override
-  Future<User> getUserByUserId(int userId) =>
-      client.getProfile(UserInfoByUserIdRequest()..id = userId);
+  Future<User> getUserByUserId(int userId) => client.getProfile(UserInfoByUserIdRequest()..id = userId);
 
   @override
   Future<void> updateReview(Review review) => client.updateReview(review);
@@ -40,8 +38,7 @@ class ClientRepositoryImpl implements ClientRepository {
   Future<void> updateUser(User user) => client.updateProfile(user);
 
   @override
-  Future<SearchResponse> findProfessorByName(String name, int count) =>
-      client.searchProfessorByName(SearchRequest()
-        ..name = name
-        ..count = count);
+  Future<SearchResponse> findProfessorByName(String name, int count) => client.searchProfessorByName(SearchRequest()
+    ..name = name
+    ..count = count);
 }

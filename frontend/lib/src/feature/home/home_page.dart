@@ -20,8 +20,7 @@ import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
 /// {@endtemplate}
 class HomePage extends StatefulWidget {
   // ignore: library_private_types_in_public_api
-  static _HomePageState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_HomePageState>();
+  static _HomePageState? of(BuildContext context) => context.findAncestorStateOfType<_HomePageState>();
 
   /// {@macro home_page}
   const HomePage({
@@ -47,28 +46,24 @@ class _HomePageState extends State<HomePage> {
     _valueNotifier = ValueNotifier(false);
     _scrollController = ScrollController()
       ..addListener(() {
-        if (_scrollController?.position.pixels ==
-            _scrollController?.position.maxScrollExtent) {
+        if (_scrollController?.position.pixels == _scrollController?.position.maxScrollExtent) {
           count += 20;
           _bloc?.add(ListRequested(count: count));
         }
-        if (_scrollController?.position.pixels !=
-            _scrollController?.position.minScrollExtent) {
+        if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
           _valueNotifier!.value = true;
         } else {
           _valueNotifier!.value = false;
         }
       });
     _textEditingController = TextEditingController()
-      ..addListener(() => _bloc?.add(TextFieldChanged(
-          name: _textEditingController?.text.toLowerCase() ?? '')));
+      ..addListener(() => _bloc?.add(TextFieldChanged(name: _textEditingController?.text.toLowerCase() ?? '')));
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))
-      ..add(ListRequested(count: count));
+    _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))..add(ListRequested(count: count));
     super.didChangeDependencies();
   }
 
@@ -90,9 +85,7 @@ class _HomePageState extends State<HomePage> {
         builder: (_, value, child) => value
             ? FloatingActionButton(
                 onPressed: () {
-                  _scrollController!.animateTo(0,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeIn);
+                  _scrollController!.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                 },
                 backgroundColor: Colors.green,
                 child: const Center(
@@ -117,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           builderContext,
                           MaterialPageRoute<void>(
-                            builder: (builderContext) => const ErrorPage(),
+                            builder: (builderContext) => const ProfilePage(),
                           ),
                         );
                       },
@@ -191,11 +184,8 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute<void>(
-                                      builder: (builderContext) =>
-                                          ProfessorProfilePage(
-                                        repository:
-                                            InitializationScope.repositoryOf(
-                                                context),
+                                      builder: (builderContext) => ProfessorProfilePage(
+                                        repository: InitializationScope.repositoryOf(context),
                                         professor: professors[index],
                                       ),
                                     ),
@@ -227,8 +217,7 @@ class _HomePageState extends State<HomePage> {
                                                       width: 60,
                                                       fit: BoxFit.cover,
                                                       Uint8List.fromList(
-                                                        professors[index]
-                                                            .avatar,
+                                                        professors[index].avatar,
                                                       ),
                                                     )
                                                   : SvgPicture.asset(
@@ -242,15 +231,11 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         Expanded(
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                professors[index]
-                                                    .name
-                                                    .capitalize(),
+                                                professors[index].name.capitalize(),
                                                 style: const TextStyle(
                                                   overflow: TextOverflow.clip,
                                                   fontSize: 16,
@@ -262,31 +247,24 @@ class _HomePageState extends State<HomePage> {
                                                   StarsRating(
                                                     size: const Size(20, 20),
                                                     textSize: 16,
-                                                    value: professors[index]
-                                                        .rating,
+                                                    value: professors[index].rating,
                                                     spaceBetween: 8,
                                                   ),
                                                   Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
+                                                    alignment: Alignment.centerRight,
                                                     child: Column(
                                                       children: [
                                                         const SizedBox(
                                                           height: 3,
                                                         ),
                                                         Text(
-                                                          (professors[index]
-                                                                      .rating ==
-                                                                  0)
+                                                          (professors[index].rating == 0)
                                                               ? 'нет отзывов'
                                                               : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
-                                                          style:
-                                                              const TextStyle(
+                                                          style: const TextStyle(
                                                             fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color:
-                                                                Color.fromARGB(
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Color.fromARGB(
                                                               255,
                                                               138,
                                                               138,

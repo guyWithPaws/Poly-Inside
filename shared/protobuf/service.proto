@@ -7,12 +7,32 @@ service SearchService {
   rpc GetListProfessor(ListProfessorRequest) returns (stream GetListProfessorResponse);
   rpc SearchProfessorByName(SearchRequest) returns (SearchResponse);
 
+  rpc getReviewWithProfessor(ReviewsByUserIdRequest) returns (stream ReviewWithProfessorResponse);
+  rpc LikeReview(LikeRequest) returns (LikeResponse);
   rpc GetAllProfessorsOnce (GetAllProfessorsOnceRequest) returns (GetListProfessorResponse);
   rpc AddReview(Review) returns (AddReviewResponse);
   rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream ReviewStream);
   rpc GetReviewsByUserId(ReviewsByUserIdRequest) returns (ReviewStream);
   rpc UpdateReview(Review) returns (UpdateReviewResponse);
   rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse);
+}
+
+message ReviewWithProfessorResponse{
+  repeated ReviewWithProfessor list = 1;
+}
+
+message ReviewWithProfessor {
+  Review review = 1;
+  Professor professor = 2;
+}
+
+message LikeResponse {}
+
+message LikeRequest {
+  int32 userId = 1;
+  string professorId = 2;
+  string reviewId = 3;
+  int32 type = 4; // 1 - like, 0 - dislike, 2 - delete 
 }
 
 message ReviewStream{

@@ -117,8 +117,7 @@ class _StarsRatingState extends State<StarsRating> {
       onPanStart: (details) {
         if (widget.enableDragDetector) {
           setState(() {
-            widget.value =
-                (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
+            widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
             widget.valueNotifier!.value = widget.value;
           });
         }
@@ -126,8 +125,7 @@ class _StarsRatingState extends State<StarsRating> {
       onPanUpdate: (details) {
         if (widget.enableDragDetector) {
           setState(() {
-            widget.value =
-                (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
+            widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
             widget.valueNotifier!.value = widget.value;
           });
         }
@@ -144,8 +142,7 @@ class _StarsRatingState extends State<StarsRating> {
                       height: widget.size.height,
                       child: SvgPicture.asset(
                         StarsRating.imageUrl,
-                        colorFilter: const ColorFilter.mode(
-                            StarsRating.baseColor, BlendMode.srcIn),
+                        colorFilter: const ColorFilter.mode(StarsRating.baseColor, BlendMode.srcIn),
                       ),
                     ),
                     ShaderMask(
@@ -170,8 +167,7 @@ class _StarsRatingState extends State<StarsRating> {
                         height: widget.size.height,
                         child: SvgPicture.asset(
                           StarsRating.imageUrl,
-                          colorFilter: const ColorFilter.mode(
-                              StarsRating.baseColor, BlendMode.srcIn),
+                          colorFilter: const ColorFilter.mode(StarsRating.baseColor, BlendMode.srcIn),
                         ),
                       ),
                     ),

@@ -20,10 +20,7 @@ void runner() {
   }, (e, st) async {
     await FirebaseAnalytics.instance.logEvent(
       name: 'Crash',
-      parameters: <String, Object>{
-        'Error': e.toString(),
-        'Stacktrace': st.toString()
-      },
+      parameters: <String, Object>{'Error': e.toString(), 'Stacktrace': st.toString()},
     );
   });
 }
@@ -33,10 +30,7 @@ class MyBLoCObserver extends BlocObserver {
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     FirebaseAnalytics.instance.logEvent(
       name: 'Crash',
-      parameters: <String, Object>{
-        'Error': error.toString(),
-        'Stacktrace': stackTrace.toString()
-      },
+      parameters: <String, Object>{'Error': error.toString(), 'Stacktrace': stackTrace.toString()},
     );
     super.onError(bloc, error, stackTrace);
   }

@@ -16,8 +16,7 @@ class ErrorPage extends StatefulWidget {
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _ErrorPageState? maybeOf(BuildContext context) =>
-      context.findAncestorStateOfType<_ErrorPageState>();
+  static _ErrorPageState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_ErrorPageState>();
 
   @override
   State<ErrorPage> createState() => _ErrorPageState();
@@ -71,9 +70,7 @@ class _ErrorPageState extends State<ErrorPage> {
               child: Container(
                 width: 264,
                 height: 64,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.green),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Colors.green),
                 child: const Center(child: Text('Обновить')),
               ),
             ),

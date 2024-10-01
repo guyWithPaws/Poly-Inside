@@ -11,8 +11,7 @@ import 'package:poly_inside_server/database/provider.dart';
 import 'package:shared/shared.dart';
 
 class Parser {
-  final String staffPage =
-      'https://www.spbstu.ru/university/about-the-university/staff/';
+  final String staffPage = 'https://www.spbstu.ru/university/about-the-university/staff/';
 
   final DatabaseProvider provider;
   static const int maxRetries = 3;
@@ -77,17 +76,12 @@ class Parser {
 
       try {
         var professorPage = parse(response.body);
-        var numberOfProfessor =
-            professorPage.getElementsByClassName('col-sm-9 col-md-10').length;
+        var numberOfProfessor = professorPage.getElementsByClassName('col-sm-9 col-md-10').length;
 
         for (var number = 0; number < numberOfProfessor; number++) {
-          var professorName = professorPage
-              .getElementsByClassName('col-sm-9 col-md-10')[number]
-              .children[0]
-              .text;
+          var professorName = professorPage.getElementsByClassName('col-sm-9 col-md-10')[number].children[0].text;
 
-          if (professorsNames.contains(professorName) ||
-              professorsNames.isEmpty) {
+          if (professorsNames.contains(professorName) || professorsNames.isEmpty) {
             var avatarSublink = professorPage
                 .getElementsByClassName('col-sm-3 col-md-2')[number]
                 .children[0]
@@ -105,12 +99,10 @@ class Parser {
 
               var decodeImage = img.decodeImage(image);
 
-              compressedImage =
-                  Uint8List.fromList(img.encodeJpg(decodeImage!, quality: 60));
+              compressedImage = Uint8List.fromList(img.encodeJpg(decodeImage!, quality: 60));
             }
 
-            var professorIdBytes =
-                utf8.encode(professorName + DateTime.now().toString());
+            var professorIdBytes = utf8.encode(professorName + DateTime.now().toString());
 
             var professorId = sha1.convert(professorIdBytes).toString();
 

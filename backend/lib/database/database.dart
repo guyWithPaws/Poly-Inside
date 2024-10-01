@@ -85,8 +85,7 @@ class Reviews extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DriftDatabase(
-    tables: [Professors, Users, Reviews, RejectedReviews, Likes, Groups])
+@DriftDatabase(tables: [Professors, Users, Reviews, RejectedReviews, Likes, Groups])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
@@ -100,8 +99,8 @@ class AppDatabase extends _$AppDatabase {
         },
         onUpgrade: (m, from, to) async {
           if (from < 2) {
-            await m.createTable(Likes as TableInfo<Table, dynamic>);
-            await m.createTable(Groups as TableInfo<Table, dynamic>);
+            await m.createTable(likes);
+            await m.createTable(groups);
           }
         },
       );

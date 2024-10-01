@@ -72,16 +72,17 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                 isLiked: isLiked,
                 likeCount: likeCount,
                 likeCountPadding: EdgeInsets.only(left: 7),
-                bubblesColor: BubblesColor(dotPrimaryColor: Color.fromARGB(255, 34, 166, 64), dotSecondaryColor: Colors.transparent),
+                bubblesColor: BubblesColor(
+                    dotPrimaryColor: Color.fromARGB(255, 34, 166, 64), dotSecondaryColor: Colors.transparent),
                 circleColor: CircleColor(start: Colors.transparent, end: Colors.transparent),
                 likeCountAnimationDuration: Duration(microseconds: 0),
-                onTap:(isLiked) async {
+                onTap: (isLiked) async {
                   this.isLiked = !isLiked;
-                  likeCount += this.isLiked?1:-1;
+                  likeCount += this.isLiked ? 1 : -1;
                   return !isLiked;
                 },
                 likeBuilder: (isLiked) {
-                  final color = isLiked?Color.fromARGB(255, 34, 166, 64):Colors.grey;
+                  final color = isLiked ? Color.fromARGB(255, 34, 166, 64) : Colors.grey;
                   return SvgPicture.asset(
                     'assets/icons/like.svg',
                     alignment: Alignment.bottomRight,
@@ -89,7 +90,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   );
                 },
                 countBuilder: (likeCount, isLiked, text) {
-                  Color? counterColor = isLiked?Colors.black:Colors.grey;
+                  Color? counterColor = isLiked ? Colors.black : Colors.grey;
                   return Text(
                     // '${widget.review!.likes}',
                     text,
@@ -117,13 +118,13 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                 bubblesColor: BubblesColor(dotPrimaryColor: Colors.red, dotSecondaryColor: Colors.transparent),
                 circleColor: CircleColor(start: Colors.transparent, end: Colors.transparent),
                 likeCountAnimationDuration: Duration(microseconds: 0),
-                onTap:(isDisliked) async {
+                onTap: (isDisliked) async {
                   this.isDisliked = !isDisliked;
-                  dislikeCount += this.isDisliked?1:-1;
+                  dislikeCount += this.isDisliked ? 1 : -1;
                   return !isDisliked;
                 },
                 likeBuilder: (isDisliked) {
-                  final color = isDisliked?Colors.red:Colors.grey;
+                  final color = isDisliked ? Colors.red : Colors.grey;
                   return SvgPicture.asset(
                     'assets/icons/dislike.svg',
                     alignment: Alignment.bottomRight,
@@ -131,7 +132,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   );
                 },
                 countBuilder: (dislikeCount, isDisliked, text) {
-                  Color? counterColor = isDisliked?Colors.black:Colors.grey;
+                  Color? counterColor = isDisliked ? Colors.black : Colors.grey;
                   return Text(
                     // '${widget.review!.likes}',
                     text,
@@ -184,7 +185,6 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
     );
   }
 }
-
 
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';

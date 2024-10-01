@@ -51,7 +51,6 @@ class _MyWidgetState extends State<IntroPage> {
               ),
               Container(
                 child: TextField(
-                  
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -78,8 +77,7 @@ class _MyWidgetState extends State<IntroPage> {
               ),
               const Spacer(),
               CheckboxListTile(
-                title: const Text(
-                    "Нажимая на галочку, вы соглашаетесь с условиями пользования приложения"),
+                title: const Text("Нажимая на галочку, вы соглашаетесь с условиями пользования приложения"),
                 value: value,
                 onChanged: (nValue) {
                   setState(() {
@@ -89,32 +87,32 @@ class _MyWidgetState extends State<IntroPage> {
                 controlAffinity: ListTileControlAffinity.leading,
               ),
               const SizedBox(height: 32),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: const Color.fromARGB(255, 210, 248, 211),
-                      ),
-                      margin: const EdgeInsets.only(bottom: 33, right: 3),
-                      width: 197,
-                      height: 64,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Сохранить',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color.fromARGB(255, 210, 248, 211),
+                    ),
+                    margin: const EdgeInsets.only(bottom: 33, right: 3),
+                    width: 197,
+                    height: 64,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Сохранить',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -122,4 +120,3 @@ class _MyWidgetState extends State<IntroPage> {
     );
   }
 }
-

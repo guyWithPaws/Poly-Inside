@@ -60,15 +60,11 @@ class ReviewTitle extends StatelessWidget {
                     ),
                     const SizedBox(width: 16),
                     FutureBuilder<User>(
-                      future: InitializationScope.repositoryOf(context)
-                          .getUserByUserId(review.userId),
+                      future: InitializationScope.repositoryOf(context).getUserByUserId(review.userId),
                       builder: (context, snapshot) {
                         return Text(
-                          snapshot.hasData
-                              ? snapshot.data!.name
-                              : snapshot.data.toString(),
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
+                          snapshot.hasData ? snapshot.data!.name : snapshot.data.toString(),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                         );
                       },
                     ),
@@ -112,16 +108,10 @@ class ReviewTitle extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                    DateFormat.yMMMMd('ru_RU').format(
-                        DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS')
-                            .parse(review.date)),
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500)),
+                Text(DateFormat.yMMMMd('ru_RU').format(DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS').parse(review.date)),
+                    style: const TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w500)),
                 Reactions(
-                 review: review,
+                  review: review,
                 ),
               ],
             )

@@ -14,8 +14,7 @@ part 'user_bloc.freezed.dart';
 int? getId() => 1234567891;
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  UserBloc({required final UserState state, required this.repository})
-      : super(state) {
+  UserBloc({required final UserState state, required this.repository}) : super(state) {
     on<GetUserEvent>((e, emit) async {
       emit(const UserState.processing('Start logging in'));
 
@@ -38,14 +37,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           emit(const UserState.processing('Getting user from database after logging'));
           user = await repository.getUserByUserId(id);
         }
-        await FirebaseAnalytics.instance
-            .logLogin(parameters: <String, Object>{'UserID': user.id});
+        await FirebaseAnalytics.instance.logLogin(parameters: <String, Object>{'UserID': user.id});
         emit(const UserState.processing('Loaded user'));
 
         emit(UserState.loaded(user));
       } on Object catch (error, _) {
         debugPrint(error.toString());
-       debugger();
+        debugger();
         emit(UserState.error(error));
         rethrow;
       }

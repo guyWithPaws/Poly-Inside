@@ -70,13 +70,11 @@ mixin _$UserState {
 
 /// @nodoc
 abstract class $UserStateCopyWith<$Res> {
-  factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
-      _$UserStateCopyWithImpl<$Res, UserState>;
+  factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) = _$UserStateCopyWithImpl<$Res, UserState>;
 }
 
 /// @nodoc
-class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
-    implements $UserStateCopyWith<$Res> {
+class _$UserStateCopyWithImpl<$Res, $Val extends UserState> implements $UserStateCopyWith<$Res> {
   _$UserStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -90,19 +88,16 @@ class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
 
 /// @nodoc
 abstract class _$$ProcessingStateImplCopyWith<$Res> {
-  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value,
-          $Res Function(_$ProcessingStateImpl) then) =
+  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value, $Res Function(_$ProcessingStateImpl) then) =
       __$$ProcessingStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String stage});
 }
 
 /// @nodoc
-class __$$ProcessingStateImplCopyWithImpl<$Res>
-    extends _$UserStateCopyWithImpl<$Res, _$ProcessingStateImpl>
+class __$$ProcessingStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$ProcessingStateImpl>
     implements _$$ProcessingStateImplCopyWith<$Res> {
-  __$$ProcessingStateImplCopyWithImpl(
-      _$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
+  __$$ProcessingStateImplCopyWithImpl(_$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of UserState
@@ -123,8 +118,7 @@ class __$$ProcessingStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ProcessingStateImpl extends ProcessingState
-    with DiagnosticableTreeMixin {
+class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin {
   const _$ProcessingStateImpl(this.stage) : super._();
 
   @override
@@ -160,8 +154,7 @@ class _$ProcessingStateImpl extends ProcessingState
   @override
   @pragma('vm:prefer-inline')
   _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith =>
-      __$$ProcessingStateImplCopyWithImpl<_$ProcessingStateImpl>(
-          this, _$identity);
+      __$$ProcessingStateImplCopyWithImpl<_$ProcessingStateImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -247,24 +240,19 @@ abstract class ProcessingState extends UserState {
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$IdleStateImplCopyWith<$Res> {
-  factory _$$IdleStateImplCopyWith(
-          _$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
+  factory _$$IdleStateImplCopyWith(_$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
       __$$IdleStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$IdleStateImplCopyWithImpl<$Res>
-    extends _$UserStateCopyWithImpl<$Res, _$IdleStateImpl>
+class __$$IdleStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$IdleStateImpl>
     implements _$$IdleStateImplCopyWith<$Res> {
-  __$$IdleStateImplCopyWithImpl(
-      _$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then)
-      : super(_value, _then);
+  __$$IdleStateImplCopyWithImpl(_$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then) : super(_value, _then);
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -288,8 +276,7 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$IdleStateImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$IdleStateImpl);
   }
 
   @override
@@ -377,20 +364,16 @@ abstract class IdleState extends UserState {
 
 /// @nodoc
 abstract class _$$ErrorStateImplCopyWith<$Res> {
-  factory _$$ErrorStateImplCopyWith(
-          _$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
+  factory _$$ErrorStateImplCopyWith(_$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
       __$$ErrorStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object e});
 }
 
 /// @nodoc
-class __$$ErrorStateImplCopyWithImpl<$Res>
-    extends _$UserStateCopyWithImpl<$Res, _$ErrorStateImpl>
+class __$$ErrorStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$ErrorStateImpl>
     implements _$$ErrorStateImplCopyWith<$Res> {
-  __$$ErrorStateImplCopyWithImpl(
-      _$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then)
-      : super(_value, _then);
+  __$$ErrorStateImplCopyWithImpl(_$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then) : super(_value, _then);
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -435,8 +418,7 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -530,25 +512,21 @@ abstract class ErrorState extends UserState {
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$LoadedStateImplCopyWith<$Res> {
-  factory _$$LoadedStateImplCopyWith(
-          _$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
+  factory _$$LoadedStateImplCopyWith(_$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
       __$$LoadedStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({User user});
 }
 
 /// @nodoc
-class __$$LoadedStateImplCopyWithImpl<$Res>
-    extends _$UserStateCopyWithImpl<$Res, _$LoadedStateImpl>
+class __$$LoadedStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$LoadedStateImpl>
     implements _$$LoadedStateImplCopyWith<$Res> {
-  __$$LoadedStateImplCopyWithImpl(
-      _$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
+  __$$LoadedStateImplCopyWithImpl(_$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of UserState
@@ -556,10 +534,10 @@ class __$$LoadedStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = null,
+    Object? user = freezed,
   }) {
     return _then(_$LoadedStateImpl(
-      null == user
+      freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
@@ -593,11 +571,11 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedStateImpl &&
-            (identical(other.user, user) || other.user == user));
+            const DeepCollectionEquality().equals(other.user, user));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user);
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(user));
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -691,6 +669,5 @@ abstract class LoadedState extends UserState {
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith => throw _privateConstructorUsedError;
 }
