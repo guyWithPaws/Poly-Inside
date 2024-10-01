@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
+import 'package:poly_inside/src/common/widgets/reactions.dart';
 import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
@@ -119,9 +120,9 @@ class ReviewTitle extends StatelessWidget {
                         fontSize: 14,
                         color: Colors.grey,
                         fontWeight: FontWeight.w500)),
-                // Reactions(
-                //  review: review,
-                // ),
+                Reactions(
+                 review: review,
+                ),
               ],
             )
           ],
