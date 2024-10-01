@@ -2,18 +2,10 @@ networks:
   dev:
 
 services:
-  # envoy:
-  #   image: envoyproxy/envoy:dev-b10deb602383972cd71ab0a836c846f7eb91b790
-  #   ports: 
-  #     - "8080:8080"
-  #   volumes:
-  #     - ./proxy/envoy/envoy.yaml:/etc/envoy/envoy.yaml
 
   envoy:
     build: 
       ./proxy/envoy
-    volumes:
-      - ./pr
     ports:
       - "8080:8080"
     networks:
@@ -24,15 +16,9 @@ services:
   backend:
     build:
       context: ./backend
+    volumes:
+      - ../shared:/backend/shared
     ports:
       - "9090:9090"
     networks:
       - dev
-
-  # frontend:
-  #   build:
-  #     context: ./frontend
-
-  # bot:
-  #   build:
-  #     context: ./bot
