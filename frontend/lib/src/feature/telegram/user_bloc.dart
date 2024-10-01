@@ -45,7 +45,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(UserState.loaded(user));
       } on Object catch (error, _) {
         debugPrint(error.toString());
-        debugger();
+       debugger();
         emit(UserState.error(error));
         rethrow;
       }

@@ -1228,6 +1228,547 @@ class RejectedReviewsCompanion extends UpdateCompanion<Review> {
   }
 }
 
+class $LikesTable extends Likes with TableInfo<$LikesTable, Like> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LikesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+      'user_id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _professorIdMeta =
+      const VerificationMeta('professorId');
+  @override
+  late final GeneratedColumn<String> professorId = GeneratedColumn<String>(
+      'professor_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _reviewIdMeta =
+      const VerificationMeta('reviewId');
+  @override
+  late final GeneratedColumn<String> reviewId = GeneratedColumn<String>(
+      'review_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _likedMeta = const VerificationMeta('liked');
+  @override
+  late final GeneratedColumn<bool> liked = GeneratedColumn<bool>(
+      'liked', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("liked" IN (0, 1))'));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, userId, professorId, reviewId, liked];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'likes';
+  @override
+  VerificationContext validateIntegrity(Insertable<Like> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('professor_id')) {
+      context.handle(
+          _professorIdMeta,
+          professorId.isAcceptableOrUnknown(
+              data['professor_id']!, _professorIdMeta));
+    } else if (isInserting) {
+      context.missing(_professorIdMeta);
+    }
+    if (data.containsKey('review_id')) {
+      context.handle(_reviewIdMeta,
+          reviewId.isAcceptableOrUnknown(data['review_id']!, _reviewIdMeta));
+    } else if (isInserting) {
+      context.missing(_reviewIdMeta);
+    }
+    if (data.containsKey('liked')) {
+      context.handle(
+          _likedMeta, liked.isAcceptableOrUnknown(data['liked']!, _likedMeta));
+    } else if (isInserting) {
+      context.missing(_likedMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Like map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Like(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      userId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}user_id'])!,
+      professorId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}professor_id'])!,
+      reviewId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}review_id'])!,
+      liked: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}liked'])!,
+    );
+  }
+
+  @override
+  $LikesTable createAlias(String alias) {
+    return $LikesTable(attachedDatabase, alias);
+  }
+}
+
+class Like extends DataClass implements Insertable<Like> {
+  final String id;
+  final int userId;
+  final String professorId;
+  final String reviewId;
+  final bool liked;
+  const Like(
+      {required this.id,
+      required this.userId,
+      required this.professorId,
+      required this.reviewId,
+      required this.liked});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['user_id'] = Variable<int>(userId);
+    map['professor_id'] = Variable<String>(professorId);
+    map['review_id'] = Variable<String>(reviewId);
+    map['liked'] = Variable<bool>(liked);
+    return map;
+  }
+
+  LikesCompanion toCompanion(bool nullToAbsent) {
+    return LikesCompanion(
+      id: Value(id),
+      userId: Value(userId),
+      professorId: Value(professorId),
+      reviewId: Value(reviewId),
+      liked: Value(liked),
+    );
+  }
+
+  factory Like.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Like(
+      id: serializer.fromJson<String>(json['id']),
+      userId: serializer.fromJson<int>(json['userId']),
+      professorId: serializer.fromJson<String>(json['professorId']),
+      reviewId: serializer.fromJson<String>(json['reviewId']),
+      liked: serializer.fromJson<bool>(json['liked']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'userId': serializer.toJson<int>(userId),
+      'professorId': serializer.toJson<String>(professorId),
+      'reviewId': serializer.toJson<String>(reviewId),
+      'liked': serializer.toJson<bool>(liked),
+    };
+  }
+
+  Like copyWith(
+          {String? id,
+          int? userId,
+          String? professorId,
+          String? reviewId,
+          bool? liked}) =>
+      Like(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
+        professorId: professorId ?? this.professorId,
+        reviewId: reviewId ?? this.reviewId,
+        liked: liked ?? this.liked,
+      );
+  Like copyWithCompanion(LikesCompanion data) {
+    return Like(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      professorId:
+          data.professorId.present ? data.professorId.value : this.professorId,
+      reviewId: data.reviewId.present ? data.reviewId.value : this.reviewId,
+      liked: data.liked.present ? data.liked.value : this.liked,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Like(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('professorId: $professorId, ')
+          ..write('reviewId: $reviewId, ')
+          ..write('liked: $liked')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, userId, professorId, reviewId, liked);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Like &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.professorId == this.professorId &&
+          other.reviewId == this.reviewId &&
+          other.liked == this.liked);
+}
+
+class LikesCompanion extends UpdateCompanion<Like> {
+  final Value<String> id;
+  final Value<int> userId;
+  final Value<String> professorId;
+  final Value<String> reviewId;
+  final Value<bool> liked;
+  final Value<int> rowid;
+  const LikesCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.professorId = const Value.absent(),
+    this.reviewId = const Value.absent(),
+    this.liked = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LikesCompanion.insert({
+    required String id,
+    required int userId,
+    required String professorId,
+    required String reviewId,
+    required bool liked,
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        userId = Value(userId),
+        professorId = Value(professorId),
+        reviewId = Value(reviewId),
+        liked = Value(liked);
+  static Insertable<Like> custom({
+    Expression<String>? id,
+    Expression<int>? userId,
+    Expression<String>? professorId,
+    Expression<String>? reviewId,
+    Expression<bool>? liked,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (professorId != null) 'professor_id': professorId,
+      if (reviewId != null) 'review_id': reviewId,
+      if (liked != null) 'liked': liked,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LikesCompanion copyWith(
+      {Value<String>? id,
+      Value<int>? userId,
+      Value<String>? professorId,
+      Value<String>? reviewId,
+      Value<bool>? liked,
+      Value<int>? rowid}) {
+    return LikesCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      professorId: professorId ?? this.professorId,
+      reviewId: reviewId ?? this.reviewId,
+      liked: liked ?? this.liked,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (professorId.present) {
+      map['professor_id'] = Variable<String>(professorId.value);
+    }
+    if (reviewId.present) {
+      map['review_id'] = Variable<String>(reviewId.value);
+    }
+    if (liked.present) {
+      map['liked'] = Variable<bool>(liked.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LikesCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('professorId: $professorId, ')
+          ..write('reviewId: $reviewId, ')
+          ..write('liked: $liked, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $GroupsTable extends Groups with TableInfo<$GroupsTable, Group> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $GroupsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _numberMeta = const VerificationMeta('number');
+  @override
+  late final GeneratedColumn<String> number = GeneratedColumn<String>(
+      'number', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _professorIdMeta =
+      const VerificationMeta('professorId');
+  @override
+  late final GeneratedColumn<String> professorId = GeneratedColumn<String>(
+      'professor_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, number, professorId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'groups';
+  @override
+  VerificationContext validateIntegrity(Insertable<Group> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('number')) {
+      context.handle(_numberMeta,
+          number.isAcceptableOrUnknown(data['number']!, _numberMeta));
+    } else if (isInserting) {
+      context.missing(_numberMeta);
+    }
+    if (data.containsKey('professor_id')) {
+      context.handle(
+          _professorIdMeta,
+          professorId.isAcceptableOrUnknown(
+              data['professor_id']!, _professorIdMeta));
+    } else if (isInserting) {
+      context.missing(_professorIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Group map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Group(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      number: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}number'])!,
+      professorId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}professor_id'])!,
+    );
+  }
+
+  @override
+  $GroupsTable createAlias(String alias) {
+    return $GroupsTable(attachedDatabase, alias);
+  }
+}
+
+class Group extends DataClass implements Insertable<Group> {
+  final String id;
+  final String number;
+  final String professorId;
+  const Group(
+      {required this.id, required this.number, required this.professorId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['number'] = Variable<String>(number);
+    map['professor_id'] = Variable<String>(professorId);
+    return map;
+  }
+
+  GroupsCompanion toCompanion(bool nullToAbsent) {
+    return GroupsCompanion(
+      id: Value(id),
+      number: Value(number),
+      professorId: Value(professorId),
+    );
+  }
+
+  factory Group.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Group(
+      id: serializer.fromJson<String>(json['id']),
+      number: serializer.fromJson<String>(json['number']),
+      professorId: serializer.fromJson<String>(json['professorId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'number': serializer.toJson<String>(number),
+      'professorId': serializer.toJson<String>(professorId),
+    };
+  }
+
+  Group copyWith({String? id, String? number, String? professorId}) => Group(
+        id: id ?? this.id,
+        number: number ?? this.number,
+        professorId: professorId ?? this.professorId,
+      );
+  Group copyWithCompanion(GroupsCompanion data) {
+    return Group(
+      id: data.id.present ? data.id.value : this.id,
+      number: data.number.present ? data.number.value : this.number,
+      professorId:
+          data.professorId.present ? data.professorId.value : this.professorId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Group(')
+          ..write('id: $id, ')
+          ..write('number: $number, ')
+          ..write('professorId: $professorId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, number, professorId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Group &&
+          other.id == this.id &&
+          other.number == this.number &&
+          other.professorId == this.professorId);
+}
+
+class GroupsCompanion extends UpdateCompanion<Group> {
+  final Value<String> id;
+  final Value<String> number;
+  final Value<String> professorId;
+  final Value<int> rowid;
+  const GroupsCompanion({
+    this.id = const Value.absent(),
+    this.number = const Value.absent(),
+    this.professorId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  GroupsCompanion.insert({
+    required String id,
+    required String number,
+    required String professorId,
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        number = Value(number),
+        professorId = Value(professorId);
+  static Insertable<Group> custom({
+    Expression<String>? id,
+    Expression<String>? number,
+    Expression<String>? professorId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (number != null) 'number': number,
+      if (professorId != null) 'professor_id': professorId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  GroupsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? number,
+      Value<String>? professorId,
+      Value<int>? rowid}) {
+    return GroupsCompanion(
+      id: id ?? this.id,
+      number: number ?? this.number,
+      professorId: professorId ?? this.professorId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (number.present) {
+      map['number'] = Variable<String>(number.value);
+    }
+    if (professorId.present) {
+      map['professor_id'] = Variable<String>(professorId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GroupsCompanion(')
+          ..write('id: $id, ')
+          ..write('number: $number, ')
+          ..write('professorId: $professorId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1236,12 +1777,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ReviewsTable reviews = $ReviewsTable(this);
   late final $RejectedReviewsTable rejectedReviews =
       $RejectedReviewsTable(this);
+  late final $LikesTable likes = $LikesTable(this);
+  late final $GroupsTable groups = $GroupsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [professors, users, reviews, rejectedReviews];
+      [professors, users, reviews, rejectedReviews, likes, groups];
 }
 
 typedef $$ProfessorsTableCreateCompanionBuilder = ProfessorsCompanion Function({
@@ -2057,6 +2600,262 @@ typedef $$RejectedReviewsTableProcessedTableManager = ProcessedTableManager<
     (Review, BaseReferences<_$AppDatabase, $RejectedReviewsTable, Review>),
     Review,
     PrefetchHooks Function()>;
+typedef $$LikesTableCreateCompanionBuilder = LikesCompanion Function({
+  required String id,
+  required int userId,
+  required String professorId,
+  required String reviewId,
+  required bool liked,
+  Value<int> rowid,
+});
+typedef $$LikesTableUpdateCompanionBuilder = LikesCompanion Function({
+  Value<String> id,
+  Value<int> userId,
+  Value<String> professorId,
+  Value<String> reviewId,
+  Value<bool> liked,
+  Value<int> rowid,
+});
+
+class $$LikesTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $LikesTable> {
+  $$LikesTableFilterComposer(super.$state);
+  ColumnFilters<String> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get userId => $state.composableBuilder(
+      column: $state.table.userId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get professorId => $state.composableBuilder(
+      column: $state.table.professorId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get reviewId => $state.composableBuilder(
+      column: $state.table.reviewId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<bool> get liked => $state.composableBuilder(
+      column: $state.table.liked,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$LikesTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $LikesTable> {
+  $$LikesTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get userId => $state.composableBuilder(
+      column: $state.table.userId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get professorId => $state.composableBuilder(
+      column: $state.table.professorId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get reviewId => $state.composableBuilder(
+      column: $state.table.reviewId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<bool> get liked => $state.composableBuilder(
+      column: $state.table.liked,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class $$LikesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $LikesTable,
+    Like,
+    $$LikesTableFilterComposer,
+    $$LikesTableOrderingComposer,
+    $$LikesTableCreateCompanionBuilder,
+    $$LikesTableUpdateCompanionBuilder,
+    (Like, BaseReferences<_$AppDatabase, $LikesTable, Like>),
+    Like,
+    PrefetchHooks Function()> {
+  $$LikesTableTableManager(_$AppDatabase db, $LikesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$LikesTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$LikesTableOrderingComposer(ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<int> userId = const Value.absent(),
+            Value<String> professorId = const Value.absent(),
+            Value<String> reviewId = const Value.absent(),
+            Value<bool> liked = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              LikesCompanion(
+            id: id,
+            userId: userId,
+            professorId: professorId,
+            reviewId: reviewId,
+            liked: liked,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required int userId,
+            required String professorId,
+            required String reviewId,
+            required bool liked,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              LikesCompanion.insert(
+            id: id,
+            userId: userId,
+            professorId: professorId,
+            reviewId: reviewId,
+            liked: liked,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$LikesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $LikesTable,
+    Like,
+    $$LikesTableFilterComposer,
+    $$LikesTableOrderingComposer,
+    $$LikesTableCreateCompanionBuilder,
+    $$LikesTableUpdateCompanionBuilder,
+    (Like, BaseReferences<_$AppDatabase, $LikesTable, Like>),
+    Like,
+    PrefetchHooks Function()>;
+typedef $$GroupsTableCreateCompanionBuilder = GroupsCompanion Function({
+  required String id,
+  required String number,
+  required String professorId,
+  Value<int> rowid,
+});
+typedef $$GroupsTableUpdateCompanionBuilder = GroupsCompanion Function({
+  Value<String> id,
+  Value<String> number,
+  Value<String> professorId,
+  Value<int> rowid,
+});
+
+class $$GroupsTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $GroupsTable> {
+  $$GroupsTableFilterComposer(super.$state);
+  ColumnFilters<String> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get number => $state.composableBuilder(
+      column: $state.table.number,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get professorId => $state.composableBuilder(
+      column: $state.table.professorId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$GroupsTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $GroupsTable> {
+  $$GroupsTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get number => $state.composableBuilder(
+      column: $state.table.number,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get professorId => $state.composableBuilder(
+      column: $state.table.professorId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class $$GroupsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $GroupsTable,
+    Group,
+    $$GroupsTableFilterComposer,
+    $$GroupsTableOrderingComposer,
+    $$GroupsTableCreateCompanionBuilder,
+    $$GroupsTableUpdateCompanionBuilder,
+    (Group, BaseReferences<_$AppDatabase, $GroupsTable, Group>),
+    Group,
+    PrefetchHooks Function()> {
+  $$GroupsTableTableManager(_$AppDatabase db, $GroupsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$GroupsTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$GroupsTableOrderingComposer(ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> number = const Value.absent(),
+            Value<String> professorId = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              GroupsCompanion(
+            id: id,
+            number: number,
+            professorId: professorId,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String number,
+            required String professorId,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              GroupsCompanion.insert(
+            id: id,
+            number: number,
+            professorId: professorId,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$GroupsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $GroupsTable,
+    Group,
+    $$GroupsTableFilterComposer,
+    $$GroupsTableOrderingComposer,
+    $$GroupsTableCreateCompanionBuilder,
+    $$GroupsTableUpdateCompanionBuilder,
+    (Group, BaseReferences<_$AppDatabase, $GroupsTable, Group>),
+    Group,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2069,4 +2868,8 @@ class $AppDatabaseManager {
       $$ReviewsTableTableManager(_db, _db.reviews);
   $$RejectedReviewsTableTableManager get rejectedReviews =>
       $$RejectedReviewsTableTableManager(_db, _db.rejectedReviews);
+  $$LikesTableTableManager get likes =>
+      $$LikesTableTableManager(_db, _db.likes);
+  $$GroupsTableTableManager get groups =>
+      $$GroupsTableTableManager(_db, _db.groups);
 }
