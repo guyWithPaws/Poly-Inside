@@ -2,6 +2,7 @@ FROM dart:stable AS build
 
 WORKDIR /backend
 COPY pubspec.* ./
+COPY . .
 RUN dart pub get
 
 RUN dart compile exe bin/server.dart -o bin/server

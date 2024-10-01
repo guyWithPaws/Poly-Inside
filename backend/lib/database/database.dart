@@ -18,14 +18,23 @@ class Professors extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-class Likes extends Table{
+class Groups extends Table {
+  TextColumn get id => text()();
+  TextColumn get number => text()();
+  TextColumn get professorId => text()();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {id};
+}
+
+class Likes extends Table {
   TextColumn get id => text()();
   IntColumn get userId => integer()();
   TextColumn get professorId => text()();
   TextColumn get reviewId => text()();
   BoolColumn get liked => boolean()();
 
-  @override 
+  @override
   Set<Column<Object>>? get primaryKey => {id};
 }
 
@@ -76,10 +85,24 @@ class Reviews extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DriftDatabase(tables: [Professors, Users, Reviews, RejectedReviews, Likes])
+@DriftDatabase(
+    tables: [Professors, Users, Reviews, RejectedReviews, Likes, Groups])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (m) async {
+          await m.createAll();
+        },
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            await m.createTable(Likes as TableInfo<Table, dynamic>);
+            await m.createTable(Groups as TableInfo<Table, dynamic>);
+          }
+        },
+      );
 }
