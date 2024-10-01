@@ -32,7 +32,7 @@ class InitializationBloc
         // );
        await initializeDateFormatting('ru_RU', null);
         final channel =
-            GrpcWebClientChannel.xhr(Uri.parse('http://87.228.18.201:8080'));
+            GrpcWebClientChannel.xhr(Uri.parse('http://213.171.31.11:8080'));
         await Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         );
