@@ -16,6 +16,10 @@ class $ProfessorsTable extends Professors with TableInfo<$ProfessorsTable, Profe
   @override
   late final GeneratedColumn<String> name =
       GeneratedColumn<String>('name', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _smallAvatarMeta = VerificationMeta('smallAvatar');
+  @override
+  late final GeneratedColumn<Uint8List> smallAvatar = GeneratedColumn<Uint8List>('small_avatar', aliasedName, false,
+      type: DriftSqlType.blob, requiredDuringInsert: true);
   static const VerificationMeta _avatarMeta = VerificationMeta('avatar');
   @override
   late final GeneratedColumn<Uint8List> avatar =
@@ -46,7 +50,7 @@ class $ProfessorsTable extends Professors with TableInfo<$ProfessorsTable, Profe
       GeneratedColumn<double>('harshness', aliasedName, false, type: DriftSqlType.double, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, avatar, reviewsCount, rating, objectivity, loyalty, professionalism, harshness];
+      [id, name, smallAvatar, avatar, reviewsCount, rating, objectivity, loyalty, professionalism, harshness];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -65,6 +69,11 @@ class $ProfessorsTable extends Professors with TableInfo<$ProfessorsTable, Profe
       context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (data.containsKey('small_avatar')) {
+      context.handle(_smallAvatarMeta, smallAvatar.isAcceptableOrUnknown(data['small_avatar']!, _smallAvatarMeta));
+    } else if (isInserting) {
+      context.missing(_smallAvatarMeta);
     }
     if (data.containsKey('avatar')) {
       context.handle(_avatarMeta, avatar.isAcceptableOrUnknown(data['avatar']!, _avatarMeta));
@@ -114,6 +123,7 @@ class $ProfessorsTable extends Professors with TableInfo<$ProfessorsTable, Profe
       id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       name: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       avatar: attachedDatabase.typeMapping.read(DriftSqlType.blob, data['${effectivePrefix}avatar'])!,
+      smallAvatar: attachedDatabase.typeMapping.read(DriftSqlType.blob, data['${effectivePrefix}small_avatar'])!,
       rating: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}rating'])!,
       reviewsCount: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}reviews_count'])!,
       objectivity: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}objectivity'])!,
@@ -133,6 +143,7 @@ class $ProfessorsTable extends Professors with TableInfo<$ProfessorsTable, Profe
 class ProfessorsCompanion extends UpdateCompanion<Professor> {
   final Value<String> id;
   final Value<String> name;
+  final Value<Uint8List> smallAvatar;
   final Value<Uint8List> avatar;
   final Value<int> reviewsCount;
   final Value<double> rating;
@@ -144,6 +155,7 @@ class ProfessorsCompanion extends UpdateCompanion<Professor> {
   const ProfessorsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.smallAvatar = const Value.absent(),
     this.avatar = const Value.absent(),
     this.reviewsCount = const Value.absent(),
     this.rating = const Value.absent(),
@@ -156,6 +168,7 @@ class ProfessorsCompanion extends UpdateCompanion<Professor> {
   ProfessorsCompanion.insert({
     required String id,
     required String name,
+    required Uint8List smallAvatar,
     required Uint8List avatar,
     required int reviewsCount,
     required double rating,
@@ -166,6 +179,7 @@ class ProfessorsCompanion extends UpdateCompanion<Professor> {
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         name = Value(name),
+        smallAvatar = Value(smallAvatar),
         avatar = Value(avatar),
         reviewsCount = Value(reviewsCount),
         rating = Value(rating),
@@ -176,6 +190,7 @@ class ProfessorsCompanion extends UpdateCompanion<Professor> {
   static Insertable<Professor> custom({
     Expression<String>? id,
     Expression<String>? name,
+    Expression<Uint8List>? smallAvatar,
     Expression<Uint8List>? avatar,
     Expression<int>? reviewsCount,
     Expression<double>? rating,
@@ -188,6 +203,7 @@ class ProfessorsCompanion extends UpdateCompanion<Professor> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (smallAvatar != null) 'small_avatar': smallAvatar,
       if (avatar != null) 'avatar': avatar,
       if (reviewsCount != null) 'reviews_count': reviewsCount,
       if (rating != null) 'rating': rating,
@@ -202,6 +218,7 @@ class ProfessorsCompanion extends UpdateCompanion<Professor> {
   ProfessorsCompanion copyWith(
       {Value<String>? id,
       Value<String>? name,
+      Value<Uint8List>? smallAvatar,
       Value<Uint8List>? avatar,
       Value<int>? reviewsCount,
       Value<double>? rating,
@@ -213,6 +230,7 @@ class ProfessorsCompanion extends UpdateCompanion<Professor> {
     return ProfessorsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      smallAvatar: smallAvatar ?? this.smallAvatar,
       avatar: avatar ?? this.avatar,
       reviewsCount: reviewsCount ?? this.reviewsCount,
       rating: rating ?? this.rating,
@@ -232,6 +250,9 @@ class ProfessorsCompanion extends UpdateCompanion<Professor> {
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
+    }
+    if (smallAvatar.present) {
+      map['small_avatar'] = Variable<Uint8List>(smallAvatar.value);
     }
     if (avatar.present) {
       map['avatar'] = Variable<Uint8List>(avatar.value);
@@ -265,6 +286,7 @@ class ProfessorsCompanion extends UpdateCompanion<Professor> {
     return (StringBuffer('ProfessorsCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('smallAvatar: $smallAvatar, ')
           ..write('avatar: $avatar, ')
           ..write('reviewsCount: $reviewsCount, ')
           ..write('rating: $rating, ')
@@ -1559,6 +1581,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$ProfessorsTableCreateCompanionBuilder = ProfessorsCompanion Function({
   required String id,
   required String name,
+  required Uint8List smallAvatar,
   required Uint8List avatar,
   required int reviewsCount,
   required double rating,
@@ -1571,6 +1594,7 @@ typedef $$ProfessorsTableCreateCompanionBuilder = ProfessorsCompanion Function({
 typedef $$ProfessorsTableUpdateCompanionBuilder = ProfessorsCompanion Function({
   Value<String> id,
   Value<String> name,
+  Value<Uint8List> smallAvatar,
   Value<Uint8List> avatar,
   Value<int> reviewsCount,
   Value<double> rating,
@@ -1588,6 +1612,10 @@ class $$ProfessorsTableFilterComposer extends FilterComposer<_$AppDatabase, $Pro
 
   ColumnFilters<String> get name => $state.composableBuilder(
       column: $state.table.name, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<Uint8List> get smallAvatar => $state.composableBuilder(
+      column: $state.table.smallAvatar,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
 
   ColumnFilters<Uint8List> get avatar => $state.composableBuilder(
       column: $state.table.avatar,
@@ -1625,6 +1653,10 @@ class $$ProfessorsTableOrderingComposer extends OrderingComposer<_$AppDatabase, 
 
   ColumnOrderings<String> get name => $state.composableBuilder(
       column: $state.table.name,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<Uint8List> get smallAvatar => $state.composableBuilder(
+      column: $state.table.smallAvatar,
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 
   ColumnOrderings<Uint8List> get avatar => $state.composableBuilder(
@@ -1676,6 +1708,7 @@ class $$ProfessorsTableTableManager extends RootTableManager<
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> name = const Value.absent(),
+            Value<Uint8List> smallAvatar = const Value.absent(),
             Value<Uint8List> avatar = const Value.absent(),
             Value<int> reviewsCount = const Value.absent(),
             Value<double> rating = const Value.absent(),
@@ -1688,6 +1721,7 @@ class $$ProfessorsTableTableManager extends RootTableManager<
               ProfessorsCompanion(
             id: id,
             name: name,
+            smallAvatar: smallAvatar,
             avatar: avatar,
             reviewsCount: reviewsCount,
             rating: rating,
@@ -1700,6 +1734,7 @@ class $$ProfessorsTableTableManager extends RootTableManager<
           createCompanionCallback: ({
             required String id,
             required String name,
+            required Uint8List smallAvatar,
             required Uint8List avatar,
             required int reviewsCount,
             required double rating,
@@ -1712,6 +1747,7 @@ class $$ProfessorsTableTableManager extends RootTableManager<
               ProfessorsCompanion.insert(
             id: id,
             name: name,
+            smallAvatar: smallAvatar,
             avatar: avatar,
             reviewsCount: reviewsCount,
             rating: rating,

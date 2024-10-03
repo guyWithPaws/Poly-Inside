@@ -1177,6 +1177,7 @@ class Professor extends $pb.GeneratedMessage {
     $core.String? id,
     $core.String? name,
     $core.List<$core.int>? avatar,
+    $core.List<$core.int>? smallAvatar,
     $core.double? rating,
     $core.int? reviewsCount,
     $core.double? objectivity,
@@ -1193,6 +1194,9 @@ class Professor extends $pb.GeneratedMessage {
     }
     if (avatar != null) {
       $result.avatar = avatar;
+    }
+    if (smallAvatar != null) {
+      $result.smallAvatar = smallAvatar;
     }
     if (rating != null) {
       $result.rating = rating;
@@ -1224,12 +1228,13 @@ class Professor extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'avatar', $pb.PbFieldType.OY)
-    ..a<$core.double>(4, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.OF)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'reviewsCount', $pb.PbFieldType.O3)
-    ..a<$core.double>(6, _omitFieldNames ? '' : 'objectivity', $pb.PbFieldType.OF)
-    ..a<$core.double>(7, _omitFieldNames ? '' : 'loyalty', $pb.PbFieldType.OF)
-    ..a<$core.double>(8, _omitFieldNames ? '' : 'professionalism', $pb.PbFieldType.OF)
-    ..a<$core.double>(9, _omitFieldNames ? '' : 'harshness', $pb.PbFieldType.OF)
+    ..a<$core.List<$core.int>>(4, _omitFieldNames ? '' : 'smallAvatar', $pb.PbFieldType.OY, protoName: 'smallAvatar')
+    ..a<$core.double>(5, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.OF)
+    ..a<$core.int>(6, _omitFieldNames ? '' : 'reviewsCount', $pb.PbFieldType.O3)
+    ..a<$core.double>(7, _omitFieldNames ? '' : 'objectivity', $pb.PbFieldType.OF)
+    ..a<$core.double>(8, _omitFieldNames ? '' : 'loyalty', $pb.PbFieldType.OF)
+    ..a<$core.double>(9, _omitFieldNames ? '' : 'professionalism', $pb.PbFieldType.OF)
+    ..a<$core.double>(10, _omitFieldNames ? '' : 'harshness', $pb.PbFieldType.OF)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1289,76 +1294,88 @@ class Professor extends $pb.GeneratedMessage {
   void clearAvatar() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.double get rating => $_getN(3);
+  $core.List<$core.int> get smallAvatar => $_getN(3);
   @$pb.TagNumber(4)
+  set smallAvatar($core.List<$core.int> v) {
+    $_setBytes(3, v);
+  }
+
+  @$pb.TagNumber(4)
+  $core.bool hasSmallAvatar() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearSmallAvatar() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.double get rating => $_getN(4);
+  @$pb.TagNumber(5)
   set rating($core.double v) {
-    $_setFloat(3, v);
+    $_setFloat(4, v);
   }
 
-  @$pb.TagNumber(4)
-  $core.bool hasRating() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearRating() => clearField(4);
+  @$pb.TagNumber(5)
+  $core.bool hasRating() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearRating() => clearField(5);
 
-  @$pb.TagNumber(5)
-  $core.int get reviewsCount => $_getIZ(4);
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(6)
+  $core.int get reviewsCount => $_getIZ(5);
+  @$pb.TagNumber(6)
   set reviewsCount($core.int v) {
-    $_setSignedInt32(4, v);
+    $_setSignedInt32(5, v);
   }
 
-  @$pb.TagNumber(5)
-  $core.bool hasReviewsCount() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearReviewsCount() => clearField(5);
+  @$pb.TagNumber(6)
+  $core.bool hasReviewsCount() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearReviewsCount() => clearField(6);
 
-  @$pb.TagNumber(6)
-  $core.double get objectivity => $_getN(5);
-  @$pb.TagNumber(6)
+  @$pb.TagNumber(7)
+  $core.double get objectivity => $_getN(6);
+  @$pb.TagNumber(7)
   set objectivity($core.double v) {
-    $_setFloat(5, v);
-  }
-
-  @$pb.TagNumber(6)
-  $core.bool hasObjectivity() => $_has(5);
-  @$pb.TagNumber(6)
-  void clearObjectivity() => clearField(6);
-
-  @$pb.TagNumber(7)
-  $core.double get loyalty => $_getN(6);
-  @$pb.TagNumber(7)
-  set loyalty($core.double v) {
     $_setFloat(6, v);
   }
 
   @$pb.TagNumber(7)
-  $core.bool hasLoyalty() => $_has(6);
+  $core.bool hasObjectivity() => $_has(6);
   @$pb.TagNumber(7)
-  void clearLoyalty() => clearField(7);
+  void clearObjectivity() => clearField(7);
 
   @$pb.TagNumber(8)
-  $core.double get professionalism => $_getN(7);
+  $core.double get loyalty => $_getN(7);
   @$pb.TagNumber(8)
-  set professionalism($core.double v) {
+  set loyalty($core.double v) {
     $_setFloat(7, v);
   }
 
   @$pb.TagNumber(8)
-  $core.bool hasProfessionalism() => $_has(7);
+  $core.bool hasLoyalty() => $_has(7);
   @$pb.TagNumber(8)
-  void clearProfessionalism() => clearField(8);
+  void clearLoyalty() => clearField(8);
 
   @$pb.TagNumber(9)
-  $core.double get harshness => $_getN(8);
+  $core.double get professionalism => $_getN(8);
   @$pb.TagNumber(9)
-  set harshness($core.double v) {
+  set professionalism($core.double v) {
     $_setFloat(8, v);
   }
 
   @$pb.TagNumber(9)
-  $core.bool hasHarshness() => $_has(8);
+  $core.bool hasProfessionalism() => $_has(8);
   @$pb.TagNumber(9)
-  void clearHarshness() => clearField(9);
+  void clearProfessionalism() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.double get harshness => $_getN(9);
+  @$pb.TagNumber(10)
+  set harshness($core.double v) {
+    $_setFloat(9, v);
+  }
+
+  @$pb.TagNumber(10)
+  $core.bool hasHarshness() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearHarshness() => clearField(10);
 }
 
 class Review extends $pb.GeneratedMessage {

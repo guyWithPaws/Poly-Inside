@@ -7,6 +7,7 @@ part 'database.g.dart';
 class Professors extends Table {
   TextColumn get id => text()();
   TextColumn get name => text()();
+  BlobColumn get smallAvatar => blob()();
   BlobColumn get avatar => blob()();
   IntColumn get reviewsCount => integer()();
   RealColumn get rating => real()();
@@ -90,7 +91,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -101,6 +102,9 @@ class AppDatabase extends _$AppDatabase {
           if (from < 2) {
             await m.createTable(likes);
             await m.createTable(groups);
+          }
+          if (from < 3) {
+            await m.addColumn(professors, professors.smallAvatar);
           }
         },
       );

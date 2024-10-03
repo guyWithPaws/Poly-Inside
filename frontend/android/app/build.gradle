@@ -8,10 +8,11 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+
 android {
     namespace = "com.example.poly_inside"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "25.1.8937393"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

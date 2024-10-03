@@ -102,12 +102,13 @@ message Professor {
   string id = 1;
   string name = 2;
   bytes avatar = 3;
-  float rating = 4;
-  int32 reviews_count = 5;
-  float objectivity = 6;
-  float loyalty = 7;
-  float professionalism = 8;
-  float harshness = 9;
+  bytes smallAvatar = 4;
+  float rating = 5;
+  int32 reviews_count = 6;
+  float objectivity = 7;
+  float loyalty = 8;
+  float professionalism = 9;
+  float harshness = 10;
 }
 
 message Review {

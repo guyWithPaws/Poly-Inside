@@ -41,10 +41,10 @@ class ClientRepositoryImpl implements ClientRepository {
   Future<SearchResponse> findProfessorByName(String name, int count) => client.searchProfessorByName(SearchRequest()
     ..name = name
     ..count = count);
-    
-      @override
-      Stream<ReviewWithProfessorResponse> getReviewsWithProfessor() {
+
+  @override
+  Stream<ReviewWithProfessorResponse> getReviewsWithProfessor() {
     // TODO: implement getReviewsWithProfessor
     throw UnimplementedError();
-      }
+  }
 }

@@ -11,10 +11,13 @@ import 'package:poly_inside_server/database/provider.dart';
 import 'package:shared/shared.dart';
 
 class Parser {
-  final String staffPage = 'https://www.spbstu.ru/university/about-the-university/staff/';
+  final String staffPage =
+      'https://www.spbstu.ru/university/about-the-university/staff/';
 
   final DatabaseProvider provider;
   static const int maxRetries = 3;
+  static const int avatarQuality = 60;
+  static const int smallAvatarQuality = 20;
 
   Parser({required this.provider}) {
     l.i('[Parser]: Parser initialization was successful.');
@@ -76,12 +79,19 @@ class Parser {
 
       try {
         var professorPage = parse(response.body);
-        var numberOfProfessor = professorPage.getElementsByClassName('col-sm-9 col-md-10').length;
+        // ignore: lines_longer_than_80_chars
+        var numberOfProfessor =
+            professorPage.getElementsByClassName('col-sm-9 col-md-10').length;
 
         for (var number = 0; number < numberOfProfessor; number++) {
-          var professorName = professorPage.getElementsByClassName('col-sm-9 col-md-10')[number].children[0].text;
+          // ignore: lines_longer_than_80_chars
+          var professorName = professorPage
+              .getElementsByClassName('col-sm-9 col-md-10')[number]
+              .children[0]
+              .text;
 
-          if (professorsNames.contains(professorName) || professorsNames.isEmpty) {
+          if (professorsNames.contains(professorName) ||
+              professorsNames.isEmpty) {
             var avatarSublink = professorPage
                 .getElementsByClassName('col-sm-3 col-md-2')[number]
                 .children[0]
@@ -91,7 +101,8 @@ class Parser {
             var professorAvatar = 'https://www.spbstu.ru/$avatarSublink';
 
             Uint8List? image;
-            Uint8List? compressedImage;
+            Uint8List? compressedAvatar;
+            Uint8List? compressedSmallAvatar;
 
             if (!avatarSublink.contains('no-photo-user-available')) {
               var data = await http.get(Uri.parse(professorAvatar));
@@ -99,25 +110,30 @@ class Parser {
 
               var decodeImage = img.decodeImage(image);
 
-              compressedImage = Uint8List.fromList(img.encodeJpg(decodeImage!, quality: 60));
+              compressedAvatar = Uint8List.fromList(
+                  img.encodeJpg(decodeImage!, quality: avatarQuality));
+              compressedSmallAvatar = Uint8List.fromList(
+                  img.encodeJpg(decodeImage, quality: smallAvatarQuality));
             }
 
-            var professorIdBytes = utf8.encode(professorName + DateTime.now().toString());
+            // ignore: lines_longer_than_80_chars
+            var professorIdBytes =
+                utf8.encode(professorName + DateTime.now().toString());
 
             var professorId = sha1.convert(professorIdBytes).toString();
 
             await provider.addProfessor(
               Professor(
-                professionalism: 0,
-                loyalty: 0,
-                objectivity: 0,
-                harshness: 0,
-                reviewsCount: 0,
-                rating: 0,
-                id: professorId,
-                name: professorName.toLowerCase(),
-                avatar: compressedImage?.toList(),
-              ),
+                  professionalism: 0,
+                  loyalty: 0,
+                  objectivity: 0,
+                  harshness: 0,
+                  reviewsCount: 0,
+                  rating: 0,
+                  id: professorId,
+                  name: professorName.toLowerCase(),
+                  avatar: compressedAvatar?.toList(),
+                  smallAvatar: compressedSmallAvatar?.toList()),
             );
           }
         }

@@ -210,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                                             radius: 27,
                                             child: ClipOval(
                                               child: Uint8List.fromList(
-                                                professors[index].avatar,
+                                                professors[index].smallAvatar,
                                               ).isNotEmpty
                                                   ? Image.memory(
                                                       height: 60,
