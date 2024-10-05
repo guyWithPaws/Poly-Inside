@@ -57,7 +57,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
+    if (_scrollController?.position.pixels !=
+        _scrollController?.position.minScrollExtent) {
       _valueNotifier?.value = true;
     } else {
       _valueNotifier?.value = false;
@@ -96,7 +97,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
         builder: (context, value, _) => FloatingActionButton.extended(
           onPressed: () {
             value
-                ? _scrollController?.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut)
+                ? _scrollController?.animateTo(0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut)
                 : Navigator.push(
                     context,
                     MaterialPageRoute<void>(
@@ -116,7 +119,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                       valueListenable: _isUsersReviewExists!,
                       builder: (context, value, _) => Text(
                         value ? 'К моему отзыву' : 'Написать отзыв',
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w600),
                       ),
                     ),
             ),
@@ -158,17 +162,20 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             radius: 69,
                             child: RepaintBoundary(
                               child: ClipOval(
-                                child: Uint8List.fromList(widget.professor.avatar).isNotEmpty
-                                    ? Image.memory(
-                                        height: 138,
-                                        width: 138,
-                                        fit: BoxFit.cover,
-                                        Uint8List.fromList(widget.professor.avatar),
-                                      )
-                                    : SvgPicture.asset(
-                                        'assets/icons/no_photo.svg',
-                                        width: 69,
-                                      ),
+                                child:
+                                    Uint8List.fromList(widget.professor.avatar)
+                                            .isNotEmpty
+                                        ? Image.memory(
+                                            height: 138,
+                                            width: 138,
+                                            fit: BoxFit.cover,
+                                            Uint8List.fromList(
+                                                widget.professor.avatar),
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/icons/no_photo.svg',
+                                            width: 69,
+                                          ),
                               ),
                             ),
                           ),
@@ -178,7 +185,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           child: Text(
                             textAlign: TextAlign.center,
                             widget.professor.name.capitalize(),
-                            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.w600),
                           ),
                         ),
                         Row(
@@ -219,7 +227,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                 width: 20,
                                 height: 26,
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 233, 252, 232),
+                                  color:
+                                      const Color.fromARGB(255, 233, 252, 232),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                                 child: Center(
@@ -246,21 +255,24 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 ],
               ),
             ),
-            StreamBuilder<ReviewStream>(
-              stream: widget.repository.getAllReviewsByProfessor(widget.professor.id),
+            StreamBuilder<ReviewWithUserResponse>(
+              stream: widget.repository
+                  .getAllReviewsByProfessor(widget.professor.id),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _count?.value = snapshot.data!.reviews.length;
+                    _isUsersReviewExists!.value = snapshot.data!.list.any(
+                        (review) =>
+                            review.user.id == UserScope.userOf(context).id);
+                    _count?.value = snapshot.data!.list.length;
                   });
-                  _isUsersReviewExists!.value =
-                      snapshot.data!.reviews.any((review) => review.userId == UserScope.userOf(context).id);
                   return SliverList.separated(
-                    itemCount: snapshot.data!.reviews.length,
-                    separatorBuilder: (context, index) => const SizedBox(height: 16),
+                    itemCount: snapshot.data!.list.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 16),
                     itemBuilder: (context, index) {
                       return ReviewTitle(
-                        review: snapshot.data!.reviews[index],
+                        review: snapshot.data!.list[index].review,
                         professor: widget.professor,
                       );
                     },

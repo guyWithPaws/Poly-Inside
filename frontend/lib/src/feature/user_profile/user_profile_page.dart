@@ -85,8 +85,10 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       backgroundColor: Colors.white,
       body: StreamBuilder<ReviewWithProfessorResponse>(
-        stream: InitializationScope.repositoryOf(context)
-            .getReviewsWithProfessor(UserScope.userOf(context).id),
+        stream:
+            InitializationScope.repositoryOf(context).getReviewsWithProfessor(
+          UserScope.userOf(context).id,
+        ),
         builder: (context, snapshot) {
           return CustomScrollView(
             slivers: [

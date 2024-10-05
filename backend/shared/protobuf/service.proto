@@ -9,16 +9,24 @@ service SearchService {
 
   rpc getReviewWithProfessor(ReviewsByUserIdRequest) returns (stream ReviewWithProfessorResponse);
   rpc LikeReview(LikeRequest) returns (LikeResponse);
-  rpc GetAllProfessorsOnce (GetAllProfessorsOnceRequest) returns (GetListProfessorResponse);
   rpc AddReview(Review) returns (AddReviewResponse);
-  rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream ReviewStream);
-  rpc GetReviewsByUserId(ReviewsByUserIdRequest) returns (ReviewStream);
+  rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream ReviewWithUserResponse);
   rpc UpdateReview(Review) returns (UpdateReviewResponse);
   rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse);
 }
 
 message ReviewWithProfessorResponse{
   repeated ReviewWithProfessor list = 1;
+}
+
+message ReviewWithUserResponse{
+  repeated ReviewWithUser list = 1;
+}
+
+
+message ReviewWithUser {
+  Review review = 1;
+  User user = 2;
 }
 
 message ReviewWithProfessor {
