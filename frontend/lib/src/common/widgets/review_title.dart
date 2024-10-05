@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/common/widgets/reactions.dart';
 import 'package:poly_inside/src/feature/initialization/initialization.dart';
@@ -45,12 +48,14 @@ class ReviewTitle extends StatelessWidget {
                       backgroundColor: Colors.grey[200],
                       radius: 20,
                       child: ClipOval(
-                        child: UserScope.userOf(context).avatar.isNotEmpty
-                            ? Image.asset(
-                                'assets/beer.jpg',
-                                height: 40,
-                                width: 40,
+                        child: professor!.smallAvatar.isNotEmpty
+                            ? Image.memory(
+                                height: 60,
+                                width: 60,
                                 fit: BoxFit.cover,
+                                Uint8List.fromList(
+                                  professor!.smallAvatar,
+                                ),
                               )
                             : SvgPicture.asset(
                                 'assets/icons/no_photo.svg',
@@ -59,14 +64,10 @@ class ReviewTitle extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    FutureBuilder<User>(
-                      future: InitializationScope.repositoryOf(context).getUserByUserId(review.userId),
-                      builder: (context, snapshot) {
-                        return Text(
-                          snapshot.hasData ? snapshot.data!.name : snapshot.data.toString(),
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                        );
-                      },
+                    Text(
+                      professor!.name.capitalize(),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -108,8 +109,14 @@ class ReviewTitle extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(DateFormat.yMMMMd('ru_RU').format(DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS').parse(review.date)),
-                    style: const TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w500)),
+                Text(
+                    DateFormat.yMMMMd('ru_RU').format(
+                        DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS')
+                            .parse(review.date)),
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500)),
                 Reactions(
                   review: review,
                 ),

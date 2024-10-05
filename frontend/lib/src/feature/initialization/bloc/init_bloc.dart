@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:bloc/bloc.dart';
-// import 'package:grpc/grpc.dart';
+//import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_web.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:poly_inside/firebase_options.dart';
@@ -23,8 +23,8 @@ class InitializationBloc extends Bloc<InitializationEvent, InitializationState> 
       emit(const InitializationState.processing());
       try {
         // final channel = ClientChannel(
-        //   //'87.228.18.201',
-        //   '127.0.0.1',
+        //   '213.171.31.11',
+        //   //'127.0.0.1',
         //   port: 9090,
         //   options: const ChannelOptions(
         //     credentials: ChannelCredentials.insecure(),
