@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -13,6 +14,8 @@ import 'package:shared/shared.dart';
 class Parser {
   final String staffPage =
       'https://www.spbstu.ru/university/about-the-university/staff/';
+
+  final String schedulePage = 'https://ruz.spbstu.ru/faculty/125/groups';
 
   final DatabaseProvider provider;
   static const int maxRetries = 3;
@@ -42,6 +45,20 @@ class Parser {
     }
     return listOfProfessorsNames;
   }
+
+  int getNumberOfProfessors(Document professorPage) =>
+      professorPage.getElementsByClassName('col-sm-9 col-md-10').length;
+
+  String getProfessorName(Document professorPage, int number) => professorPage
+      .getElementsByClassName('col-sm-9 col-md-10')[number]
+      .children[0]
+      .text;
+
+  String getAvatarSubLink(Document professorPage, int number) => professorPage
+      .getElementsByClassName('col-sm-3 col-md-2')[number]
+      .children[0]
+      .attributes['src']
+      .toString();
 
   Future<void> fillDatabase() async {
     final responce = await http.Client().get(Uri.parse(staffPage));
@@ -73,30 +90,19 @@ class Parser {
       l.i('[Parser]: Link to $link');
       final response = await http.Client().get(Uri.parse(link));
 
-      if (!checkIsGoodResponce(response)) {
-        continue;
-      }
+      if (!checkIsGoodResponce(response)) continue;
 
       try {
         var professorPage = parse(response.body);
-        // ignore: lines_longer_than_80_chars
-        var numberOfProfessor =
-            professorPage.getElementsByClassName('col-sm-9 col-md-10').length;
 
-        for (var number = 0; number < numberOfProfessor; number++) {
-          // ignore: lines_longer_than_80_chars
-          var professorName = professorPage
-              .getElementsByClassName('col-sm-9 col-md-10')[number]
-              .children[0]
-              .text;
+        for (var number = 0;
+            number < getNumberOfProfessors(professorPage);
+            number++) {
+          var professorName = getProfessorName(professorPage, number);
 
           if (professorsNames.contains(professorName) ||
               professorsNames.isEmpty) {
-            var avatarSublink = professorPage
-                .getElementsByClassName('col-sm-3 col-md-2')[number]
-                .children[0]
-                .attributes['src']
-                .toString();
+            var avatarSublink = getAvatarSubLink(professorPage, number);
 
             var professorAvatar = 'https://www.spbstu.ru/$avatarSublink';
 
@@ -116,7 +122,6 @@ class Parser {
                   img.encodeJpg(decodeImage, quality: smallAvatarQuality));
             }
 
-            // ignore: lines_longer_than_80_chars
             var professorIdBytes =
                 utf8.encode(professorName + DateTime.now().toString());
 
