@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:like_button/like_button.dart';
 import 'package:shared/shared.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 enum ReactionType {
   like,
@@ -32,7 +31,8 @@ class Reactions extends StatefulWidget {
 }
 
 class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
-  AnimationController? _animationController;
+  AnimationController? _likeAnimationController;
+  AnimationController? _dislikeAnimationController;
 
   bool isLiked = false;
   bool isDisliked = false;
@@ -42,7 +42,16 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this);
+    _likeAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+          milliseconds: 200), // продолжительность анимации в миллисекундах
+    );
+    _dislikeAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+          milliseconds: 200), // продолжительность анимации в миллисекундах
+    );
   }
 
   @override
@@ -53,50 +62,58 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // GestureDetector(
-            //   onTap: () {
-            //     _animationController?.forward();
-            //   },
-            // child:
-            // ScaleTransition(
-            // scale: _animationController!,
-            // child:
-            // SvgPicture.asset(
-            //   'assets/icons/like.svg',
-            //   alignment: Alignment.bottomRight,
-            // ),
-            // ),
-            // ),
-            LikeButton(
-                size: 24,
-                isLiked: isLiked,
-                likeCount: likeCount,
-                likeCountPadding: EdgeInsets.only(left: 7),
-                bubblesColor: BubblesColor(
-                    dotPrimaryColor: Color.fromARGB(255, 34, 166, 64), dotSecondaryColor: Colors.transparent),
-                circleColor: CircleColor(start: Colors.transparent, end: Colors.transparent),
-                likeCountAnimationDuration: Duration(microseconds: 0),
-                onTap: (isLiked) async {
-                  this.isLiked = !isLiked;
-                  likeCount += this.isLiked ? 1 : -1;
-                  return !isLiked;
-                },
-                likeBuilder: (isLiked) {
-                  final color = isLiked ? Color.fromARGB(255, 34, 166, 64) : Colors.grey;
-                  return SvgPicture.asset(
-                    'assets/icons/like.svg',
-                    alignment: Alignment.bottomRight,
-                    color: color,
-                  );
-                },
-                countBuilder: (likeCount, isLiked, text) {
-                  Color? counterColor = isLiked ? Colors.black : Colors.grey;
-                  return Text(
-                    // '${widget.review!.likes}',
-                    text,
-                    style: TextStyle(fontSize: 16, color: counterColor),
-                  );
-                }),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isDisliked = false;
+                  isLiked = !isLiked;
+                });
+                isLiked?_likeAnimationController?.forward():_likeAnimationController?.reverse();
+                _dislikeAnimationController!.reverse();
+              },
+              child: ScaleTransition(
+                scale: Tween<double>(
+                  begin: 1.0,
+                  end: 1.2,
+                ).animate(_likeAnimationController!),
+                child: SvgPicture.asset(
+                  'assets/icons/like.svg',
+                  alignment: Alignment.bottomRight,
+                  color: isLiked?Color.fromARGB(255, 34, 166, 64):Colors.grey,
+                ),
+              ),
+            ),
+            // LikeButton(
+            //     size: 24,
+            //     isLiked: isLiked,
+            //     likeCount: likeCount,
+            //     likeCountPadding: EdgeInsets.only(left: 7),
+            //     bubblesColor: BubblesColor(dotPrimaryColor: Color.fromARGB(255, 34, 166, 64), dotSecondaryColor: Colors.transparent),
+            //     circleColor: CircleColor(start: Colors.transparent, end: Colors.transparent),
+            //     onTap:(isLiked) async {
+            //       if (isDisliked)setState(() {
+            //         isDisliked = false;
+            //       });
+            //       isLiked = !isLiked;
+            //       likeCount += isLiked?1:-1;
+            //       return isLiked;
+            //     },
+            //     likeBuilder: (isLiked) {
+                  // final color = isLiked?Color.fromARGB(255, 34, 166, 64):Colors.grey;
+                  // return SvgPicture.asset(
+                  //   'assets/icons/like.svg',
+                  //   alignment: Alignment.bottomRight,
+                  //   color: color,
+                  // );
+            //     },
+            //     countBuilder: (likeCount, isLiked, text) {
+            //       Color? counterColor = isLiked?Colors.black:Colors.grey;
+            //       return Text(
+            //         // '${widget.review!.likes}',
+            //         text,
+            //         style: TextStyle(fontSize: 16, color: counterColor),
+            //       );
+            //     }),
             const SizedBox(
               width: 8,
             ),
@@ -110,35 +127,60 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            LikeButton(
-                size: 24,
-                isLiked: isDisliked,
-                likeCount: dislikeCount,
-                likeCountPadding: EdgeInsets.only(left: 7),
-                bubblesColor: BubblesColor(dotPrimaryColor: Colors.red, dotSecondaryColor: Colors.transparent),
-                circleColor: CircleColor(start: Colors.transparent, end: Colors.transparent),
-                likeCountAnimationDuration: Duration(microseconds: 0),
-                onTap: (isDisliked) async {
-                  this.isDisliked = !isDisliked;
-                  dislikeCount += this.isDisliked ? 1 : -1;
-                  return !isDisliked;
-                },
-                likeBuilder: (isDisliked) {
-                  final color = isDisliked ? Colors.red : Colors.grey;
-                  return SvgPicture.asset(
-                    'assets/icons/dislike.svg',
-                    alignment: Alignment.bottomRight,
-                    color: color,
-                  );
-                },
-                countBuilder: (dislikeCount, isDisliked, text) {
-                  Color? counterColor = isDisliked ? Colors.black : Colors.grey;
-                  return Text(
-                    // '${widget.review!.likes}',
-                    text,
-                    style: TextStyle(fontSize: 16, color: counterColor),
-                  );
-                }),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isLiked = false;
+                  isDisliked = !isDisliked;
+                });
+                isDisliked?_dislikeAnimationController?.forward():_dislikeAnimationController?.reverse();
+                _likeAnimationController!.reverse();
+              },
+              child: ScaleTransition(
+                scale: Tween<double>(
+                  begin: 1.0,
+                  end: 1.2,
+                ).animate(_dislikeAnimationController!),
+                child: SvgPicture.asset(
+                  'assets/icons/dislike.svg',
+                  alignment: Alignment.bottomRight,
+                  color: isDisliked?Colors.red:Colors.grey,
+                ),
+              ),
+            ),
+            // LikeButton(
+            //     size: 24,
+            //     isLiked: isDisliked,
+            //     likeCount: dislikeCount,
+            //     likeCountPadding: EdgeInsets.only(left: 7),
+            //     bubblesColor: BubblesColor(dotPrimaryColor: Colors.red, dotSecondaryColor: Colors.transparent),
+            //     circleColor: CircleColor(start: Colors.transparent, end: Colors.transparent),
+            //     onTap:(isDisliked) async {
+            //       if (isLiked){
+            //         setState(() {
+            //           isLiked = false;
+            //         });
+            //       }
+            //       isDisliked = !isDisliked;
+            //       dislikeCount += isDisliked?1:-1;
+            //       return isDisliked;
+            //     },
+            //     likeBuilder: (isDisliked) {
+            //       final color = isDisliked?Colors.red:Colors.grey;
+            //       return SvgPicture.asset(
+            //         'assets/icons/dislike.svg',
+            //         alignment: Alignment.bottomRight,
+            //         color: color,
+            //       );
+            //     },
+            //     countBuilder: (dislikeCount, isDisliked, text) {
+            //       Color? counterColor = isDisliked?Colors.black:Colors.grey;
+            //       return Text(
+            //         // '${widget.review!.likes}',
+            //         text,
+            //         style: TextStyle(fontSize: 16, color: counterColor),
+            //       );
+            //     }),
             // SvgPicture.asset(
             //   'assets/icons/dislike.svg',
             //   alignment: Alignment.bottomRight,
@@ -185,6 +227,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
     );
   }
 }
+
 
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';
