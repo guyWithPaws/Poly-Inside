@@ -82,6 +82,11 @@ class DatabaseProviderImpl implements DatabaseProvider {
             ),
             reviewsCount: Value<int>(reviewsCount + 1),
             rating: Value<double>(newRating),
+            smallAvatar: Value<Uint8List>(
+              Uint8List.fromList(
+                professor.smallAvatar,
+              ),
+            ),
           ),
         );
 
