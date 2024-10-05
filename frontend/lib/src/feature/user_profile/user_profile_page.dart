@@ -36,7 +36,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
+    if (_scrollController?.position.pixels !=
+        _scrollController?.position.minScrollExtent) {
       _valueNotifier?.value = true;
     } else {
       _valueNotifier?.value = false;
@@ -68,7 +69,9 @@ class _ProfilePageState extends State<ProfilePage> {
           visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
             onPressed: () {
-              _scrollController?.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+              _scrollController?.animateTo(0,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -81,8 +84,11 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: FutureBuilder<List<Review>>(
-        future: InitializationScope.repositoryOf(context).getAllReviewByUser(UserScope.userOf(context).id),
+      body: StreamBuilder<ReviewWithProfessorResponse>(
+        stream:
+            InitializationScope.repositoryOf(context).getReviewsWithProfessor(
+          UserScope.userOf(context).id,
+        ),
         builder: (context, snapshot) {
           return CustomScrollView(
             slivers: [
@@ -108,7 +114,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => _isEditingProfile!.value = !_isEditingProfile!.value,
+                      onTap: () =>
+                          _isEditingProfile!.value = !_isEditingProfile!.value,
                       child: Container(
                         width: 26,
                         height: 26,
@@ -120,7 +127,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: ValueListenableBuilder(
                           valueListenable: _isEditingProfile!,
                           builder: (context, value, _) => !value
-                              ? SvgPicture.asset('assets/icons/profileeditbutton.svg')
+                              ? SvgPicture.asset(
+                                  'assets/icons/profileeditbutton.svg')
                               : SvgPicture.asset('assets/icons/check.svg'),
                         ),
                       ),
@@ -141,17 +149,18 @@ class _ProfilePageState extends State<ProfilePage> {
                               backgroundColor: Colors.grey[200],
                               radius: 158 / 2,
                               child: ClipOval(
-                                child: UserScope.userOf(context).avatar.isNotEmpty
-                                    ? Image.asset(
-                                        'assets/beer.jpg',
-                                        height: 158,
-                                        width: 158,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : SvgPicture.asset(
-                                        'assets/icons/no_photo.svg',
-                                        width: 69,
-                                      ),
+                                child:
+                                    UserScope.userOf(context).avatar.isNotEmpty
+                                        ? Image.asset(
+                                            'assets/beer.jpg',
+                                            height: 158,
+                                            width: 158,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/icons/no_photo.svg',
+                                            width: 69,
+                                          ),
                               ),
                             ),
                           ),
@@ -160,20 +169,28 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Text(
                             'ID: ${UserScope.userOf(context).id}',
-                            style: const TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
                           ),
                           ValueListenableBuilder(
                             valueListenable: _isEditingProfile!,
-                            builder: (context, value, _) => ValueListenableBuilder(
+                            builder: (context, value, _) =>
+                                ValueListenableBuilder(
                               valueListenable: _textEditingController,
-                              builder: (context, textValue, _) => AnimatedContainer(
-                                width: textValue.text.isNotEmpty ? textValue.text.length * 25 : 100,
+                              builder: (context, textValue, _) =>
+                                  AnimatedContainer(
+                                width: textValue.text.isNotEmpty
+                                    ? textValue.text.length * 25
+                                    : 100,
                                 duration: const Duration(milliseconds: 200),
                                 decoration: BoxDecoration(
                                   border: value
                                       ? Border.all(
                                           color: textValue.text.length < 15
-                                              ? const Color.fromARGB(255, 168, 239, 171)
+                                              ? const Color.fromARGB(
+                                                  255, 168, 239, 171)
                                               : Colors.red,
                                           width: 1)
                                       : null,
@@ -185,8 +202,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   readOnly: !value,
                                   textAlign: TextAlign.center,
                                   textAlignVertical: TextAlignVertical.center,
-                                  decoration:
-                                      const InputDecoration(counterText: '', counter: null, border: InputBorder.none),
+                                  decoration: const InputDecoration(
+                                      counterText: '',
+                                      counter: null,
+                                      border: InputBorder.none),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 36,
@@ -231,12 +250,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                 width: 20,
                                 height: 26,
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 233, 252, 232),
+                                  color:
+                                      const Color.fromARGB(255, 233, 252, 232),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                                 child: Center(
                                   child: Text(
-                                    "${snapshot.data!.length}",
+                                    "${snapshot.data!.list.length}",
                                     style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
@@ -255,10 +275,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               snapshot.hasData
                   ? SliverList.separated(
-                      itemCount: snapshot.data!.length,
+                      itemCount: snapshot.data!.list.length,
                       itemBuilder: (context, index) {
                         return ReviewTitle(
-                          review: snapshot.data![index],
+                          review: snapshot.data!.list[index].review,
+                          professor: snapshot.data!.list[index].professor,
                         );
                       },
                       separatorBuilder: (context, index) => const SizedBox(

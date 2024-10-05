@@ -24,7 +24,8 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Stream<GetListProfessorResponse> getListProfessor(ServiceCall call, ListProfessorRequest request) async* {
+  Stream<GetListProfessorResponse> getListProfessor(
+      ServiceCall call, ListProfessorRequest request) async* {
     l.v('GetListProfessor');
     final professors = provider.getAllProfessors(request.count);
     await for (final list in professors) {
@@ -33,31 +34,26 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<User> getProfile(ServiceCall call, UserInfoByUserIdRequest request) async {
+  Future<User> getProfile(
+      ServiceCall call, UserInfoByUserIdRequest request) async {
     l.v('GetProfile with ${request.id}');
     final user = await provider.getUserByUserId(request.id);
     return user ?? User();
   }
 
   @override
-  Stream<ReviewStream> getReviewsByProfessorId(ServiceCall call, ReviewsByProfessorIdRequest request) async* {
+  Stream<ReviewWithUserResponse> getReviewsByProfessorId(
+      ServiceCall call, ReviewsByProfessorIdRequest request) async* {
     l.v('GetReviewsByProfessorId with ${request.id}');
     final stream = provider.getAllReviewsByProfessor(request.id);
     await for (final list in stream) {
-      yield ReviewStream(reviews: list);
+      yield ReviewWithUserResponse(list: list);
     }
   }
 
   @override
-  Future<ReviewStream> getReviewsByUserId(ServiceCall call, ReviewsByUserIdRequest request) async {
-    l.v('GetReviewsByUserId with ${request.id}');
-
-    final stream = await provider.getAllReviewByUser(request.id);
-    return ReviewStream(reviews: stream);
-  }
-
-  @override
-  Future<UpdateProfileResponse> updateProfile(ServiceCall call, User request) async {
+  Future<UpdateProfileResponse> updateProfile(
+      ServiceCall call, User request) async {
     l.v('EditProfile with ${request.toString()}');
 
     await provider.updateUser(request);
@@ -65,14 +61,16 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<UpdateReviewResponse> updateReview(ServiceCall call, Review request) async {
+  Future<UpdateReviewResponse> updateReview(
+      ServiceCall call, Review request) async {
     l.v('EditReview with ${request.toString()}');
     await provider.updateReview(request);
     return UpdateReviewResponse();
   }
 
   @override
-  Future<DeleteReviewResponse> deleteReview(ServiceCall call, DeleteReviewRequest request) async {
+  Future<DeleteReviewResponse> deleteReview(
+      ServiceCall call, DeleteReviewRequest request) async {
     l.v('DeleteReview with ${request.toString()}');
 
     await provider.deleteReview(request.reviewId);
@@ -88,13 +86,8 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<GetListProfessorResponse> getAllProfessorsOnce(ServiceCall call, GetAllProfessorsOnceRequest request) async {
-    final list = await provider.getOnceAllProfessors();
-    return GetListProfessorResponse(professors: list);
-  }
-
-  @override
-  Future<SearchResponse> searchProfessorByName(ServiceCall call, SearchRequest request) async {
+  Future<SearchResponse> searchProfessorByName(
+      ServiceCall call, SearchRequest request) async {
     final list = await provider.findProfessorByName(
       request.name,
       request.count,
@@ -103,10 +96,13 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<LikeResponse> likeReview(ServiceCall call, LikeRequest request) async => LikeResponse();
+  Future<LikeResponse> likeReview(
+          ServiceCall call, LikeRequest request) async =>
+      LikeResponse();
 
   @override
-  Stream<ReviewWithProfessorResponse> getReviewWithProfessor(ServiceCall call, ReviewsByUserIdRequest request) async* {
+  Stream<ReviewWithProfessorResponse> getReviewWithProfessor(
+      ServiceCall call, ReviewsByUserIdRequest request) async* {
     final stream = provider.getReviewsWithProfessor(request.id);
     await for (final list in stream) {
       yield ReviewWithProfessorResponse(list: list);

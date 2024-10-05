@@ -22,16 +22,34 @@ class DatabaseProviderImpl implements DatabaseProvider {
           .asBroadcastStream();
 
   @override
-  Future<List<Review>> getAllReviewByUser(int userId) =>
-      (database.select(database.reviews)..where((u) => u.userId.equals(userId)))
-          .get();
-
-  @override
-  Stream<List<Review>> getAllReviewsByProfessor(String professorId) =>
+  Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId) =>
       (database.select(database.reviews)
-            ..where((u) => u.professorId.equals(professorId)))
-          .watch();
-
+            ..where(
+              (u) => u.professorId.equals(
+                professorId,
+              ),
+            ))
+          .join([
+            innerJoin(
+              database.users,
+              database.users.id.equalsExp(
+                database.reviews.userId,
+              ),
+            ),
+          ])
+          .watch()
+          .map(
+            (rows) => rows
+                .map(
+                  (r) => ReviewWithUser(
+                    user: r.readTable(database.users),
+                    review: r.readTable(
+                      database.reviews,
+                    ),
+                  ),
+                )
+                .toList(),
+          );
   @override
   Future<int> addReview(Review review) async {
     final reviews = await (database.select(database.reviews)
@@ -227,8 +245,12 @@ class DatabaseProviderImpl implements DatabaseProvider {
   Stream<List<ReviewWithProfessor>> getReviewsWithProfessor(int userId) =>
       (database.select(database.reviews)..where((u) => u.userId.equals(userId)))
           .join([
-            innerJoin(database.professors,
-                database.professors.id.equalsExp(database.reviews.professorId))
+            innerJoin(
+              database.professors,
+              database.professors.id.equalsExp(
+                database.reviews.professorId,
+              ),
+            ),
           ])
           .watch()
           .map(

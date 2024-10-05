@@ -18,14 +18,10 @@ class ClientRepositoryImpl implements ClientRepository {
   Stream<GetListProfessorResponse> getAllProfessors(int count) =>
       client.getListProfessor(ListProfessorRequest(count: count));
 
-  @override
-  Future<List<Review>> getAllReviewByUser(int userId) async {
-    final response = await client.getReviewsByUserId(ReviewsByUserIdRequest()..id = userId);
-    return response.reviews;
-  }
+
 
   @override
-  Stream<ReviewStream> getAllReviewsByProfessor(String professorId) =>
+  Stream<ReviewWithUserResponse> getAllReviewsByProfessor(String professorId) =>
       client.getReviewsByProfessorId(ReviewsByProfessorIdRequest()..id = professorId);
 
   @override
@@ -43,8 +39,6 @@ class ClientRepositoryImpl implements ClientRepository {
     ..count = count);
 
   @override
-  Stream<ReviewWithProfessorResponse> getReviewsWithProfessor() {
-    // TODO: implement getReviewsWithProfessor
-    throw UnimplementedError();
-  }
+  Stream<ReviewWithProfessorResponse> getReviewsWithProfessor(int userId) =>
+      client.getReviewWithProfessor(ReviewsByUserIdRequest(id: userId));
 }

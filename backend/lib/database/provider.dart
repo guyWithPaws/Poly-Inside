@@ -5,9 +5,8 @@ abstract interface class DatabaseProvider {
   Future<void> addUser(User user);
   Future<User?> getUserByUserId(int userId);
   Stream<List<Professor>> getAllProfessors(int count);
-  Stream<List<Review>> getAllReviewsByProfessor(String professorId);
+  Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId);
   Future<List<Professor>> findProfessorByName(String name, int count);
-  Future<List<Review>> getAllReviewByUser(int userId);
   Stream<List<ReviewWithProfessor>> getReviewsWithProfessor(int userId);
   Future<int> addReview(Review review);
   Future<bool> updateReview(Review review);
