@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/common/widgets/reactions.dart';
-import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
 import 'package:intl/intl.dart';
@@ -18,13 +17,15 @@ import '../../feature/telegram/user_scope.dart';
 class ReviewTitle extends StatelessWidget {
   final Review review;
   final Professor? professor;
+  final User? user;
 
   /// {@macro review_title}
-  const ReviewTitle({
-    super.key,
-    required this.review,
-    this.professor, // ignore: unused_element
-  });
+  const ReviewTitle(
+      {super.key,
+      required this.review,
+      this.professor,
+      this.user // ignore: unused_element
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -48,24 +49,38 @@ class ReviewTitle extends StatelessWidget {
                       backgroundColor: Colors.grey[200],
                       radius: 20,
                       child: ClipOval(
-                        child: professor!.smallAvatar.isNotEmpty
-                            ? Image.memory(
-                                height: 60,
-                                width: 60,
-                                fit: BoxFit.cover,
-                                Uint8List.fromList(
-                                  professor!.smallAvatar,
-                                ),
-                              )
-                            : SvgPicture.asset(
-                                'assets/icons/no_photo.svg',
-                                width: 30,
-                              ),
+                        child: user == null
+                            ? professor!.smallAvatar.isNotEmpty
+                                ? Image.memory(
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.cover,
+                                    Uint8List.fromList(
+                                      professor!.smallAvatar,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/no_photo.svg',
+                                    width: 30,
+                                  )
+                            : user!.avatar.isNotEmpty
+                                ? Image.memory(
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.cover,
+                                    Uint8List.fromList(
+                                      user!.avatar,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/no_photo.svg',
+                                    width: 30,
+                                  ),
                       ),
                     ),
                     const SizedBox(width: 16),
                     Text(
-                      professor!.name.capitalize(),
+                      user == null ? professor!.name.capitalize() : user!.name,
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w600),
                     ),
@@ -77,8 +92,9 @@ class ReviewTitle extends StatelessWidget {
                           context,
                           MaterialPageRoute<void>(
                             builder: (builderContext) => ReviewPage(
-                              professor: Professor(),
+                              professor: professor!,
                               review: review,
+                              type: ReviewType.edit,
                             ),
                           ),
                         ),

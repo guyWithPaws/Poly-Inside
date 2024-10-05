@@ -50,19 +50,19 @@ class _MyWidgetState extends State<IntroPage> {
                 height: 17,
               ),
               Container(
-                child: TextField(
-                  decoration: const InputDecoration(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 210, 248, 211),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                height: 40,
+                child: const TextField(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       borderSide: BorderSide.none,
                     ),
                   ),
                 ),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 210, 248, 211),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                height: 40,
               ),
               const SizedBox(height: 10),
               CheckboxListTile(
@@ -77,7 +77,8 @@ class _MyWidgetState extends State<IntroPage> {
               ),
               const Spacer(),
               CheckboxListTile(
-                title: const Text("Нажимая на галочку, вы соглашаетесь с условиями пользования приложения"),
+                title: const Text(
+                    "Нажимая на галочку, вы соглашаетесь с условиями пользования приложения"),
                 value: value,
                 onChanged: (nValue) {
                   setState(() {
