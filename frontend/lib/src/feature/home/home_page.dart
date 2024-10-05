@@ -3,9 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 //import 'package:grpc/service_api.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/utils/word_formatter.dart';
+import 'package:poly_inside/src/common/widgets/sort_button.dart';
 import 'package:poly_inside/src/feature/error/error_page.dart';
 import 'package:poly_inside/src/feature/home/home_bloc.dart';
 import 'package:poly_inside/src/feature/home/search_bar.dart';
@@ -155,23 +157,16 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 16,
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Преподаватели',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: const Color(0xFFEEF9EF),
-                        borderRadius: BorderRadius.circular(12)),
-                    width: 100,
-                    height: 40,
-                    child: const Center(
-                      child: Text('Сортировка'),
-                    ),
-                  ),
+                  SortButton(
+                    type: SortingTypes.professors,
+                  )
                 ],
               ),
               const SizedBox(

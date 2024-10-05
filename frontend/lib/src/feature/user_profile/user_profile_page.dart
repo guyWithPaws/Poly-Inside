@@ -6,6 +6,8 @@ import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:poly_inside/src/feature/telegram/user_scope.dart';
 import 'package:shared/shared.dart';
 
+import '../../common/widgets/sort_button.dart';
+
 class ProfilePage extends StatefulWidget {
   /// {@macro profile_page}
   const ProfilePage({
@@ -137,140 +139,149 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    FittedBox(
-                      fit: BoxFit.cover,
-                      child: Column(
-                        children: [
-                          Hero(
-                            tag: UserScope.userOf(context).id,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.grey[200],
-                              radius: 158 / 2,
-                              child: ClipOval(
-                                child:
-                                    UserScope.userOf(context).avatar.isNotEmpty
-                                        ? Image.asset(
-                                            'assets/beer.jpg',
-                                            height: 158,
-                                            width: 158,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : SvgPicture.asset(
-                                            'assets/icons/no_photo.svg',
-                                            width: 69,
-                                          ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.cover,
+                        child: Column(
+                          children: [
+                            Hero(
+                              tag: UserScope.userOf(context).id,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[200],
+                                radius: 158 / 2,
+                                child: ClipOval(
+                                  child: UserScope.userOf(context)
+                                          .avatar
+                                          .isNotEmpty
+                                      ? Image.asset(
+                                          'assets/beer.jpg',
+                                          height: 158,
+                                          width: 158,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : SvgPicture.asset(
+                                          'assets/icons/no_photo.svg',
+                                          width: 69,
+                                        ),
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 13,
-                          ),
-                          Text(
-                            'ID: ${UserScope.userOf(context).id}',
-                            style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          ValueListenableBuilder(
-                            valueListenable: _isEditingProfile!,
-                            builder: (context, value, _) =>
-                                ValueListenableBuilder(
-                              valueListenable: _textEditingController,
-                              builder: (context, textValue, _) =>
-                                  AnimatedContainer(
-                                width: textValue.text.isNotEmpty
-                                    ? textValue.text.length * 25
-                                    : 100,
-                                duration: const Duration(milliseconds: 200),
-                                decoration: BoxDecoration(
-                                  border: value
-                                      ? Border.all(
-                                          color: textValue.text.length < 15
-                                              ? const Color.fromARGB(
-                                                  255, 168, 239, 171)
-                                              : Colors.red,
-                                          width: 1)
-                                      : null,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: TextFormField(
-                                  maxLength: 15,
-                                  controller: _textEditingController,
-                                  readOnly: !value,
-                                  textAlign: TextAlign.center,
-                                  textAlignVertical: TextAlignVertical.center,
-                                  decoration: const InputDecoration(
-                                      counterText: '',
-                                      counter: null,
-                                      border: InputBorder.none),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w600,
+                            const SizedBox(
+                              height: 13,
+                            ),
+                            Text(
+                              'ID: ${UserScope.userOf(context).id}',
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            ValueListenableBuilder(
+                              valueListenable: _isEditingProfile!,
+                              builder: (context, value, _) =>
+                                  ValueListenableBuilder(
+                                valueListenable: _textEditingController,
+                                builder: (context, textValue, _) =>
+                                    AnimatedContainer(
+                                  width: textValue.text.isNotEmpty
+                                      ? textValue.text.length * 25
+                                      : 100,
+                                  duration: const Duration(milliseconds: 200),
+                                  decoration: BoxDecoration(
+                                    border: value
+                                        ? Border.all(
+                                            color: textValue.text.length < 15
+                                                ? const Color.fromARGB(
+                                                    255, 168, 239, 171)
+                                                : Colors.red,
+                                            width: 1)
+                                        : null,
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            "Мудрец",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    snapshot.hasData
-                        ? Row(
-                            children: [
-                              const SizedBox(
-                                width: 21,
-                              ),
-                              const Text(
-                                "Отзывы",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                width: 20,
-                                height: 26,
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 233, 252, 232),
-                                  borderRadius: BorderRadius.circular(7),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "${snapshot.data!.list.length}",
+                                  child: TextFormField(
+                                    maxLength: 15,
+                                    controller: _textEditingController,
+                                    readOnly: !value,
+                                    textAlign: TextAlign.center,
+                                    textAlignVertical: TextAlignVertical.center,
+                                    decoration: const InputDecoration(
+                                        counterText: '',
+                                        counter: null,
+                                        border: InputBorder.none),
                                     style: const TextStyle(
-                                      fontSize: 14,
+                                      color: Colors.black,
+                                      fontSize: 36,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
                               ),
-                            ],
-                          )
-                        : const SizedBox(),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                  ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "Мудрец",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      snapshot.hasData
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Text(
+                                      "Отзывы",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      width: 20,
+                                      height: 26,
+                                      decoration: BoxDecoration(
+                                        color: const Color.fromARGB(
+                                            255, 233, 252, 232),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "${snapshot.data!.list.length}",
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SortButton(
+                                  type: SortingTypes.reviews,
+                                )
+                              ],
+                            )
+                          : const SizedBox(),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               snapshot.hasData

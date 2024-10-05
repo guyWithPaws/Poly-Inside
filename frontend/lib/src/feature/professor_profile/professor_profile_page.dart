@@ -105,6 +105,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                     MaterialPageRoute<void>(
                       builder: (builderContext) => ReviewPage(
                         professor: widget.professor,
+                        type: ReviewType.add,
                       ),
                     ),
                   );
@@ -274,6 +275,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                       return ReviewTitle(
                         review: snapshot.data!.list[index].review,
                         professor: widget.professor,
+                        user: snapshot.data!.list[index].user,
                       );
                     },
                   );
