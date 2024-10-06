@@ -137,23 +137,37 @@ class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
           color: const Color(0xFFEEF9EF),
           borderRadius: BorderRadius.circular(12),
         ),
-        width: 200,
         height: 40,
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              const SizedBox(
+                width: 8,
+              ),
               const Icon(CupertinoIcons.line_horizontal_3_decrease),
-              const Text('Сортировка'),
-              AnimatedBuilder(
-                animation: _controller!,
-                builder: (context, child) {
-                  return Transform.rotate(
-                    angle: _controller!.value * pi,
-                    child: const Icon(CupertinoIcons.chevron_down),
-                  );
-                },
+              if (widget.type == SortingTypes.reviews)
+                const SizedBox(
+                  width: 16,
+                ),
+              if (widget.type == SortingTypes.reviews) const Text('Сортировка'),
+              if (widget.type == SortingTypes.reviews)
+                const SizedBox(
+                  width: 16,
+                ),
+              if (widget.type == SortingTypes.reviews)
+                AnimatedBuilder(
+                  animation: _controller!,
+                  builder: (context, child) {
+                    return Transform.rotate(
+                      angle: _controller!.value * pi,
+                      child: const Icon(CupertinoIcons.chevron_down),
+                    );
+                  },
+                ),
+              const SizedBox(
+                width: 8,
               ),
             ],
           ),

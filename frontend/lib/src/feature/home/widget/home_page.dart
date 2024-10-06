@@ -228,7 +228,8 @@ class _HomePageState extends State<HomePage> {
                                                     width: 60,
                                                     fit: BoxFit.cover,
                                                     Uint8List.fromList(
-                                                      professors[index].avatar,
+                                                      professors[index]
+                                                          .smallAvatar,
                                                     ),
                                                   )
                                                 : SvgPicture.asset(
