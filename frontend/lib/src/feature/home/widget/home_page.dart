@@ -12,7 +12,7 @@ import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/professor_profile/widget/professor_profile_page.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
-import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
+import 'package:poly_inside/src/feature/user_profile/widget/user_profile_page.dart';
 
 /// {@template home_page}
 /// HomePage widget.
