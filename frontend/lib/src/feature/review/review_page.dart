@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +11,7 @@ import 'package:poly_inside/src/feature/initialization/initialization.dart';
 import 'package:poly_inside/src/feature/telegram/user_scope.dart';
 import 'package:shared/shared.dart';
 import 'package:rive/rive.dart' as rive;
+import 'package:crypto/crypto.dart';
 
 enum ReviewType { add, edit }
 
@@ -134,6 +137,11 @@ class _ReviewPageState extends State<ReviewPage> {
               professorId: widget.professor.id);
           bool passed = true;
           if (widget.type == ReviewType.add) {
+            var reviewIdBytes = utf8.encode(
+                UserScope.userOf(context).id.toString() +
+                    DateTime.now().toString());
+            var generatedReviewId = sha1.convert(reviewIdBytes).toString();
+            outputReview.reviewId = generatedReviewId;
             passed = await InitializationScope.repositoryOf(context)
                 .addReview(outputReview);
           } else {

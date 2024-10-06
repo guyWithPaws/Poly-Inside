@@ -186,10 +186,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 valueListenable: _textEditingController,
                                 builder: (context, textValue, _) =>
                                     AnimatedContainer(
-                                  width: textValue.text.isNotEmpty
-                                      ? textValue.text.length * 25
+                                  width: textValue.text.isNotEmpty &&
+                                          textValue.text.length * 30 > 100
+                                      ? textValue.text.length * 30
                                       : 100,
-                                  duration: const Duration(milliseconds: 200),
+                                  height: 50,
+                                  duration: const Duration(milliseconds: 350),
                                   decoration: BoxDecoration(
                                     border: value
                                         ? Border.all(
@@ -201,30 +203,31 @@ class _ProfilePageState extends State<ProfilePage> {
                                         : null,
                                     borderRadius: BorderRadius.circular(5),
                                   ),
-                                  child: TextFormField(
-                                    maxLength: 15,
-                                    controller: _textEditingController,
-                                    readOnly: !value,
-                                    textAlign: TextAlign.center,
-                                    textAlignVertical: TextAlignVertical.center,
-                                    decoration: const InputDecoration(
-                                        counterText: '',
-                                        counter: null,
-                                        border: InputBorder.none),
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 36,
-                                      fontWeight: FontWeight.w600,
+                                  child: Center(
+                                    child: SizedBox(
+                                      child: TextFormField(
+                                        maxLength: 15,
+                                        controller: _textEditingController,
+                                        readOnly: !value,
+                                        textAlign: TextAlign.center,
+                                        textAlignVertical: TextAlignVertical.center,
+                                        decoration: const InputDecoration(
+                                            counterText: '',
+                                            counter: null,
+                                            border: InputBorder.none),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 36,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
                             const Text(
-                              "Мудрец",
+                              "Группа: 5132704/30003",
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16,
@@ -235,7 +238,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 6,
+                        height: 10,
                       ),
                       snapshot.hasData
                           ? Row(

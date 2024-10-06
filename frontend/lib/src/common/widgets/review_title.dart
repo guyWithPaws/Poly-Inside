@@ -42,55 +42,59 @@ class ReviewTitle extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Hero(
-                      tag: professor!.id,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey[200],
-                        radius: 20,
-                        child: ClipOval(
-                          child: user == null
-                              ? professor!.smallAvatar.isNotEmpty
-                                  ? Image.memory(
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.cover,
-                                      Uint8List.fromList(
-                                        professor!.smallAvatar,
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Hero(
+                        tag: professor!.id,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey[200],
+                          radius: 20,
+                          child: ClipOval(
+                            child: user == null
+                                ? professor!.smallAvatar.isNotEmpty
+                                    ? Image.memory(
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.cover,
+                                        Uint8List.fromList(
+                                          professor!.smallAvatar,
+                                        ),
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/icons/no_photo.svg',
+                                        width: 30,
+                                      )
+                                : user!.avatar.isNotEmpty
+                                    ? Image.memory(
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.cover,
+                                        Uint8List.fromList(
+                                          user!.avatar,
+                                        ),
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/icons/no_photo.svg',
+                                        width: 30,
                                       ),
-                                    )
-                                  : SvgPicture.asset(
-                                      'assets/icons/no_photo.svg',
-                                      width: 30,
-                                    )
-                              : user!.avatar.isNotEmpty
-                                  ? Image.memory(
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.cover,
-                                      Uint8List.fromList(
-                                        user!.avatar,
-                                      ),
-                                    )
-                                  : SvgPicture.asset(
-                                      'assets/icons/no_photo.svg',
-                                      width: 30,
-                                    ),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      review.reviewId,
-                      //user == null ? professor!.name.capitalize() : user!.name,
-                      style: const TextStyle(
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          user == null
+                              ? professor!.name.capitalize()
+                              : user!.name,
                           overflow: TextOverflow.clip,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 (UserScope.userOf(context).id == review.userId)
                     ? GestureDetector(

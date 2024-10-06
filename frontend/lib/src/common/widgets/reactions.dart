@@ -45,12 +45,12 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
     _likeAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(
-          milliseconds: 200), // продолжительность анимации в миллисекундах
+          milliseconds: 200),
     );
     _dislikeAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(
-          milliseconds: 200), // продолжительность анимации в миллисекундах
+          milliseconds: 200),
     );
   }
 
@@ -65,7 +65,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  dislikeCount += isDisliked?-1:0;
+                  dislikeCount += isDisliked ? -1 : 0;
                   isDisliked = false;
                   isLiked = !isLiked;
                   likeCount += isLiked ? 1 : -1;
@@ -84,7 +84,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   ReactionType.like.path,
                   alignment: Alignment.bottomRight,
                   colorFilter: ColorFilter.mode(
-                      isLiked ? Color.fromARGB(255, 34, 166, 64) : Color.fromARGB(255, 138, 138, 138),
+                      isLiked
+                          ? const Color.fromARGB(255, 34, 166, 64)
+                          : const Color.fromARGB(255, 138, 138, 138),
                       BlendMode.srcIn),
                 ),
               ),
@@ -96,8 +98,10 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               value: likeCount,
               duration: const Duration(milliseconds: 200),
               textStyle: TextStyle(
-                color: isLiked?const Color.fromRGBO(0, 0, 0, 1):Color.fromARGB(255, 138, 138, 138),
-                fontWeight: isLiked?FontWeight.w600:FontWeight.w400,
+                color: isLiked
+                    ? const Color.fromRGBO(0, 0, 0, 1)
+                    : const Color.fromARGB(255, 138, 138, 138),
+                fontWeight: isLiked ? FontWeight.w600 : FontWeight.w400,
               ),
             )
           ],
@@ -109,7 +113,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  likeCount += isLiked?-1:0;
+                  likeCount += isLiked ? -1 : 0;
                   isLiked = false;
                   isDisliked = !isDisliked;
                   dislikeCount += isDisliked ? 1 : -1;
@@ -128,7 +132,10 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   ReactionType.dislike.path,
                   alignment: Alignment.bottomRight,
                   colorFilter: ColorFilter.mode(
-                      isDisliked ? Colors.red : Color.fromARGB(255, 138, 138, 138), BlendMode.srcIn),
+                      isDisliked
+                          ? Colors.red
+                          : const Color.fromARGB(255, 138, 138, 138),
+                      BlendMode.srcIn),
                 ),
               ),
             ),
@@ -139,8 +146,10 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               value: dislikeCount,
               duration: const Duration(microseconds: 200),
               textStyle: TextStyle(
-                color: isDisliked?Colors.black:Color.fromARGB(255, 138, 138, 138),
-                fontWeight: isDisliked?FontWeight.w600:FontWeight.w400,
+                color: isDisliked
+                    ? Colors.black
+                    : const Color.fromARGB(255, 138, 138, 138),
+                fontWeight: isDisliked ? FontWeight.w600 : FontWeight.w400,
               ),
             )
           ],

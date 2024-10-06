@@ -11,7 +11,7 @@ import 'dart:developer';
 
 part 'user_bloc.freezed.dart';
 
-int? getId() => 1234567891;
+int? getId() => 12345678;
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc({required final UserState state, required this.repository}) : super(state) {
@@ -32,7 +32,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           await repository.addUser(
             User()
               ..id = id
-              ..name = 'anonymous',
+              ..name = 'goxa',
           );
           emit(const UserState.processing('Getting user from database after logging'));
           user = await repository.getUserByUserId(id);
