@@ -18,6 +18,10 @@ class _MyWidgetState extends State<IntroPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          toolbarHeight: 49,
+          backgroundColor: Colors.white,
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
@@ -30,7 +34,7 @@ class _MyWidgetState extends State<IntroPage> {
                   child: ClipOval(
                     child: SvgPicture.asset(
                       'icons/assets/camera.svg',
-                      width: 69,
+                      width: 80,
                     ),
                   ),
                 ),
@@ -41,9 +45,8 @@ class _MyWidgetState extends State<IntroPage> {
               const Text(
                 'Введите свое имя',
                 style: TextStyle(
-                  fontSize: 15,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(
@@ -54,7 +57,7 @@ class _MyWidgetState extends State<IntroPage> {
                   color: const Color.fromARGB(255, 210, 248, 211),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                height: 40,
+                height: 50,
                 child: const TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -66,7 +69,13 @@ class _MyWidgetState extends State<IntroPage> {
               ),
               const SizedBox(height: 10),
               CheckboxListTile(
-                title: const Text("Взять ник из телеграма"),
+                title: const Text(
+                  "взять ник из телеграма",
+                  style: TextStyle(
+                    fontSize: 14, 
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(255, 138, 138, 138)),
+                ),
                 value: checkedValue,
                 onChanged: (newValue) {
                   setState(() {
