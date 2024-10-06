@@ -38,6 +38,7 @@ class ReviewTitle extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,28 +98,39 @@ class ReviewTitle extends StatelessWidget {
                   ),
                 ),
                 (UserScope.userOf(context).id == review.userId)
-                    ? GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (builderContext) => ReviewPage(
-                              professor: professor!,
-                              review: review,
-                              type: ReviewType.edit,
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            child: SvgPicture.asset('assets/icons/trash.svg'),
+                          ),
+                          const Divider(
+                            thickness: 10,
+                            color: Colors.red,
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (builderContext) => ReviewPage(
+                                  professor: professor!,
+                                  review: review,
+                                  type: ReviewType.edit,
+                                ),
+                              ),
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icons/editpen.svg',
+                              alignment: Alignment.topRight,
                             ),
                           ),
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/icons/editpen.svg',
-                          alignment: Alignment.topRight,
-                        ),
+                        ],
                       )
                     : const SizedBox(),
               ],
             ),
             const SizedBox(height: 8),
             Text(
-              textAlign: TextAlign.start,
               review.comment,
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
             ),

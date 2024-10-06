@@ -272,8 +272,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 16),
                     itemBuilder: (context, index) {
-                      debugPrint(
-                          '${snapshot.data!.list[index].review.reviewId} review id');
                       return ReviewTitle(
                         review: snapshot.data!.list[index].review,
                         professor: widget.professor,

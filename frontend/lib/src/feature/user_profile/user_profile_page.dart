@@ -210,7 +210,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         controller: _textEditingController,
                                         readOnly: !value,
                                         textAlign: TextAlign.center,
-                                        textAlignVertical: TextAlignVertical.center,
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
                                         decoration: const InputDecoration(
                                             counterText: '',
                                             counter: null,
@@ -225,6 +226,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                               ),
+                            ),
+                            const SizedBox(
+                              height: 8,
                             ),
                             const Text(
                               "Группа: 5132704/30003",
@@ -255,7 +259,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     const SizedBox(width: 8),
                                     Container(
-                                      width: 20,
+                                      width: snapshot.data!.list.length
+                                              .toString()
+                                              .length *
+                                          15,
                                       height: 26,
                                       decoration: BoxDecoration(
                                         color: const Color.fromARGB(
