@@ -285,7 +285,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           StarsRating(
                             valueNotifier: _valueObjectivityNotifier,
                             value: widget.review?.objectivity ?? 1,
-                            size: const Size(30, 30),
+                            size: const Size(22, 22),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
@@ -293,7 +293,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           StarsRating(
                             valueNotifier: _valueLoayltyNotifier,
                             value: widget.review?.loyalty ?? 1,
-                            size: const Size(30, 30),
+                            size: const Size(22, 22),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
@@ -301,7 +301,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           StarsRating(
                             valueNotifier: _valueProfessionalismNotifier,
                             value: widget.review?.professionalism ?? 1,
-                            size: const Size(30, 30),
+                            size: const Size(22, 22),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
@@ -309,7 +309,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           StarsRating(
                             valueNotifier: _valueHarshnessNotifier,
                             value: widget.review?.harshness ?? 1,
-                            size: const Size(30, 30),
+                            size: const Size(22, 22),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
