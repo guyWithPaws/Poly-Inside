@@ -20,7 +20,8 @@ class ClientRepositoryImpl implements ClientRepository {
 
   @override
   Stream<ReviewWithUserResponse> getAllReviewsByProfessor(String professorId) =>
-      client.getReviewsByProfessorId(ReviewsByProfessorIdRequest()..id = professorId);
+      client.getReviewsByProfessorId(
+          ReviewsByProfessorIdRequest()..id = professorId);
 
   @override
   Future<User> getUserByUserId(int userId) =>
@@ -41,4 +42,8 @@ class ClientRepositoryImpl implements ClientRepository {
   @override
   Stream<ReviewWithProfessorResponse> getReviewsWithProfessor(int userId) =>
       client.getReviewWithProfessor(ReviewsByUserIdRequest(id: userId));
+
+  @override
+  Future<void> deleteReview(String reviewId) async =>
+      client.deleteReview(DeleteReviewRequest(reviewId: reviewId));
 }

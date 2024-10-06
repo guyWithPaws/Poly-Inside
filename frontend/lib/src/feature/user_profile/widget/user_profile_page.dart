@@ -1,12 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
-import 'package:shared/shared.dart';
 
 import '../../../common/widgets/sort_button.dart';
 
@@ -146,22 +148,44 @@ class _ProfilePageState extends State<ProfilePage> {
                     fit: BoxFit.cover,
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey[200],
-                          radius: 158 / 2,
-                          child: ClipOval(
-                            child: UserScope.userOf(context).avatar.isNotEmpty
-                                ? Image.asset(
-                                    'assets/beer.jpg',
-                                    height: 158,
-                                    width: 158,
-                                    fit: BoxFit.cover,
-                                  )
-                                : SvgPicture.asset(
-                                    'assets/icons/no_photo.svg',
-                                    width: 69,
+                        Stack(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.grey[200],
+                              radius: 158 / 2,
+                              child: ClipOval(
+                                child: UserScope.userOf(context)
+                                        .avatar
+                                        .isNotEmpty
+                                    ? Image.memory(
+                                        height: 158,
+                                        width: 158,
+                                        fit: BoxFit.cover,
+                                        Uint8List.fromList(
+                                            UserScope.userOf(context).avatar),
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/icons/no_photo.svg',
+                                        width: 79,
+                                      ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 16.36,
+                              bottom: 16.36,
+                              child: IconButton(
+                                icon: const Icon(CupertinoIcons.camera),
+                                onPressed: () => showCupertinoModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      const SizedBox(
+                                    height: 300,
+                                    child: Text('Выбрать аватарку'),
                                   ),
-                          ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                         const SizedBox(
                           height: 13,
@@ -253,7 +277,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   BlocBuilder<DataBLoC, DataState>(
                     builder: (context, state) => state.maybeWhen(
-                      orElse: () => SizedBox(),
+                      orElse: () => const SizedBox(),
                       loaded: (professors) => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

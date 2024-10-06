@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/common/widgets/reactions.dart';
+import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
 import 'package:intl/intl.dart';
@@ -99,6 +100,50 @@ class ReviewTitle extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  content: SizedBox(
+                                    height: 100,
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Text(
+                                              'Вы точно хотите удалить данный отзыв?'),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  await InitializationScope
+                                                          .repositoryOf(context)
+                                                      .deleteReview(
+                                                          review.reviewId)
+                                                      .then(
+                                                    (_) {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  );
+                                                },
+                                                child: const Text('Да'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: const Text('Нет'),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                             child: SvgPicture.asset('assets/icons/trash.svg'),
                           ),
                           const Divider(

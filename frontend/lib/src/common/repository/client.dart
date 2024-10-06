@@ -8,6 +8,7 @@ abstract class ClientRepository {
   Stream<ReviewWithUserResponse> getAllReviewsByProfessor(String professorId);
   Future<bool> addReview(Review review);
   Future<void> updateReview(Review review);
+  Future<void> deleteReview(String reviewId);
   Future<void> updateUser(User user);
   Future<SearchResponse> findProfessorByName(String name, int count);
   Stream<ReviewWithProfessorResponse> getReviewsWithProfessor(int userId);

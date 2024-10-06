@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
+import 'package:poly_inside/src/common/widgets/sort_button.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
@@ -222,38 +223,47 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 child: SizedBox(),
               ),
               loaded: (professors) => SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  child: Row(
-                    children: [
-                      const Text(
-                        "Отзывы",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        width: 20,
-                        height: 26,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 233, 252, 232),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '${professors.length}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
+                child: professors.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const Text(
+                                  "Отзывы",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Container(
+                                  width: 20,
+                                  height: 26,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 233, 252, 232),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '${professors.length}',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
+                            const SortButton(type: SortingTypes.reviews),
+                          ],
                         ),
                       )
-                    ],
-                  ),
-                ),
+                    : const SizedBox(),
               ),
             ),
             bloc: _bloc,
