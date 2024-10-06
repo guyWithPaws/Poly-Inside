@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Преподаватели',
+                    'Мои преподаватели',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SortButton(

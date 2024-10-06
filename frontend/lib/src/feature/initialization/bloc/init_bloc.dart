@@ -23,8 +23,8 @@ class InitializationBloc extends Bloc<InitializationEvent, InitializationState> 
       emit(const InitializationState.processing());
       try {
         final channel = ClientChannel(
-          '213.171.31.11',
-          //'127.0.0.1',
+          //'213.171.31.11',
+          'localhost',
           port: 9090,
           options: const ChannelOptions(
             credentials: ChannelCredentials.insecure(),

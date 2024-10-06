@@ -110,7 +110,7 @@ class DatabaseProviderImpl implements DatabaseProvider {
 
     return await database.into(database.reviews).insert(
           ReviewsCompanion(
-            id: Value('${review.userId}${review.date}'),
+            id: Value(review.reviewId),
             likes: Value(review.likes),
             dislikes: Value(review.dislikes),
             professorId: Value(review.professorId),

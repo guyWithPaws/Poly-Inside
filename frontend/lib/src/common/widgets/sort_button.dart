@@ -33,9 +33,10 @@ class SortButton extends StatefulWidget {
 /// State for widget SortButton.
 class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
   AnimationController? _controller;
+  static const Duration _animationDuration = Duration(milliseconds: 300);
 
   static const double sortingElementsHeight = 40;
-  static List<String> sortingElements = [
+  static const List<String> sortingElements = [
     'А-Я',
     'Я-А',
     'С высоким рейтингом',
@@ -48,7 +49,7 @@ class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
   @override
   void initState() {
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: _animationDuration,
       vsync: this,
     );
 
