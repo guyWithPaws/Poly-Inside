@@ -230,13 +230,27 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(
                               height: 8,
                             ),
-                            const Text(
-                              "Группа: 5132704/30003",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            const Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Группа:",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  '5132704/30003',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                )
+                              ],
                             ),
                           ],
                         ),
