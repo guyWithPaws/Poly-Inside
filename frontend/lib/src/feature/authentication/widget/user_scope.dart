@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poly_inside/src/feature/initialization/initialization.dart';
+import 'package:poly_inside/src/common/widgets/error_page.dart';
+import 'package:poly_inside/src/feature/app/app_scope.dart';
+import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:shared/shared.dart';
 
-import 'user_bloc.dart';
+import '../bloc/user_bloc.dart';
 
 /// {@template user_scope}
 /// UserScope widget.
@@ -16,7 +17,8 @@ class UserScope extends StatefulWidget {
     super.key, // ignore: unused_element
   });
 
-  static User userOf(BuildContext context) => _InheritedUserScope.of(context).user;
+  static User userOf(BuildContext context) =>
+      _InheritedUserScope.of(context).user;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -64,25 +66,19 @@ class _UserScopeState extends State<UserScope> {
   @override
   Widget build(BuildContext context) => BlocBuilder<UserBloc, UserState>(
         builder: (context, state) => state.when(
-          processing: (stage) => MaterialApp(
-            home: Scaffold(
+          processing: (stage) => const AppScope(
+            child: Scaffold(
               body: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const CircularProgressIndicator(),
-                    Text(state.toString()),
-                  ],
-                ),
+                child: CircularProgressIndicator(),
               ),
             ),
           ),
-          idle: () => const SizedBox(),
-          error: (e) => MaterialApp(
-            home: Scaffold(
-              body: Center(
-                child: Text('$e'),
-              ),
+          idle: () => const AppScope(child: Scaffold()),
+          error: (e) => AppScope(
+            child: ErrorPage(
+              onPressed: () {
+                _bloc?.add(GetUserEvent());
+              },
             ),
           ),
           loaded: (user) => _InheritedUserScope(
@@ -108,9 +104,11 @@ class _InheritedUserScope extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   /// For example: `UserScope.maybeOf(context)`.
-  static _InheritedUserScope? maybeOf(BuildContext context, {bool listen = true}) => listen
-      ? context.dependOnInheritedWidgetOfExactType<_InheritedUserScope>()
-      : context.getInheritedWidgetOfExactType<_InheritedUserScope>();
+  static _InheritedUserScope? maybeOf(BuildContext context,
+          {bool listen = true}) =>
+      listen
+          ? context.dependOnInheritedWidgetOfExactType<_InheritedUserScope>()
+          : context.getInheritedWidgetOfExactType<_InheritedUserScope>();
 
   static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
         'Out of scope, not found inherited widget '

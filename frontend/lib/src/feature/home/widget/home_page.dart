@@ -3,18 +3,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 //import 'package:grpc/service_api.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/utils/word_formatter.dart';
 import 'package:poly_inside/src/common/widgets/sort_button.dart';
-import 'package:poly_inside/src/feature/error/error_page.dart';
-import 'package:poly_inside/src/feature/home/home_bloc.dart';
-import 'package:poly_inside/src/feature/home/search_bar.dart';
+import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
+import 'package:poly_inside/src/feature/home/widget/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
-import 'package:poly_inside/src/feature/initialization/initialization.dart';
-import 'package:poly_inside/src/feature/professor_profile/professor_profile_page.dart';
-import 'package:poly_inside/src/feature/telegram/user_scope.dart';
+import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
+import 'package:poly_inside/src/feature/professor_profile/widget/professor_profile_page.dart';
+import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/user_profile_page.dart';
 
 /// {@template home_page}

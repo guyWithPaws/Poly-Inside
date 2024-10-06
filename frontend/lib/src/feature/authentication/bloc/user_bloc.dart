@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:shared/shared.dart';
-import 'dart:developer';
 // import 'package:flutter_telegram_web_app/flutter_telegram_web_app.dart' as tg;
 
 part 'user_bloc.freezed.dart';
@@ -43,7 +42,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(UserState.loaded(user));
       } on Object catch (error, _) {
         debugPrint(error.toString());
-        debugger();
         emit(UserState.error(error));
         rethrow;
       }

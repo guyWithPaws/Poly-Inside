@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
-import 'package:poly_inside/src/feature/initialization/initialization.dart';
-import 'package:poly_inside/src/feature/telegram/user_scope.dart';
+import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
+import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:shared/shared.dart';
 
 import '../../common/widgets/sort_button.dart';

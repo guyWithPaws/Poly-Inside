@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'user_bloc.dart';
+part of 'data_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,29 +15,29 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$UserState {
+mixin _$DataState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String stage) processing,
+    required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
-    required TResult Function(User user) loaded,
+    required TResult Function(List<ReviewWithUser> professors) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String stage)? processing,
+    TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
-    TResult? Function(User user)? loaded,
+    TResult? Function(List<ReviewWithUser> professors)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String stage)? processing,
+    TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
-    TResult Function(User user)? loaded,
+    TResult Function(List<ReviewWithUser> professors)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -69,126 +69,96 @@ mixin _$UserState {
 }
 
 /// @nodoc
-abstract class $UserStateCopyWith<$Res> {
-  factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) = _$UserStateCopyWithImpl<$Res, UserState>;
+abstract class $DataStateCopyWith<$Res> {
+  factory $DataStateCopyWith(DataState value, $Res Function(DataState) then) =
+      _$DataStateCopyWithImpl<$Res, DataState>;
 }
 
 /// @nodoc
-class _$UserStateCopyWithImpl<$Res, $Val extends UserState> implements $UserStateCopyWith<$Res> {
-  _$UserStateCopyWithImpl(this._value, this._then);
+class _$DataStateCopyWithImpl<$Res, $Val extends DataState>
+    implements $DataStateCopyWith<$Res> {
+  _$DataStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of UserState
+  /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 abstract class _$$ProcessingStateImplCopyWith<$Res> {
-  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value, $Res Function(_$ProcessingStateImpl) then) =
+  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value,
+          $Res Function(_$ProcessingStateImpl) then) =
       __$$ProcessingStateImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String stage});
 }
 
 /// @nodoc
-class __$$ProcessingStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$ProcessingStateImpl>
+class __$$ProcessingStateImplCopyWithImpl<$Res>
+    extends _$DataStateCopyWithImpl<$Res, _$ProcessingStateImpl>
     implements _$$ProcessingStateImplCopyWith<$Res> {
-  __$$ProcessingStateImplCopyWithImpl(_$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
+  __$$ProcessingStateImplCopyWithImpl(
+      _$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UserState
+  /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? stage = null,
-  }) {
-    return _then(_$ProcessingStateImpl(
-      null == stage
-          ? _value.stage
-          : stage // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin {
-  const _$ProcessingStateImpl(this.stage) : super._();
+class _$ProcessingStateImpl extends ProcessingState {
+  const _$ProcessingStateImpl() : super._();
 
   @override
-  final String stage;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserState.processing(stage: $stage)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'UserState.processing'))
-      ..add(DiagnosticsProperty('stage', stage));
+  String toString() {
+    return 'DataState.processing()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ProcessingStateImpl &&
-            (identical(other.stage, stage) || other.stage == stage));
+        (other.runtimeType == runtimeType && other is _$ProcessingStateImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, stage);
-
-  /// Create a copy of UserState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith =>
-      __$$ProcessingStateImplCopyWithImpl<_$ProcessingStateImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String stage) processing,
+    required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
-    required TResult Function(User user) loaded,
+    required TResult Function(List<ReviewWithUser> professors) loaded,
   }) {
-    return processing(stage);
+    return processing();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String stage)? processing,
+    TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
-    TResult? Function(User user)? loaded,
+    TResult? Function(List<ReviewWithUser> professors)? loaded,
   }) {
-    return processing?.call(stage);
+    return processing?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String stage)? processing,
+    TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
-    TResult Function(User user)? loaded,
+    TResult Function(List<ReviewWithUser> professors)? loaded,
     required TResult orElse(),
   }) {
     if (processing != null) {
-      return processing(stage);
+      return processing();
     }
     return orElse();
   }
@@ -231,52 +201,44 @@ class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin
   }
 }
 
-abstract class ProcessingState extends UserState {
-  const factory ProcessingState(final String stage) = _$ProcessingStateImpl;
+abstract class ProcessingState extends DataState {
+  const factory ProcessingState() = _$ProcessingStateImpl;
   const ProcessingState._() : super._();
-
-  String get stage;
-
-  /// Create a copy of UserState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$IdleStateImplCopyWith<$Res> {
-  factory _$$IdleStateImplCopyWith(_$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
+  factory _$$IdleStateImplCopyWith(
+          _$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
       __$$IdleStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$IdleStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$IdleStateImpl>
+class __$$IdleStateImplCopyWithImpl<$Res>
+    extends _$DataStateCopyWithImpl<$Res, _$IdleStateImpl>
     implements _$$IdleStateImplCopyWith<$Res> {
-  __$$IdleStateImplCopyWithImpl(_$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then) : super(_value, _then);
+  __$$IdleStateImplCopyWithImpl(
+      _$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then)
+      : super(_value, _then);
 
-  /// Create a copy of UserState
+  /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
+class _$IdleStateImpl extends IdleState {
   const _$IdleStateImpl() : super._();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserState.idle()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'UserState.idle'));
+  String toString() {
+    return 'DataState.idle()';
   }
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$IdleStateImpl);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$IdleStateImpl);
   }
 
   @override
@@ -285,10 +247,10 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String stage) processing,
+    required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
-    required TResult Function(User user) loaded,
+    required TResult Function(List<ReviewWithUser> professors) loaded,
   }) {
     return idle();
   }
@@ -296,10 +258,10 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String stage)? processing,
+    TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
-    TResult? Function(User user)? loaded,
+    TResult? Function(List<ReviewWithUser> professors)? loaded,
   }) {
     return idle?.call();
   }
@@ -307,10 +269,10 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String stage)? processing,
+    TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
-    TResult Function(User user)? loaded,
+    TResult Function(List<ReviewWithUser> professors)? loaded,
     required TResult orElse(),
   }) {
     if (idle != null) {
@@ -357,25 +319,29 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   }
 }
 
-abstract class IdleState extends UserState {
+abstract class IdleState extends DataState {
   const factory IdleState() = _$IdleStateImpl;
   const IdleState._() : super._();
 }
 
 /// @nodoc
 abstract class _$$ErrorStateImplCopyWith<$Res> {
-  factory _$$ErrorStateImplCopyWith(_$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
+  factory _$$ErrorStateImplCopyWith(
+          _$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
       __$$ErrorStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object e});
 }
 
 /// @nodoc
-class __$$ErrorStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$ErrorStateImpl>
+class __$$ErrorStateImplCopyWithImpl<$Res>
+    extends _$DataStateCopyWithImpl<$Res, _$ErrorStateImpl>
     implements _$$ErrorStateImplCopyWith<$Res> {
-  __$$ErrorStateImplCopyWithImpl(_$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then) : super(_value, _then);
+  __$$ErrorStateImplCopyWithImpl(
+      _$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then)
+      : super(_value, _then);
 
-  /// Create a copy of UserState
+  /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -390,23 +356,15 @@ class __$$ErrorStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res,
 
 /// @nodoc
 
-class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
+class _$ErrorStateImpl extends ErrorState {
   const _$ErrorStateImpl(this.e) : super._();
 
   @override
   final Object e;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserState.error(e: $e)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'UserState.error'))
-      ..add(DiagnosticsProperty('e', e));
+  String toString() {
+    return 'DataState.error(e: $e)';
   }
 
   @override
@@ -418,9 +376,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
 
-  /// Create a copy of UserState
+  /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -431,10 +390,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String stage) processing,
+    required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
-    required TResult Function(User user) loaded,
+    required TResult Function(List<ReviewWithUser> professors) loaded,
   }) {
     return error(e);
   }
@@ -442,10 +401,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String stage)? processing,
+    TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
-    TResult? Function(User user)? loaded,
+    TResult? Function(List<ReviewWithUser> professors)? loaded,
   }) {
     return error?.call(e);
   }
@@ -453,10 +412,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String stage)? processing,
+    TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
-    TResult Function(User user)? loaded,
+    TResult Function(List<ReviewWithUser> professors)? loaded,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -503,67 +462,70 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   }
 }
 
-abstract class ErrorState extends UserState {
+abstract class ErrorState extends DataState {
   const factory ErrorState(final Object e) = _$ErrorStateImpl;
   const ErrorState._() : super._();
 
   Object get e;
 
-  /// Create a copy of UserState
+  /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$LoadedStateImplCopyWith<$Res> {
-  factory _$$LoadedStateImplCopyWith(_$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
+  factory _$$LoadedStateImplCopyWith(
+          _$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
       __$$LoadedStateImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({User user});
+  $Res call({List<ReviewWithUser> professors});
 }
 
 /// @nodoc
-class __$$LoadedStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$LoadedStateImpl>
+class __$$LoadedStateImplCopyWithImpl<$Res>
+    extends _$DataStateCopyWithImpl<$Res, _$LoadedStateImpl>
     implements _$$LoadedStateImplCopyWith<$Res> {
-  __$$LoadedStateImplCopyWithImpl(_$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
+  __$$LoadedStateImplCopyWithImpl(
+      _$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UserState
+  /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = null,
+    Object? professors = null,
   }) {
     return _then(_$LoadedStateImpl(
-      null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User,
+      null == professors
+          ? _value._professors
+          : professors // ignore: cast_nullable_to_non_nullable
+              as List<ReviewWithUser>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
-  const _$LoadedStateImpl(this.user) : super._();
+class _$LoadedStateImpl extends LoadedState {
+  const _$LoadedStateImpl(final List<ReviewWithUser> professors)
+      : _professors = professors,
+        super._();
 
+  final List<ReviewWithUser> _professors;
   @override
-  final User user;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserState.loaded(user: $user)';
+  List<ReviewWithUser> get professors {
+    if (_professors is EqualUnmodifiableListView) return _professors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_professors);
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'UserState.loaded'))
-      ..add(DiagnosticsProperty('user', user));
+  String toString() {
+    return 'DataState.loaded(professors: $professors)';
   }
 
   @override
@@ -571,13 +533,15 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedStateImpl &&
-            (identical(other.user, user) || other.user == user));
+            const DeepCollectionEquality()
+                .equals(other._professors, _professors));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_professors));
 
-  /// Create a copy of UserState
+  /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -588,36 +552,36 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String stage) processing,
+    required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
-    required TResult Function(User user) loaded,
+    required TResult Function(List<ReviewWithUser> professors) loaded,
   }) {
-    return loaded(user);
+    return loaded(professors);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String stage)? processing,
+    TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
-    TResult? Function(User user)? loaded,
+    TResult? Function(List<ReviewWithUser> professors)? loaded,
   }) {
-    return loaded?.call(user);
+    return loaded?.call(professors);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String stage)? processing,
+    TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
-    TResult Function(User user)? loaded,
+    TResult Function(List<ReviewWithUser> professors)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(user);
+      return loaded(professors);
     }
     return orElse();
   }
@@ -660,14 +624,16 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
   }
 }
 
-abstract class LoadedState extends UserState {
-  const factory LoadedState(final User user) = _$LoadedStateImpl;
+abstract class LoadedState extends DataState {
+  const factory LoadedState(final List<ReviewWithUser> professors) =
+      _$LoadedStateImpl;
   const LoadedState._() : super._();
 
-  User get user;
+  List<ReviewWithUser> get professors;
 
-  /// Create a copy of UserState
+  /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

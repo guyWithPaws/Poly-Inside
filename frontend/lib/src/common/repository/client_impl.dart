@@ -18,8 +18,6 @@ class ClientRepositoryImpl implements ClientRepository {
   Stream<GetListProfessorResponse> getAllProfessors(int count) =>
       client.getListProfessor(ListProfessorRequest(count: count));
 
-
-
   @override
   Stream<ReviewWithUserResponse> getAllReviewsByProfessor(String professorId) =>
       client.getReviewsByProfessorId(ReviewsByProfessorIdRequest()..id = professorId);

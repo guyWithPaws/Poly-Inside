@@ -3,7 +3,7 @@ extension Extension on String {
     var output = '';
     try {
       output = split(' ').map((word) => '${word[0].toUpperCase()}${word.substring(1)}').join(' ');
-    } on Error {
+    } on RangeError {
       return this;
     }
     return output;

@@ -63,7 +63,7 @@ class _StarsRatingState extends State<StarsRating> {
 
   @override
   void dispose() {
-    widget.valueNotifier!.dispose();
+    widget.valueNotifier?.dispose();
     // Permanent removal of a tree stent
     super.dispose();
   }

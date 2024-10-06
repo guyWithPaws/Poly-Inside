@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
 
@@ -9,14 +8,17 @@ import 'package:meta/meta.dart';
 class ErrorPage extends StatefulWidget {
   /// {@macro error_page}
   const ErrorPage({
+    required this.onPressed,
     super.key, // ignore: unused_element
   });
 
+  final VoidCallback onPressed;
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _ErrorPageState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_ErrorPageState>();
+  static _ErrorPageState? maybeOf(BuildContext context) =>
+      context.findAncestorStateOfType<_ErrorPageState>();
 
   @override
   State<ErrorPage> createState() => _ErrorPageState();
@@ -65,13 +67,21 @@ class _ErrorPageState extends State<ErrorPage> {
             const Text('Упс... Кажется, что-то пошло не так'),
             const Text('Попробуйте обновить страницу'),
             const Spacer(),
-            TextButton(
-              onPressed: () {},
-              child: Container(
-                width: 264,
-                height: 64,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Colors.green),
-                child: const Center(child: Text('Обновить')),
+            Container(
+              width: 264,
+              height: 64,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16), color: Colors.green),
+              child: TextButton(
+                onPressed: () {},
+                child: Center(
+                  child: Text(
+                    'Обновить',
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: Colors.white,
+                        ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 32)

@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:poly_inside/src/feature/home/home_page.dart';
+import 'package:poly_inside/src/common/theme.dart';
 
 /// {@template app}
 /// App widget.
 /// {@endtemplate}
-class App extends StatefulWidget {
+class AppScope extends StatefulWidget {
   /// {@macro app}
-  const App({
+  const AppScope({
+    required this.child,
     super.key, // ignore: unused_element
   });
 
-  /// The widget below this widget in the tree.
+  final Widget child;
 
   @override
-  State<App> createState() => _AppState();
+  State<AppScope> createState() => _AppScopeState();
 }
 
 /// State for widget App.
-class _AppState extends State<App> {
+class _AppScopeState extends State<AppScope> {
   /* #region Lifecycle */
   @override
   void initState() {
@@ -27,7 +28,7 @@ class _AppState extends State<App> {
   }
 
   @override
-  void didUpdateWidget(covariant App oldWidget) {
+  void didUpdateWidget(covariant AppScope oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Widget configuration changed
   }
@@ -51,17 +52,24 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) => _InheritedApp(
         state: this,
         child: MaterialApp(
+          darkTheme: ThemeData(
+            colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
+                  surface: Colors.white,
+                  onSurface: Colors.black,
+                  outline: Colors.grey.shade700,
+                ),
+          ),
           title: 'Poly Inside',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             textTheme: GoogleFonts.montserratTextTheme(),
-            colorScheme: ColorScheme.light(
-              surface: Colors.white,
-              onSurface: Colors.black,
-              outline: Colors.grey.shade700,
-            ),
+            colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
+                  surface: Colors.white,
+                  onSurface: Colors.black,
+                  outline: Colors.grey.shade700,
+                ),
           ),
-          home: const HomePage(),
+          home: widget.child,
         ),
       );
 }
@@ -73,14 +81,15 @@ class _InheritedApp extends InheritedWidget {
     required super.child,
   });
 
-  final _AppState state;
+  final _AppScopeState state;
 
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   /// For example: `App.maybeOf(context)`.
-  static _InheritedApp? maybeOf(BuildContext context, {bool listen = true}) => listen
-      ? context.dependOnInheritedWidgetOfExactType<_InheritedApp>()
-      : context.getInheritedWidgetOfExactType<_InheritedApp>();
+  static _InheritedApp? maybeOf(BuildContext context, {bool listen = true}) =>
+      listen
+          ? context.dependOnInheritedWidgetOfExactType<_InheritedApp>()
+          : context.getInheritedWidgetOfExactType<_InheritedApp>();
 
   static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
         'Out of scope, not found inherited widget '

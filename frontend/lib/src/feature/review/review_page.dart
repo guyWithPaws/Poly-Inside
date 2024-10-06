@@ -5,8 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
-import 'package:poly_inside/src/feature/initialization/initialization.dart';
-import 'package:poly_inside/src/feature/telegram/user_scope.dart';
+import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
+import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:shared/shared.dart';
 import 'package:rive/rive.dart' as rive;
 
@@ -158,7 +158,7 @@ class _ReviewPageState extends State<ReviewPage> {
                                 width: 100,
                                 height: 100,
                                 child: rive.RiveAnimation.asset(
-                                    'assets/rive/success.riv'),
+                                    controllers: [], 'assets/rive/success.riv'),
                               )
                             : const SizedBox(
                                 width: 150,
@@ -185,10 +185,6 @@ class _ReviewPageState extends State<ReviewPage> {
                   ),
                 ),
               );
-            },
-          ).then(
-            (_) {
-              if (passed) Navigator.of(context).pop();
             },
           );
         },
