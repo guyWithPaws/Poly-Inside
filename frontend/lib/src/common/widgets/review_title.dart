@@ -37,83 +37,99 @@ class ReviewTitle extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Hero(
-                      tag: professor!.id,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey[200],
-                        radius: 20,
-                        child: ClipOval(
-                          child: user == null
-                              ? professor!.smallAvatar.isNotEmpty
-                                  ? Image.memory(
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.cover,
-                                      Uint8List.fromList(
-                                        professor!.smallAvatar,
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Hero(
+                        tag: professor!.id,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey[200],
+                          radius: 20,
+                          child: ClipOval(
+                            child: user == null
+                                ? professor!.smallAvatar.isNotEmpty
+                                    ? Image.memory(
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.cover,
+                                        Uint8List.fromList(
+                                          professor!.smallAvatar,
+                                        ),
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/icons/no_photo.svg',
+                                        width: 30,
+                                      )
+                                : user!.avatar.isNotEmpty
+                                    ? Image.memory(
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.cover,
+                                        Uint8List.fromList(
+                                          user!.avatar,
+                                        ),
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/icons/no_photo.svg',
+                                        width: 30,
                                       ),
-                                    )
-                                  : SvgPicture.asset(
-                                      'assets/icons/no_photo.svg',
-                                      width: 30,
-                                    )
-                              : user!.avatar.isNotEmpty
-                                  ? Image.memory(
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.cover,
-                                      Uint8List.fromList(
-                                        user!.avatar,
-                                      ),
-                                    )
-                                  : SvgPicture.asset(
-                                      'assets/icons/no_photo.svg',
-                                      width: 30,
-                                    ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      review.reviewId,
-                      //user == null ? professor!.name.capitalize() : user!.name,
-                      style: const TextStyle(
-                          overflow: TextOverflow.clip,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-                (UserScope.userOf(context).id == review.userId)
-                    ? GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (builderContext) => ReviewPage(
-                              professor: professor!,
-                              review: review,
-                              type: ReviewType.edit,
-                            ),
                           ),
                         ),
-                        child: SvgPicture.asset(
-                          'assets/icons/editpen.svg',
-                          alignment: Alignment.topRight,
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          user == null
+                              ? professor!.name.capitalize()
+                              : user!.name,
+                          overflow: TextOverflow.clip,
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+                (UserScope.userOf(context).id == review.userId)
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            child: SvgPicture.asset('assets/icons/trash.svg'),
+                          ),
+                          const Divider(
+                            thickness: 10,
+                            color: Colors.red,
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (builderContext) => ReviewPage(
+                                  professor: professor!,
+                                  review: review,
+                                  type: ReviewType.edit,
+                                ),
+                              ),
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icons/editpen.svg',
+                              alignment: Alignment.topRight,
+                            ),
+                          ),
+                        ],
                       )
                     : const SizedBox(),
               ],
             ),
             const SizedBox(height: 8),
             Text(
-              textAlign: TextAlign.start,
               review.comment,
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
             ),
