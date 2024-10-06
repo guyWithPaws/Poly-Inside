@@ -42,21 +42,15 @@ class ProfessorProfilePage extends StatefulWidget {
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
-  ValueNotifier<int>? _count;
-  ValueNotifier<bool>? _isUsersReviewExists;
   DataBLoC? _bloc;
-
-  int _testCount = 0;
-  bool _testIsUsersReviewExists = false;
+  bool _isReviewExists = false;
 
   /* #region Lifecycle */
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController?.addListener(scrollListener);
-    _count = ValueNotifier(0);
     _valueNotifier = ValueNotifier(false);
-    _isUsersReviewExists = ValueNotifier(false);
 
     super.initState();
     // Initial state initialization
@@ -94,8 +88,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   void dispose() {
     _scrollController?.dispose();
     _valueNotifier?.dispose();
-    _count?.dispose();
-    _isUsersReviewExists?.dispose();
     _bloc?.close();
     // Permanent removal of a tree stent
     super.dispose();
@@ -105,203 +97,194 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: ValueListenableBuilder(
-        valueListenable: _valueNotifier!,
-        builder: (context, value, _) => FloatingActionButton.extended(
-          onPressed: () {
-            value
-                ? _scrollController?.animateTo(0,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut)
-                : Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (builderContext) => ReviewPage(
-                        professor: widget.professor,
-                        type: ReviewType.add,
-                      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          _isReviewExists
+              ? _scrollController?.animateTo(0,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut)
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (builderContext) => ReviewPage(
+                      professor: widget.professor,
+                      type: ReviewType.add,
                     ),
-                  );
-          },
-          backgroundColor: Colors.green,
-          label: AnimatedSize(
-            duration: const Duration(milliseconds: 150),
-            child: Center(
-              child: value
-                  ? const Icon(Icons.arrow_upward)
-                  : ValueListenableBuilder(
-                      valueListenable: _isUsersReviewExists!,
-                      builder: (context, value, _) => Text(
-                        value ? 'К моему отзыву' : 'Написать отзыв',
-                        style: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-            ),
+                  ),
+                );
+        },
+        backgroundColor: Colors.green,
+        label: AnimatedSize(
+          duration: const Duration(milliseconds: 150),
+          child: Center(
+            child: _isReviewExists
+                ? const Icon(Icons.arrow_upward)
+                : Text(
+                    _isReviewExists ? 'К моему отзыву' : 'Написать отзыв',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w600),
+                  ),
           ),
         ),
       ),
       body: SafeArea(
-        child: BlocBuilder<DataBLoC, DataState>(
-          bloc: _bloc,
-          builder: (context, state) {
-            if (state is LoadedState) {
-              _testCount = state.professors.length;
-            }
-            return CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                SliverAppBar(
-                  pinned: false,
-                  leading: GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      margin: const EdgeInsets.all(12),
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 185, 185, 185),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset('assets/icons/cross.svg'),
-                    ),
-                  ),
+          child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            pinned: false,
+            leading: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                width: 30,
+                height: 30,
+                margin: const EdgeInsets.all(12),
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 185, 185, 185),
+                  shape: BoxShape.circle,
                 ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Column(
-                          children: [
-                            Hero(
-                              tag: widget.professor.id,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.grey[200],
-                                radius: 69,
-                                child: RepaintBoundary(
-                                  child: ClipOval(
-                                    child: Uint8List.fromList(
-                                                widget.professor.avatar)
-                                            .isNotEmpty
-                                        ? Image.memory(
-                                            height: 138,
-                                            width: 138,
-                                            fit: BoxFit.cover,
-                                            Uint8List.fromList(
-                                                widget.professor.avatar),
-                                          )
-                                        : SvgPicture.asset(
-                                            'assets/icons/no_photo.svg',
-                                            width: 69,
-                                          ),
+                child: SvgPicture.asset('assets/icons/cross.svg'),
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.grey[200],
+                        radius: 69,
+                        child: RepaintBoundary(
+                          child: ClipOval(
+                            child: Uint8List.fromList(widget.professor.avatar)
+                                    .isNotEmpty
+                                ? Image.memory(
+                                    height: 138,
+                                    width: 138,
+                                    fit: BoxFit.cover,
+                                    Uint8List.fromList(widget.professor.avatar),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/no_photo.svg',
+                                    width: 69,
                                   ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 1.5,
-                              child: Text(
-                                textAlign: TextAlign.center,
-                                widget.professor.name.capitalize(),
-                                style: const TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                StarsRating(
-                                  value: widget.professor.rating,
-                                  size: const Size(32, 32),
-                                  spaceBetween: 23,
-                                  textSize: 28,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 32),
-                            ProfessorFeatures(
-                              objectivity: widget.professor.objectivity,
-                              harshness: widget.professor.harshness,
-                              loyalty: widget.professor.loyalty,
-                              professionalism: widget.professor.professionalism,
-                              textSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                          ],
+                          ),
                         ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          widget.professor.name.capitalize(),
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          StarsRating(
+                            value: widget.professor.rating,
+                            size: const Size(32, 32),
+                            spaceBetween: 23,
+                            textSize: 28,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+                      ProfessorFeatures(
+                        objectivity: widget.professor.objectivity,
+                        harshness: widget.professor.harshness,
+                        loyalty: widget.professor.loyalty,
+                        professionalism: widget.professor.professionalism,
+                        textSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const SizedBox(
+                        height: 8,
                       ),
                     ],
                   ),
                 ),
-                if (_testCount != 0)
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "Отзывы",
-                            style: TextStyle(
-                              fontSize: 20,
+              ],
+            ),
+          ),
+          BlocBuilder<DataBLoC, DataState>(
+            builder: (context, state) => state.maybeWhen(
+              orElse: () => const SliverToBoxAdapter(
+                child: SizedBox(),
+              ),
+              loaded: (professors) => SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Отзывы",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        width: 20,
+                        height: 26,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 233, 252, 232),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${professors.length}',
+                            style: const TextStyle(
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Container(
-                            width: 20,
-                            height: 26,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 233, 252, 232),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            child: Center(
-                              child: ValueListenableBuilder(
-                                valueListenable: _count!,
-                                builder: (_, value, ___) => Text(
-                                  '$_testCount',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                        ),
+                      )
+                    ],
                   ),
-                if (state is LoadedState)
-                  SliverList.separated(
-                    itemCount: state.professors.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 16),
-                    itemBuilder: (context, index) {
-                      return ReviewTitle(
-                        review: state.professors[index].review,
-                        professor: widget.professor,
-                        user: state.professors[index].user,
-                      );
-                    },
-                  ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 100,
-                  ),
-                )
-              ],
-            );
-          },
-        ),
-      ),
+                ),
+              ),
+            ),
+            bloc: _bloc,
+          ),
+          BlocBuilder<DataBLoC, DataState>(
+            builder: (context, state) => state.maybeWhen(
+              orElse: () => const SliverToBoxAdapter(
+                child: SizedBox(),
+              ),
+              loaded: (professors) => SliverList.separated(
+                itemCount: professors.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16),
+                itemBuilder: (context, index) {
+                  return ReviewTitle(
+                    review: professors[index].review,
+                    professor: widget.professor,
+                    user: professors[index].user,
+                  );
+                },
+              ),
+            ),
+            bloc: _bloc,
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 100,
+            ),
+          )
+        ],
+      )),
     );
   }
 }
