@@ -209,28 +209,25 @@ class _ReviewPageState extends State<ReviewPage> {
             children: [
               Row(
                 children: [
-                  Hero(
-                    tag: widget.professor.id,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.grey[200],
-                      radius: 35,
-                      child: ClipOval(
-                        child: Uint8List.fromList(
-                          widget.professor.avatar,
-                        ).isNotEmpty
-                            ? Image.memory(
-                                height: 70,
-                                width: 70,
-                                fit: BoxFit.cover,
-                                Uint8List.fromList(
-                                  widget.professor.avatar,
-                                ),
-                              )
-                            : SvgPicture.asset(
-                                'assets/icons/no_photo.svg',
-                                width: 40,
+                  CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    radius: 35,
+                    child: ClipOval(
+                      child: Uint8List.fromList(
+                        widget.professor.avatar,
+                      ).isNotEmpty
+                          ? Image.memory(
+                              height: 70,
+                              width: 70,
+                              fit: BoxFit.cover,
+                              Uint8List.fromList(
+                                widget.professor.avatar,
                               ),
-                      ),
+                            )
+                          : SvgPicture.asset(
+                              'assets/icons/no_photo.svg',
+                              width: 40,
+                            ),
                     ),
                   ),
                   const SizedBox(
