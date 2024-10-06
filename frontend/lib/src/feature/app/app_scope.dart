@@ -53,6 +53,7 @@ class _AppScopeState extends State<AppScope> {
         state: this,
         child: MaterialApp(
           darkTheme: ThemeData(
+            textTheme: GoogleFonts.montserratTextTheme(),
             colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
                   surface: Colors.white,
                   onSurface: Colors.black,

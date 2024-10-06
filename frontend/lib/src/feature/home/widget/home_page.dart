@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-//import 'package:grpc/service_api.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/utils/word_formatter.dart';
 import 'package:poly_inside/src/common/widgets/sort_button.dart';
@@ -121,24 +120,23 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       },
-                      child: Hero(
-                        tag: UserScope.userOf(context).id,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey[200],
-                          radius: 31,
-                          child: ClipOval(
-                            child: UserScope.userOf(context).avatar.isNotEmpty
-                                ? Image.asset(
-                                    fit: BoxFit.cover,
-                                    height: 62,
-                                    width: 62,
-                                    'assets/beer.jpg',
-                                  )
-                                : SvgPicture.asset(
-                                    'assets/icons/no_photo.svg',
-                                    width: 35,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey[200],
+                        radius: 31,
+                        child: ClipOval(
+                          child: UserScope.userOf(context).avatar.isNotEmpty
+                              ? Image.memory(
+                                  height: 62,
+                                  width: 62,
+                                  fit: BoxFit.cover,
+                                  Uint8List.fromList(
+                                    UserScope.userOf(context).avatar,
                                   ),
-                          ),
+                                )
+                              : SvgPicture.asset(
+                                  'assets/icons/no_photo.svg',
+                                  width: 35,
+                                ),
                         ),
                       ),
                     );
@@ -218,28 +216,24 @@ class _HomePageState extends State<HomePage> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
                                       children: [
-                                        Hero(
-                                          tag: professors[index].id,
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.grey[200],
-                                            radius: 27,
-                                            child: ClipOval(
-                                              child: Uint8List.fromList(
-                                                professors[index].smallAvatar,
-                                              ).isNotEmpty
-                                                  ? Image.memory(
-                                                      height: 60,
-                                                      width: 60,
-                                                      fit: BoxFit.cover,
-                                                      Uint8List.fromList(
-                                                        professors[index]
-                                                            .avatar,
-                                                      ),
-                                                    )
-                                                  : SvgPicture.asset(
-                                                      'assets/icons/no_photo.svg',
+                                        CircleAvatar(
+                                          backgroundColor: Colors.grey[200],
+                                          radius: 27,
+                                          child: ClipOval(
+                                            child: Uint8List.fromList(
+                                              professors[index].avatar,
+                                            ).isNotEmpty
+                                                ? Image.memory(
+                                                    height: 60,
+                                                    width: 60,
+                                                    fit: BoxFit.cover,
+                                                    Uint8List.fromList(
+                                                      professors[index].avatar,
                                                     ),
-                                            ),
+                                                  )
+                                                : SvgPicture.asset(
+                                                    'assets/icons/no_photo.svg',
+                                                  ),
                                           ),
                                         ),
                                         const SizedBox(

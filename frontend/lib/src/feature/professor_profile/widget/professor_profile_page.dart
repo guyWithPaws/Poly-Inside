@@ -42,21 +42,17 @@ class ProfessorProfilePage extends StatefulWidget {
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
-  ValueNotifier<int>? _count;
-  ValueNotifier<bool>? _isUsersReviewExists;
   DataBLoC? _bloc;
 
   int _testCount = 0;
-  bool _testIsUsersReviewExists = false;
+  final bool _testIsUsersReviewExists = false;
 
   /* #region Lifecycle */
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController?.addListener(scrollListener);
-    _count = ValueNotifier(0);
     _valueNotifier = ValueNotifier(false);
-    _isUsersReviewExists = ValueNotifier(false);
 
     super.initState();
     // Initial state initialization
@@ -94,8 +90,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   void dispose() {
     _scrollController?.dispose();
     _valueNotifier?.dispose();
-    _count?.dispose();
-    _isUsersReviewExists?.dispose();
     _bloc?.close();
     // Permanent removal of a tree stent
     super.dispose();
@@ -129,13 +123,12 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
             child: Center(
               child: value
                   ? const Icon(Icons.arrow_upward)
-                  : ValueListenableBuilder(
-                      valueListenable: _isUsersReviewExists!,
-                      builder: (context, value, _) => Text(
-                        value ? 'К моему отзыву' : 'Написать отзыв',
-                        style: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w600),
-                      ),
+                  : Text(
+                      _testIsUsersReviewExists
+                          ? 'К моему отзыву'
+                          : 'Написать отзыв',
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w600),
                     ),
             ),
           ),
@@ -175,8 +168,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Column(
                           children: [
-                            Hero(
-                              tag: widget.professor.id,
+                            RepaintBoundary(
                               child: CircleAvatar(
                                 backgroundColor: Colors.grey[200],
                                 radius: 69,
@@ -256,21 +248,20 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           ),
                           const SizedBox(width: 8),
                           Container(
-                            width: 20,
+                            width: _testCount.toString().length != 1
+                                ? _testCount.toString().length * 15
+                                : 20,
                             height: 26,
                             decoration: BoxDecoration(
                               color: const Color.fromARGB(255, 233, 252, 232),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Center(
-                              child: ValueListenableBuilder(
-                                valueListenable: _count!,
-                                builder: (_, value, ___) => Text(
-                                  '$_testCount',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              child: Text(
+                                '$_testCount',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),

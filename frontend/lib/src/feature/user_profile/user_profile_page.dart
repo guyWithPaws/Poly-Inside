@@ -147,26 +147,22 @@ class _ProfilePageState extends State<ProfilePage> {
                         fit: BoxFit.cover,
                         child: Column(
                           children: [
-                            Hero(
-                              tag: UserScope.userOf(context).id,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.grey[200],
-                                radius: 158 / 2,
-                                child: ClipOval(
-                                  child: UserScope.userOf(context)
-                                          .avatar
-                                          .isNotEmpty
-                                      ? Image.asset(
-                                          'assets/beer.jpg',
-                                          height: 158,
-                                          width: 158,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : SvgPicture.asset(
-                                          'assets/icons/no_photo.svg',
-                                          width: 69,
-                                        ),
-                                ),
+                            CircleAvatar(
+                              backgroundColor: Colors.grey[200],
+                              radius: 158 / 2,
+                              child: ClipOval(
+                                child:
+                                    UserScope.userOf(context).avatar.isNotEmpty
+                                        ? Image.asset(
+                                            'assets/beer.jpg',
+                                            height: 158,
+                                            width: 158,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/icons/no_photo.svg',
+                                            width: 69,
+                                          ),
                               ),
                             ),
                             const SizedBox(

@@ -47,40 +47,37 @@ class ReviewTitle extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Hero(
-                        tag: professor!.id,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey[200],
-                          radius: 20,
-                          child: ClipOval(
-                            child: user == null
-                                ? professor!.smallAvatar.isNotEmpty
-                                    ? Image.memory(
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.cover,
-                                        Uint8List.fromList(
-                                          professor!.smallAvatar,
-                                        ),
-                                      )
-                                    : SvgPicture.asset(
-                                        'assets/icons/no_photo.svg',
-                                        width: 30,
-                                      )
-                                : user!.avatar.isNotEmpty
-                                    ? Image.memory(
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.cover,
-                                        Uint8List.fromList(
-                                          user!.avatar,
-                                        ),
-                                      )
-                                    : SvgPicture.asset(
-                                        'assets/icons/no_photo.svg',
-                                        width: 30,
+                      CircleAvatar(
+                        backgroundColor: Colors.grey[200],
+                        radius: 20,
+                        child: ClipOval(
+                          child: user == null
+                              ? professor!.smallAvatar.isNotEmpty
+                                  ? Image.memory(
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.cover,
+                                      Uint8List.fromList(
+                                        professor!.smallAvatar,
                                       ),
-                          ),
+                                    )
+                                  : SvgPicture.asset(
+                                      'assets/icons/no_photo.svg',
+                                      width: 30,
+                                    )
+                              : user!.avatar.isNotEmpty
+                                  ? Image.memory(
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.cover,
+                                      Uint8List.fromList(
+                                        user!.avatar,
+                                      ),
+                                    )
+                                  : SvgPicture.asset(
+                                      'assets/icons/no_photo.svg',
+                                      width: 30,
+                                    ),
                         ),
                       ),
                       const SizedBox(width: 16),
