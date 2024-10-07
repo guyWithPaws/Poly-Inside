@@ -220,11 +220,13 @@ class _HomePageState extends State<HomePage> {
                                           backgroundColor: Colors.grey[200],
                                           radius: 27,
                                           backgroundImage: MemoryImage(
-                                              Uint8List.fromList(
-                                                  professors[index].avatar)),
+                                            Uint8List.fromList(
+                                              professors[index].avatar,
+                                            ),
+                                          ),
                                           child: Uint8List.fromList(
-                                                      professors[index].avatar)
-                                                  .isEmpty
+                                            professors[index].avatar,
+                                          ).isEmpty
                                               ? SvgPicture.asset(
                                                   'assets/icons/no_photo.svg',
                                                 )

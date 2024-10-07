@@ -64,6 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _scrollController?.dispose();
     _valueNotifier?.dispose();
     _textEditingController.dispose();
+    _bloc?.close();
     // Permanent removal of a tree stent
     super.dispose();
   }
