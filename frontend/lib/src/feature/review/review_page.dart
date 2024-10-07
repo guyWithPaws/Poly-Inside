@@ -124,7 +124,13 @@ class _ReviewPageState extends State<ReviewPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final Review outputReview = Review(
+          var reviewIdBytes = utf8.encode(
+              UserScope.userOf(context).id.toString() +
+                  DateTime.now().toString());
+          var generatedReviewId = sha1.convert(reviewIdBytes).toString();
+          debugPrint(generatedReviewId);
+          Review outputReview = Review(
+              reviewId: generatedReviewId,
               objectivity: _valueObjectivityNotifier!.value,
               loyalty: _valueLoayltyNotifier!.value,
               likes: 0,
@@ -137,11 +143,6 @@ class _ReviewPageState extends State<ReviewPage> {
               professorId: widget.professor.id);
           bool passed = true;
           if (widget.type == ReviewType.add) {
-            var reviewIdBytes = utf8.encode(
-                UserScope.userOf(context).id.toString() +
-                    DateTime.now().toString());
-            var generatedReviewId = sha1.convert(reviewIdBytes).toString();
-            outputReview.reviewId = generatedReviewId;
             passed = await InitializationScope.repositoryOf(context)
                 .addReview(outputReview);
           } else {

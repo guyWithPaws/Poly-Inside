@@ -219,23 +219,16 @@ class _HomePageState extends State<HomePage> {
                                         CircleAvatar(
                                           backgroundColor: Colors.grey[200],
                                           radius: 27,
-                                          child: ClipOval(
-                                            child: Uint8List.fromList(
-                                              professors[index].avatar,
-                                            ).isNotEmpty
-                                                ? Image.memory(
-                                                    height: 60,
-                                                    width: 60,
-                                                    fit: BoxFit.cover,
-                                                    Uint8List.fromList(
-                                                      professors[index]
-                                                          .smallAvatar,
-                                                    ),
-                                                  )
-                                                : SvgPicture.asset(
-                                                    'assets/icons/no_photo.svg',
-                                                  ),
-                                          ),
+                                          backgroundImage: MemoryImage(
+                                              Uint8List.fromList(
+                                                  professors[index].avatar)),
+                                          child: Uint8List.fromList(
+                                                      professors[index].avatar)
+                                                  .isEmpty
+                                              ? SvgPicture.asset(
+                                                  'assets/icons/no_photo.svg',
+                                                )
+                                              : null,
                                         ),
                                         const SizedBox(
                                           width: 8,
@@ -252,20 +245,19 @@ class _HomePageState extends State<HomePage> {
                                                     .name
                                                     .capitalize(),
                                                 style: const TextStyle(
-                                                  overflow: TextOverflow.clip,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                               Stack(
                                                 children: [
-                                                  StarsRating(
-                                                    size: const Size(20, 20),
-                                                    textSize: 16,
-                                                    value: professors[index]
-                                                        .rating,
-                                                    spaceBetween: 8,
-                                                  ),
+                                                  // StarsRating(
+                                                  //   size: const Size(20, 20),
+                                                  //   textSize: 16,
+                                                  //   value: professors[index]
+                                                  //       .rating,
+                                                  //   spaceBetween: 8,
+                                                  // ),
                                                   Align(
                                                     alignment:
                                                         Alignment.centerRight,
