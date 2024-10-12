@@ -16,6 +16,9 @@ class ServerBuilder:
         self.run_docker()
 
         self.run()
+    
+    def stop_docker(self):
+        subprocess.run(["docker", "compose", "stop"])
 
     def pull_project(self):
         logging.info('[Builder]: Git pull')
