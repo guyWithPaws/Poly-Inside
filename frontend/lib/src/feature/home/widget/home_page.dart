@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/utils/word_formatter.dart';
 import 'package:poly_inside/src/common/widgets/sort_button.dart';
+import 'package:poly_inside/src/common/widgets/static_stars_rating.dart';
 import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:poly_inside/src/feature/home/widget/search_bar.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
@@ -253,6 +254,13 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               Stack(
                                                 children: [
+                                                  StaticStarsRating(
+                                                    spaceBetween: 8,
+                                                    textSize: 16,
+                                                    size: const Size(16, 16),
+                                                    value: professors[index]
+                                                        .rating,
+                                                  ),
                                                   // StarsRating(
                                                   //   size: const Size(20, 20),
                                                   //   textSize: 16,
