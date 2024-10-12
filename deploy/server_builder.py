@@ -2,7 +2,7 @@ import logging
 import subprocess
 from time import sleep
 
-from github_parser import GithubParser
+from deploy.github_parser import GithubParser
 
 
 class ServerBuilder:
@@ -35,8 +35,3 @@ class ServerBuilder:
                 self.run_docker()
 
             sleep(self.delay)
-
-if __name__ == '__main__':
-    builder = ServerBuilder()
-    print('hui')
-    builder.run()

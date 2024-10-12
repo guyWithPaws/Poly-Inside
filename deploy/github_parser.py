@@ -1,6 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
-import os
 import time
 from typing import NoReturn, AnyStr, List, Any
 from LxmlSoup import LxmlSoup
