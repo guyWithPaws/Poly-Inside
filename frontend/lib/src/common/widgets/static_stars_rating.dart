@@ -6,7 +6,8 @@ import 'package:flutter_svg/svg.dart';
 /// {@endtemplate}
 // ignore: must_be_immutable
 class StaticStarsRating extends StatelessWidget {
-  static const String imageUrl = 'assets/icons/star.svg';
+  static const String starUrl = 'assets/icons/star_png.png';
+  static const String greyStarUrl = 'assets/icons/grey_star_png.png';
   static const Color color = Colors.yellow;
   static const Color baseColor = Colors.grey;
   late final double spaceBetween;
@@ -20,8 +21,7 @@ class StaticStarsRating extends StatelessWidget {
       required this.spaceBetween,
       required this.size,
       required this.textSize,
-      required this.value // ignore: unused_element
-      });
+      required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +30,14 @@ class StaticStarsRating extends StatelessWidget {
         children: [
           Row(
             children: [
-              for (int i = 0; i < 5; i++)
+              for (int i = 0; i < value; i++)
                 Stack(
                   children: [
                     SizedBox(
                       width: size.width,
                       height: size.height,
-                      child: SvgPicture.asset(
-                        imageUrl,
-                        colorFilter:
-                            const ColorFilter.mode(baseColor, BlendMode.srcIn),
+                      child: Image.asset(
+                        starUrl
                       ),
                     ),
                     ShaderMask(
@@ -63,9 +61,9 @@ class StaticStarsRating extends StatelessWidget {
                         width: size.width,
                         height: size.height,
                         child: SvgPicture.asset(
-                          imageUrl,
-                          colorFilter:
-                              const ColorFilter.mode(baseColor, BlendMode.srcIn),
+                          starUrl,
+                          colorFilter: const ColorFilter.mode(
+                              baseColor, BlendMode.srcIn),
                         ),
                       ),
                     ),

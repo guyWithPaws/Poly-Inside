@@ -15,4 +15,5 @@ abstract interface class DatabaseProvider {
   Future<void> addProfessor(Professor professor);
   Future<void> addRejectedReview(Review review);
   Future<List<Professor>> getOnceAllProfessors();
+  Future<void> addProfessorToGroup(String id, String number, String professorId);
 }

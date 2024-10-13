@@ -265,4 +265,15 @@ class DatabaseProviderImpl implements DatabaseProvider {
                 )
                 .toList(),
           );
+
+  @override
+  Future<void> addProfessorToGroup(
+          String id, String number, String professorId) async =>
+      await database.into(database.groups).insert(
+            GroupsCompanion(
+              id: Value(id),
+              number: Value(number),
+              professorId: Value(professorId),
+            ),
+          );
 }

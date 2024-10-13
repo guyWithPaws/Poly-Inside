@@ -44,7 +44,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   DataBLoC? _bloc;
-  bool _isReviewExists = false;
+  late final bool _isReviewExists = false;
 
   /* #region Lifecycle */
   @override
@@ -157,25 +157,18 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                   child: Column(
                     children: [
                       CircleAvatar(
-                        backgroundColor: Colors.grey[200],
-                        radius: 69,
-                        child: RepaintBoundary(
-                          child: ClipOval(
-                            child: Uint8List.fromList(widget.professor.avatar)
-                                    .isNotEmpty
-                                ? Image.memory(
-                                    height: 138,
-                                    width: 138,
-                                    fit: BoxFit.cover,
-                                    Uint8List.fromList(widget.professor.avatar),
-                                  )
-                                : SvgPicture.asset(
-                                    'assets/icons/no_photo.svg',
-                                    width: 69,
-                                  ),
+                          backgroundColor: Colors.grey[200],
+                          radius: 69,
+                          backgroundImage: MemoryImage(
+                            Uint8List.fromList(widget.professor.avatar),
                           ),
-                        ),
-                      ),
+                          child: Uint8List.fromList(widget.professor.avatar)
+                                  .isEmpty
+                              ? SvgPicture.asset(
+                                  'assets/icons/no_photo.svg',
+                                  width: 69,
+                                )
+                              : null),
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 1.5,
                         child: Text(
