@@ -3,7 +3,6 @@ networks:
 
 
 services:
-
   envoy:
     build: ./proxy/envoy
     ports:
@@ -13,29 +12,34 @@ services:
     depends_on:
       - backend
 
-  nginx:
-    build: ./proxy/nginx
-    networks:
-      - dev
-    depends_on:
-      - envoy
-      - backend
-      - frontend
+  # nginx:
+  #   build: ./proxy/nginx
+  #   networks:
+  #     - dev
+  #   depends_on:
+  #     - envoy
+  #     - backend
+  #     - frontend
 
   backend:
     build:
       context: ./backend
-    volumes:
-      - ../shared:/backend/shared
     ports:
       - "9090:9090"
     networks:
       - dev
 
-  frontend:
-    build:
-      context: ./frontend
-    networks:
-      - dev
-    depends_on:
-      - nginx
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   networks:
+  #     - dev
+  #   depends_on:
+  #     - nginx
+
+  # bot:
+  #   build: ./bot
+  # networks:
+  #   - dev
+  # depends_on:
+  #   - nginx
