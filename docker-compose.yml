@@ -1,17 +1,26 @@
 networks:
   dev:
 
+
 services:
 
   envoy:
-    build: 
-      ./proxy/envoy
+    build: ./proxy/envoy
     ports:
       - "8080:8080"
     networks:
       - dev
     depends_on:
       - backend
+
+  nginx:
+    build: ./proxy/nginx
+    networks:
+      - dev
+    depends_on:
+      - envoy
+      - backend
+      - frontend
 
   backend:
     build:
@@ -22,3 +31,11 @@ services:
       - "9090:9090"
     networks:
       - dev
+
+  frontend:
+    build:
+      context: ./frontend
+    networks:
+      - dev
+    depends_on:
+      - nginx

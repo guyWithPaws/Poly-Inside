@@ -13,3 +13,9 @@ Flutter-based Telegram Web App for educational purposes with gRPC backend
 - Навести красоту (экраны загрузки, ошибок)
 - Бэкап данных
 - Продумать систему логгирования
+
+### Notes for Devs
+Чтобы подключится к текущей сессии с рабочей версией проекта - вводить команду
+```
+tmux attach -t server
+```
