@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:drift/native.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
@@ -11,11 +13,12 @@ import 'package:l/l.dart';
 import 'package:poly_inside_server/database/provider.dart';
 import 'package:shared/shared.dart';
 
+import 'package:poly_inside_server/database/database.dart';
+import 'package:poly_inside_server/database/provider_impl.dart';
+
 class Parser {
   final String staffPage =
       'https://www.spbstu.ru/university/about-the-university/staff/';
-
-  final String schedulePage = 'https://ruz.spbstu.ru/faculty/125/groups';
 
   final DatabaseProvider provider;
   static const int maxRetries = 3;
@@ -146,7 +149,133 @@ class Parser {
         l.i('[Parser]: Error during parsing $e');
       }
     }
+    l.i('[Parser]: Database was updated with all proffesors');
+  }
 
-    l.i('[Parser]: Database was updated');
+//                                PROFFESORS
+//                                    BY
+//                                  GROUPS
+//                                  PARSER
+  static const int scheduleWeeks = 2;
+
+  List<String> getFacultiesLinks(Document facultiesHtmlDocument) {
+    var facultiesElements =
+        facultiesHtmlDocument.getElementsByClassName('faculty-list__link');
+    var facultiesCount = facultiesElements.length;
+    var facultiesLinks = List.filled(facultiesCount, ' ');
+
+    for (var i = 0; i < facultiesCount; i++) {
+      facultiesLinks[i] =
+          'https://ruz.spbstu.ru${facultiesElements[i].attributes['href']!}';
+    }
+    return facultiesLinks;
+  }
+
+  List<String> getFacultieGroups(Document facultieGroupsHtmlDocument) {
+    var groups =
+        facultieGroupsHtmlDocument.getElementsByClassName('groups-list__link');
+    var groupsCount = groups.length;
+    var groupsNumbers = List.filled(groupsCount, ' ');
+    for (var j = 0; j < groupsCount; j++) {
+      groupsNumbers[j] = groups[j].text;
+    }
+    return groupsNumbers;
+  }
+
+  List<String> getFacultieGroupsLinks(Document facultieGroupsHtmlDocument) {
+    var groups =
+        facultieGroupsHtmlDocument.getElementsByClassName('groups-list__link');
+    var groupsCount = groups.length;
+    var groupsLinks = List.filled(groupsCount, ' ');
+    for (var j = 0; j < groupsCount; j++) {
+      groupsLinks[j] = 'https://ruz.spbstu.ru${groups[j].attributes['href']!}';
+    }
+    return groupsLinks;
+  }
+
+  Future<List<String>> getGroupsProfessors(
+      Document weekScheduleHtmlDocument, List<String> groupProfessors) async {
+    var weekProfessors =
+        weekScheduleHtmlDocument.getElementsByClassName('lesson__teachers');
+    for (var i = 0; i < weekProfessors.length; i++) {
+      final professor = await provider.findProfessorByName(
+        weekProfessors[i].text.toLowerCase().substring(1),
+        1,
+      );
+      if (professor.isEmpty) continue;
+      final professorsId = professor[0].id;
+      if (!groupProfessors.contains(professorsId)) {
+        groupProfessors.add(professorsId);
+      }
+      print(professorsId);
+    }
+    return groupProfessors;
+  }
+
+  Future<void> fillGroupsDatabase() async {
+    final String schedulePage = 'https://ruz.spbstu.ru/';
+
+    final scheduleResponce = await http.Client().get(Uri.parse(schedulePage));
+
+    if (!checkIsGoodResponce(scheduleResponce)) {
+      l.w('[Parser]: Polytechnic servers are temporarily unavailable. Database updates have been suspended.');
+      return;
+    }
+
+    l.i('[Parser]: Everything is OK. Start parsing faculties links...');
+
+    final facultiesHtmlDocument = parse(scheduleResponce.body);
+    var facultieLinks = getFacultiesLinks(facultiesHtmlDocument);
+
+// Groups by facultie
+    for (var k = 0; k < facultieLinks.length; k++) {
+      final facultieGroupsResponce =
+          await http.Client().get(Uri.parse(facultieLinks[k]));
+
+      if (!checkIsGoodResponce(facultieGroupsResponce)) {
+        l.w('[Parser]: Polytechnic servers are temporarily unavailable. Database updates have been suspended.');
+        return;
+      }
+
+      l.i('[Parser]: Everything is OK. Start parsing next facultie...');
+
+      final facultieGroupsHtmlDocument = parse(facultieGroupsResponce.body);
+
+      var groupsLinks = getFacultieGroupsLinks(facultieGroupsHtmlDocument);
+      var groupsNumbers = getFacultieGroups(facultieGroupsHtmlDocument);
+
+      for (var z = 0; z < groupsNumbers.length; z++) {
+        List<String> groupScheduleWeekLinks = [
+          '${groupsLinks[z]}?date=2024-11-4',
+          '${groupsLinks[z]}?date=2024-11-11'
+        ];
+        List<String> groupProfessorsId = [];
+        for (var x = 0; x < scheduleWeeks; x++) {
+          final weekScheduleResponce =
+              await http.Client().get(Uri.parse(groupScheduleWeekLinks[x]));
+          final weekScheduleHtmlDocument = parse(weekScheduleResponce.body);
+          groupProfessorsId = await getGroupsProfessors(
+              weekScheduleHtmlDocument, groupProfessorsId);
+        }
+        for (int i = 0; i < groupProfessorsId.length; i++) {
+          var idBytes =
+                utf8.encode(groupProfessorsId[i] + DateTime.now().toString());
+
+            var id = sha1.convert(idBytes).toString();
+          await provider.addProfessorToGroup(
+              id, groupsNumbers[z], groupProfessorsId[i]);
+        }
+      }
+
+      // print(groupsLinks.length);
+      // print(groupsNumbers.length);
+    }
   }
 }
+
+// Future<void> main() async {
+//   final database = AppDatabase(NativeDatabase(File('../db.sqlite')));
+//   final provider = DatabaseProviderImpl(database: database);
+//   final parser = Parser(provider: provider);
+//   await parser.fillGroupsDatabase();
+// }
