@@ -16,8 +16,7 @@ abstract class ProfessorProvider {
   Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId);
   Future<List<Professor>> findProfessorByName(String name, int count);
   Future<List<Professor>> getOnceAllProfessors();
-  Future<void> addProfessorToGroup(
-      String id, String number, String professorId);
+  Future<void> addProfessorToGroup(String id, String number, String professorId);
 }
 
 abstract class ReviewProvider {
@@ -37,6 +36,5 @@ abstract class RejectedReviewProvider {
 abstract class ReactionProvider {
   // CRUD operations
   Future<void> addReaction(Reaction reaction);
-  Future<void> deleteReaction(
-      int userId, String professorId, String reviewId);
+  Future<void> deleteReaction(int userId, String professorId, String reviewId);
 }

@@ -20,8 +20,7 @@ import 'package:poly_inside/src/feature/user_profile/widget/user_profile_page.da
 /// {@endtemplate}
 class HomePage extends StatefulWidget {
   // ignore: library_private_types_in_public_api
-  static _HomePageState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_HomePageState>();
+  static _HomePageState? of(BuildContext context) => context.findAncestorStateOfType<_HomePageState>();
 
   /// {@macro home_page}
   const HomePage({
@@ -48,28 +47,24 @@ class _HomePageState extends State<HomePage> {
     _valueNotifier = ValueNotifier(false);
     _scrollController = ScrollController()
       ..addListener(() {
-        if (_scrollController?.position.pixels ==
-            _scrollController?.position.maxScrollExtent) {
+        if (_scrollController?.position.pixels == _scrollController?.position.maxScrollExtent) {
           count += 20;
           _bloc?.add(ListRequested(count: count));
         }
-        if (_scrollController?.position.pixels !=
-            _scrollController?.position.minScrollExtent) {
+        if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
           _valueNotifier!.value = true;
         } else {
           _valueNotifier!.value = false;
         }
       });
     _textEditingController = TextEditingController()
-      ..addListener(() => _bloc?.add(TextFieldChanged(
-          name: _textEditingController?.text.toLowerCase() ?? '')));
+      ..addListener(() => _bloc?.add(TextFieldChanged(name: _textEditingController?.text.toLowerCase() ?? '')));
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))
-      ..add(ListRequested(count: count));
+    _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))..add(ListRequested(count: count));
     super.didChangeDependencies();
   }
 
@@ -92,8 +87,7 @@ class _HomePageState extends State<HomePage> {
           visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
             onPressed: () {
-              _scrollController?.animateTo(0,
-                  duration: scrollDuration, curve: Curves.easeInOut);
+              _scrollController?.animateTo(0, duration: scrollDuration, curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -199,11 +193,8 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute<void>(
-                                      builder: (builderContext) =>
-                                          ProfessorProfilePage(
-                                        repository:
-                                            InitializationScope.repositoryOf(
-                                                context),
+                                      builder: (builderContext) => ProfessorProfilePage(
+                                        repository: InitializationScope.repositoryOf(context),
                                         professor: professors[index],
                                       ),
                                     ),
@@ -242,15 +233,11 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         Expanded(
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                professors[index]
-                                                    .name
-                                                    .capitalize(),
+                                                professors[index].name.capitalize(),
                                                 style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
@@ -262,8 +249,7 @@ class _HomePageState extends State<HomePage> {
                                                     spaceBetween: 8,
                                                     textSize: 16,
                                                     size: 20,
-                                                    value: professors[index]
-                                                        .rating,
+                                                    value: professors[index].rating,
                                                   ),
                                                   // StarsRating(
                                                   //   size: const Size(20, 20),
@@ -273,26 +259,20 @@ class _HomePageState extends State<HomePage> {
                                                   //   spaceBetween: 8,
                                                   // ),
                                                   Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
+                                                    alignment: Alignment.centerRight,
                                                     child: Column(
                                                       children: [
                                                         const SizedBox(
                                                           height: 3,
                                                         ),
                                                         Text(
-                                                          (professors[index]
-                                                                      .rating ==
-                                                                  0)
+                                                          (professors[index].rating == 0)
                                                               ? 'нет отзывов'
                                                               : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
-                                                          style:
-                                                              const TextStyle(
+                                                          style: const TextStyle(
                                                             fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color:
-                                                                Color.fromARGB(
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Color.fromARGB(
                                                               255,
                                                               138,
                                                               138,

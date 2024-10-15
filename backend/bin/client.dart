@@ -20,42 +20,37 @@ Future<int> main([List<String>? args]) async {
   print(output.id);
 
   // await client.addReviewReaction(Reaction(
-      // id: '123', userId: 1111, professorId: '1111', reviewId: '', type: 0));
-// 
+  // id: '123', userId: 1111, professorId: '1111', reviewId: '', type: 0));
+//
   // await client.addReviewReaction(Reaction(
-      // id: '1234',
-      // userId: 123,
-      // professorId: '1',
-      // reviewId: '3',
-      // type: 1));
-  // 
+  // id: '1234',
+  // userId: 123,
+  // professorId: '1',
+  // reviewId: '3',
+  // type: 1));
+  //
   // await client.addReviewReaction(Reaction(
-      // id: '12345',
-      // userId: 123,
-      // professorId: '12',
-      // reviewId: '2',
-      // type: 1));
-  // 
+  // id: '12345',
+  // userId: 123,
+  // professorId: '12',
+  // reviewId: '2',
+  // type: 1));
+  //
   // await client.addReviewReaction(Reaction(
-      // id: '123456',
-      // userId: 123,
-      // professorId: '123',
-      // reviewId: '1',
-      // type: 1));
-  // 
+  // id: '123456',
+  // userId: 123,
+  // professorId: '123',
+  // reviewId: '1',
+  // type: 1));
+  //
   // await client.addReviewReaction(Reaction(
-      // id: '1234567',
-      // userId: 123,
-      // professorId: '1234',
-      // reviewId: '0',
-      // type: 1));
+  // id: '1234567',
+  // userId: 123,
+  // professorId: '1234',
+  // reviewId: '0',
+  // type: 1));
 
-  await client.addReviewReaction(Reaction(
-    userId: 123,
-    professorId: '1234',
-    reviewId: '0',
-    type: 0
-  ));
+  await client.addReviewReaction(Reaction(userId: 123, professorId: '1234', reviewId: '0', type: 0));
   //await client.likeReview(
   //    LikeRequest(userId: 1234, professorId: '123', reviewId: '112', type: 1));
   //await channel.shutdown();

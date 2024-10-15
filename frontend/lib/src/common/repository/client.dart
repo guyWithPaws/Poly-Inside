@@ -12,6 +12,5 @@ abstract class ClientRepository {
   Future<void> updateUser(User user);
   Future<SearchResponse> findProfessorByName(String name, int count);
   Stream<ReviewWithProfessorResponse> getReviewsWithProfessor(int userId);
-  Future<void> addReaction(int userId, String professorId,
-          String reviewId, bool liked);
+  Future<void> addReaction(int userId, String professorId, String reviewId, bool liked);
 }

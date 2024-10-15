@@ -70,13 +70,11 @@ mixin _$DataState {
 
 /// @nodoc
 abstract class $DataStateCopyWith<$Res> {
-  factory $DataStateCopyWith(DataState value, $Res Function(DataState) then) =
-      _$DataStateCopyWithImpl<$Res, DataState>;
+  factory $DataStateCopyWith(DataState value, $Res Function(DataState) then) = _$DataStateCopyWithImpl<$Res, DataState>;
 }
 
 /// @nodoc
-class _$DataStateCopyWithImpl<$Res, $Val extends DataState>
-    implements $DataStateCopyWith<$Res> {
+class _$DataStateCopyWithImpl<$Res, $Val extends DataState> implements $DataStateCopyWith<$Res> {
   _$DataStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -90,17 +88,14 @@ class _$DataStateCopyWithImpl<$Res, $Val extends DataState>
 
 /// @nodoc
 abstract class _$$ProcessingStateImplCopyWith<$Res> {
-  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value,
-          $Res Function(_$ProcessingStateImpl) then) =
+  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value, $Res Function(_$ProcessingStateImpl) then) =
       __$$ProcessingStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ProcessingStateImplCopyWithImpl<$Res>
-    extends _$DataStateCopyWithImpl<$Res, _$ProcessingStateImpl>
+class __$$ProcessingStateImplCopyWithImpl<$Res> extends _$DataStateCopyWithImpl<$Res, _$ProcessingStateImpl>
     implements _$$ProcessingStateImplCopyWith<$Res> {
-  __$$ProcessingStateImplCopyWithImpl(
-      _$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
+  __$$ProcessingStateImplCopyWithImpl(_$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of DataState
@@ -119,8 +114,7 @@ class _$ProcessingStateImpl extends ProcessingState {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProcessingStateImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$ProcessingStateImpl);
   }
 
   @override
@@ -208,18 +202,14 @@ abstract class ProcessingState extends DataState {
 
 /// @nodoc
 abstract class _$$IdleStateImplCopyWith<$Res> {
-  factory _$$IdleStateImplCopyWith(
-          _$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
+  factory _$$IdleStateImplCopyWith(_$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
       __$$IdleStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$IdleStateImplCopyWithImpl<$Res>
-    extends _$DataStateCopyWithImpl<$Res, _$IdleStateImpl>
+class __$$IdleStateImplCopyWithImpl<$Res> extends _$DataStateCopyWithImpl<$Res, _$IdleStateImpl>
     implements _$$IdleStateImplCopyWith<$Res> {
-  __$$IdleStateImplCopyWithImpl(
-      _$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then)
-      : super(_value, _then);
+  __$$IdleStateImplCopyWithImpl(_$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then) : super(_value, _then);
 
   /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
@@ -237,8 +227,7 @@ class _$IdleStateImpl extends IdleState {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$IdleStateImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$IdleStateImpl);
   }
 
   @override
@@ -326,20 +315,16 @@ abstract class IdleState extends DataState {
 
 /// @nodoc
 abstract class _$$ErrorStateImplCopyWith<$Res> {
-  factory _$$ErrorStateImplCopyWith(
-          _$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
+  factory _$$ErrorStateImplCopyWith(_$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
       __$$ErrorStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object e});
 }
 
 /// @nodoc
-class __$$ErrorStateImplCopyWithImpl<$Res>
-    extends _$DataStateCopyWithImpl<$Res, _$ErrorStateImpl>
+class __$$ErrorStateImplCopyWithImpl<$Res> extends _$DataStateCopyWithImpl<$Res, _$ErrorStateImpl>
     implements _$$ErrorStateImplCopyWith<$Res> {
-  __$$ErrorStateImplCopyWithImpl(
-      _$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then)
-      : super(_value, _then);
+  __$$ErrorStateImplCopyWithImpl(_$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then) : super(_value, _then);
 
   /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
@@ -376,8 +361,7 @@ class _$ErrorStateImpl extends ErrorState {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
 
   /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
@@ -471,25 +455,21 @@ abstract class ErrorState extends DataState {
   /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$LoadedStateImplCopyWith<$Res> {
-  factory _$$LoadedStateImplCopyWith(
-          _$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
+  factory _$$LoadedStateImplCopyWith(_$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
       __$$LoadedStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<ReviewWithUser> professors});
 }
 
 /// @nodoc
-class __$$LoadedStateImplCopyWithImpl<$Res>
-    extends _$DataStateCopyWithImpl<$Res, _$LoadedStateImpl>
+class __$$LoadedStateImplCopyWithImpl<$Res> extends _$DataStateCopyWithImpl<$Res, _$LoadedStateImpl>
     implements _$$LoadedStateImplCopyWith<$Res> {
-  __$$LoadedStateImplCopyWithImpl(
-      _$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
+  __$$LoadedStateImplCopyWithImpl(_$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of DataState
@@ -533,13 +513,11 @@ class _$LoadedStateImpl extends LoadedState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedStateImpl &&
-            const DeepCollectionEquality()
-                .equals(other._professors, _professors));
+            const DeepCollectionEquality().equals(other._professors, _professors));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_professors));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_professors));
 
   /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
@@ -625,8 +603,7 @@ class _$LoadedStateImpl extends LoadedState {
 }
 
 abstract class LoadedState extends DataState {
-  const factory LoadedState(final List<ReviewWithUser> professors) =
-      _$LoadedStateImpl;
+  const factory LoadedState(final List<ReviewWithUser> professors) = _$LoadedStateImpl;
   const LoadedState._() : super._();
 
   List<ReviewWithUser> get professors;
@@ -634,6 +611,5 @@ abstract class LoadedState extends DataState {
   /// Create a copy of DataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith => throw _privateConstructorUsedError;
 }

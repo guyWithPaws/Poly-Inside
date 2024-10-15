@@ -13,8 +13,7 @@ import 'package:poly_inside_server/database/provider_impl.dart';
 import 'package:shared/shared.dart';
 
 class Parser {
-  final String staffPage =
-      'https://www.spbstu.ru/university/about-the-university/staff/';
+  final String staffPage = 'https://www.spbstu.ru/university/about-the-university/staff/';
 
   final DatabaseProviderImpl provider;
   static const int maxRetries = 3;
@@ -48,16 +47,11 @@ class Parser {
   int getNumberOfProfessors(Document professorPage) =>
       professorPage.getElementsByClassName('col-sm-9 col-md-10').length;
 
-  String getProfessorName(Document professorPage, int number) => professorPage
-      .getElementsByClassName('col-sm-9 col-md-10')[number]
-      .children[0]
-      .text;
+  String getProfessorName(Document professorPage, int number) =>
+      professorPage.getElementsByClassName('col-sm-9 col-md-10')[number].children[0].text;
 
-  String getAvatarSubLink(Document professorPage, int number) => professorPage
-      .getElementsByClassName('col-sm-3 col-md-2')[number]
-      .children[0]
-      .attributes['src']
-      .toString();
+  String getAvatarSubLink(Document professorPage, int number) =>
+      professorPage.getElementsByClassName('col-sm-3 col-md-2')[number].children[0].attributes['src'].toString();
 
   Future<void> fillDatabase() async {
     final responce = await http.Client().get(Uri.parse(staffPage));
@@ -94,13 +88,10 @@ class Parser {
       try {
         var professorPage = parse(response.body);
 
-        for (var number = 0;
-            number < getNumberOfProfessors(professorPage);
-            number++) {
+        for (var number = 0; number < getNumberOfProfessors(professorPage); number++) {
           var professorName = getProfessorName(professorPage, number);
 
-          if (professorsNames.contains(professorName) ||
-              professorsNames.isEmpty) {
+          if (professorsNames.contains(professorName) || professorsNames.isEmpty) {
             var avatarSublink = getAvatarSubLink(professorPage, number);
 
             var professorAvatar = 'https://www.spbstu.ru/$avatarSublink';
@@ -115,14 +106,11 @@ class Parser {
 
               var decodeImage = img.decodeImage(image);
 
-              compressedAvatar = Uint8List.fromList(
-                  img.encodeJpg(decodeImage!, quality: avatarQuality));
-              compressedSmallAvatar = Uint8List.fromList(
-                  img.encodeJpg(decodeImage, quality: smallAvatarQuality));
+              compressedAvatar = Uint8List.fromList(img.encodeJpg(decodeImage!, quality: avatarQuality));
+              compressedSmallAvatar = Uint8List.fromList(img.encodeJpg(decodeImage, quality: smallAvatarQuality));
             }
 
-            var professorIdBytes =
-                utf8.encode(professorName + DateTime.now().toString());
+            var professorIdBytes = utf8.encode(professorName + DateTime.now().toString());
 
             var professorId = sha1.convert(professorIdBytes).toString();
 
@@ -155,21 +143,18 @@ class Parser {
   static const int scheduleWeeks = 2;
 
   List<String> getFacultiesLinks(Document facultiesHtmlDocument) {
-    var facultiesElements =
-        facultiesHtmlDocument.getElementsByClassName('faculty-list__link');
+    var facultiesElements = facultiesHtmlDocument.getElementsByClassName('faculty-list__link');
     var facultiesCount = facultiesElements.length;
     var facultiesLinks = List.filled(facultiesCount, ' ');
 
     for (var i = 0; i < facultiesCount; i++) {
-      facultiesLinks[i] =
-          'https://ruz.spbstu.ru${facultiesElements[i].attributes['href']!}';
+      facultiesLinks[i] = 'https://ruz.spbstu.ru${facultiesElements[i].attributes['href']!}';
     }
     return facultiesLinks;
   }
 
   List<String> getFacultieGroups(Document facultieGroupsHtmlDocument) {
-    var groups =
-        facultieGroupsHtmlDocument.getElementsByClassName('groups-list__link');
+    var groups = facultieGroupsHtmlDocument.getElementsByClassName('groups-list__link');
     var groupsCount = groups.length;
     var groupsNumbers = List.filled(groupsCount, ' ');
     for (var j = 0; j < groupsCount; j++) {
@@ -179,8 +164,7 @@ class Parser {
   }
 
   List<String> getFacultieGroupsLinks(Document facultieGroupsHtmlDocument) {
-    var groups =
-        facultieGroupsHtmlDocument.getElementsByClassName('groups-list__link');
+    var groups = facultieGroupsHtmlDocument.getElementsByClassName('groups-list__link');
     var groupsCount = groups.length;
     var groupsLinks = List.filled(groupsCount, ' ');
     for (var j = 0; j < groupsCount; j++) {
@@ -189,10 +173,8 @@ class Parser {
     return groupsLinks;
   }
 
-  Future<List<String>> getGroupsProfessors(
-      Document weekScheduleHtmlDocument, List<String> groupProfessors) async {
-    var weekProfessors =
-        weekScheduleHtmlDocument.getElementsByClassName('lesson__teachers');
+  Future<List<String>> getGroupsProfessors(Document weekScheduleHtmlDocument, List<String> groupProfessors) async {
+    var weekProfessors = weekScheduleHtmlDocument.getElementsByClassName('lesson__teachers');
     for (var i = 0; i < weekProfessors.length; i++) {
       final professor = await provider.findProfessorByName(
         weekProfessors[i].text.toLowerCase().substring(1),
@@ -225,8 +207,7 @@ class Parser {
 
 // Groups by facultie
     for (var k = 0; k < facultieLinks.length; k++) {
-      final facultieGroupsResponce =
-          await http.Client().get(Uri.parse(facultieLinks[k]));
+      final facultieGroupsResponce = await http.Client().get(Uri.parse(facultieLinks[k]));
 
       if (!checkIsGoodResponce(facultieGroupsResponce)) {
         l.w('[Parser]: Polytechnic servers are temporarily unavailable. Database updates have been suspended.');
@@ -241,25 +222,18 @@ class Parser {
       var groupsNumbers = getFacultieGroups(facultieGroupsHtmlDocument);
 
       for (var z = 0; z < groupsNumbers.length; z++) {
-        var groupScheduleWeekLinks = <String>[
-          '${groupsLinks[z]}?date=2024-11-4',
-          '${groupsLinks[z]}?date=2024-11-11'
-        ];
+        var groupScheduleWeekLinks = <String>['${groupsLinks[z]}?date=2024-11-4', '${groupsLinks[z]}?date=2024-11-11'];
         var groupProfessorsId = <String>[];
         for (var x = 0; x < scheduleWeeks; x++) {
-          final weekScheduleResponce =
-              await http.Client().get(Uri.parse(groupScheduleWeekLinks[x]));
+          final weekScheduleResponce = await http.Client().get(Uri.parse(groupScheduleWeekLinks[x]));
           final weekScheduleHtmlDocument = parse(weekScheduleResponce.body);
-          groupProfessorsId = await getGroupsProfessors(
-              weekScheduleHtmlDocument, groupProfessorsId);
+          groupProfessorsId = await getGroupsProfessors(weekScheduleHtmlDocument, groupProfessorsId);
         }
         for (var i = 0; i < groupProfessorsId.length; i++) {
-          var idBytes =
-              utf8.encode(groupProfessorsId[i] + DateTime.now().toString());
+          var idBytes = utf8.encode(groupProfessorsId[i] + DateTime.now().toString());
 
           var id = sha1.convert(idBytes).toString();
-          await provider.addProfessorToGroup(
-              id, groupsNumbers[z], groupProfessorsId[i]);
+          await provider.addProfessorToGroup(id, groupsNumbers[z], groupProfessorsId[i]);
         }
       }
     }

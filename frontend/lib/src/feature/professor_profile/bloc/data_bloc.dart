@@ -25,9 +25,7 @@ class NewListEvent extends DataEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is NewListEvent &&
-          runtimeType == other.runtimeType &&
-          professors == other.professors;
+      other is NewListEvent && runtimeType == other.runtimeType && professors == other.professors;
 }
 
 @Freezed()
@@ -60,14 +58,13 @@ class DataBLoC extends Bloc<DataEvent, DataState> {
     );
     on<DataRequested>(
       (event, emit) {
-        _subscription =
-            _repository.getAllReviewsByProfessor(event.professorId).listen(
-                  (e) => add(
-                    NewListEvent(
-                      professors: e.list,
-                    ),
-                  ),
-                );
+        _subscription = _repository.getAllReviewsByProfessor(event.professorId).listen(
+              (e) => add(
+                NewListEvent(
+                  professors: e.list,
+                ),
+              ),
+            );
       },
     );
   }
