@@ -10,7 +10,7 @@ COPY db.sqlite /backend/db.sqlite
 
 RUN dart pub get
 
-RUN dart run build_runner build
+RUN dart run build_runner build --delete-conflicting-outputs
 
 RUN dart compile exe bin/server.dart -o bin/server
 
