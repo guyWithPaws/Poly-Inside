@@ -1,18 +1,23 @@
 syntax = "proto3";
 
 service SearchService {
+  // User's methods
   rpc AddProfile (User) returns (AddProfileResponse);
   rpc UpdateProfile (User) returns (UpdateProfileResponse);
   rpc GetProfile(UserInfoByUserIdRequest) returns (User);
+
+  // Professor's methods
   rpc GetListProfessor(ListProfessorRequest) returns (stream GetListProfessorResponse);
   rpc SearchProfessorByName(SearchRequest) returns (SearchResponse);
+  rpc GetReviewWithProfessor(ReviewsByUserIdRequest) returns (stream ReviewWithProfessorResponse);
+  
 
-  rpc getReviewWithProfessor(ReviewsByUserIdRequest) returns (stream ReviewWithProfessorResponse);
-  rpc LikeReview(LikeRequest) returns (LikeResponse);
+  // Review's methods
   rpc AddReview(Review) returns (AddReviewResponse);
-  rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream ReviewWithUserResponse);
   rpc UpdateReview(Review) returns (UpdateReviewResponse);
   rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse);
+  rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream ReviewWithUserResponse);
+  rpc AddReviewReaction(Reaction) returns (LikeResponse);
 }
 
 message ReviewWithProfessorResponse{
@@ -35,13 +40,6 @@ message ReviewWithProfessor {
 }
 
 message LikeResponse {}
-
-message LikeRequest {
-  int32 userId = 1;
-  string professorId = 2;
-  string reviewId = 3;
-  int32 type = 4; // 1 - like, 0 - dislike, 2 - delete 
-}
 
 message ReviewStream{
   repeated Review reviews = 1;
@@ -131,4 +129,12 @@ message Review {
   string professor_id = 9;
   int32 likes = 10;
   int32 dislikes = 11;
+}
+
+message Reaction {
+  string id = 1;
+  int32 userId = 2;
+  string professorId = 3;
+  string reviewId = 4;
+  int32 type = 5; // 1 - like, 0 - dislike, 2 - delete 
 }

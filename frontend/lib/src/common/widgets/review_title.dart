@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:poly_inside/src/common/utils/capitalizer.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/common/widgets/reactions.dart';
@@ -100,69 +101,128 @@ class ReviewTitle extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  content: SizedBox(
-                                    height: 100,
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const Text(
-                                              'Вы точно хотите удалить данный отзыв?'),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                            onTap: () => showCupertinoModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) => SizedBox(
+                                height: 150,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32),
+                                  child: Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute<void>(
+                                            builder: (builderContext) =>
+                                                ReviewPage(
+                                                    review: review,
+                                                    professor: professor!,
+                                                    type: ReviewType.edit),
+                                          ),
+                                        ),
+                                        child: SizedBox(
+                                          height: 75,
+                                          child: Row(
                                             children: [
-                                              TextButton(
-                                                onPressed: () async {
-                                                  await InitializationScope
-                                                          .repositoryOf(context)
-                                                      .deleteReview(
-                                                          review.reviewId)
-                                                      .then(
-                                                    (_) {
-                                                      Navigator.pop(context);
-                                                    },
-                                                  );
-                                                },
-                                                child: const Text('Да'),
+                                              SvgPicture.asset(
+                                                  'assets/icons/editpen.svg'),
+                                              const SizedBox(
+                                                width: 32,
                                               ),
-                                              TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: const Text('Нет'),
+                                              const Text(
+                                                'Редактировать отзыв',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.black,
+                                                    decoration:
+                                                        TextDecoration.none),
                                               )
                                             ],
-                                          )
-                                        ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      GestureDetector(
+                                        onTap: () => showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            content: SizedBox(
+                                              height: 100,
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    const Text(
+                                                        'Вы точно хотите удалить данный отзыв?'),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        TextButton(
+                                                          onPressed: () async {
+                                                            debugPrint(review
+                                                                .reviewId);
+                                                            await InitializationScope
+                                                                    .repositoryOf(
+                                                                        context)
+                                                                .deleteReview(
+                                                                    review
+                                                                        .reviewId)
+                                                                .then(
+                                                              (_) {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            );
+                                                          },
+                                                          child:
+                                                              const Text('Да'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          child:
+                                                              const Text('Нет'),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        child: SizedBox(
+                                          height: 75,
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                  'assets/icons/trash.svg'),
+                                              const SizedBox(
+                                                width: 32,
+                                              ),
+                                              const Text(
+                                                'Удалить отзыв',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                ),
-                              );
-                            },
-                            child: SvgPicture.asset('assets/icons/trash.svg'),
-                          ),
-                          const Divider(
-                            thickness: 10,
-                            color: Colors.red,
-                          ),
-                          GestureDetector(
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (builderContext) => ReviewPage(
-                                  professor: professor!,
-                                  review: review,
-                                  type: ReviewType.edit,
                                 ),
                               ),
                             ),
                             child: SvgPicture.asset(
-                              'assets/icons/editpen.svg',
+                              'assets/icons/options.svg',
                               alignment: Alignment.topRight,
                             ),
                           ),

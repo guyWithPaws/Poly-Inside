@@ -143,11 +143,12 @@ class _ReviewPageState extends State<ReviewPage> {
               professorId: widget.professor.id);
           bool passed = true;
           if (widget.type == ReviewType.add) {
+            debugPrint(outputReview.toString());
             passed = await InitializationScope.repositoryOf(context)
                 .addReview(outputReview);
           } else {
             outputReview.reviewId = widget.review!.reviewId;
-            debugPrint(widget.review!.reviewId);
+            debugPrint('Editing reviewId: ${widget.review!.reviewId}');
             await InitializationScope.repositoryOf(context)
                 .updateReview(outputReview);
           }
@@ -268,7 +269,7 @@ class _ReviewPageState extends State<ReviewPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +287,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           StarsRating(
                             valueNotifier: _valueObjectivityNotifier,
                             value: widget.review?.objectivity ?? 1,
-                            size: const Size(22, 22),
+                            size: const Size(24, 24),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
@@ -294,7 +295,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           StarsRating(
                             valueNotifier: _valueLoayltyNotifier,
                             value: widget.review?.loyalty ?? 1,
-                            size: const Size(22, 22),
+                            size: const Size(24, 24),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
@@ -302,7 +303,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           StarsRating(
                             valueNotifier: _valueProfessionalismNotifier,
                             value: widget.review?.professionalism ?? 1,
-                            size: const Size(22, 22),
+                            size: const Size(24, 24),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
@@ -310,7 +311,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           StarsRating(
                             valueNotifier: _valueHarshnessNotifier,
                             value: widget.review?.harshness ?? 1,
-                            size: const Size(22, 22),
+                            size: const Size(24, 24),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,

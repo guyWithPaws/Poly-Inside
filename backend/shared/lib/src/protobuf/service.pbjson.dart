@@ -76,23 +76,6 @@ const LikeResponse$json = {
 final $typed_data.Uint8List likeResponseDescriptor = $convert.base64Decode(
     'CgxMaWtlUmVzcG9uc2U=');
 
-@$core.Deprecated('Use likeRequestDescriptor instead')
-const LikeRequest$json = {
-  '1': 'LikeRequest',
-  '2': [
-    {'1': 'userId', '3': 1, '4': 1, '5': 5, '10': 'userId'},
-    {'1': 'professorId', '3': 2, '4': 1, '5': 9, '10': 'professorId'},
-    {'1': 'reviewId', '3': 3, '4': 1, '5': 9, '10': 'reviewId'},
-    {'1': 'type', '3': 4, '4': 1, '5': 5, '10': 'type'},
-  ],
-};
-
-/// Descriptor for `LikeRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List likeRequestDescriptor = $convert.base64Decode(
-    'CgtMaWtlUmVxdWVzdBIWCgZ1c2VySWQYASABKAVSBnVzZXJJZBIgCgtwcm9mZXNzb3JJZBgCIA'
-    'EoCVILcHJvZmVzc29ySWQSGgoIcmV2aWV3SWQYAyABKAlSCHJldmlld0lkEhIKBHR5cGUYBCAB'
-    'KAVSBHR5cGU=');
-
 @$core.Deprecated('Use reviewStreamDescriptor instead')
 const ReviewStream$json = {
   '1': 'ReviewStream',
@@ -344,4 +327,22 @@ final $typed_data.Uint8List reviewDescriptor = $convert.base64Decode(
     '0YBiABKAJSD3Byb2Zlc3Npb25hbGlzbRIcCgloYXJzaG5lc3MYByABKAJSCWhhcnNobmVzcxIS'
     'CgRkYXRlGAggASgJUgRkYXRlEiEKDHByb2Zlc3Nvcl9pZBgJIAEoCVILcHJvZmVzc29ySWQSFA'
     'oFbGlrZXMYCiABKAVSBWxpa2VzEhoKCGRpc2xpa2VzGAsgASgFUghkaXNsaWtlcw==');
+
+@$core.Deprecated('Use reactionDescriptor instead')
+const Reaction$json = {
+  '1': 'Reaction',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'userId', '3': 2, '4': 1, '5': 5, '10': 'userId'},
+    {'1': 'professorId', '3': 3, '4': 1, '5': 9, '10': 'professorId'},
+    {'1': 'reviewId', '3': 4, '4': 1, '5': 9, '10': 'reviewId'},
+    {'1': 'type', '3': 5, '4': 1, '5': 5, '10': 'type'},
+  ],
+};
+
+/// Descriptor for `Reaction`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List reactionDescriptor = $convert.base64Decode(
+    'CghSZWFjdGlvbhIOCgJpZBgBIAEoCVICaWQSFgoGdXNlcklkGAIgASgFUgZ1c2VySWQSIAoLcH'
+    'JvZmVzc29ySWQYAyABKAlSC3Byb2Zlc3NvcklkEhoKCHJldmlld0lkGAQgASgJUghyZXZpZXdJ'
+    'ZBISCgR0eXBlGAUgASgFUgR0eXBl');
 

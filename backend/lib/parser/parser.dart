@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
-import 'package:drift/native.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
@@ -11,16 +9,14 @@ import 'package:http/http.dart';
 import 'package:image/image.dart' as img;
 import 'package:l/l.dart';
 import 'package:poly_inside_server/database/provider.dart';
-import 'package:shared/shared.dart';
-
-import 'package:poly_inside_server/database/database.dart';
 import 'package:poly_inside_server/database/provider_impl.dart';
+import 'package:shared/shared.dart';
 
 class Parser {
   final String staffPage =
       'https://www.spbstu.ru/university/about-the-university/staff/';
 
-  final DatabaseProvider provider;
+  final DatabaseProviderImpl provider;
   static const int maxRetries = 3;
   static const int avatarQuality = 60;
   static const int smallAvatarQuality = 20;
@@ -213,7 +209,7 @@ class Parser {
   }
 
   Future<void> fillGroupsDatabase() async {
-    final String schedulePage = 'https://ruz.spbstu.ru/';
+    const schedulePage = 'https://ruz.spbstu.ru/';
 
     final scheduleResponce = await http.Client().get(Uri.parse(schedulePage));
 
@@ -245,11 +241,11 @@ class Parser {
       var groupsNumbers = getFacultieGroups(facultieGroupsHtmlDocument);
 
       for (var z = 0; z < groupsNumbers.length; z++) {
-        List<String> groupScheduleWeekLinks = [
+        var groupScheduleWeekLinks = <String>[
           '${groupsLinks[z]}?date=2024-11-4',
           '${groupsLinks[z]}?date=2024-11-11'
         ];
-        List<String> groupProfessorsId = [];
+        var groupProfessorsId = <String>[];
         for (var x = 0; x < scheduleWeeks; x++) {
           final weekScheduleResponce =
               await http.Client().get(Uri.parse(groupScheduleWeekLinks[x]));
@@ -257,25 +253,15 @@ class Parser {
           groupProfessorsId = await getGroupsProfessors(
               weekScheduleHtmlDocument, groupProfessorsId);
         }
-        for (int i = 0; i < groupProfessorsId.length; i++) {
+        for (var i = 0; i < groupProfessorsId.length; i++) {
           var idBytes =
-                utf8.encode(groupProfessorsId[i] + DateTime.now().toString());
+              utf8.encode(groupProfessorsId[i] + DateTime.now().toString());
 
-            var id = sha1.convert(idBytes).toString();
+          var id = sha1.convert(idBytes).toString();
           await provider.addProfessorToGroup(
               id, groupsNumbers[z], groupProfessorsId[i]);
         }
       }
-
-      // print(groupsLinks.length);
-      // print(groupsNumbers.length);
     }
   }
 }
-
-// Future<void> main() async {
-//   final database = AppDatabase(NativeDatabase(File('../db.sqlite')));
-//   final provider = DatabaseProviderImpl(database: database);
-//   final parser = Parser(provider: provider);
-//   await parser.fillGroupsDatabase();
-// }

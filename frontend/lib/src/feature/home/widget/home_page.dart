@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
   FocusNode? _node;
   String reviewInRussian = 'отзыв';
   int count = 20;
+  static const Duration scrollDuration = Duration(milliseconds: 500);
 
   @override
   void initState() {
@@ -87,22 +88,22 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: ValueListenableBuilder(
         valueListenable: _valueNotifier!,
-        builder: (_, value, child) => value
-            ? FloatingActionButton(
-                onPressed: () {
-                  _scrollController!.animateTo(0,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeIn);
-                },
-                backgroundColor: Colors.green,
-                child: const Center(
-                  child: Icon(CupertinoIcons.up_arrow),
-                ),
-              )
-            : const SizedBox(
-                width: 0,
-                height: 0,
+        builder: (_, value, child) => Visibility(
+          visible: _valueNotifier!.value,
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              _scrollController?.animateTo(0,
+                  duration: scrollDuration, curve: Curves.easeInOut);
+            },
+            backgroundColor: Colors.green,
+            label: const AnimatedSize(
+              duration: Duration(milliseconds: 150),
+              child: Center(
+                child: Icon(CupertinoIcons.up_arrow),
               ),
+            ),
+          ),
+        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -121,23 +122,26 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       },
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey[200],
-                        radius: 31,
-                        child: ClipOval(
-                          child: UserScope.userOf(context).avatar.isNotEmpty
-                              ? Image.memory(
-                                  height: 62,
-                                  width: 62,
-                                  fit: BoxFit.cover,
-                                  Uint8List.fromList(
-                                    UserScope.userOf(context).avatar,
+                      child: Hero(
+                        tag: UserScope.userOf(context).id,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey[200],
+                          radius: 31,
+                          child: ClipOval(
+                            child: UserScope.userOf(context).avatar.isNotEmpty
+                                ? Image.memory(
+                                    height: 62,
+                                    width: 62,
+                                    fit: BoxFit.cover,
+                                    Uint8List.fromList(
+                                      UserScope.userOf(context).avatar,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/no_photo.svg',
+                                    width: 35,
                                   ),
-                                )
-                              : SvgPicture.asset(
-                                  'assets/icons/no_photo.svg',
-                                  width: 35,
-                                ),
+                          ),
                         ),
                       ),
                     );
@@ -257,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                                                   StaticStarsRating(
                                                     spaceBetween: 8,
                                                     textSize: 16,
-                                                    size: const Size(16, 16),
+                                                    size: 20,
                                                     value: professors[index]
                                                         .rating,
                                                   ),

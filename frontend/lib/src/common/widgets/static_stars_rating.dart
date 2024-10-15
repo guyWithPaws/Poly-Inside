@@ -9,9 +9,8 @@ class StaticStarsRating extends StatelessWidget {
   static const String starUrl = 'assets/icons/star_png.png';
   static const String greyStarUrl = 'assets/icons/grey_star_png.png';
   static const Color color = Colors.yellow;
-  static const Color baseColor = Colors.grey;
   late final double spaceBetween;
-  late final Size size;
+  late final double size;
   late final double textSize;
   late double value;
 
@@ -30,45 +29,50 @@ class StaticStarsRating extends StatelessWidget {
         children: [
           Row(
             children: [
-              for (int i = 0; i < value; i++)
-                Stack(
-                  children: [
-                    SizedBox(
-                      width: size.width,
-                      height: size.height,
-                      child: Image.asset(
-                        starUrl
-                      ),
-                    ),
-                    ShaderMask(
-                      shaderCallback: (bounds) {
-                        final fillGradient = LinearGradient(
-                          begin: Alignment.bottomLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            color,
-                            color.withOpacity(0),
-                          ],
-                          stops: [
-                            (value - i >= 0) ? (value - i) : 0,
-                            (value - i >= 0) ? (value - i) : 0,
-                          ],
-                        );
-                        return fillGradient.createShader(bounds);
-                      },
-                      blendMode: BlendMode.srcATop,
-                      child: SizedBox(
-                        width: size.width,
-                        height: size.height,
-                        child: SvgPicture.asset(
-                          starUrl,
-                          colorFilter: const ColorFilter.mode(
-                              baseColor, BlendMode.srcIn),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+              for (int i = 0; i < 5; ++i)
+                i < int.parse(value.toStringAsFixed(0)) ||
+                        i > int.parse(value.toStringAsFixed(0))
+                    ? SizedBox(
+                        width: size,
+                        height: size,
+                        child: Image.asset(
+                            (i < int.parse(value.toStringAsFixed(0)))
+                                ? starUrl
+                                : greyStarUrl),
+                      )
+                    : Stack(
+                        children: [
+                          SizedBox(
+                            width: size,
+                            height: size,
+                            child: Image.asset(greyStarUrl),
+                          ),
+                          ShaderMask(
+                            shaderCallback: (bounds) {
+                              final fillGradient = LinearGradient(
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  color,
+                                  color.withOpacity(0),
+                                ],
+                                stops: [
+                                  (value - i >= 0) ? (value - i) : 0,
+                                  (value - i >= 0) ? (value - i) : 0,
+                                ],
+                              );
+                              return fillGradient.createShader(bounds);
+                            },
+                            child: SizedBox(
+                              width: size,
+                              height: size,
+                              child: Image.asset(
+                                starUrl,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
             ],
           ),
           SizedBox(width: spaceBetween),

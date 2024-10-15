@@ -49,4 +49,21 @@ class ClientRepositoryImpl implements ClientRepository {
   Future<void> deleteReview(String reviewId) async => client.deleteReview(
         DeleteReviewRequest(reviewId: reviewId),
       );
+
+  @override
+  Future<void> addReaction(
+      int userId, String professorId, String reviewId, bool liked) {
+    // TODO: implement addReaction
+    throw UnimplementedError();
+  }
+
+  // @override
+  // Future<void> addReaction(Reaction reaction) =>
+  //     client.likeReview(
+  //       LikeRequest(
+  //           userId: userId,
+  //           professorId: professorId,
+  //           reviewId: reviewId,
+  //           type: liked ? 1 : 0),
+  //     );
 }

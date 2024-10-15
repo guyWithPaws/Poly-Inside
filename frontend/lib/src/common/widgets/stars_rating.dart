@@ -8,7 +8,8 @@ import 'package:meta/meta.dart';
 /// {@endtemplate}
 // ignore: must_be_immutable
 class StarsRating extends StatefulWidget {
-  static const String imageUrl = 'assets/icons/star.svg';
+  static const String imageUrl = 'assets/icons/star_png.png';
+  static const String greyImageUrl = 'assets/icons/grey_star_png.png';
   static const Color color = Colors.yellow;
   static const Color baseColor = Colors.grey;
   final ValueNotifier<double>? valueNotifier;
@@ -78,7 +79,8 @@ class _StarsRatingState extends State<StarsRating> {
             () {
               widget.value = (details.localPosition.dx / widget.size.width)
                   .clamp(1.0, 5.0);
-              widget.valueNotifier!.value = widget.value;
+              widget.valueNotifier!.value =
+                  double.parse(widget.value.toStringAsFixed(1));
             },
           );
         }
@@ -89,7 +91,8 @@ class _StarsRatingState extends State<StarsRating> {
             () {
               widget.value = (details.localPosition.dx / widget.size.width)
                   .clamp(1.0, 5.0);
-              widget.valueNotifier!.value = widget.value;
+              widget.valueNotifier!.value =
+                  double.parse(widget.value.toStringAsFixed(1));
             },
           );
         }
@@ -104,11 +107,12 @@ class _StarsRatingState extends State<StarsRating> {
                     SizedBox(
                       width: widget.size.width,
                       height: widget.size.height,
-                      child: SvgPicture.asset(
-                        StarsRating.imageUrl,
-                        colorFilter: const ColorFilter.mode(
-                            StarsRating.baseColor, BlendMode.srcIn),
-                      ),
+                      child: Image.asset(StarsRating.greyImageUrl),
+                      // child: SvgPicture.asset(
+                      // StarsRating.imageUrl,
+                      // colorFilter: const ColorFilter.mode(
+                      // StarsRating.baseColor, BlendMode.srcIn),
+                      // ),
                     ),
                     ShaderMask(
                       shaderCallback: (bounds) {
@@ -130,31 +134,44 @@ class _StarsRatingState extends State<StarsRating> {
                       child: SizedBox(
                         width: widget.size.width,
                         height: widget.size.height,
-                        child: SvgPicture.asset(
-                          StarsRating.imageUrl,
-                          colorFilter: const ColorFilter.mode(
-                              StarsRating.baseColor, BlendMode.srcIn),
+                        child: Image.asset(
+                          StarsRating.greyImageUrl,
                         ),
                       ),
+                      // child: SizedBox(
+                      //   width: widget.size.width,
+                      //   height: widget.size.height,
+                      //   child: SvgPicture.asset(
+                      //     StarsRating.imageUrl,
+                      //     colorFilter: const ColorFilter.mode(
+                      //         StarsRating.baseColor, BlendMode.srcIn),
+                      //   ),
+                      // ),
                     ),
                   ],
                 )
             ],
           ),
           SizedBox(width: widget.spaceBetween),
-          Column(
-            children: [
-              const SizedBox(
-                height: 3,
+          ColoredBox(
+            color: Colors.red,
+            child: SizedBox(
+              width: widget.size.width * 2,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    widget.value.toStringAsFixed(1),
+                    style: TextStyle(
+                      fontSize: widget.textSize,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                widget.value.toStringAsFixed(1),
-                style: TextStyle(
-                  fontSize: widget.textSize,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
+            ),
           )
         ],
       ),

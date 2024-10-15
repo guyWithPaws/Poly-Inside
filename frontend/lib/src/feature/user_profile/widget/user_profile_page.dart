@@ -9,6 +9,7 @@ import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../common/widgets/sort_button.dart';
 
@@ -28,6 +29,8 @@ class _ProfilePageState extends State<ProfilePage> {
   ValueNotifier<bool>? _isEditingProfile;
   final TextEditingController _textEditingController = TextEditingController();
   DataBLoC? _bloc;
+
+  static const Duration scrollDuration = Duration(milliseconds: 500);
 
   /* #region Lifecycle */
   @override
@@ -75,13 +78,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       floatingActionButton: ValueListenableBuilder(
         valueListenable: _valueNotifier!,
-        builder: (context, value, _) => Visibility(
+        builder: (_, value, child) => Visibility(
           visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
             onPressed: () {
               _scrollController?.animateTo(0,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut);
+                  duration: scrollDuration, curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -95,6 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       backgroundColor: Colors.white,
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,
@@ -151,41 +154,38 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Stack(
                           children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.grey[200],
-                              radius: 158 / 2,
-                              child: ClipOval(
-                                child: UserScope.userOf(context)
-                                        .avatar
-                                        .isNotEmpty
-                                    ? Image.memory(
-                                        height: 158,
-                                        width: 158,
-                                        fit: BoxFit.cover,
-                                        Uint8List.fromList(
-                                            UserScope.userOf(context).avatar),
-                                      )
-                                    : SvgPicture.asset(
-                                        'assets/icons/no_photo.svg',
-                                        width: 79,
-                                      ),
-                              ),
+                            Hero(
+                              tag: UserScope.userOf(context).id,
+                              child: CircleAvatar(
+                                  backgroundColor: Colors.grey[200],
+                                  radius: 158 / 2,
+                                  backgroundImage: MemoryImage(
+                                    Uint8List.fromList(
+                                      UserScope.userOf(context).avatar,
+                                    ),
+                                  ),
+                                  child:
+                                      UserScope.userOf(context).avatar.isEmpty
+                                          ? SvgPicture.asset(
+                                              'assets/icons/no_photo.svg',
+                                              width: 79,
+                                            )
+                                          : null),
                             ),
                             Positioned(
-                              right: 16.36,
-                              bottom: 16.36,
+                              right: 10.36,
+                              bottom: 10.36,
                               child: IconButton(
                                 icon: const Icon(CupertinoIcons.camera),
                                 onPressed: () => showCupertinoModalBottomSheet(
                                   context: context,
                                   builder: (BuildContext context) =>
                                       const SizedBox(
-                                    height: 300,
-                                    child: Text('Выбрать аватарку'),
-                                  ),
+                                          height: 300,
+                                          child: Text('Выбрать фото')),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -293,7 +293,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               const SizedBox(width: 8),
                               Container(
-                                width: professors.length.toString().length * 15,
+                                width: professors.isNotEmpty
+                                    ? professors.length.toString().length * 15
+                                    : 22,
                                 height: 26,
                                 decoration: BoxDecoration(
                                   color:

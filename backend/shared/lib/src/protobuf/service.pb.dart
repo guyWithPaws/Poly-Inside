@@ -269,98 +269,6 @@ class LikeResponse extends $pb.GeneratedMessage {
   static LikeResponse? _defaultInstance;
 }
 
-class LikeRequest extends $pb.GeneratedMessage {
-  factory LikeRequest({
-    $core.int? userId,
-    $core.String? professorId,
-    $core.String? reviewId,
-    $core.int? type,
-  }) {
-    final $result = create();
-    if (userId != null) {
-      $result.userId = userId;
-    }
-    if (professorId != null) {
-      $result.professorId = professorId;
-    }
-    if (reviewId != null) {
-      $result.reviewId = reviewId;
-    }
-    if (type != null) {
-      $result.type = type;
-    }
-    return $result;
-  }
-  LikeRequest._() : super();
-  factory LikeRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory LikeRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LikeRequest', createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'userId', $pb.PbFieldType.O3, protoName: 'userId')
-    ..aOS(2, _omitFieldNames ? '' : 'professorId', protoName: 'professorId')
-    ..aOS(3, _omitFieldNames ? '' : 'reviewId', protoName: 'reviewId')
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'type', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  LikeRequest clone() => LikeRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  LikeRequest copyWith(void Function(LikeRequest) updates) => super.copyWith((message) => updates(message as LikeRequest)) as LikeRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static LikeRequest create() => LikeRequest._();
-  LikeRequest createEmptyInstance() => create();
-  static $pb.PbList<LikeRequest> createRepeated() => $pb.PbList<LikeRequest>();
-  @$core.pragma('dart2js:noInline')
-  static LikeRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LikeRequest>(create);
-  static LikeRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.int get userId => $_getIZ(0);
-  @$pb.TagNumber(1)
-  set userId($core.int v) { $_setSignedInt32(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasUserId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearUserId() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get professorId => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set professorId($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasProfessorId() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearProfessorId() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.String get reviewId => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set reviewId($core.String v) { $_setString(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasReviewId() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearReviewId() => clearField(3);
-
-  @$pb.TagNumber(4)
-  $core.int get type => $_getIZ(3);
-  @$pb.TagNumber(4)
-  set type($core.int v) { $_setSignedInt32(3, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasType() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearType() => clearField(4);
-}
-
 class ReviewStream extends $pb.GeneratedMessage {
   factory ReviewStream({
     $core.Iterable<Review>? reviews,
@@ -1537,6 +1445,112 @@ class Review extends $pb.GeneratedMessage {
   $core.bool hasDislikes() => $_has(10);
   @$pb.TagNumber(11)
   void clearDislikes() => clearField(11);
+}
+
+class Reaction extends $pb.GeneratedMessage {
+  factory Reaction({
+    $core.String? id,
+    $core.int? userId,
+    $core.String? professorId,
+    $core.String? reviewId,
+    $core.int? type,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    if (professorId != null) {
+      $result.professorId = professorId;
+    }
+    if (reviewId != null) {
+      $result.reviewId = reviewId;
+    }
+    if (type != null) {
+      $result.type = type;
+    }
+    return $result;
+  }
+  Reaction._() : super();
+  factory Reaction.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Reaction.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Reaction', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'userId', $pb.PbFieldType.O3, protoName: 'userId')
+    ..aOS(3, _omitFieldNames ? '' : 'professorId', protoName: 'professorId')
+    ..aOS(4, _omitFieldNames ? '' : 'reviewId', protoName: 'reviewId')
+    ..a<$core.int>(5, _omitFieldNames ? '' : 'type', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Reaction clone() => Reaction()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Reaction copyWith(void Function(Reaction) updates) => super.copyWith((message) => updates(message as Reaction)) as Reaction;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Reaction create() => Reaction._();
+  Reaction createEmptyInstance() => create();
+  static $pb.PbList<Reaction> createRepeated() => $pb.PbList<Reaction>();
+  @$core.pragma('dart2js:noInline')
+  static Reaction getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Reaction>(create);
+  static Reaction? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get userId => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set userId($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasUserId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearUserId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get professorId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set professorId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasProfessorId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearProfessorId() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get reviewId => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set reviewId($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasReviewId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearReviewId() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.int get type => $_getIZ(4);
+  @$pb.TagNumber(5)
+  set type($core.int v) { $_setSignedInt32(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasType() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearType() => clearField(5);
 }
 
 

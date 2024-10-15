@@ -9,6 +9,7 @@ import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/common/widgets/sort_button.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
+import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/professor_profile/bloc/data_bloc.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
@@ -44,7 +45,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   DataBLoC? _bloc;
-  late final bool _isReviewExists = false;
 
   /* #region Lifecycle */
   @override
@@ -98,33 +98,36 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          _isReviewExists
-              ? _scrollController?.animateTo(0,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut)
-              : Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (builderContext) => ReviewPage(
-                      professor: widget.professor,
-                      type: ReviewType.add,
+      floatingActionButton: ValueListenableBuilder(
+        valueListenable: _valueNotifier!,
+        builder: (context, value, _) => FloatingActionButton.extended(
+          onPressed: () {
+            _valueNotifier!.value
+                ? _scrollController?.animateTo(0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut)
+                : Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (builderContext) => ReviewPage(
+                        professor: widget.professor,
+                        type: ReviewType.add,
+                      ),
                     ),
-                  ),
-                );
-        },
-        backgroundColor: Colors.green,
-        label: AnimatedSize(
-          duration: const Duration(milliseconds: 150),
-          child: Center(
-            child: _isReviewExists
-                ? const Icon(Icons.arrow_upward)
-                : Text(
-                    _isReviewExists ? 'К моему отзыву' : 'Написать отзыв',
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600),
-                  ),
+                  );
+          },
+          backgroundColor: Colors.green,
+          label: AnimatedSize(
+            duration: const Duration(milliseconds: 150),
+            child: Center(
+              child: _valueNotifier!.value
+                  ? const Icon(Icons.arrow_upward)
+                  : const Text(
+                      'Написать отзыв',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
+            ),
           ),
         ),
       ),
@@ -219,40 +222,62 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 child: professors.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
                           children: [
+                            const Text('Мой отзыв'),
+                            // SliverList.builder(
+                            //   itemCount: 1,
+                            //   itemBuilder: (context, index) {
+                            //     return ReviewTitle(
+                            //       review: Review(
+                            //         comment: 'hhuuuui',
+                            //           date: DateTime.now().toString()),
+                            //       professor: widget.professor,
+                            //       user: UserScope.userOf(context),
+                            //     );
+                            //   }, 
+                            // ),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
-                                  "Отзывы",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Container(
-                                  width: 20,
-                                  height: 26,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 233, 252, 232),
-                                    borderRadius: BorderRadius.circular(7),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '${professors.length}',
-                                      style: const TextStyle(
-                                        fontSize: 14,
+                                Row(
+                                  children: [
+                                    const Text(
+                                      "Отзывы",
+                                      style: TextStyle(
+                                        fontSize: 20,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                  ),
-                                )
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      width: 20,
+                                      height: 26,
+                                      decoration: BoxDecoration(
+                                        color: const Color.fromARGB(
+                                            255, 233, 252, 232),
+                                        borderRadius:
+                                            BorderRadius.circular(7),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '${professors.length}',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SortButton(type: SortingTypes.reviews),
                               ],
                             ),
-                            const SortButton(type: SortingTypes.reviews),
                           ],
                         ),
                       )
@@ -271,6 +296,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 16),
                 itemBuilder: (context, index) {
+                  debugPrint('Review: ${professors[index].review.reviewId}');
                   return ReviewTitle(
                     review: professors[index].review,
                     professor: widget.professor,

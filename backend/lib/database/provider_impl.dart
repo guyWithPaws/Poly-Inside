@@ -2,8 +2,15 @@ import 'package:drift/drift.dart';
 import 'package:poly_inside_server/database/database.dart';
 import 'package:poly_inside_server/database/provider.dart';
 import 'package:shared/shared.dart';
+import 'package:l/l.dart';
 
-class DatabaseProviderImpl implements DatabaseProvider {
+class DatabaseProviderImpl
+    implements
+        ProfessorProvider,
+        UserProvider,
+        ReviewProvider,
+        RejectedReviewProvider,
+        ReactionProvider {
   DatabaseProviderImpl({required this.database});
 
   final AppDatabase database;
@@ -50,6 +57,7 @@ class DatabaseProviderImpl implements DatabaseProvider {
                 )
                 .toList(),
           );
+
   @override
   Future<int> addReview(Review review) async {
     final reviews = await (database.select(database.reviews)
@@ -276,4 +284,30 @@ class DatabaseProviderImpl implements DatabaseProvider {
               professorId: Value(professorId),
             ),
           );
+
+  @override
+  Future<void> deleteReaction(
+      int userId, String professorId, String reviewId) async {
+    l.v('Delete reaction');
+    await (database.delete(database.reactions)
+          ..where((t) =>
+              (t.userId.equals(userId)) &
+              t.professorId.equals(professorId) &
+              t.reviewId.equals(reviewId)))
+        .go();
+  }
+
+  @override
+  Future<void> addReaction(Reaction reaction) async {
+    await database.into(database.reactions).insert(
+          ReactionsCompanion(
+            id: Value<String>(reaction.id),
+            userId: Value<int>(reaction.userId),
+            professorId: Value<String>(reaction.professorId),
+            reviewId: Value(reaction.reviewId),
+            // ignore: avoid_bool_literals_in_conditional_expressions
+            liked: Value<bool>(reaction.type == 1 ? true : false),
+          ),
+        );
+  }
 }

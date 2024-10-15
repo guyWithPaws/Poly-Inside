@@ -2,13 +2,14 @@
 import 'package:grpc/src/server/call.dart';
 import 'package:l/l.dart';
 import 'package:poly_inside_server/database/provider.dart';
+import 'package:poly_inside_server/database/provider_impl.dart';
 import 'package:poly_inside_server/validator/validator.dart';
 import 'package:shared/shared.dart';
 
 class GRPCService extends SearchServiceBase {
   GRPCService({required this.provider});
 
-  final DatabaseProvider provider;
+  final DatabaseProviderImpl provider;
 
   @override
   Future<AddReviewResponse> addReview(ServiceCall call, Review request) async {
@@ -88,6 +89,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<SearchResponse> searchProfessorByName(
       ServiceCall call, SearchRequest request) async {
+    l.v('Search professor with name ${request.name}');
     final list = await provider.findProfessorByName(
       request.name,
       request.count,
@@ -96,16 +98,30 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<LikeResponse> likeReview(
-          ServiceCall call, LikeRequest request) async =>
-      LikeResponse();
-
-  @override
   Stream<ReviewWithProfessorResponse> getReviewWithProfessor(
       ServiceCall call, ReviewsByUserIdRequest request) async* {
     final stream = provider.getReviewsWithProfessor(request.id);
+    l.v('Get reviews with professor with id: ${request.id}');
     await for (final list in stream) {
       yield ReviewWithProfessorResponse(list: list);
     }
+  }
+
+  @override
+  Future<LikeResponse> addReviewReaction(
+      ServiceCall call, Reaction request) async {
+    if (request.type != 0) {
+      await provider.addReaction(Reaction(
+          id: request.id,
+          userId: request.userId,
+          professorId: request.professorId,
+          reviewId: request.reviewId,
+          type: request.type));
+    } else {
+      l.v('Delete reaction ${request.userId} ${request.professorId} ${request.reviewId}');
+      await provider.deleteReaction(
+          request.userId, request.professorId, request.reviewId);
+    }
+    return LikeResponse();
   }
 }

@@ -28,7 +28,8 @@ class Groups extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-class Likes extends Table {
+@UseRowClass(Reaction)
+class Reactions extends Table {
   TextColumn get id => text()();
   IntColumn get userId => integer()();
   TextColumn get professorId => text()();
@@ -62,6 +63,7 @@ class Users extends Table {
   IntColumn get id => integer()();
   TextColumn get name => text()();
   BlobColumn get avatar => blob()();
+  //TextColumn get group => text()();
   IntColumn get rating => integer().withDefault(const Constant<int>(0))();
 
   @override
@@ -86,7 +88,8 @@ class Reviews extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DriftDatabase(tables: [Professors, Users, Reviews, RejectedReviews, Likes, Groups])
+@DriftDatabase(
+    tables: [Professors, Users, Reviews, RejectedReviews, Reactions, Groups])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
@@ -100,7 +103,7 @@ class AppDatabase extends _$AppDatabase {
         },
         onUpgrade: (m, from, to) async {
           if (from < 2) {
-            await m.createTable(likes);
+            await m.createTable(reactions);
             await m.createTable(groups);
           }
           if (from < 3) {
