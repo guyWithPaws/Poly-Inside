@@ -20,3 +20,7 @@ Flutter-based Telegram Web App for educational purposes with gRPC backend
 ```
 tmux attach -t server
 ```
+Запуск сервера: перейти в папку проекта, ввести команду
+```
+python3 server.py
+```
