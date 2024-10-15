@@ -50,7 +50,8 @@ Future<int> main([List<String>? args]) async {
   // reviewId: '0',
   // type: 1));
 
-  await client.addReviewReaction(Reaction(userId: 123, professorId: '1234', reviewId: '0', type: 0));
+  await client.addReviewReaction(
+      Reaction(userId: 123, professorId: '1234', reviewId: '0', type: 0));
   //await client.likeReview(
   //    LikeRequest(userId: 1234, professorId: '123', reviewId: '112', type: 1));
   //await channel.shutdown();

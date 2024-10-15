@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:shared/shared.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
-
-import '../../feature/initialization/widget/initialization.dart';
 
 enum ReactionType {
   like,
@@ -44,6 +41,12 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
   int likeCount = 10;
   int dislikeCount = 5;
 
+  void _onLikeTap() {
+    setState(() {
+      
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -66,6 +69,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
+              
               onTap: () {
                 setState(() {
                   dislikeCount += isDisliked ? -1 : 0;
@@ -78,7 +82,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   //     widget.review!.reviewId,
                   //     true);
                 });
-                isLiked ? _likeAnimationController?.forward() : _likeAnimationController?.reverse();
+                isLiked
+                    ? _likeAnimationController?.forward()
+                    : _likeAnimationController?.reverse();
                 _dislikeAnimationController!.reverse();
               },
               child: ScaleTransition(
@@ -90,7 +96,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   ReactionType.like.path,
                   alignment: Alignment.bottomRight,
                   colorFilter: ColorFilter.mode(
-                      isLiked ? const Color.fromARGB(255, 34, 166, 64) : const Color.fromARGB(255, 138, 138, 138),
+                      isLiked
+                          ? const Color.fromARGB(255, 34, 166, 64)
+                          : const Color.fromARGB(255, 138, 138, 138),
                       BlendMode.srcIn),
                 ),
               ),
@@ -102,7 +110,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               value: likeCount,
               duration: const Duration(milliseconds: 200),
               textStyle: TextStyle(
-                color: isLiked ? const Color.fromRGBO(0, 0, 0, 1) : const Color.fromARGB(255, 138, 138, 138),
+                color: isLiked
+                    ? const Color.fromRGBO(0, 0, 0, 1)
+                    : const Color.fromARGB(255, 138, 138, 138),
                 fontWeight: isLiked ? FontWeight.w600 : FontWeight.w400,
               ),
             )
@@ -125,7 +135,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   //     widget.review!.reviewId,
                   //     false);
                 });
-                isDisliked ? _dislikeAnimationController?.forward() : _dislikeAnimationController?.reverse();
+                isDisliked
+                    ? _dislikeAnimationController?.forward()
+                    : _dislikeAnimationController?.reverse();
                 _likeAnimationController!.reverse();
               },
               child: ScaleTransition(
@@ -137,7 +149,10 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   ReactionType.dislike.path,
                   alignment: Alignment.bottomRight,
                   colorFilter: ColorFilter.mode(
-                      isDisliked ? Colors.red : const Color.fromARGB(255, 138, 138, 138), BlendMode.srcIn),
+                      isDisliked
+                          ? Colors.red
+                          : const Color.fromARGB(255, 138, 138, 138),
+                      BlendMode.srcIn),
                 ),
               ),
             ),
@@ -148,7 +163,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               value: dislikeCount,
               duration: const Duration(microseconds: 200),
               textStyle: TextStyle(
-                color: isDisliked ? Colors.black : const Color.fromARGB(255, 138, 138, 138),
+                color: isDisliked
+                    ? Colors.black
+                    : const Color.fromARGB(255, 138, 138, 138),
                 fontWeight: isDisliked ? FontWeight.w600 : FontWeight.w400,
               ),
             )
