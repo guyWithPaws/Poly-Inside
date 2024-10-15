@@ -16,6 +16,7 @@ pubspec.lock
 doc/api/
 
 *.log
+*.g.dart
 
 # dotenv environment variables file
 .env*
