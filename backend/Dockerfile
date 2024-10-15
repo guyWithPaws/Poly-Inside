@@ -1,4 +1,4 @@
-FROM dart:stable AS build
+FROM dart:3.6.0-216.1.beta-sdk AS build
 
 RUN apt-get update && apt-get install -y sqlite3 libsqlite3-dev
 
@@ -9,6 +9,8 @@ COPY . .
 COPY db.sqlite /backend/db.sqlite
 
 RUN dart pub get
+
+RUN dart run build_runner build
 
 RUN dart compile exe bin/server.dart -o bin/server
 
