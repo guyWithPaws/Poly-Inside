@@ -105,6 +105,7 @@ class ReviewWithUser extends $pb.GeneratedMessage {
   factory ReviewWithUser({
     Review? review,
     User? user,
+    Reaction? reaction,
   }) {
     final $result = create();
     if (review != null) {
@@ -112,6 +113,9 @@ class ReviewWithUser extends $pb.GeneratedMessage {
     }
     if (user != null) {
       $result.user = user;
+    }
+    if (reaction != null) {
+      $result.reaction = reaction;
     }
     return $result;
   }
@@ -122,6 +126,7 @@ class ReviewWithUser extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ReviewWithUser', createEmptyInstance: create)
     ..aOM<Review>(1, _omitFieldNames ? '' : 'review', subBuilder: Review.create)
     ..aOM<User>(2, _omitFieldNames ? '' : 'user', subBuilder: User.create)
+    ..aOM<Reaction>(3, _omitFieldNames ? '' : 'reaction', subBuilder: Reaction.create)
     ..hasRequiredFields = false
   ;
 
@@ -167,12 +172,24 @@ class ReviewWithUser extends $pb.GeneratedMessage {
   void clearUser() => clearField(2);
   @$pb.TagNumber(2)
   User ensureUser() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  Reaction get reaction => $_getN(2);
+  @$pb.TagNumber(3)
+  set reaction(Reaction v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasReaction() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearReaction() => clearField(3);
+  @$pb.TagNumber(3)
+  Reaction ensureReaction() => $_ensure(2);
 }
 
 class ReviewWithProfessor extends $pb.GeneratedMessage {
   factory ReviewWithProfessor({
     Review? review,
     Professor? professor,
+    Reaction? reaction,
   }) {
     final $result = create();
     if (review != null) {
@@ -180,6 +197,9 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
     }
     if (professor != null) {
       $result.professor = professor;
+    }
+    if (reaction != null) {
+      $result.reaction = reaction;
     }
     return $result;
   }
@@ -190,6 +210,7 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ReviewWithProfessor', createEmptyInstance: create)
     ..aOM<Review>(1, _omitFieldNames ? '' : 'review', subBuilder: Review.create)
     ..aOM<Professor>(2, _omitFieldNames ? '' : 'professor', subBuilder: Professor.create)
+    ..aOM<Reaction>(3, _omitFieldNames ? '' : 'reaction', subBuilder: Reaction.create)
     ..hasRequiredFields = false
   ;
 
@@ -235,6 +256,17 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
   void clearProfessor() => clearField(2);
   @$pb.TagNumber(2)
   Professor ensureProfessor() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  Reaction get reaction => $_getN(2);
+  @$pb.TagNumber(3)
+  set reaction(Reaction v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasReaction() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearReaction() => clearField(3);
+  @$pb.TagNumber(3)
+  Reaction ensureReaction() => $_ensure(2);
 }
 
 class LikeResponse extends $pb.GeneratedMessage {

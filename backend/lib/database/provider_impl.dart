@@ -43,6 +43,13 @@ class DatabaseProviderImpl
                 database.reviews.userId,
               ),
             ),
+            innerJoin(
+              database.reactions,
+              database.reactions.userId.equalsExp(database.reviews.userId) &
+                  database.reactions.professorId
+                      .equalsExp(database.reviews.professorId) &
+                  database.reactions.reviewId.equalsExp(database.reviews.id),
+            ),
           ])
           .watch()
           .map(
@@ -53,6 +60,7 @@ class DatabaseProviderImpl
                     review: r.readTable(
                       database.reviews,
                     ),
+                    reaction: r.readTable(database.reactions),
                   ),
                 )
                 .toList(),
@@ -252,14 +260,23 @@ class DatabaseProviderImpl
   @override
   Stream<List<ReviewWithProfessor>> getReviewsWithProfessor(int userId) =>
       (database.select(database.reviews)..where((u) => u.userId.equals(userId)))
-          .join([
-            innerJoin(
-              database.professors,
-              database.professors.id.equalsExp(
-                database.reviews.professorId,
+          .join(
+            [
+              innerJoin(
+                database.professors,
+                database.professors.id.equalsExp(
+                  database.reviews.professorId,
+                ),
               ),
-            ),
-          ])
+              innerJoin(
+                database.reactions,
+                database.reactions.userId.equalsExp(database.reviews.userId) &
+                    database.reactions.professorId
+                        .equalsExp(database.reviews.professorId) &
+                    database.reactions.reviewId.equalsExp(database.reviews.id),
+              ),
+            ],
+          )
           .watch()
           .map(
             (rows) => rows
@@ -269,6 +286,7 @@ class DatabaseProviderImpl
                     review: r.readTable(
                       database.reviews,
                     ),
+                    reaction: r.readTable(database.reactions),
                   ),
                 )
                 .toList(),

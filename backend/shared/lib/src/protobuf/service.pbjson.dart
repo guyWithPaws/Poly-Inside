@@ -45,13 +45,15 @@ const ReviewWithUser$json = {
   '2': [
     {'1': 'review', '3': 1, '4': 1, '5': 11, '6': '.Review', '10': 'review'},
     {'1': 'user', '3': 2, '4': 1, '5': 11, '6': '.User', '10': 'user'},
+    {'1': 'reaction', '3': 3, '4': 1, '5': 11, '6': '.Reaction', '10': 'reaction'},
   ],
 };
 
 /// Descriptor for `ReviewWithUser`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List reviewWithUserDescriptor = $convert.base64Decode(
     'Cg5SZXZpZXdXaXRoVXNlchIfCgZyZXZpZXcYASABKAsyBy5SZXZpZXdSBnJldmlldxIZCgR1c2'
-    'VyGAIgASgLMgUuVXNlclIEdXNlcg==');
+    'VyGAIgASgLMgUuVXNlclIEdXNlchIlCghyZWFjdGlvbhgDIAEoCzIJLlJlYWN0aW9uUghyZWFj'
+    'dGlvbg==');
 
 @$core.Deprecated('Use reviewWithProfessorDescriptor instead')
 const ReviewWithProfessor$json = {
@@ -59,13 +61,15 @@ const ReviewWithProfessor$json = {
   '2': [
     {'1': 'review', '3': 1, '4': 1, '5': 11, '6': '.Review', '10': 'review'},
     {'1': 'professor', '3': 2, '4': 1, '5': 11, '6': '.Professor', '10': 'professor'},
+    {'1': 'reaction', '3': 3, '4': 1, '5': 11, '6': '.Reaction', '10': 'reaction'},
   ],
 };
 
 /// Descriptor for `ReviewWithProfessor`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List reviewWithProfessorDescriptor = $convert.base64Decode(
     'ChNSZXZpZXdXaXRoUHJvZmVzc29yEh8KBnJldmlldxgBIAEoCzIHLlJldmlld1IGcmV2aWV3Ei'
-    'gKCXByb2Zlc3NvchgCIAEoCzIKLlByb2Zlc3NvclIJcHJvZmVzc29y');
+    'gKCXByb2Zlc3NvchgCIAEoCzIKLlByb2Zlc3NvclIJcHJvZmVzc29yEiUKCHJlYWN0aW9uGAMg'
+    'ASgLMgkuUmVhY3Rpb25SCHJlYWN0aW9u');
 
 @$core.Deprecated('Use likeResponseDescriptor instead')
 const LikeResponse$json = {
