@@ -20,8 +20,8 @@ Future<void> main() async {
           final database = AppDatabase(NativeDatabase(File('db.sqlite')));
           final provider = DatabaseProviderImpl(database: database);
           final parser = Parser(provider: provider);
-          //await parser.fillDatabase();
-          //await parser.fillGroupsDatabase();
+          await parser.fillDatabase();
+          await parser.fillGroupsDatabase();
           final server = Server.create(services: [
             GRPCService(provider: provider),
           ], interceptors: []);
