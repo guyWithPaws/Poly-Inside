@@ -111,8 +111,16 @@ class GRPCService extends SearchServiceBase {
   Future<LikeResponse> addReviewReaction(
       ServiceCall call, Reaction request) async {
     if (request.type == 2) {
+      var reaction = await provider.getReaction(request.id);
       await provider.deleteReaction(
           request.userId, request.professorId, request.reviewId);
+      var review = await provider.getReview(request.reviewId);
+      if (request.type == 1) {
+        review.likes -= 1;
+      } else {
+        review.dislikes -= 1;
+      }
+      await provider.updateReview(review);
       // ignore: lines_longer_than_80_chars
       l.v('Delete reaction with userId: ${request.userId} professorId: ${request.professorId} reviewId: ${request.reviewId}');
     } else {
@@ -122,11 +130,11 @@ class GRPCService extends SearchServiceBase {
         reviewId: request.reviewId,
       ));
       var review = await provider.getReview(request.reviewId);
-      if (request.type == 1) {
+      if (request.type == 1 && response) {
         review
           ..likes += 1
           ..dislikes -= 1;
-      } else {
+      } else if (request.type == 0 && response) {
         review
           ..likes -= 1
           ..dislikes += 1;

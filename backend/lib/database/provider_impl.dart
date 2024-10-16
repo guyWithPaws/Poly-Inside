@@ -341,4 +341,12 @@ class DatabaseProviderImpl
         .getSingle();
     return review;
   }
+
+  @override
+  Future<Reaction> getReaction(String reactionId) async {
+    final reaction = await (database.select(database.reactions)
+          ..where((t) => t.id.equals(reactionId)))
+        .getSingle();
+    return reaction;
+  }
 }

@@ -57,20 +57,19 @@ class SearchServiceClient extends $grpc.Client {
       '/SearchService/DeleteReview',
       ($0.DeleteReviewRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.DeleteReviewResponse.fromBuffer(value));
-  static final _$getReviewsByProfessorId = $grpc.ClientMethod<$0.ReviewsByProfessorIdRequest, $0.ReviewWithUserResponse>(
-      '/SearchService/GetReviewsByProfessorId',
-      ($0.ReviewsByProfessorIdRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.ReviewWithUserResponse.fromBuffer(value));
+  static final _$getReviewsByProfessorId =
+      $grpc.ClientMethod<$0.ReviewsByProfessorIdRequest, $0.ReviewWithUserResponse>(
+          '/SearchService/GetReviewsByProfessorId',
+          ($0.ReviewsByProfessorIdRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $0.ReviewWithUserResponse.fromBuffer(value));
   static final _$addReviewReaction = $grpc.ClientMethod<$0.Reaction, $0.LikeResponse>(
       '/SearchService/AddReviewReaction',
       ($0.Reaction value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.LikeResponse.fromBuffer(value));
 
   SearchServiceClient($grpc.ClientChannel channel,
-      {$grpc.CallOptions? options,
-      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      {$grpc.CallOptions? options, $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
   $grpc.ResponseFuture<$0.AddProfileResponse> addProfile($0.User request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$addProfile, request, options: options);
@@ -84,15 +83,18 @@ class SearchServiceClient extends $grpc.Client {
     return $createUnaryCall(_$getProfile, request, options: options);
   }
 
-  $grpc.ResponseStream<$0.GetListProfessorResponse> getListProfessor($0.ListProfessorRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseStream<$0.GetListProfessorResponse> getListProfessor($0.ListProfessorRequest request,
+      {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$getListProfessor, $async.Stream.fromIterable([request]), options: options);
   }
 
-  $grpc.ResponseFuture<$0.SearchResponse> searchProfessorByName($0.SearchRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.SearchResponse> searchProfessorByName($0.SearchRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$searchProfessorByName, request, options: options);
   }
 
-  $grpc.ResponseStream<$0.ReviewWithProfessorResponse> getReviewWithProfessor($0.ReviewsByUserIdRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseStream<$0.ReviewWithProfessorResponse> getReviewWithProfessor($0.ReviewsByUserIdRequest request,
+      {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$getReviewWithProfessor, $async.Stream.fromIterable([request]), options: options);
   }
 
@@ -104,11 +106,13 @@ class SearchServiceClient extends $grpc.Client {
     return $createUnaryCall(_$updateReview, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.DeleteReviewResponse> deleteReview($0.DeleteReviewRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.DeleteReviewResponse> deleteReview($0.DeleteReviewRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteReview, request, options: options);
   }
 
-  $grpc.ResponseStream<$0.ReviewWithUserResponse> getReviewsByProfessorId($0.ReviewsByProfessorIdRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseStream<$0.ReviewWithUserResponse> getReviewsByProfessorId($0.ReviewsByProfessorIdRequest request,
+      {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$getReviewsByProfessorId, $async.Stream.fromIterable([request]), options: options);
   }
 
@@ -205,23 +209,28 @@ abstract class SearchServiceBase extends $grpc.Service {
     return addProfile(call, await request);
   }
 
-  $async.Future<$0.UpdateProfileResponse> updateProfile_Pre($grpc.ServiceCall call, $async.Future<$0.User> request) async {
+  $async.Future<$0.UpdateProfileResponse> updateProfile_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.User> request) async {
     return updateProfile(call, await request);
   }
 
-  $async.Future<$0.User> getProfile_Pre($grpc.ServiceCall call, $async.Future<$0.UserInfoByUserIdRequest> request) async {
+  $async.Future<$0.User> getProfile_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.UserInfoByUserIdRequest> request) async {
     return getProfile(call, await request);
   }
 
-  $async.Stream<$0.GetListProfessorResponse> getListProfessor_Pre($grpc.ServiceCall call, $async.Future<$0.ListProfessorRequest> request) async* {
+  $async.Stream<$0.GetListProfessorResponse> getListProfessor_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.ListProfessorRequest> request) async* {
     yield* getListProfessor(call, await request);
   }
 
-  $async.Future<$0.SearchResponse> searchProfessorByName_Pre($grpc.ServiceCall call, $async.Future<$0.SearchRequest> request) async {
+  $async.Future<$0.SearchResponse> searchProfessorByName_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.SearchRequest> request) async {
     return searchProfessorByName(call, await request);
   }
 
-  $async.Stream<$0.ReviewWithProfessorResponse> getReviewWithProfessor_Pre($grpc.ServiceCall call, $async.Future<$0.ReviewsByUserIdRequest> request) async* {
+  $async.Stream<$0.ReviewWithProfessorResponse> getReviewWithProfessor_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.ReviewsByUserIdRequest> request) async* {
     yield* getReviewWithProfessor(call, await request);
   }
 
@@ -229,19 +238,23 @@ abstract class SearchServiceBase extends $grpc.Service {
     return addReview(call, await request);
   }
 
-  $async.Future<$0.UpdateReviewResponse> updateReview_Pre($grpc.ServiceCall call, $async.Future<$0.Review> request) async {
+  $async.Future<$0.UpdateReviewResponse> updateReview_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Review> request) async {
     return updateReview(call, await request);
   }
 
-  $async.Future<$0.DeleteReviewResponse> deleteReview_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteReviewRequest> request) async {
+  $async.Future<$0.DeleteReviewResponse> deleteReview_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.DeleteReviewRequest> request) async {
     return deleteReview(call, await request);
   }
 
-  $async.Stream<$0.ReviewWithUserResponse> getReviewsByProfessorId_Pre($grpc.ServiceCall call, $async.Future<$0.ReviewsByProfessorIdRequest> request) async* {
+  $async.Stream<$0.ReviewWithUserResponse> getReviewsByProfessorId_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.ReviewsByProfessorIdRequest> request) async* {
     yield* getReviewsByProfessorId(call, await request);
   }
 
-  $async.Future<$0.LikeResponse> addReviewReaction_Pre($grpc.ServiceCall call, $async.Future<$0.Reaction> request) async {
+  $async.Future<$0.LikeResponse> addReviewReaction_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Reaction> request) async {
     return addReviewReaction(call, await request);
   }
 
@@ -250,10 +263,12 @@ abstract class SearchServiceBase extends $grpc.Service {
   $async.Future<$0.User> getProfile($grpc.ServiceCall call, $0.UserInfoByUserIdRequest request);
   $async.Stream<$0.GetListProfessorResponse> getListProfessor($grpc.ServiceCall call, $0.ListProfessorRequest request);
   $async.Future<$0.SearchResponse> searchProfessorByName($grpc.ServiceCall call, $0.SearchRequest request);
-  $async.Stream<$0.ReviewWithProfessorResponse> getReviewWithProfessor($grpc.ServiceCall call, $0.ReviewsByUserIdRequest request);
+  $async.Stream<$0.ReviewWithProfessorResponse> getReviewWithProfessor(
+      $grpc.ServiceCall call, $0.ReviewsByUserIdRequest request);
   $async.Future<$0.AddReviewResponse> addReview($grpc.ServiceCall call, $0.Review request);
   $async.Future<$0.UpdateReviewResponse> updateReview($grpc.ServiceCall call, $0.Review request);
   $async.Future<$0.DeleteReviewResponse> deleteReview($grpc.ServiceCall call, $0.DeleteReviewRequest request);
-  $async.Stream<$0.ReviewWithUserResponse> getReviewsByProfessorId($grpc.ServiceCall call, $0.ReviewsByProfessorIdRequest request);
+  $async.Stream<$0.ReviewWithUserResponse> getReviewsByProfessorId(
+      $grpc.ServiceCall call, $0.ReviewsByProfessorIdRequest request);
   $async.Future<$0.LikeResponse> addReviewReaction($grpc.ServiceCall call, $0.Reaction request);
 }

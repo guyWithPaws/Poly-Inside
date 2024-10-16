@@ -16,8 +16,7 @@ abstract class ProfessorProvider {
 
   Future<List<Professor>> findProfessorByName(String name, int count);
   Future<List<Professor>> getOnceAllProfessors();
-  Future<void> addProfessorToGroup(
-      String id, String number, String professorId);
+  Future<void> addProfessorToGroup(String id, String number, String professorId);
 }
 
 abstract class ReviewProvider {
@@ -43,4 +42,5 @@ abstract class ReactionProvider {
   Future<void> updateReaction(Reaction reaction);
   Future<void> deleteReaction(int userId, String professorId, String reviewId);
   Future<bool> isReactionExists(Reaction reaction);
+  Future<Reaction> getReaction(String reactionId);
 }
