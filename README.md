@@ -15,6 +15,11 @@ Flutter-based Telegram Web App for educational purposes with gRPC backend
 - Бэкап данных
 - Продумать систему логгирования
 
+## Flutter Reinstalling
+- Pavel -2
+- Goxa -3
+- Arseniy - 2
+
 ### Notes for Devs
 Чтобы подключится к текущей сессии с рабочей версией проекта - вводить команду
 ```
