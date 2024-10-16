@@ -335,7 +335,6 @@ class _ProfilePageState extends State<ProfilePage> {
               loaded: (professors) => SliverList.separated(
                 itemCount: professors.length,
                 itemBuilder: (context, index) {
-                  debugPrint();
                   return ReviewTitle(
                     review: professors[index].review,
                     professor: professors[index].professor,
