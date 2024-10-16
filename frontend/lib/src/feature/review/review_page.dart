@@ -125,7 +125,7 @@ class _ReviewPageState extends State<ReviewPage> {
         onPressed: () async {
           var reviewIdBytes = utf8.encode(UserScope.userOf(context).id.toString() + DateTime.now().toString());
           var generatedReviewId = sha1.convert(reviewIdBytes).toString();
-          debugPrint(generatedReviewId);
+          //debugPrint(generatedReviewId);
           Review outputReview = Review(
               reviewId: generatedReviewId,
               objectivity: _valueObjectivityNotifier!.value,
@@ -140,11 +140,11 @@ class _ReviewPageState extends State<ReviewPage> {
               professorId: widget.professor.id);
           bool passed = true;
           if (widget.type == ReviewType.add) {
-            debugPrint(outputReview.toString());
+            //debugPrint(outputReview.toString());
             passed = await InitializationScope.repositoryOf(context).addReview(outputReview);
           } else {
             outputReview.reviewId = widget.review!.reviewId;
-            debugPrint('Editing reviewId: ${widget.review!.reviewId}');
+            //debugPrint('Editing reviewId: ${widget.review!.reviewId}');
             await InitializationScope.repositoryOf(context).updateReview(outputReview);
           }
 

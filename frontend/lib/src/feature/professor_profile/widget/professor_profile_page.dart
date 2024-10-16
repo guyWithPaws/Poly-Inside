@@ -58,7 +58,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
+    if (_scrollController?.position.pixels !=
+        _scrollController?.position.minScrollExtent) {
       _valueNotifier?.value = true;
     } else {
       _valueNotifier?.value = false;
@@ -102,7 +103,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
         builder: (context, value, _) => FloatingActionButton.extended(
           onPressed: () {
             _valueNotifier!.value
-                ? _scrollController?.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut)
+                ? _scrollController?.animateTo(0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut)
                 : Navigator.push(
                     context,
                     MaterialPageRoute<void>(
@@ -121,7 +124,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                   ? const Icon(Icons.arrow_upward)
                   : const Text(
                       'Написать отзыв',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                     ),
             ),
           ),
@@ -161,7 +165,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           backgroundImage: MemoryImage(
                             Uint8List.fromList(widget.professor.avatar),
                           ),
-                          child: Uint8List.fromList(widget.professor.avatar).isEmpty
+                          child: Uint8List.fromList(widget.professor.avatar)
+                                  .isEmpty
                               ? SvgPicture.asset(
                                   'assets/icons/no_photo.svg',
                                   width: 69,
@@ -172,7 +177,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                         child: Text(
                           textAlign: TextAlign.center,
                           widget.professor.name.capitalize(),
-                          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.w600),
                         ),
                       ),
                       Row(
@@ -251,7 +257,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                       width: 20,
                                       height: 26,
                                       decoration: BoxDecoration(
-                                        color: const Color.fromARGB(255, 233, 252, 232),
+                                        color: const Color.fromARGB(
+                                            255, 233, 252, 232),
                                         borderRadius: BorderRadius.circular(7),
                                       ),
                                       child: Center(
@@ -284,13 +291,15 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               ),
               loaded: (professors) => SliverList.separated(
                 itemCount: professors.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 16),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16),
                 itemBuilder: (context, index) {
-                  debugPrint('Review: ${professors[index].review}');
+                  //debugPrint('Review: ${professors[index].reaction}');
                   return ReviewTitle(
                     review: professors[index].review,
                     professor: widget.professor,
                     user: professors[index].user,
+                    reaction: professors[index].reaction,
                   );
                 },
               ),

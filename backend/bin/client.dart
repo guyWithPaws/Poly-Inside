@@ -114,10 +114,7 @@ Future<int> main([List<String>? args]) async {
   //     reviewId: '1',
   //     type: 1));
 
-  client
-      .getReviewsByProfessorId(
-          ReviewsByProfessorIdRequest(id: 'b5a697ced51cba828b6c'))
-      .listen((review) {
+  client.getReviewsByProfessorId(ReviewsByProfessorIdRequest(id: 'b5a697ced51cba828b6c')).listen((review) {
     //print(review.list.length);
   });
 

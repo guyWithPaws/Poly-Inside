@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: protobuf/service.proto
+//  source: shared/protobuf/service.proto
 //
 // @dart = 2.12
 

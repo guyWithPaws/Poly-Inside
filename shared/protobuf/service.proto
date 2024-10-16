@@ -32,11 +32,13 @@ message ReviewWithUserResponse{
 message ReviewWithUser {
   Review review = 1;
   User user = 2;
+  Reaction reaction = 3;
 }
 
 message ReviewWithProfessor {
   Review review = 1;
   Professor professor = 2;
+  Reaction reaction = 3;
 }
 
 message LikeResponse {}

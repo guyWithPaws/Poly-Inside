@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: protobuf/service.proto
+//  source: shared/protobuf/service.proto
 //
 // @dart = 2.12
 
@@ -113,6 +113,7 @@ class ReviewWithUser extends $pb.GeneratedMessage {
   factory ReviewWithUser({
     Review? review,
     User? user,
+    Reaction? reaction,
   }) {
     final $result = create();
     if (review != null) {
@@ -120,6 +121,9 @@ class ReviewWithUser extends $pb.GeneratedMessage {
     }
     if (user != null) {
       $result.user = user;
+    }
+    if (reaction != null) {
+      $result.reaction = reaction;
     }
     return $result;
   }
@@ -133,6 +137,7 @@ class ReviewWithUser extends $pb.GeneratedMessage {
       $pb.BuilderInfo(_omitMessageNames ? '' : 'ReviewWithUser', createEmptyInstance: create)
         ..aOM<Review>(1, _omitFieldNames ? '' : 'review', subBuilder: Review.create)
         ..aOM<User>(2, _omitFieldNames ? '' : 'user', subBuilder: User.create)
+        ..aOM<Reaction>(3, _omitFieldNames ? '' : 'reaction', subBuilder: Reaction.create)
         ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -182,12 +187,27 @@ class ReviewWithUser extends $pb.GeneratedMessage {
   void clearUser() => clearField(2);
   @$pb.TagNumber(2)
   User ensureUser() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  Reaction get reaction => $_getN(2);
+  @$pb.TagNumber(3)
+  set reaction(Reaction v) {
+    setField(3, v);
+  }
+
+  @$pb.TagNumber(3)
+  $core.bool hasReaction() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearReaction() => clearField(3);
+  @$pb.TagNumber(3)
+  Reaction ensureReaction() => $_ensure(2);
 }
 
 class ReviewWithProfessor extends $pb.GeneratedMessage {
   factory ReviewWithProfessor({
     Review? review,
     Professor? professor,
+    Reaction? reaction,
   }) {
     final $result = create();
     if (review != null) {
@@ -195,6 +215,9 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
     }
     if (professor != null) {
       $result.professor = professor;
+    }
+    if (reaction != null) {
+      $result.reaction = reaction;
     }
     return $result;
   }
@@ -209,6 +232,7 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
       $pb.BuilderInfo(_omitMessageNames ? '' : 'ReviewWithProfessor', createEmptyInstance: create)
         ..aOM<Review>(1, _omitFieldNames ? '' : 'review', subBuilder: Review.create)
         ..aOM<Professor>(2, _omitFieldNames ? '' : 'professor', subBuilder: Professor.create)
+        ..aOM<Reaction>(3, _omitFieldNames ? '' : 'reaction', subBuilder: Reaction.create)
         ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -259,6 +283,20 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
   void clearProfessor() => clearField(2);
   @$pb.TagNumber(2)
   Professor ensureProfessor() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  Reaction get reaction => $_getN(2);
+  @$pb.TagNumber(3)
+  set reaction(Reaction v) {
+    setField(3, v);
+  }
+
+  @$pb.TagNumber(3)
+  $core.bool hasReaction() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearReaction() => clearField(3);
+  @$pb.TagNumber(3)
+  Reaction ensureReaction() => $_ensure(2);
 }
 
 class LikeResponse extends $pb.GeneratedMessage {
@@ -1093,6 +1131,7 @@ class User extends $pb.GeneratedMessage {
     $core.String? name,
     $core.List<$core.int>? avatar,
     $core.int? rating,
+    $core.String? group,
   }) {
     final $result = create();
     if (id != null) {
@@ -1107,6 +1146,9 @@ class User extends $pb.GeneratedMessage {
     if (rating != null) {
       $result.rating = rating;
     }
+    if (group != null) {
+      $result.group = group;
+    }
     return $result;
   }
   User._() : super();
@@ -1120,6 +1162,7 @@ class User extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'avatar', $pb.PbFieldType.OY)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.O3)
+    ..aOS(5, _omitFieldNames ? '' : 'group')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1188,6 +1231,18 @@ class User extends $pb.GeneratedMessage {
   $core.bool hasRating() => $_has(3);
   @$pb.TagNumber(4)
   void clearRating() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get group => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set group($core.String v) {
+    $_setString(4, v);
+  }
+
+  @$pb.TagNumber(5)
+  $core.bool hasGroup() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearGroup() => clearField(5);
 }
 
 class Professor extends $pb.GeneratedMessage {

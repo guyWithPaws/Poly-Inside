@@ -36,5 +36,7 @@ abstract class RejectedReviewProvider {
 abstract class ReactionProvider {
   // CRUD operations
   Future<void> addReaction(Reaction reaction);
+  Future<void> updateReaction(Reaction reaction);
   Future<void> deleteReaction(int userId, String professorId, String reviewId);
+  Future<bool> isReactionExists(Reaction reaction);
 }

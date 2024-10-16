@@ -312,4 +312,25 @@ class DatabaseProviderImpl
           ),
         );
   }
+
+  @override
+  Future<void> updateReaction(Reaction reaction) async =>
+      await database.update(database.reactions).replace(ReactionsCompanion(
+          id: Value<String>(reaction.id),
+          userId: Value<int>(reaction.userId),
+          reviewId: Value<String>(reaction.reviewId),
+          professorId: Value<String>(reaction.professorId),
+          liked: Value<bool>(reaction.type == 1 ? true : false)));
+
+  @override
+  Future<bool> isReactionExists(Reaction reaction) async {
+    final query = await (database.select(database.reactions)
+          ..where((r) =>
+              r.userId.equals(reaction.userId) &
+              r.professorId.equals(reaction.professorId) &
+              r.reviewId.equals(reaction.reviewId)))
+        .get();
+
+    return query.isNotEmpty;
+  }
 }
