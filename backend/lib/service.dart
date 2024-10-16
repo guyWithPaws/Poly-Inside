@@ -121,6 +121,17 @@ class GRPCService extends SearchServiceBase {
         professorId: request.professorId,
         reviewId: request.reviewId,
       ));
+      var review = await provider.getReview(request.reviewId);
+      if (request.type == 1) {
+        review
+          ..likes += 1
+          ..dislikes -= 1;
+      } else {
+        review
+          ..likes -= 1
+          ..dislikes += 1;
+      }
+
       if (response) {
         await provider.updateReaction(Reaction(
             id: request.id,
@@ -128,6 +139,8 @@ class GRPCService extends SearchServiceBase {
             professorId: request.professorId,
             reviewId: request.reviewId,
             type: request.type));
+
+        await provider.updateReview(review);
         l.v('Update reaction with id ${request.id} to ${request.type == 1 ? 'like' : 'dislike'}');
       } else {
         await provider.addReaction(Reaction(
@@ -137,6 +150,7 @@ class GRPCService extends SearchServiceBase {
             reviewId: request.reviewId,
             type: request.type));
         l.v('Add ${request.type == 0 ? 'dislike' : 'like'} reaction');
+        await provider.updateReview(review);
       }
     }
     return LikeResponse();

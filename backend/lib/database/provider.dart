@@ -25,6 +25,8 @@ abstract class ReviewProvider {
   Future<bool> updateReview(Review review);
   Future<int> deleteReview(String reviewId);
 
+  Future<Review> getReview(String id);
+
   Stream<List<ReviewWithProfessor>> getReviewsWithProfessor(int userId);
 }
 

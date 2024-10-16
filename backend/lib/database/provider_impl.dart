@@ -333,4 +333,12 @@ class DatabaseProviderImpl
 
     return query.isNotEmpty;
   }
+
+  @override
+  Future<Review> getReview(String id) async {
+    final review = await (database.select(database.reviews)
+          ..where((t) => t.id.equals(id)))
+        .getSingle();
+    return review;
+  }
 }
