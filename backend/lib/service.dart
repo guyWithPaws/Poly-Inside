@@ -64,7 +64,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<UpdateReviewResponse> updateReview(
       ServiceCall call, Review request) async {
-    l.v('EditReview with ${request.reviewId}');
+    l.v('EditReview with ${request.id}');
     await provider.updateReview(request);
     return UpdateReviewResponse();
   }

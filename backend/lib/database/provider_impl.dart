@@ -115,7 +115,7 @@ class DatabaseProviderImpl
 
     return await database.into(database.reviews).insert(
           ReviewsCompanion(
-            id: Value(review.reviewId),
+            id: Value(review.id),
             likes: Value(review.likes),
             dislikes: Value(review.dislikes),
             professorId: Value(review.professorId),
@@ -146,7 +146,7 @@ class DatabaseProviderImpl
   Future<bool> updateReview(Review review) async =>
       await database.update(database.reviews).replace(
             ReviewsCompanion(
-              id: Value(review.reviewId),
+              id: Value(review.id),
               likes: Value(review.likes),
               dislikes: Value(review.dislikes),
               professorId: Value(review.professorId),

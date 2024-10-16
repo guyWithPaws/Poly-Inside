@@ -37,13 +37,28 @@ Future<int> main([List<String>? args]) async {
   // ));
 //
   // await client.addReview(Review(
-  // reviewId: '0002',
-  // userId: 123,
-  // professorId: 'b5a697ced51cba828b6cf53627d1b88b747e615e',
-  // likes: 0,
-  // dislikes: 0,
-  // comment: 'лучший'
-  // ));
+  //     reviewId: '2',
+  //     userId: 123,
+  //     professorId: 'b5a697ced51cba828b6cf53627d1b88b747e615e',
+  //     likes: 0,
+  //     dislikes: 0,
+  //     comment: 'лучший'));
+
+  // await client.addReview(Review(
+  //     reviewId: '1',
+  //     userId: 123,
+  //     professorId: 'b5a697ced51cba828b6cf53627d1b88b747e615e',
+  //     likes: 0,
+  //     dislikes: 0,
+  //     comment: 'наш'));
+
+  // await client.addReview(Review(
+  //     reviewId: '3',
+  //     userId: 123,
+  //     professorId: 'b5a697ced51cba828b6cf53627d1b88b747e615e',
+  //     likes: 0,
+  //     dislikes: 0,
+  //     comment: 'слон'));
 
   // await client.deleteReview(DeleteReviewRequest(
   //   reviewId: '0000'
@@ -114,16 +129,19 @@ Future<int> main([List<String>? args]) async {
   //     reviewId: '1',
   //     type: 1));
 
-  client.getReviewsByProfessorId(ReviewsByProfessorIdRequest(id: 'b5a697ced51cba828b6c')).listen((review) {
-    //print(review.list.length);
-  });
+  // client
+  //     .getReviewsByProfessorId(
+  //         ReviewsByProfessorIdRequest(id: 'b5a697ced51cba828b6c'))
+  //     .listen((review) {
+  //   //print(review.list.length);
+  // });
 
   client.getReviewWithProfessor(ReviewsByUserIdRequest(id: 123)).listen((_) {
     print(_.list.length);
     _.list.forEach((v) {
       //print(v.professor);
-      print('Reaction: ${v.reaction}');
-      //print(v.review);
+      //print('Reaction: ${v.reaction}');
+      print(v.review.id);
     });
   });
 

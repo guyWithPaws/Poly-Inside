@@ -63,7 +63,6 @@ class Users extends Table {
   IntColumn get id => integer()();
   TextColumn get name => text()();
   BlobColumn get avatar => blob()();
-  //TextColumn get group => text()();
   IntColumn get rating => integer().withDefault(const Constant<int>(0))();
   TextColumn get group => text()();
 

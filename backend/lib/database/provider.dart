@@ -1,6 +1,6 @@
 import 'package:shared/shared.dart';
 
-abstract interface class UserProvider {
+abstract class UserProvider {
   // CRUD operations
   Future<void> addUser(User user);
   Future<bool> updateUser(User user);
@@ -13,10 +13,11 @@ abstract class ProfessorProvider {
   Future<void> addProfessor(Professor professor);
 
   Stream<List<Professor>> getAllProfessors(int count);
-  Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId);
+
   Future<List<Professor>> findProfessorByName(String name, int count);
   Future<List<Professor>> getOnceAllProfessors();
-  Future<void> addProfessorToGroup(String id, String number, String professorId);
+  Future<void> addProfessorToGroup(
+      String id, String number, String professorId);
 }
 
 abstract class ReviewProvider {
@@ -28,6 +29,7 @@ abstract class ReviewProvider {
   Future<Review> getReview(String id);
 
   Stream<List<ReviewWithProfessor>> getReviewsWithProfessor(int userId);
+  Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId);
 }
 
 abstract class RejectedReviewProvider {
