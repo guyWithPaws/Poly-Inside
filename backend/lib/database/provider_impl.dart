@@ -37,7 +37,7 @@ class DatabaseProviderImpl
               database.users,
               database.users.id.equalsExp(database.reviews.userId),
             ),
-            innerJoin(
+            leftOuterJoin(
               database.reactions,
               database.reactions.userId.equalsExp(database.reviews.userId) &
                   database.reactions.professorId
@@ -49,10 +49,9 @@ class DatabaseProviderImpl
           .map(
             (rows) => rows
                 .map((r) => ReviewWithUser(
-                      user: r.readTable(database.users),
-                      review: r.readTable(database.reviews),
-                      reaction: r.readTable(database.reactions),
-                    ))
+                    user: r.readTable(database.users),
+                    review: r.readTable(database.reviews),
+                    reaction: r.readTableOrNull(database.reactions)))
                 .toList(),
           );
 
@@ -256,7 +255,7 @@ class DatabaseProviderImpl
               database.professors,
               database.professors.id.equalsExp(database.reviews.professorId),
             ),
-            innerJoin(
+            leftOuterJoin(
               database.reactions,
               database.reactions.userId.equalsExp(database.reviews.userId) &
                   database.reactions.professorId
@@ -271,7 +270,7 @@ class DatabaseProviderImpl
                   (r) => ReviewWithProfessor(
                     professor: r.readTable(database.professors),
                     review: r.readTable(database.reviews),
-                    reaction: r.readTable(database.reactions),
+                    reaction: r.readTableOrNull(database.reactions),
                   ),
                 )
                 .toList(),

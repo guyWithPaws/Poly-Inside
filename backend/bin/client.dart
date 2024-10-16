@@ -93,17 +93,39 @@ Future<int> main([List<String>? args]) async {
   // reviewId: '0000'
   // ));
 //
+
+  // await client.addReviewReaction(Reaction(
+  // id: '12345',
+  // professorId: 'b5a697ced51cba828b6cf53627d1b88b747e615e',
+  // reviewId: '0000',
+  // userId: 123,
+  // type: 2));
+  // await client.addReviewReaction(Reaction(
+  //     id: '123456',
+  //     professorId: 'b5a697ced51cba828b6cf53627d1b88b747e615e',
+  //     reviewId: '0000',
+  //     userId: 123,
+  //     type: 0));
+
+  // await client.addReviewReaction(Reaction(
+  //     id: '123456',
+  //     professorId: '4164b6b3bfd6d6307497ea990b44dc7b1517462b',
+  //     userId: 123,
+  //     reviewId: '1',
+  //     type: 1));
+
   client
       .getReviewsByProfessorId(
           ReviewsByProfessorIdRequest(id: 'b5a697ced51cba828b6c'))
       .listen((review) {
-    print(review.list.length); // prints each review as it arrives
+    //print(review.list.length);
   });
 
   client.getReviewWithProfessor(ReviewsByUserIdRequest(id: 123)).listen((_) {
+    print(_.list.length);
     _.list.forEach((v) {
       //print(v.professor);
-      print(v.reaction);
+      print('Reaction: ${v.reaction}');
       //print(v.review);
     });
   });
