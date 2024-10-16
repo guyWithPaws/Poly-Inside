@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:shared/shared.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 
@@ -20,11 +21,13 @@ enum ReactionType {
 class Reactions extends StatefulWidget {
   final Review? review;
   final Professor? professor;
+  final Reaction? reaction;
 
   const Reactions({
     super.key,
     this.review,
-    this.professor, // ignore: unused_element
+    this.professor,
+    this.reaction,
   });
 
   @override
@@ -43,8 +46,33 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
 
   void _onLikeTap() {
     setState(() {
-      
+      dislikeCount += isDisliked ? -1 : 0;
+      isDisliked = false;
+      isLiked = !isLiked;
+      likeCount += isLiked ? 1 : -1;
     });
+    isLiked
+        ? _likeAnimationController?.forward()
+        : _likeAnimationController?.reverse();
+    _dislikeAnimationController!.reverse();
+  }
+
+  void _onDislikeTap() {
+    setState(() {
+      likeCount += isLiked ? -1 : 0;
+      isLiked = false;
+      isDisliked = !isDisliked;
+      dislikeCount += isDisliked ? 1 : -1;
+      // InitializationScope.repositoryOf(context).addReaction(
+      //     UserScope.userOf(context).id,
+      //     widget.professor!.id,
+      //     widget.review!.reviewId,
+      //     false);
+    });
+    isDisliked
+        ? _dislikeAnimationController?.forward()
+        : _dislikeAnimationController?.reverse();
+    _likeAnimationController!.reverse();
   }
 
   @override
@@ -69,24 +97,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
-              
-              onTap: () {
-                setState(() {
-                  dislikeCount += isDisliked ? -1 : 0;
-                  isDisliked = false;
-                  isLiked = !isLiked;
-                  likeCount += isLiked ? 1 : -1;
-                  // InitializationScope.repositoryOf(context).addReaction(
-                  //     UserScope.userOf(context).id,
-                  //     widget.professor!.id,
-                  //     widget.review!.reviewId,
-                  //     true);
-                });
-                isLiked
-                    ? _likeAnimationController?.forward()
-                    : _likeAnimationController?.reverse();
-                _dislikeAnimationController!.reverse();
-              },
+              onTap: UserScope.userOf(context).id != widget.review!.userId
+                  ? _onLikeTap
+                  : null,
               child: ScaleTransition(
                 scale: Tween<double>(
                   begin: 1.0,
@@ -123,23 +136,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  likeCount += isLiked ? -1 : 0;
-                  isLiked = false;
-                  isDisliked = !isDisliked;
-                  dislikeCount += isDisliked ? 1 : -1;
-                  // InitializationScope.repositoryOf(context).addReaction(
-                  //     UserScope.userOf(context).id,
-                  //     widget.professor!.id,
-                  //     widget.review!.reviewId,
-                  //     false);
-                });
-                isDisliked
-                    ? _dislikeAnimationController?.forward()
-                    : _dislikeAnimationController?.reverse();
-                _likeAnimationController!.reverse();
-              },
+              onTap: UserScope.userOf(context).id != widget.review!.userId
+                  ? _onDislikeTap
+                  : null,
               child: ScaleTransition(
                 scale: Tween<double>(
                   begin: 1.0,

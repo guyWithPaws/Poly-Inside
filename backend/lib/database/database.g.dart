@@ -380,8 +380,13 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
+  static const VerificationMeta _groupMeta = const VerificationMeta('group');
   @override
-  List<GeneratedColumn> get $columns => [id, name, avatar, rating];
+  late final GeneratedColumn<String> group = GeneratedColumn<String>(
+      'group', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, name, avatar, rating, group];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -410,6 +415,12 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     if (data.containsKey('rating')) {
       context.handle(_ratingMeta,
           rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta));
+    }
+    if (data.containsKey('group')) {
+      context.handle(
+          _groupMeta, group.isAcceptableOrUnknown(data['group']!, _groupMeta));
+    } else if (isInserting) {
+      context.missing(_groupMeta);
     }
     return context;
   }
@@ -442,30 +453,36 @@ class UsersCompanion extends UpdateCompanion<User> {
   final Value<String> name;
   final Value<Uint8List> avatar;
   final Value<int> rating;
+  final Value<String> group;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.avatar = const Value.absent(),
     this.rating = const Value.absent(),
+    this.group = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required Uint8List avatar,
     this.rating = const Value.absent(),
+    required String group,
   })  : name = Value(name),
-        avatar = Value(avatar);
+        avatar = Value(avatar),
+        group = Value(group);
   static Insertable<User> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<Uint8List>? avatar,
     Expression<int>? rating,
+    Expression<String>? group,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (avatar != null) 'avatar': avatar,
       if (rating != null) 'rating': rating,
+      if (group != null) 'group': group,
     });
   }
 
@@ -473,12 +490,14 @@ class UsersCompanion extends UpdateCompanion<User> {
       {Value<int>? id,
       Value<String>? name,
       Value<Uint8List>? avatar,
-      Value<int>? rating}) {
+      Value<int>? rating,
+      Value<String>? group}) {
     return UsersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       avatar: avatar ?? this.avatar,
       rating: rating ?? this.rating,
+      group: group ?? this.group,
     );
   }
 
@@ -497,6 +516,9 @@ class UsersCompanion extends UpdateCompanion<User> {
     if (rating.present) {
       map['rating'] = Variable<int>(rating.value);
     }
+    if (group.present) {
+      map['group'] = Variable<String>(group.value);
+    }
     return map;
   }
 
@@ -506,7 +528,8 @@ class UsersCompanion extends UpdateCompanion<User> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('avatar: $avatar, ')
-          ..write('rating: $rating')
+          ..write('rating: $rating, ')
+          ..write('group: $group')
           ..write(')'))
         .toString();
   }
@@ -1939,12 +1962,14 @@ typedef $$UsersTableCreateCompanionBuilder = UsersCompanion Function({
   required String name,
   required Uint8List avatar,
   Value<int> rating,
+  required String group,
 });
 typedef $$UsersTableUpdateCompanionBuilder = UsersCompanion Function({
   Value<int> id,
   Value<String> name,
   Value<Uint8List> avatar,
   Value<int> rating,
+  Value<String> group,
 });
 
 class $$UsersTableFilterComposer
@@ -1969,6 +1994,11 @@ class $$UsersTableFilterComposer
       column: $state.table.rating,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get group => $state.composableBuilder(
+      column: $state.table.group,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
 class $$UsersTableOrderingComposer
@@ -1991,6 +2021,11 @@ class $$UsersTableOrderingComposer
 
   ColumnOrderings<int> get rating => $state.composableBuilder(
       column: $state.table.rating,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get group => $state.composableBuilder(
+      column: $state.table.group,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
@@ -2019,24 +2054,28 @@ class $$UsersTableTableManager extends RootTableManager<
             Value<String> name = const Value.absent(),
             Value<Uint8List> avatar = const Value.absent(),
             Value<int> rating = const Value.absent(),
+            Value<String> group = const Value.absent(),
           }) =>
               UsersCompanion(
             id: id,
             name: name,
             avatar: avatar,
             rating: rating,
+            group: group,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String name,
             required Uint8List avatar,
             Value<int> rating = const Value.absent(),
+            required String group,
           }) =>
               UsersCompanion.insert(
             id: id,
             name: name,
             avatar: avatar,
             rating: rating,
+            group: group,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

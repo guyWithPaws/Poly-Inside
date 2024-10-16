@@ -271,13 +271,15 @@ const User$json = {
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     {'1': 'avatar', '3': 3, '4': 1, '5': 12, '10': 'avatar'},
     {'1': 'rating', '3': 4, '4': 1, '5': 5, '10': 'rating'},
+    {'1': 'group', '3': 5, '4': 1, '5': 9, '10': 'group'},
   ],
 };
 
 /// Descriptor for `User`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List userDescriptor = $convert.base64Decode(
     'CgRVc2VyEg4KAmlkGAEgASgFUgJpZBISCgRuYW1lGAIgASgJUgRuYW1lEhYKBmF2YXRhchgDIA'
-    'EoDFIGYXZhdGFyEhYKBnJhdGluZxgEIAEoBVIGcmF0aW5n');
+    'EoDFIGYXZhdGFyEhYKBnJhdGluZxgEIAEoBVIGcmF0aW5nEhQKBWdyb3VwGAUgASgJUgVncm91'
+    'cA==');
 
 @$core.Deprecated('Use professorDescriptor instead')
 const Professor$json = {

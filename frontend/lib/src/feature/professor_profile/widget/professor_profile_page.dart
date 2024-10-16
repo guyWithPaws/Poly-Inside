@@ -286,7 +286,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 itemCount: professors.length,
                 separatorBuilder: (context, index) => const SizedBox(height: 16),
                 itemBuilder: (context, index) {
-                  debugPrint('Review: ${professors[index].review.reviewId}');
+                  debugPrint('Review: ${professors[index].review}');
                   return ReviewTitle(
                     review: professors[index].review,
                     professor: widget.professor,

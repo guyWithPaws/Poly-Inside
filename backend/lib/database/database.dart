@@ -65,6 +65,7 @@ class Users extends Table {
   BlobColumn get avatar => blob()();
   //TextColumn get group => text()();
   IntColumn get rating => integer().withDefault(const Constant<int>(0))();
+  TextColumn get group => text()();
 
   @override
   Set<Column<Object>>? get primaryKey => {id};
@@ -88,12 +89,13 @@ class Reviews extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DriftDatabase(tables: [Professors, Users, Reviews, RejectedReviews, Reactions, Groups])
+@DriftDatabase(
+    tables: [Professors, Users, Reviews, RejectedReviews, Reactions, Groups])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -107,6 +109,9 @@ class AppDatabase extends _$AppDatabase {
           }
           if (from < 3) {
             await m.addColumn(professors, professors.smallAvatar);
+          }
+          if (from < 4) {
+            await m.addColumn(users, users.group);
           }
         },
       );

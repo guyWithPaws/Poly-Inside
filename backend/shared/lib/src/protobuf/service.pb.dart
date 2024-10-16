@@ -1027,6 +1027,7 @@ class User extends $pb.GeneratedMessage {
     $core.String? name,
     $core.List<$core.int>? avatar,
     $core.int? rating,
+    $core.String? group,
   }) {
     final $result = create();
     if (id != null) {
@@ -1041,6 +1042,9 @@ class User extends $pb.GeneratedMessage {
     if (rating != null) {
       $result.rating = rating;
     }
+    if (group != null) {
+      $result.group = group;
+    }
     return $result;
   }
   User._() : super();
@@ -1052,6 +1056,7 @@ class User extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'avatar', $pb.PbFieldType.OY)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.O3)
+    ..aOS(5, _omitFieldNames ? '' : 'group')
     ..hasRequiredFields = false
   ;
 
@@ -1111,6 +1116,15 @@ class User extends $pb.GeneratedMessage {
   $core.bool hasRating() => $_has(3);
   @$pb.TagNumber(4)
   void clearRating() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get group => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set group($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasGroup() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearGroup() => clearField(5);
 }
 
 class Professor extends $pb.GeneratedMessage {

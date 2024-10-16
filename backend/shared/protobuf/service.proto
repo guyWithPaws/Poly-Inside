@@ -104,6 +104,7 @@ message User {
   string name = 2;
   bytes avatar = 3;
   int32 rating = 4;
+  string group = 5;
 }
 
 message Professor {

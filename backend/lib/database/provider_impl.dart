@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
+import 'package:l/l.dart';
 import 'package:poly_inside_server/database/database.dart';
 import 'package:poly_inside_server/database/provider.dart';
 import 'package:shared/shared.dart';
-import 'package:l/l.dart';
 
 class DatabaseProviderImpl
     implements
@@ -31,17 +31,11 @@ class DatabaseProviderImpl
   @override
   Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId) =>
       (database.select(database.reviews)
-            ..where(
-              (u) => u.professorId.equals(
-                professorId,
-              ),
-            ))
+            ..where((u) => u.professorId.equals(professorId)))
           .join([
             innerJoin(
               database.users,
-              database.users.id.equalsExp(
-                database.reviews.userId,
-              ),
+              database.users.id.equalsExp(database.reviews.userId),
             ),
             innerJoin(
               database.reactions,
@@ -49,20 +43,16 @@ class DatabaseProviderImpl
                   database.reactions.professorId
                       .equalsExp(database.reviews.professorId) &
                   database.reactions.reviewId.equalsExp(database.reviews.id),
-            ),
+            )
           ])
           .watch()
           .map(
             (rows) => rows
-                .map(
-                  (r) => ReviewWithUser(
-                    user: r.readTable(database.users),
-                    review: r.readTable(
-                      database.reviews,
-                    ),
-                    reaction: r.readTable(database.reactions),
-                  ),
-                )
+                .map((r) => ReviewWithUser(
+                      user: r.readTable(database.users),
+                      review: r.readTable(database.reviews),
+                      reaction: r.readTable(database.reactions),
+                    ))
                 .toList(),
           );
 
@@ -200,6 +190,7 @@ class DatabaseProviderImpl
           UsersCompanion(
             id: Value<int>(user.id),
             rating: Value<int>(user.rating),
+            group: Value<String>(user.group),
             name: Value<String>(user.name),
             avatar: Value<Uint8List>(
               Uint8List.fromList(
@@ -260,32 +251,26 @@ class DatabaseProviderImpl
   @override
   Stream<List<ReviewWithProfessor>> getReviewsWithProfessor(int userId) =>
       (database.select(database.reviews)..where((u) => u.userId.equals(userId)))
-          .join(
-            [
-              innerJoin(
-                database.professors,
-                database.professors.id.equalsExp(
-                  database.reviews.professorId,
-                ),
-              ),
-              innerJoin(
-                database.reactions,
-                database.reactions.userId.equalsExp(database.reviews.userId) &
-                    database.reactions.professorId
-                        .equalsExp(database.reviews.professorId) &
-                    database.reactions.reviewId.equalsExp(database.reviews.id),
-              ),
-            ],
-          )
+          .join([
+            innerJoin(
+              database.professors,
+              database.professors.id.equalsExp(database.reviews.professorId),
+            ),
+            innerJoin(
+              database.reactions,
+              database.reactions.userId.equalsExp(database.reviews.userId) &
+                  database.reactions.professorId
+                      .equalsExp(database.reviews.professorId) &
+                  database.reactions.reviewId.equalsExp(database.reviews.id),
+            ),
+          ])
           .watch()
           .map(
             (rows) => rows
                 .map(
                   (r) => ReviewWithProfessor(
                     professor: r.readTable(database.professors),
-                    review: r.readTable(
-                      database.reviews,
-                    ),
+                    review: r.readTable(database.reviews),
                     reaction: r.readTable(database.reactions),
                   ),
                 )

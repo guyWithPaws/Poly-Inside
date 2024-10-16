@@ -33,7 +33,8 @@ class StarsRating extends StatefulWidget {
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _StarsRatingState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_StarsRatingState>();
+  static _StarsRatingState? maybeOf(BuildContext context) =>
+      context.findAncestorStateOfType<_StarsRatingState>();
 
   @override
   State<StarsRating> createState() => _StarsRatingState();
@@ -76,8 +77,10 @@ class _StarsRatingState extends State<StarsRating> {
         if (widget.enableDragDetector) {
           setState(
             () {
-              widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
-              widget.valueNotifier!.value = double.parse(widget.value.toStringAsFixed(1));
+              widget.value = (details.localPosition.dx / widget.size.width)
+                  .clamp(1.0, 5.0);
+              widget.valueNotifier!.value =
+                  double.parse(widget.value.toStringAsFixed(1));
             },
           );
         }
@@ -86,8 +89,10 @@ class _StarsRatingState extends State<StarsRating> {
         if (widget.enableDragDetector) {
           setState(
             () {
-              widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
-              widget.valueNotifier!.value = double.parse(widget.value.toStringAsFixed(1));
+              widget.value = (details.localPosition.dx / widget.size.width)
+                  .clamp(1.0, 5.0);
+              widget.valueNotifier!.value =
+                  double.parse(widget.value.toStringAsFixed(1));
             },
           );
         }
@@ -148,24 +153,21 @@ class _StarsRatingState extends State<StarsRating> {
             ],
           ),
           SizedBox(width: widget.spaceBetween),
-          ColoredBox(
-            color: Colors.red,
-            child: SizedBox(
-              width: widget.size.width * 2,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 3,
+          SizedBox(
+            width: widget.size.width * 2,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 3,
+                ),
+                Text(
+                  widget.value.toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: widget.textSize,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Text(
-                    widget.value.toStringAsFixed(1),
-                    style: TextStyle(
-                      fontSize: widget.textSize,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           )
         ],
