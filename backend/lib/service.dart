@@ -1,7 +1,6 @@
 // ignore: implementation_imports
 import 'package:grpc/src/server/call.dart';
 import 'package:l/l.dart';
-import 'package:poly_inside_server/database/provider.dart';
 import 'package:poly_inside_server/database/provider_impl.dart';
 import 'package:poly_inside_server/validator/validator.dart';
 import 'package:shared/shared.dart';

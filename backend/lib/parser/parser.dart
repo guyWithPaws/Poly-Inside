@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image/image.dart' as img;
 import 'package:l/l.dart';
-import 'package:poly_inside_server/database/provider.dart';
 import 'package:poly_inside_server/database/provider_impl.dart';
 import 'package:shared/shared.dart';
 

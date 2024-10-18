@@ -87,9 +87,10 @@ class _InheritedApp extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   /// For example: `App.maybeOf(context)`.
-  static _InheritedApp? maybeOf(BuildContext context, {bool listen = true}) => listen
-      ? context.dependOnInheritedWidgetOfExactType<_InheritedApp>()
-      : context.getInheritedWidgetOfExactType<_InheritedApp>();
+  static _InheritedApp? maybeOf(BuildContext context, {bool listen = true}) =>
+      listen
+          ? context.dependOnInheritedWidgetOfExactType<_InheritedApp>()
+          : context.getInheritedWidgetOfExactType<_InheritedApp>();
 
   static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
         'Out of scope, not found inherited widget '

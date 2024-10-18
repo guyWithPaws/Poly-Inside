@@ -9,18 +9,20 @@ import 'package:poly_inside/src/common/widgets/sort_button.dart';
 import 'package:poly_inside/src/common/widgets/static_stars_rating.dart';
 import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:poly_inside/src/feature/home/widget/search_bar.dart';
-import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/professor_profile/widget/professor_profile_page.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
+import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
 import 'package:poly_inside/src/feature/user_profile/widget/user_profile_page.dart';
+import 'package:shared/shared.dart';
 
 /// {@template home_page}
 /// HomePage widget.
 /// {@endtemplate}
 class HomePage extends StatefulWidget {
   // ignore: library_private_types_in_public_api
-  static _HomePageState? of(BuildContext context) => context.findAncestorStateOfType<_HomePageState>();
+  static _HomePageState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_HomePageState>();
 
   /// {@macro home_page}
   const HomePage({
@@ -35,6 +37,7 @@ class _HomePageState extends State<HomePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   HomeBloc? _bloc;
+  ProfileDataBLoC? _profileDataBLoC;
   TextEditingController? _textEditingController;
   FocusNode? _node;
   String reviewInRussian = 'отзыв';
@@ -47,24 +50,31 @@ class _HomePageState extends State<HomePage> {
     _valueNotifier = ValueNotifier(false);
     _scrollController = ScrollController()
       ..addListener(() {
-        if (_scrollController?.position.pixels == _scrollController?.position.maxScrollExtent) {
+        if (_scrollController?.position.pixels ==
+            _scrollController?.position.maxScrollExtent) {
           count += 20;
           _bloc?.add(ListRequested(count: count));
         }
-        if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
+        if (_scrollController?.position.pixels !=
+            _scrollController?.position.minScrollExtent) {
           _valueNotifier!.value = true;
         } else {
           _valueNotifier!.value = false;
         }
       });
     _textEditingController = TextEditingController()
-      ..addListener(() => _bloc?.add(TextFieldChanged(name: _textEditingController?.text.toLowerCase() ?? '')));
+      ..addListener(() => _bloc?.add(TextFieldChanged(
+          name: _textEditingController?.text.toLowerCase() ?? '')));
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))..add(ListRequested(count: count));
+    _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))
+      ..add(ListRequested(count: count));
+    _profileDataBLoC ??=
+        ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
+          ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
     super.didChangeDependencies();
   }
 
@@ -87,7 +97,8 @@ class _HomePageState extends State<HomePage> {
           visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
             onPressed: () {
-              _scrollController?.animateTo(0, duration: scrollDuration, curve: Curves.easeInOut);
+              _scrollController?.animateTo(0,
+                  duration: scrollDuration, curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -112,7 +123,9 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           builderContext,
                           MaterialPageRoute<void>(
-                            builder: (builderContext) => const ProfilePage(),
+                            builder: (builderContext) => ProfilePage(
+                              bloc: _profileDataBLoC,
+                            ),
                           ),
                         );
                       },
@@ -193,9 +206,15 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute<void>(
-                                      builder: (builderContext) => ProfessorProfilePage(
-                                        repository: InitializationScope.repositoryOf(context),
+                                      builder: (builderContext) =>
+                                          _InheritedProfessorScope(
                                         professor: professors[index],
+                                        child: ProfessorProfilePage(
+                                          repository:
+                                              InitializationScope.repositoryOf(
+                                                  context),
+                                          professor: professors[index],
+                                        ),
                                       ),
                                     ),
                                   );
@@ -233,11 +252,15 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         Expanded(
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                professors[index].name.capitalize(),
+                                                professors[index]
+                                                    .name
+                                                    .capitalize(),
                                                 style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
@@ -249,7 +272,8 @@ class _HomePageState extends State<HomePage> {
                                                     spaceBetween: 8,
                                                     textSize: 16,
                                                     size: 20,
-                                                    value: professors[index].rating,
+                                                    value: professors[index]
+                                                        .rating,
                                                   ),
                                                   // StarsRating(
                                                   //   size: const Size(20, 20),
@@ -259,20 +283,26 @@ class _HomePageState extends State<HomePage> {
                                                   //   spaceBetween: 8,
                                                   // ),
                                                   Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Column(
                                                       children: [
                                                         const SizedBox(
                                                           height: 3,
                                                         ),
                                                         Text(
-                                                          (professors[index].rating == 0)
+                                                          (professors[index]
+                                                                      .rating ==
+                                                                  0)
                                                               ? 'нет отзывов'
                                                               : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
-                                                          style: const TextStyle(
+                                                          style:
+                                                              const TextStyle(
                                                             fontSize: 16,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Color.fromARGB(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Color.fromARGB(
                                                               255,
                                                               138,
                                                               138,
@@ -307,4 +337,37 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+/// {@template user_profile_page}
+/// _InheritedProfessorScope widget.
+/// {@endtemplate}
+class _InheritedProfessorScope extends InheritedWidget {
+  /// {@macro user_profile_page}
+  const _InheritedProfessorScope({
+    required this.professor,
+    required super.child,
+    super.key, // ignore: unused_element
+  });
+
+  final Professor professor;
+
+  static _InheritedProfessorScope? maybeOf(BuildContext context,
+          {bool listen = true}) =>
+      listen
+          ? context
+              .dependOnInheritedWidgetOfExactType<_InheritedProfessorScope>()
+          : context.getInheritedWidgetOfExactType<_InheritedProfessorScope>();
+  static Professor professorOf(BuildContext context) =>
+      maybeOf(context)?.professor ?? _notFoundInheritedWidgetOfExactType();
+
+  static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
+        'Out of scope, not found inherited widget '
+            'a _InheritedApp of the exact type',
+        'out_of_scope',
+      );
+
+  @override
+  bool updateShouldNotify(_InheritedProfessorScope oldWidget) =>
+      !(professor == oldWidget.professor);
 }

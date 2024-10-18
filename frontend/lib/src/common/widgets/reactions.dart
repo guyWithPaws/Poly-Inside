@@ -53,6 +53,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       isLiked = !isLiked;
       likeCount += isLiked ? 1 : -1;
     });
+<<<<<<< HEAD
     if (isLiked) {
       InitializationScope.repositoryOf(context).addReaction(
           UserScope.userOf(context).id,

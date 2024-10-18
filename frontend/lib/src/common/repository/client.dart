@@ -15,4 +15,6 @@ abstract class ClientRepository {
   Future<void> addReaction(
       int userId, String professorId, String reviewId, bool liked);
   Future<void> deleteReaction(Reaction reaction);
+  Future<void> addReaction(
+      int userId, String professorId, String reviewId, bool liked);
 }

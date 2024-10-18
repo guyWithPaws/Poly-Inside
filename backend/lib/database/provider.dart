@@ -16,7 +16,8 @@ abstract class ProfessorProvider {
 
   Future<List<Professor>> findProfessorByName(String name, int count);
   Future<List<Professor>> getOnceAllProfessors();
-  Future<void> addProfessorToGroup(String id, String number, String professorId);
+  Future<void> addProfessorToGroup(
+      String id, String number, String professorId);
 }
 
 abstract class ReviewProvider {

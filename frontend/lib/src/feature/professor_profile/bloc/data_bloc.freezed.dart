@@ -70,12 +70,13 @@ mixin _$DataState {
 
 /// @nodoc
 abstract class $DataStateCopyWith<$Res> {
-  factory $DataStateCopyWith(DataState value, $Res Function(DataState) then) =
-      _$DataStateCopyWithImpl<$Res, DataState>;
+  factory $DataStateCopyWith(
+          ProfessorDataState value, $Res Function(ProfessorDataState) then) =
+      _$DataStateCopyWithImpl<$Res, ProfessorDataState>;
 }
 
 /// @nodoc
-class _$DataStateCopyWithImpl<$Res, $Val extends DataState>
+class _$DataStateCopyWithImpl<$Res, $Val extends ProfessorDataState>
     implements $DataStateCopyWith<$Res> {
   _$DataStateCopyWithImpl(this._value, this._then);
 
@@ -201,7 +202,7 @@ class _$ProcessingStateImpl extends ProcessingState {
   }
 }
 
-abstract class ProcessingState extends DataState {
+abstract class ProcessingState extends ProfessorDataState {
   const factory ProcessingState() = _$ProcessingStateImpl;
   const ProcessingState._() : super._();
 }
@@ -319,7 +320,7 @@ class _$IdleStateImpl extends IdleState {
   }
 }
 
-abstract class IdleState extends DataState {
+abstract class IdleState extends ProfessorDataState {
   const factory IdleState() = _$IdleStateImpl;
   const IdleState._() : super._();
 }
@@ -462,7 +463,7 @@ class _$ErrorStateImpl extends ErrorState {
   }
 }
 
-abstract class ErrorState extends DataState {
+abstract class ErrorState extends ProfessorDataState {
   const factory ErrorState(final Object e) = _$ErrorStateImpl;
   const ErrorState._() : super._();
 
@@ -624,7 +625,7 @@ class _$LoadedStateImpl extends LoadedState {
   }
 }
 
-abstract class LoadedState extends DataState {
+abstract class LoadedState extends ProfessorDataState {
   const factory LoadedState(final List<ReviewWithUser> professors) =
       _$LoadedStateImpl;
   const LoadedState._() : super._();

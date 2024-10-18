@@ -8,14 +8,14 @@ import 'package:bloc_concurrency/bloc_concurrency.dart' as bloc_concurrency;
 
 part 'data_bloc.freezed.dart';
 
-abstract class DataEvent {}
+abstract class ProfessorDataEvent {}
 
-class DataRequested extends DataEvent {
+class ProfessorDataRequested extends ProfessorDataEvent {
   final String professorId;
-  DataRequested({required this.professorId});
+  ProfessorDataRequested({required this.professorId});
 }
 
-class NewListEvent extends DataEvent {
+class NewListEvent extends ProfessorDataEvent {
   List<ReviewWithUser> professors;
   NewListEvent({required this.professors});
 
@@ -25,46 +25,50 @@ class NewListEvent extends DataEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is NewListEvent && runtimeType == other.runtimeType && professors == other.professors;
+      other is NewListEvent &&
+          runtimeType == other.runtimeType &&
+          professors == other.professors;
 }
 
 @Freezed()
-sealed class DataState with _$DataState {
-  const DataState._();
-  const factory DataState.processing() = ProcessingState;
-  const factory DataState.idle() = IdleState;
-  const factory DataState.error(Object e) = ErrorState;
-  const factory DataState.loaded(List<ReviewWithUser> professors) = LoadedState;
+sealed class ProfessorDataState with _$DataState {
+  const ProfessorDataState._();
+  const factory ProfessorDataState.processing() = ProcessingState;
+  const factory ProfessorDataState.idle() = IdleState;
+  const factory ProfessorDataState.error(Object e) = ErrorState;
+  const factory ProfessorDataState.loaded(List<ReviewWithUser> professors) =
+      LoadedState;
 }
 
 /// Business Logic Component DataBLoC
-class DataBLoC extends Bloc<DataEvent, DataState> {
-  DataBLoC({
+class ProfessorDataBLoC extends Bloc<ProfessorDataEvent, ProfessorDataState> {
+  ProfessorDataBLoC({
     required final ClientRepository repository,
-    final DataState? initialState,
+    final ProfessorDataState? initialState,
   })  : _repository = repository,
         _controller = StreamController<List<ReviewWithUser>>(),
         super(
-          initialState ?? const DataState.idle(),
+          initialState ?? const ProfessorDataState.idle(),
         ) {
     _controller?.stream.listen((event) => add(NewListEvent(professors: event)));
     on<NewListEvent>(
       (event, emit) {
         emit(
-          DataState.loaded(event.professors),
+          ProfessorDataState.loaded(event.professors),
         );
       },
       transformer: bloc_concurrency.sequential(),
     );
-    on<DataRequested>(
+    on<ProfessorDataRequested>(
       (event, emit) {
-        _subscription = _repository.getAllReviewsByProfessor(event.professorId).listen(
-              (e) => add(
-                NewListEvent(
-                  professors: e.list,
-                ),
-              ),
-            );
+        _subscription =
+            _repository.getAllReviewsByProfessor(event.professorId).listen(
+                  (e) => add(
+                    NewListEvent(
+                      professors: e.list,
+                    ),
+                  ),
+                );
       },
     );
   }
