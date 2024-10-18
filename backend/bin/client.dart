@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:grpc/grpc.dart';
 import 'package:shared/shared.dart';
 
-import 'dart:math';
-
 Future<int> main([List<String>? args]) async {
   final channel = ClientChannel(
     '127.0.0.1',
@@ -138,11 +136,11 @@ Future<int> main([List<String>? args]) async {
 
   client.getReviewWithProfessor(ReviewsByUserIdRequest(id: 123)).listen((_) {
     print(_.list.length);
-    _.list.forEach((v) {
+    for (final v in _.list) {
       //print(v.professor);
       //print('Reaction: ${v.reaction}');
       print(v.review.id);
-    });
+    }
   });
 
   return 0;

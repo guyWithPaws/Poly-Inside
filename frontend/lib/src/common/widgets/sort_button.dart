@@ -23,7 +23,8 @@ class SortButton extends StatefulWidget {
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _SortButtonState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_SortButtonState>();
+  static _SortButtonState? maybeOf(BuildContext context) =>
+      context.findAncestorStateOfType<_SortButtonState>();
 
   @override
   State<SortButton> createState() => _SortButtonState();
@@ -97,18 +98,24 @@ class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
                       height: 16,
                     ),
                     Container(
-                      decoration:
-                          BoxDecoration(color: const Color(0xFFEEF9EF), borderRadius: BorderRadius.circular(12)),
+                      decoration: BoxDecoration(
+                          color: const Color(0xFFEEF9EF),
+                          borderRadius: BorderRadius.circular(12)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          for (var index = 0; index < sortingElements.length; ++index)
+                          for (var index = 0;
+                              index < sortingElements.length;
+                              ++index)
                             SizedBox(
                               height: sortingElementsHeight,
                               child: Row(
                                 children: [
-                                  Radio(value: 1, groupValue: 0, onChanged: (_) {}),
+                                  Radio(
+                                      value: 1,
+                                      groupValue: 0,
+                                      onChanged: (_) {}),
                                   Text(sortingElements[index]),
                                 ],
                               ),

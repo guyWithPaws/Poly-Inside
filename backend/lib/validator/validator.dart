@@ -72,8 +72,10 @@ class Filter {
   }
 
   bool messageAnalyzer() {
-    messageWords =
-        messageWords.map((word) => word.split('').map((letter) => alphabet[letter] ?? letter).join()).toList();
+    messageWords = messageWords
+        .map((word) =>
+            word.split('').map((letter) => alphabet[letter] ?? letter).join())
+        .toList();
 
     var localStorage = <String>[];
     for (var i = 0; i < messageWords.length; ++i) {

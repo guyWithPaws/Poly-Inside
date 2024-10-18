@@ -9,16 +9,17 @@ import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared/shared.dart';
 
 import '../../../common/widgets/sort_button.dart';
 
 class ProfilePage extends StatefulWidget {
+  final ProfileDataBLoC? bloc;
+
   /// {@macro profile_page}
-  const ProfilePage({
-    super.key, // ignore: unused_element
-  });
+  const ProfilePage(
+      {super.key, // ignore: unused_element
+      required this.bloc});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -29,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
   ValueNotifier<bool>? _valueNotifier;
   ValueNotifier<bool>? _isEditingProfile;
   final TextEditingController _textEditingController = TextEditingController();
-  DataBLoC? _bloc;
+  // ProfileDataBLoC? _bloc;
 
   static const Duration scrollDuration = Duration(milliseconds: 500);
 
@@ -47,7 +48,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
+    if (_scrollController?.position.pixels !=
+        _scrollController?.position.minScrollExtent) {
       _valueNotifier?.value = true;
     } else {
       _valueNotifier?.value = false;
@@ -57,8 +59,9 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void didChangeDependencies() {
     _textEditingController.text = UserScope.userOf(context).name;
-    _bloc ??= DataBLoC(repository: InitializationScope.repositoryOf(context))
-      ..add(DataRequested(userId: UserScope.userOf(context).id));
+    // _bloc ??=
+    //     ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
+    //       ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
     super.didChangeDependencies();
   }
 
@@ -67,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _scrollController?.dispose();
     _valueNotifier?.dispose();
     _textEditingController.dispose();
-    _bloc?.close();
+    // _bloc?.close();
     // Permanent removal of a tree stent
     super.dispose();
   }
@@ -82,7 +85,8 @@ class _ProfilePageState extends State<ProfilePage> {
           visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
             onPressed: () {
-              _scrollController?.animateTo(0, duration: scrollDuration, curve: Curves.easeInOut);
+              _scrollController?.animateTo(0,
+                  duration: scrollDuration, curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -123,7 +127,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () async {
                     _isEditingProfile!.value = !_isEditingProfile!.value;
                     if (!_isEditingProfile!.value) {
-                      await InitializationScope.repositoryOf(context).updateUser(
+                      await InitializationScope.repositoryOf(context)
+                          .updateUser(
                         User(
                           id: UserScope.userOf(context).id,
                           name: _textEditingController.text,
@@ -142,7 +147,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ValueListenableBuilder(
                       valueListenable: _isEditingProfile!,
                       builder: (context, value, _) => !value
-                          ? SvgPicture.asset('assets/icons/profileeditbutton.svg')
+                          ? SvgPicture.asset(
+                              'assets/icons/profileeditbutton.svg')
                           : SvgPicture.asset('assets/icons/check.svg'),
                     ),
                   ),
@@ -171,12 +177,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                       UserScope.userOf(context).avatar,
                                     ),
                                   ),
-                                  child: UserScope.userOf(context).avatar.isEmpty
-                                      ? SvgPicture.asset(
-                                          'assets/icons/no_photo.svg',
-                                          width: 79,
-                                        )
-                                      : null),
+                                  child:
+                                      UserScope.userOf(context).avatar.isEmpty
+                                          ? SvgPicture.asset(
+                                              'assets/icons/no_photo.svg',
+                                              width: 79,
+                                            )
+                                          : null),
                             ),
                             Positioned(
                               right: 10.36,
@@ -186,7 +193,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 onPressed: () => showCupertinoModalBottomSheet(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      const SizedBox(height: 300, child: Text('Выбрать фото')),
+                                      const SizedBox(
+                                          height: 300,
+                                          child: Text('Выбрать фото')),
                                 ),
                               ),
                             ),
@@ -197,14 +206,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Text(
                           'ID: ${UserScope.userOf(context).id}',
-                          style: const TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600),
+                          style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
                         ),
                         ValueListenableBuilder(
                           valueListenable: _isEditingProfile!,
-                          builder: (context, value, _) => ValueListenableBuilder(
+                          builder: (context, value, _) =>
+                              ValueListenableBuilder(
                             valueListenable: _textEditingController,
-                            builder: (context, textValue, _) => AnimatedContainer(
-                              width: textValue.text.isNotEmpty && textValue.text.length * 30 > 100
+                            builder: (context, textValue, _) =>
+                                AnimatedContainer(
+                              width: textValue.text.isNotEmpty &&
+                                      textValue.text.length * 30 > 100
                                   ? textValue.text.length * 30
                                   : 100,
                               height: 50,
@@ -213,7 +228,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 border: value
                                     ? Border.all(
                                         color: textValue.text.length < 15
-                                            ? const Color.fromARGB(255, 168, 239, 171)
+                                            ? const Color.fromARGB(
+                                                255, 168, 239, 171)
                                             : Colors.red,
                                         width: 1)
                                     : null,
@@ -227,8 +243,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     readOnly: !value,
                                     textAlign: TextAlign.center,
                                     textAlignVertical: TextAlignVertical.center,
-                                    decoration:
-                                        const InputDecoration(counterText: '', counter: null, border: InputBorder.none),
+                                    decoration: const InputDecoration(
+                                        counterText: '',
+                                        counter: null,
+                                        border: InputBorder.none),
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 36,
@@ -271,7 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  BlocBuilder<DataBLoC, DataState>(
+                  BlocBuilder<ProfileDataBLoC, ProfileDataState>(
                     builder: (context, state) => state.maybeWhen(
                       orElse: () => const SizedBox(),
                       loaded: (professors) => Row(
@@ -288,10 +306,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               const SizedBox(width: 8),
                               Container(
-                                width: professors.isNotEmpty ? professors.length.toString().length * 15 : 22,
+                                width: professors.isNotEmpty
+                                    ? professors.length.toString().length * 15
+                                    : 22,
                                 height: 26,
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 233, 252, 232),
+                                  color:
+                                      const Color.fromARGB(255, 233, 252, 232),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                                 child: Center(
@@ -312,7 +333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                    bloc: _bloc,
+                    bloc: widget.bloc,
                   ),
                   const SizedBox(
                     height: 8,
@@ -321,7 +342,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          BlocBuilder<DataBLoC, DataState>(
+          BlocBuilder<ProfileDataBLoC, ProfileDataState>(
             builder: (context, state) => state.maybeWhen(
               orElse: () => SliverList(
                 delegate: SliverChildListDelegate(
@@ -345,7 +366,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            bloc: _bloc,
+            bloc: widget.bloc,
           )
         ],
       ),
