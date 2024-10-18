@@ -10,6 +10,7 @@ service SearchService {
   rpc GetListProfessor(ListProfessorRequest) returns (stream GetListProfessorResponse);
   rpc SearchProfessorByName(SearchRequest) returns (SearchResponse);
   rpc GetReviewWithProfessor(ReviewsByUserIdRequest) returns (stream ReviewWithProfessorResponse);
+  rpc GetListProfessorsByGroup(ListProfessorsByGroupRequest) returns (stream ListProfessorsByGroupResponce);
   
 
   // Review's methods
@@ -20,6 +21,10 @@ service SearchService {
   rpc AddReviewReaction(Reaction) returns (LikeResponse);
 }
 
+message ListProfessorsByGroupResponce {
+  repeated Professor professors = 1;
+}
+
 message ReviewWithProfessorResponse{
   repeated ReviewWithProfessor list = 1;
 }
@@ -28,6 +33,10 @@ message ReviewWithUserResponse{
   repeated ReviewWithUser list = 1;
 }
 
+message ListProfessorsByGroupRequest {
+  int32 count = 1;
+  string group = 2;
+}
 
 message ReviewWithUser {
   Review review = 1;
@@ -104,6 +113,7 @@ message User {
   string name = 2;
   bytes avatar = 3;
   int32 rating = 4;
+  string group = 5;
 }
 
 message Professor {
@@ -112,7 +122,7 @@ message Professor {
   bytes avatar = 3;
   bytes smallAvatar = 4;
   float rating = 5;
-  int32 reviews_count = 6;
+  int32 reviewsCount = 6;
   float objectivity = 7;
   float loyalty = 8;
   float professionalism = 9;
@@ -120,15 +130,15 @@ message Professor {
 }
 
 message Review {
-  string review_id = 1;
-  int32 user_id = 2;
+  string id = 1;
+  int32 userId = 2;
   string comment = 3;
   float objectivity = 4;
   float loyalty = 5;
   float professionalism = 6;
   float harshness = 7;
   string date = 8;
-  string professor_id = 9;
+  string professorId = 9;
   int32 likes = 10;
   int32 dislikes = 11;
 }

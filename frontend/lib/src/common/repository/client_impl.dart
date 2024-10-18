@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:shared/shared.dart';
+// ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart';
 
 class ClientRepositoryImpl implements ClientRepository {
@@ -69,10 +70,18 @@ class ClientRepositoryImpl implements ClientRepository {
 
   @override
   Future<void> deleteReaction(Reaction reaction) async =>
-      await client.addReviewReaction(Reaction(
-          id: reaction.id,
-          professorId: reaction.professorId,
-          userId: reaction.userId,
-          reviewId: reaction.reviewId,
-          type: 2));
+      await client.addReviewReaction(
+        Reaction(
+            id: reaction.id,
+            professorId: reaction.professorId,
+            userId: reaction.userId,
+            reviewId: reaction.reviewId,
+            type: 2),
+      );
+
+  @override
+  Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(
+          int count, String group) =>
+      client.getListProfessorsByGroup(
+          ListProfessorsByGroupRequest(count: count, group: group));
 }

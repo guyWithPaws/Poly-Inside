@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
+import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared/shared.dart';
 
@@ -13,7 +14,8 @@ abstract class HomePageEvent {}
 
 class ListRequested extends HomePageEvent {
   final int count;
-  ListRequested({required this.count});
+  final String group;
+  ListRequested({required this.count, required this.group});
   @override
   int get hashCode => count.hashCode;
 
@@ -76,7 +78,8 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
     on<ListRequested>(
       (event, emit) async {
         try {
-          final stream = repository.getAllProfessors(event.count);
+          final stream = repository.getProfessorsByGroup(
+              event.count, event.group);
           stream.listen((e) => add(AddListToState(professors: e.professors)));
         } on Object catch (error, _) {
           emit(HomePageState.error(error));

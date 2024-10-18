@@ -11,16 +11,17 @@ import 'package:shared/shared.dart';
 part 'user_bloc.freezed.dart';
 
 int? getId() => 12345678;
+String? getGroup() => '5132704/30003';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  UserBloc({required final UserState state, required this.repository})
-      : super(state) {
+  UserBloc({required final UserState state, required this.repository}) : super(state) {
     on<GetUserEvent>((e, emit) async {
       emit(const UserState.processing('Start logging in'));
 
       try {
         final id = getId();
-        if (id == null) {
+        final group = getGroup();
+        if (id == null || group == null) {
           throw Exception('User ID is null');
         }
         emit(const UserState.processing('Getting user from database'));
@@ -32,14 +33,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           await repository.addUser(
             User()
               ..id = id
+              ..group = group
               ..name = 'goxa',
           );
-          emit(const UserState.processing(
-              'Getting user from database after logging'));
+          emit(const UserState.processing('Getting user from database after logging'));
           user = await repository.getUserByUserId(id);
         }
-        await FirebaseAnalytics.instance
-            .logLogin(parameters: <String, Object>{'UserID': user.id});
+        await FirebaseAnalytics.instance.logLogin(parameters: <String, Object>{'UserID': user.id});
         emit(const UserState.processing('Loaded user'));
 
         emit(UserState.loaded(user));

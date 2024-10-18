@@ -349,4 +349,17 @@ class DatabaseProviderImpl
         .getSingle();
     return reaction;
   }
+
+  @override
+  Stream<List<Professor>> getProfessorsByGroup(int count, String group) async* {
+    var professorsByGroup = await (database.select(database.groups)
+          ..where((t) => t.number.equals(group)))
+        .get();
+    var professorsIds = professorsByGroup.map((group) => group.id).toList();
+    (database.select(database.professors)
+          ..where((u) => u.id.isIn(professorsIds))
+          ..limit(count))
+        .watch()
+        .asBroadcastStream();
+  }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
@@ -48,8 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels !=
-        _scrollController?.position.minScrollExtent) {
+    if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
       _valueNotifier?.value = true;
     } else {
       _valueNotifier?.value = false;
@@ -63,6 +63,19 @@ class _ProfilePageState extends State<ProfilePage> {
     //     ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
     //       ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
     super.didChangeDependencies();
+  }
+
+  Future<void> _pickImage(BuildContext context) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      // Здесь вы можете использовать выбранное изображение
+      // Например, вы можете показать его в виджете или сохранить его
+      print('Выбрано изображение: ${image.path}');
+    } else {
+      print('Изображение не выбрано');
+    }
   }
 
   @override
@@ -85,8 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
           visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
             onPressed: () {
-              _scrollController?.animateTo(0,
-                  duration: scrollDuration, curve: Curves.easeInOut);
+              _scrollController?.animateTo(0, duration: scrollDuration, curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -127,8 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () async {
                     _isEditingProfile!.value = !_isEditingProfile!.value;
                     if (!_isEditingProfile!.value) {
-                      await InitializationScope.repositoryOf(context)
-                          .updateUser(
+                      await InitializationScope.repositoryOf(context).updateUser(
                         User(
                           id: UserScope.userOf(context).id,
                           name: _textEditingController.text,
@@ -147,8 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ValueListenableBuilder(
                       valueListenable: _isEditingProfile!,
                       builder: (context, value, _) => !value
-                          ? SvgPicture.asset(
-                              'assets/icons/profileeditbutton.svg')
+                          ? SvgPicture.asset('assets/icons/profileeditbutton.svg')
                           : SvgPicture.asset('assets/icons/check.svg'),
                     ),
                   ),
@@ -177,13 +187,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                       UserScope.userOf(context).avatar,
                                     ),
                                   ),
-                                  child:
-                                      UserScope.userOf(context).avatar.isEmpty
-                                          ? SvgPicture.asset(
-                                              'assets/icons/no_photo.svg',
-                                              width: 79,
-                                            )
-                                          : null),
+                                  child: UserScope.userOf(context).avatar.isEmpty
+                                      ? SvgPicture.asset(
+                                          'assets/icons/no_photo.svg',
+                                          width: 79,
+                                        )
+                                      : null),
                             ),
                             Positioned(
                               right: 10.36,
@@ -192,10 +201,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                 icon: const Icon(CupertinoIcons.camera),
                                 onPressed: () => showCupertinoModalBottomSheet(
                                   context: context,
-                                  builder: (BuildContext context) =>
-                                      const SizedBox(
-                                          height: 300,
-                                          child: Text('Выбрать фото')),
+                                  builder: (BuildContext context) => SizedBox(
+                                    height: 300,
+                                    child: Column(
+                                      children: [
+                                        const Text('Выбрать фото'),
+                                        const SizedBox(height: 20),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context); // Закрываем модальное окно
+                                            _pickImage(context); // Вызываем функцию выбора изображения
+                                          },
+                                          child: const Text('Выбрать из галереи'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -206,20 +227,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Text(
                           'ID: ${UserScope.userOf(context).id}',
-                          style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
+                          style: const TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         ValueListenableBuilder(
                           valueListenable: _isEditingProfile!,
-                          builder: (context, value, _) =>
-                              ValueListenableBuilder(
+                          builder: (context, value, _) => ValueListenableBuilder(
                             valueListenable: _textEditingController,
-                            builder: (context, textValue, _) =>
-                                AnimatedContainer(
-                              width: textValue.text.isNotEmpty &&
-                                      textValue.text.length * 30 > 100
+                            builder: (context, textValue, _) => AnimatedContainer(
+                              width: textValue.text.isNotEmpty && textValue.text.length * 30 > 100
                                   ? textValue.text.length * 30
                                   : 100,
                               height: 50,
@@ -228,8 +243,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 border: value
                                     ? Border.all(
                                         color: textValue.text.length < 15
-                                            ? const Color.fromARGB(
-                                                255, 168, 239, 171)
+                                            ? const Color.fromARGB(255, 168, 239, 171)
                                             : Colors.red,
                                         width: 1)
                                     : null,
@@ -243,10 +257,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     readOnly: !value,
                                     textAlign: TextAlign.center,
                                     textAlignVertical: TextAlignVertical.center,
-                                    decoration: const InputDecoration(
-                                        counterText: '',
-                                        counter: null,
-                                        border: InputBorder.none),
+                                    decoration:
+                                        const InputDecoration(counterText: '', counter: null, border: InputBorder.none),
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 36,
@@ -306,13 +318,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               const SizedBox(width: 8),
                               Container(
-                                width: professors.isNotEmpty
-                                    ? professors.length.toString().length * 15
-                                    : 22,
+                                width: professors.isNotEmpty ? professors.length.toString().length * 15 : 22,
                                 height: 26,
                                 decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 233, 252, 232),
+                                  color: const Color.fromARGB(255, 233, 252, 232),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                                 child: Center(

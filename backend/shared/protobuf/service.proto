@@ -10,6 +10,7 @@ service SearchService {
   rpc GetListProfessor(ListProfessorRequest) returns (stream GetListProfessorResponse);
   rpc SearchProfessorByName(SearchRequest) returns (SearchResponse);
   rpc GetReviewWithProfessor(ReviewsByUserIdRequest) returns (stream ReviewWithProfessorResponse);
+  rpc GetListProfessorsByGroup(ListProfessorsByGroupRequest) returns (stream ListProfessorsByGroupResponce);
   
 
   // Review's methods
@@ -20,6 +21,10 @@ service SearchService {
   rpc AddReviewReaction(Reaction) returns (LikeResponse);
 }
 
+message ListProfessorsByGroupResponce {
+  repeated Professor professors = 1;
+}
+
 message ReviewWithProfessorResponse{
   repeated ReviewWithProfessor list = 1;
 }
@@ -28,6 +33,10 @@ message ReviewWithUserResponse{
   repeated ReviewWithUser list = 1;
 }
 
+message ListProfessorsByGroupRequest {
+  int32 count = 1;
+  string group = 2;
+}
 
 message ReviewWithUser {
   Review review = 1;

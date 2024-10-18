@@ -23,12 +23,7 @@ class ReviewTitle extends StatelessWidget {
   final Reaction? reaction;
 
   /// {@macro review_title}
-  const ReviewTitle(
-      {super.key,
-      required this.review,
-      this.professor,
-      this.user,
-      this.reaction // ignore: unused_element
+  const ReviewTitle({super.key, required this.review, this.professor, this.user, this.reaction // ignore: unused_element
       });
 
   @override
@@ -87,12 +82,9 @@ class ReviewTitle extends StatelessWidget {
                       const SizedBox(width: 16),
                       Expanded(
                         child: Text(
-                          user == null
-                              ? professor!.name.capitalize()
-                              : user!.name,
+                          user == null ? professor!.name.capitalize() : user!.name,
                           overflow: TextOverflow.clip,
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ],
@@ -108,37 +100,29 @@ class ReviewTitle extends StatelessWidget {
                               builder: (BuildContext context) => SizedBox(
                                 height: 150,
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 32),
+                                  padding: const EdgeInsets.symmetric(horizontal: 32),
                                   child: Column(
                                     children: [
                                       GestureDetector(
                                         onTap: () => Navigator.push(
                                           context,
                                           MaterialPageRoute<void>(
-                                            builder: (builderContext) =>
-                                                ReviewPage(
-                                                    review: review,
-                                                    professor: professor!,
-                                                    type: ReviewType.edit),
+                                            builder: (builderContext) => ReviewPage(
+                                                review: review, professor: professor!, type: ReviewType.edit),
                                           ),
                                         ),
                                         child: SizedBox(
                                           height: 75,
                                           child: Row(
                                             children: [
-                                              SvgPicture.asset(
-                                                  'assets/icons/editpen.svg'),
+                                              SvgPicture.asset('assets/icons/editpen.svg'),
                                               const SizedBox(
                                                 width: 32,
                                               ),
                                               const Text(
                                                 'Редактировать отзыв',
                                                 style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.black,
-                                                    decoration:
-                                                        TextDecoration.none),
+                                                    fontSize: 15, color: Colors.black, decoration: TextDecoration.none),
                                               )
                                             ],
                                           ),
@@ -148,46 +132,32 @@ class ReviewTitle extends StatelessWidget {
                                         behavior: HitTestBehavior.opaque,
                                         onTap: () => showDialog(
                                           context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
+                                          builder: (BuildContext context) => AlertDialog(
                                             content: SizedBox(
                                               height: 90,
                                               child: Center(
                                                 child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    const Text(
-                                                        'Вы точно хотите удалить данный отзыв?'),
+                                                    const Text('Вы точно хотите удалить данный отзыв?'),
                                                     Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                       children: [
                                                         TextButton(
                                                           onPressed: () async {
-                                                            await InitializationScope
-                                                                    .repositoryOf(
-                                                                        context)
-                                                                .deleteReview(
-                                                                    review
-                                                                        .reviewId)
+                                                            await InitializationScope.repositoryOf(context)
+                                                                .deleteReview(review.id)
                                                                 .then(
                                                               (_) {
-                                                                Navigator.pop(
-                                                                    context);
+                                                                Navigator.pop(context);
                                                               },
                                                             );
                                                           },
-                                                          child:
-                                                              const Text('Да'),
+                                                          child: const Text('Да'),
                                                         ),
                                                         TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  context),
-                                                          child:
-                                                              const Text('Нет'),
+                                                          onPressed: () => Navigator.pop(context),
+                                                          child: const Text('Нет'),
                                                         )
                                                       ],
                                                     )
@@ -201,17 +171,13 @@ class ReviewTitle extends StatelessWidget {
                                           height: 75,
                                           child: Row(
                                             children: [
-                                              SvgPicture.asset(
-                                                  'assets/icons/trash.svg'),
+                                              SvgPicture.asset('assets/icons/trash.svg'),
                                               const SizedBox(
                                                 width: 32,
                                               ),
                                               const Text(
                                                 'Удалить отзыв',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    decoration:
-                                                        TextDecoration.none),
+                                                style: TextStyle(fontSize: 15, decoration: TextDecoration.none),
                                               )
                                             ],
                                           ),
@@ -250,14 +216,8 @@ class ReviewTitle extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                    DateFormat.yMMMMd('ru_RU').format(
-                        DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS')
-                            .parse(review.date)),
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500)),
+                Text(DateFormat.yMMMMd('ru_RU').format(DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS').parse(review.date)),
+                    style: const TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w500)),
                 Reactions(
                   review: review,
                   reaction: reaction,

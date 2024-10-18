@@ -53,28 +53,11 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       isLiked = !isLiked;
       likeCount += isLiked ? 1 : -1;
     });
-<<<<<<< HEAD
     if (isLiked) {
-      InitializationScope.repositoryOf(context).addReaction(
-          UserScope.userOf(context).id,
-          widget.professor!.id,
-          widget.review!.reviewId,
-          true);
+      InitializationScope.repositoryOf(context)
+          .addReaction(UserScope.userOf(context).id, widget.professor!.id, widget.review!.id, true);
     }
-
-=======
-    debugPrint('User Id: ${UserScope.userOf(context).id.toString()}');
-    debugPrint('Professor Id: ${widget.professor!.id}');
-    debugPrint('Review Id: ${widget.review!.reviewId}');
-    InitializationScope.repositoryOf(context).addReaction(
-        UserScope.userOf(context).id,
-        widget.professor!.id,
-        widget.review!.reviewId,
-        true);
->>>>>>> 8fd50c20b0f0e3ee72675df97ef6f15f32a7fda8
-    isLiked
-        ? _likeAnimationController?.forward()
-        : _likeAnimationController?.reverse();
+    isLiked ? _likeAnimationController?.forward() : _likeAnimationController?.reverse();
     _dislikeAnimationController!.reverse();
   }
 
@@ -84,29 +67,15 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       isLiked = false;
       isDisliked = !isDisliked;
       dislikeCount += isDisliked ? 1 : -1;
-<<<<<<< HEAD
     });
-    if (isDisliked) {
-      InitializationScope.repositoryOf(context).addReaction(
-          UserScope.userOf(context).id,
-          widget.professor!.id,
-          widget.review!.reviewId,
-          false);
+    if (!isDisliked) {
+      InitializationScope.repositoryOf(context)
+          .addReaction(UserScope.userOf(context).id, widget.professor!.id, widget.review!.id, false);
     } else {
       InitializationScope.repositoryOf(context).deleteReaction(Reaction());
     }
 
-=======
-      InitializationScope.repositoryOf(context).addReaction(
-          UserScope.userOf(context).id,
-          widget.professor!.id,
-          widget.review!.reviewId,
-          false);
-    });
->>>>>>> 8fd50c20b0f0e3ee72675df97ef6f15f32a7fda8
-    isDisliked
-        ? _dislikeAnimationController?.forward()
-        : _dislikeAnimationController?.reverse();
+    isDisliked ? _dislikeAnimationController?.forward() : _dislikeAnimationController?.reverse();
     _likeAnimationController!.reverse();
   }
 
@@ -146,9 +115,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   ReactionType.like.path,
                   alignment: Alignment.bottomRight,
                   colorFilter: ColorFilter.mode(
-                      isLiked
-                          ? const Color.fromARGB(255, 34, 166, 64)
-                          : const Color.fromARGB(255, 138, 138, 138),
+                      isLiked ? const Color.fromARGB(255, 34, 166, 64) : const Color.fromARGB(255, 138, 138, 138),
                       BlendMode.srcIn),
                 ),
               ),
@@ -160,9 +127,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               value: likeCount,
               duration: const Duration(milliseconds: 200),
               textStyle: TextStyle(
-                color: isLiked
-                    ? const Color.fromRGBO(0, 0, 0, 1)
-                    : const Color.fromARGB(255, 138, 138, 138),
+                color: isLiked ? const Color.fromRGBO(0, 0, 0, 1) : const Color.fromARGB(255, 138, 138, 138),
                 fontWeight: isLiked ? FontWeight.w600 : FontWeight.w400,
               ),
             )
@@ -184,10 +149,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   ReactionType.dislike.path,
                   alignment: Alignment.bottomRight,
                   colorFilter: ColorFilter.mode(
-                      isDisliked
-                          ? Colors.red
-                          : const Color.fromARGB(255, 138, 138, 138),
-                      BlendMode.srcIn),
+                      isDisliked ? Colors.red : const Color.fromARGB(255, 138, 138, 138), BlendMode.srcIn),
                 ),
               ),
             ),
@@ -198,9 +160,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               value: dislikeCount,
               duration: const Duration(microseconds: 200),
               textStyle: TextStyle(
-                color: isDisliked
-                    ? Colors.black
-                    : const Color.fromARGB(255, 138, 138, 138),
+                color: isDisliked ? Colors.black : const Color.fromARGB(255, 138, 138, 138),
                 fontWeight: isDisliked ? FontWeight.w600 : FontWeight.w400,
               ),
             )

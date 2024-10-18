@@ -53,7 +53,8 @@ class _HomePageState extends State<HomePage> {
         if (_scrollController?.position.pixels ==
             _scrollController?.position.maxScrollExtent) {
           count += 20;
-          _bloc?.add(ListRequested(count: count));
+          _bloc?.add(ListRequested(
+              count: count, group: UserScope.userOf(context).group));
         }
         if (_scrollController?.position.pixels !=
             _scrollController?.position.minScrollExtent) {
@@ -71,7 +72,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))
-      ..add(ListRequested(count: count));
+      ..add(
+          ListRequested(count: count, group: UserScope.userOf(context).group));
     _profileDataBLoC ??=
         ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
           ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));

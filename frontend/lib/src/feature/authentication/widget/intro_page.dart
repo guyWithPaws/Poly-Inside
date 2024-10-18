@@ -71,10 +71,8 @@ class _MyWidgetState extends State<IntroPage> {
               CheckboxListTile(
                 title: const Text(
                   "взять ник из телеграма",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromARGB(255, 138, 138, 138)),
+                  style:
+                      TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 138, 138, 138)),
                 ),
                 value: checkedValue,
                 onChanged: (newValue) {
@@ -86,8 +84,7 @@ class _MyWidgetState extends State<IntroPage> {
               ),
               const Spacer(),
               CheckboxListTile(
-                title: const Text(
-                    "Нажимая на галочку, вы соглашаетесь с условиями пользования приложения"),
+                title: const Text("Нажимая на галочку, вы соглашаетесь с условиями пользования приложения"),
                 value: value,
                 onChanged: (nValue) {
                   setState(() {

@@ -13,11 +13,11 @@ abstract class ProfessorProvider {
   Future<void> addProfessor(Professor professor);
 
   Stream<List<Professor>> getAllProfessors(int count);
+  Stream<List<Professor>> getProfessorsByGroup(int count, String group);
 
   Future<List<Professor>> findProfessorByName(String name, int count);
   Future<List<Professor>> getOnceAllProfessors();
-  Future<void> addProfessorToGroup(
-      String id, String number, String professorId);
+  Future<void> addProfessorToGroup(String id, String number, String professorId);
 }
 
 abstract class ReviewProvider {
