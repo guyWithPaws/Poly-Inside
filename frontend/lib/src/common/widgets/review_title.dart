@@ -129,11 +129,12 @@ class ReviewTitle extends StatelessWidget {
                                         ),
                                       ),
                                       GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
                                         onTap: () => showDialog(
                                           context: context,
                                           builder: (BuildContext context) => AlertDialog(
                                             content: SizedBox(
-                                              height: 100,
+                                              height: 90,
                                               child: Center(
                                                 child: Column(
                                                   mainAxisSize: MainAxisSize.min,
