@@ -355,7 +355,8 @@ class DatabaseProviderImpl
     var professorsByGroup = await (database.select(database.groups)
           ..where((t) => t.number.equals(group)))
         .get();
-    var professorsIds = professorsByGroup.map((group) => group.id).toList();
+    var professorsIds =
+        professorsByGroup.map((group) => group.professorId).toList();
     (database.select(database.professors)
           ..where((u) => u.id.isIn(professorsIds))
           ..limit(count))
