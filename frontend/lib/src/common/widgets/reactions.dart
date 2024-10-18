@@ -62,6 +62,16 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
           true);
     }
 
+=======
+    debugPrint('User Id: ${UserScope.userOf(context).id.toString()}');
+    debugPrint('Professor Id: ${widget.professor!.id}');
+    debugPrint('Review Id: ${widget.review!.reviewId}');
+    InitializationScope.repositoryOf(context).addReaction(
+        UserScope.userOf(context).id,
+        widget.professor!.id,
+        widget.review!.reviewId,
+        true);
+>>>>>>> 8fd50c20b0f0e3ee72675df97ef6f15f32a7fda8
     isLiked
         ? _likeAnimationController?.forward()
         : _likeAnimationController?.reverse();
@@ -74,6 +84,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       isLiked = false;
       isDisliked = !isDisliked;
       dislikeCount += isDisliked ? 1 : -1;
+<<<<<<< HEAD
     });
     if (isDisliked) {
       InitializationScope.repositoryOf(context).addReaction(
@@ -85,6 +96,14 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       InitializationScope.repositoryOf(context).deleteReaction(Reaction());
     }
 
+=======
+      InitializationScope.repositoryOf(context).addReaction(
+          UserScope.userOf(context).id,
+          widget.professor!.id,
+          widget.review!.reviewId,
+          false);
+    });
+>>>>>>> 8fd50c20b0f0e3ee72675df97ef6f15f32a7fda8
     isDisliked
         ? _dislikeAnimationController?.forward()
         : _dislikeAnimationController?.reverse();
