@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: protobuf/service.proto
+//  source: shared/protobuf/service.proto
 //
 // @dart = 2.12
 
@@ -58,14 +58,13 @@ const ListProfessorsByGroupRequest$json = {
   '2': [
     {'1': 'count', '3': 1, '4': 1, '5': 5, '10': 'count'},
     {'1': 'group', '3': 2, '4': 1, '5': 9, '10': 'group'},
-    {'1': 'order', '3': 3, '4': 1, '5': 5, '10': 'order'},
   ],
 };
 
 /// Descriptor for `ListProfessorsByGroupRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listProfessorsByGroupRequestDescriptor =
     $convert.base64Decode('ChxMaXN0UHJvZmVzc29yc0J5R3JvdXBSZXF1ZXN0EhQKBWNvdW50GAEgASgFUgVjb3VudBIUCg'
-        'Vncm91cBgCIAEoCVIFZ3JvdXASFAoFb3JkZXIYAyABKAVSBW9yZGVy');
+        'Vncm91cBgCIAEoCVIFZ3JvdXA=');
 
 @$core.Deprecated('Use reviewWithUserDescriptor instead')
 const ReviewWithUser$json = {

@@ -24,8 +24,7 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Stream<GetListProfessorResponse> getListProfessor(
-      ServiceCall call, ListProfessorRequest request) async* {
+  Stream<GetListProfessorResponse> getListProfessor(ServiceCall call, ListProfessorRequest request) async* {
     l.v('GetListProfessor');
     final professors = provider.getAllProfessors(request.count);
     await for (final list in professors) {
@@ -34,16 +33,14 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<User> getProfile(
-      ServiceCall call, UserInfoByUserIdRequest request) async {
+  Future<User> getProfile(ServiceCall call, UserInfoByUserIdRequest request) async {
     l.v('GetProfile with ${request.id}');
     final user = await provider.getUserByUserId(request.id);
     return user ?? User();
   }
 
   @override
-  Stream<ReviewWithUserResponse> getReviewsByProfessorId(
-      ServiceCall call, ReviewsByProfessorIdRequest request) async* {
+  Stream<ReviewWithUserResponse> getReviewsByProfessorId(ServiceCall call, ReviewsByProfessorIdRequest request) async* {
     l.v('GetReviewsByProfessorId with ${request.id}');
     final stream = provider.getAllReviewsByProfessor(request.id);
     await for (final list in stream) {
@@ -52,8 +49,7 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<UpdateProfileResponse> updateProfile(
-      ServiceCall call, User request) async {
+  Future<UpdateProfileResponse> updateProfile(ServiceCall call, User request) async {
     l.v('EditProfile with ${request.toString()}');
 
     await provider.updateUser(request);
@@ -61,16 +57,14 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<UpdateReviewResponse> updateReview(
-      ServiceCall call, Review request) async {
+  Future<UpdateReviewResponse> updateReview(ServiceCall call, Review request) async {
     l.v('EditReview with ${request.id}');
     await provider.updateReview(request);
     return UpdateReviewResponse();
   }
 
   @override
-  Future<DeleteReviewResponse> deleteReview(
-      ServiceCall call, DeleteReviewRequest request) async {
+  Future<DeleteReviewResponse> deleteReview(ServiceCall call, DeleteReviewRequest request) async {
     l.v('DeleteReview with ${request.toString()}');
 
     await provider.deleteReview(request.reviewId);
@@ -86,8 +80,7 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<SearchResponse> searchProfessorByName(
-      ServiceCall call, SearchRequest request) async {
+  Future<SearchResponse> searchProfessorByName(ServiceCall call, SearchRequest request) async {
     l.v('Search professor with name ${request.name}');
     final list = await provider.findProfessorByName(
       request.name,
@@ -97,8 +90,7 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Stream<ReviewWithProfessorResponse> getReviewWithProfessor(
-      ServiceCall call, ReviewsByUserIdRequest request) async* {
+  Stream<ReviewWithProfessorResponse> getReviewWithProfessor(ServiceCall call, ReviewsByUserIdRequest request) async* {
     final stream = provider.getReviewsWithProfessor(request.id);
     l.v('Get reviews with professor with id: ${request.id}');
     await for (final list in stream) {
@@ -107,12 +99,10 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<LikeResponse> addReviewReaction(
-      ServiceCall call, Reaction request) async {
+  Future<LikeResponse> addReviewReaction(ServiceCall call, Reaction request) async {
     if (request.type == 2) {
       //var reaction = await provider.getReaction(request.id);
-      await provider.deleteReaction(
-          request.userId, request.professorId, request.reviewId);
+      await provider.deleteReaction(request.userId, request.professorId, request.reviewId);
       var review = await provider.getReview(request.reviewId);
       if (request.type == 1) {
         review.likes -= 1;
@@ -167,8 +157,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Stream<ListProfessorsByGroupResponce> getListProfessorsByGroup(
       ServiceCall call, ListProfessorsByGroupRequest request) async* {
-    final professors =
-        provider.getProfessorsByGroup(request.count, request.group);
+    final professors = provider.getProfessorsByGroup(request.count, request.group, request.order);
     await for (final list in professors) {
       yield ListProfessorsByGroupResponce(professors: list);
     }

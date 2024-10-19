@@ -13,7 +13,7 @@ abstract class ProfessorProvider {
   Future<void> addProfessor(Professor professor);
 
   Stream<List<Professor>> getAllProfessors(int count);
-  Stream<List<Professor>> getProfessorsByGroup(int count, String group);
+  Stream<List<Professor>> getProfessorsByGroup(int count, String group, int order);
 
   Future<List<Professor>> findProfessorByName(String name, int count);
   Future<List<Professor>> getOnceAllProfessors();

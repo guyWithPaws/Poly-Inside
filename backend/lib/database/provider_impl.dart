@@ -5,33 +5,24 @@ import 'package:poly_inside_server/database/provider.dart';
 import 'package:shared/shared.dart';
 
 class DatabaseProviderImpl
-    implements
-        ProfessorProvider,
-        UserProvider,
-        ReviewProvider,
-        RejectedReviewProvider,
-        ReactionProvider {
+    implements ProfessorProvider, UserProvider, ReviewProvider, RejectedReviewProvider, ReactionProvider {
   DatabaseProviderImpl({required this.database});
 
   final AppDatabase database;
 
   @override
-  Future<List<Professor>> findProfessorByName(String name, int count) =>
-      (database.select(database.professors)
-            ..where((u) => u.name.like('%$name%'))
-            ..limit(count))
-          .get();
+  Future<List<Professor>> findProfessorByName(String name, int count) => (database.select(database.professors)
+        ..where((u) => u.name.like('%$name%'))
+        ..limit(count))
+      .get();
 
   @override
   Stream<List<Professor>> getAllProfessors(int count) =>
-      (database.select(database.professors)..limit(count))
-          .watch()
-          .asBroadcastStream();
+      (database.select(database.professors)..limit(count)).watch().asBroadcastStream();
 
   @override
   Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId) =>
-      (database.select(database.reviews)
-            ..where((u) => u.professorId.equals(professorId)))
+      (database.select(database.reviews)..where((u) => u.professorId.equals(professorId)))
           .join([
             innerJoin(
               database.users,
@@ -40,8 +31,7 @@ class DatabaseProviderImpl
             leftOuterJoin(
               database.reactions,
               database.reactions.userId.equalsExp(database.reviews.userId) &
-                  database.reactions.professorId
-                      .equalsExp(database.reviews.professorId) &
+                  database.reactions.professorId.equalsExp(database.reviews.professorId) &
                   database.reactions.reviewId.equalsExp(database.reviews.id),
             )
           ])
@@ -57,37 +47,24 @@ class DatabaseProviderImpl
 
   @override
   Future<int> addReview(Review review) async {
-    final reviews = await (database.select(database.reviews)
-          ..where((u) => u.professorId.equals(review.professorId)))
-        .get();
+    final reviews =
+        await (database.select(database.reviews)..where((u) => u.professorId.equals(review.professorId))).get();
     final reviewsCount = reviews.length;
-    final professor = await (database.select(database.professors)
-          ..where((e) => e.id.equals(review.professorId)))
-        .getSingle();
+    final professor =
+        await (database.select(database.professors)..where((e) => e.id.equals(review.professorId))).getSingle();
     final rating = professor.rating;
 
     final newRating = (rating * (reviewsCount == 0 ? 1 : reviewsCount) +
-            (review.harshness +
-                    review.objectivity +
-                    review.professionalism +
-                    review.loyalty) /
-                4) /
+            (review.harshness + review.objectivity + review.professionalism + review.loyalty) / 4) /
         (reviewsCount + 1);
     final newHarshness =
-        (professor.harshness * (reviewsCount == 0 ? 1 : reviewsCount) +
-                review.harshness) /
-            (reviewsCount + 1);
+        (professor.harshness * (reviewsCount == 0 ? 1 : reviewsCount) + review.harshness) / (reviewsCount + 1);
     final newObjectivity =
-        (professor.objectivity * (reviewsCount == 0 ? 1 : reviewsCount) +
-                review.objectivity) /
-            (reviewsCount + 1);
+        (professor.objectivity * (reviewsCount == 0 ? 1 : reviewsCount) + review.objectivity) / (reviewsCount + 1);
     final newLoyalty =
-        (professor.loyalty * (reviewsCount == 0 ? 1 : reviewsCount) +
-                review.loyalty) /
-            (reviewsCount + 1);
+        (professor.loyalty * (reviewsCount == 0 ? 1 : reviewsCount) + review.loyalty) / (reviewsCount + 1);
     final newProfessionalism =
-        (professor.professionalism * (reviewsCount == 0 ? 1 : reviewsCount) +
-                review.professionalism) /
+        (professor.professionalism * (reviewsCount == 0 ? 1 : reviewsCount) + review.professionalism) /
             (reviewsCount + 1);
 
     await database.update(database.professors).replace(
@@ -143,45 +120,42 @@ class DatabaseProviderImpl
   }
 
   @override
-  Future<bool> updateReview(Review review) async =>
-      await database.update(database.reviews).replace(
-            ReviewsCompanion(
-              id: Value(review.id),
-              likes: Value(review.likes),
-              dislikes: Value(review.dislikes),
-              professorId: Value(review.professorId),
-              professionalism: Value(review.professionalism),
-              userId: Value(review.userId),
-              comment: Value(review.comment),
-              date: Value(review.date),
-              objectivity: Value(review.objectivity),
-              loyalty: Value(review.loyalty),
-              harshness: Value(review.harshness),
-            ),
-          );
+  Future<bool> updateReview(Review review) async => await database.update(database.reviews).replace(
+        ReviewsCompanion(
+          id: Value(review.id),
+          likes: Value(review.likes),
+          dislikes: Value(review.dislikes),
+          professorId: Value(review.professorId),
+          professionalism: Value(review.professionalism),
+          userId: Value(review.userId),
+          comment: Value(review.comment),
+          date: Value(review.date),
+          objectivity: Value(review.objectivity),
+          loyalty: Value(review.loyalty),
+          harshness: Value(review.harshness),
+        ),
+      );
 
   @override
-  Future<bool> updateUser(User user) async =>
-      await database.update(database.users).replace(
-            UsersCompanion(
-              id: Value<int>(user.id),
-              rating: Value<int>(user.rating),
-              name: Value<String>(user.name),
-              avatar: Value<Uint8List>(
-                Uint8List.fromList(
-                  user.avatar,
-                ),
-              ),
+  Future<bool> updateUser(User user) async => await database.update(database.users).replace(
+        UsersCompanion(
+          id: Value<int>(user.id),
+          rating: Value<int>(user.rating),
+          name: Value<String>(user.name),
+          avatar: Value<Uint8List>(
+            Uint8List.fromList(
+              user.avatar,
             ),
-          );
+          ),
+        ),
+      );
 
   @override
-  Future<int> deleteReview(String reviewId) async =>
-      await (database.delete(database.reviews)
-            ..where(
-              (f) => f.id.equals(reviewId),
-            ))
-          .go();
+  Future<int> deleteReview(String reviewId) async => await (database.delete(database.reviews)
+        ..where(
+          (f) => f.id.equals(reviewId),
+        ))
+      .go();
 
   @override
   Future<void> addUser(User user) async {
@@ -258,8 +232,7 @@ class DatabaseProviderImpl
             leftOuterJoin(
               database.reactions,
               database.reactions.userId.equalsExp(database.reviews.userId) &
-                  database.reactions.professorId
-                      .equalsExp(database.reviews.professorId) &
+                  database.reactions.professorId.equalsExp(database.reviews.professorId) &
                   database.reactions.reviewId.equalsExp(database.reviews.id),
             ),
           ])
@@ -277,8 +250,7 @@ class DatabaseProviderImpl
           );
 
   @override
-  Future<void> addProfessorToGroup(
-          String id, String number, String professorId) async =>
+  Future<void> addProfessorToGroup(String id, String number, String professorId) async =>
       await database.into(database.groups).insert(
             GroupsCompanion(
               id: Value(id),
@@ -288,14 +260,10 @@ class DatabaseProviderImpl
           );
 
   @override
-  Future<void> deleteReaction(
-      int userId, String professorId, String reviewId) async {
+  Future<void> deleteReaction(int userId, String professorId, String reviewId) async {
     l.v('Delete reaction');
     await (database.delete(database.reactions)
-          ..where((t) =>
-              (t.userId.equals(userId)) &
-              t.professorId.equals(professorId) &
-              t.reviewId.equals(reviewId)))
+          ..where((t) => (t.userId.equals(userId)) & t.professorId.equals(professorId) & t.reviewId.equals(reviewId)))
         .go();
   }
 
@@ -336,31 +304,38 @@ class DatabaseProviderImpl
 
   @override
   Future<Review> getReview(String id) async {
-    final review = await (database.select(database.reviews)
-          ..where((t) => t.id.equals(id)))
-        .getSingle();
+    final review = await (database.select(database.reviews)..where((t) => t.id.equals(id))).getSingle();
     return review;
   }
 
   @override
   Future<Reaction> getReaction(String reactionId) async {
-    final reaction = await (database.select(database.reactions)
-          ..where((t) => t.id.equals(reactionId)))
-        .getSingle();
+    final reaction = await (database.select(database.reactions)..where((t) => t.id.equals(reactionId))).getSingle();
     return reaction;
   }
 
   @override
-  Stream<List<Professor>> getProfessorsByGroup(int count, String group) async* {
-    var professorsByGroup = await (database.select(database.groups)
-          ..where((t) => t.number.equals(group)))
-        .get();
-    var professorsIds =
-        professorsByGroup.map((group) => group.professorId).toList();
-
+  Stream<List<Professor>> getProfessorsByGroup(int count, String group, int order) async* {
+    var professorsByGroup = await (database.select(database.groups)..where((t) => t.number.equals(group))).get();
+    var professorsIds = professorsByGroup.map((group) => group.professorId).toList();
     yield* (database.select(database.professors)
           ..where((u) => u.id.isIn(professorsIds))
-          ..orderBy([(t) => OrderingTerm(expression: t.name)])
+          ..orderBy([
+            (t) {
+              switch (order) {
+                case 0:
+                  return OrderingTerm(expression: t.name);
+                case 1:
+                  return OrderingTerm(expression: t.name, mode: OrderingMode.desc);
+                case 2:
+                  return OrderingTerm(expression: t.rating);
+                case 3:
+                  return OrderingTerm(expression: t.rating, mode: OrderingMode.desc);
+                default:
+                  return OrderingTerm(expression: t.name);
+              }
+            }
+          ])
           ..limit(count))
         .watch()
         .asBroadcastStream();

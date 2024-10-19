@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: protobuf/service.proto
+//  source: shared/protobuf/service.proto
 //
 // @dart = 2.12
 
@@ -161,7 +161,6 @@ class ListProfessorsByGroupRequest extends $pb.GeneratedMessage {
   factory ListProfessorsByGroupRequest({
     $core.int? count,
     $core.String? group,
-    $core.int? order,
   }) {
     final $result = create();
     if (count != null) {
@@ -169,9 +168,6 @@ class ListProfessorsByGroupRequest extends $pb.GeneratedMessage {
     }
     if (group != null) {
       $result.group = group;
-    }
-    if (order != null) {
-      $result.order = order;
     }
     return $result;
   }
@@ -187,7 +183,6 @@ class ListProfessorsByGroupRequest extends $pb.GeneratedMessage {
       $pb.BuilderInfo(_omitMessageNames ? '' : 'ListProfessorsByGroupRequest', createEmptyInstance: create)
         ..a<$core.int>(1, _omitFieldNames ? '' : 'count', $pb.PbFieldType.O3)
         ..aOS(2, _omitFieldNames ? '' : 'group')
-        ..a<$core.int>(3, _omitFieldNames ? '' : 'order', $pb.PbFieldType.O3)
         ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -234,18 +229,6 @@ class ListProfessorsByGroupRequest extends $pb.GeneratedMessage {
   $core.bool hasGroup() => $_has(1);
   @$pb.TagNumber(2)
   void clearGroup() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.int get order => $_getIZ(2);
-  @$pb.TagNumber(3)
-  set order($core.int v) {
-    $_setSignedInt32(2, v);
-  }
-
-  @$pb.TagNumber(3)
-  $core.bool hasOrder() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearOrder() => clearField(3);
 }
 
 class ReviewWithUser extends $pb.GeneratedMessage {

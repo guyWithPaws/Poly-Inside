@@ -22,8 +22,7 @@ import '../../../common/enums/sorting_type.dart';
 /// {@endtemplate}
 class HomePage extends StatefulWidget {
   // ignore: library_private_types_in_public_api
-  static _HomePageState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_HomePageState>();
+  static _HomePageState? of(BuildContext context) => context.findAncestorStateOfType<_HomePageState>();
 
   /// {@macro home_page}
   const HomePage({
@@ -37,6 +36,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
+  ValueNotifier<int>? _sortingValueNotifier;
   HomeBloc? _bloc;
   ProfileDataBLoC? _profileDataBLoC;
   TextEditingController? _textEditingController;
@@ -51,14 +51,11 @@ class _HomePageState extends State<HomePage> {
     _valueNotifier = ValueNotifier(false);
     _scrollController = ScrollController()
       ..addListener(() {
-        if (_scrollController?.position.pixels ==
-            _scrollController?.position.maxScrollExtent) {
+        if (_scrollController?.position.pixels == _scrollController?.position.maxScrollExtent) {
           count += 20;
-          _bloc?.add(ListRequested(
-              count: count, group: UserScope.userOf(context).group));
+          _bloc?.add(ListRequested(count: count, group: UserScope.userOf(context).group));
         }
-        if (_scrollController?.position.pixels !=
-            _scrollController?.position.minScrollExtent) {
+        if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
           _valueNotifier!.value = true;
         } else {
           _valueNotifier!.value = false;
@@ -66,11 +63,14 @@ class _HomePageState extends State<HomePage> {
       });
     _textEditingController = TextEditingController()
       ..addListener(() {
-        debugPrint(_textEditingController!.text);
         if (_textEditingController!.text.isNotEmpty) {
-          _bloc?.add(TextFieldChanged(
-              name: _textEditingController!.text.toLowerCase()));
+          _bloc?.add(TextFieldChanged(name: _textEditingController!.text.toLowerCase()));
         }
+      });
+    _sortingValueNotifier = ValueNotifier(0)
+      ..addListener(() {
+        _bloc?.add(SortingTypeChanged(
+            count: count, group: UserScope.userOf(context).group, order: _sortingValueNotifier!.value));
       });
     super.initState();
   }
@@ -78,11 +78,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))
-      ..add(
-          ListRequested(count: count, group: UserScope.userOf(context).group));
-    _profileDataBLoC ??=
-        ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
-          ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
+      ..add(ListRequested(count: count, group: UserScope.userOf(context).group));
+    _profileDataBLoC ??= ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
+      ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
     super.didChangeDependencies();
   }
 
@@ -105,8 +103,7 @@ class _HomePageState extends State<HomePage> {
           visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
             onPressed: () {
-              _scrollController?.animateTo(0,
-                  duration: scrollDuration, curve: Curves.easeInOut);
+              _scrollController?.animateTo(0, duration: scrollDuration, curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -173,14 +170,23 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 16,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Мои преподаватели',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  const Row(
+                    children: [
+                      Text(
+                        'Мои преподаватели',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Icon(CupertinoIcons.question_circle),
+                    ],
                   ),
                   SortButton(
+                    valueNotifier: _sortingValueNotifier,
                     type: SortingType.professors,
                   )
                 ],
@@ -214,13 +220,10 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute<void>(
-                                      builder: (builderContext) =>
-                                          _InheritedProfessorScope(
+                                      builder: (builderContext) => _InheritedProfessorScope(
                                         professor: professors[index],
                                         child: ProfessorProfilePage(
-                                          repository:
-                                              InitializationScope.repositoryOf(
-                                                  context),
+                                          repository: InitializationScope.repositoryOf(context),
                                           professor: professors[index],
                                         ),
                                       ),
@@ -260,15 +263,11 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         Expanded(
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                professors[index]
-                                                    .name
-                                                    .capitalize(),
+                                                professors[index].name.capitalize(),
                                                 style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
@@ -280,37 +279,23 @@ class _HomePageState extends State<HomePage> {
                                                     spaceBetween: 8,
                                                     textSize: 16,
                                                     size: 20,
-                                                    value: professors[index]
-                                                        .rating,
+                                                    value: professors[index].rating,
                                                   ),
-                                                  // StarsRating(
-                                                  //   size: const Size(20, 20),
-                                                  //   textSize: 16,
-                                                  //   value: professors[index]
-                                                  //       .rating,
-                                                  //   spaceBetween: 8,
-                                                  // ),
                                                   Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
+                                                    alignment: Alignment.centerRight,
                                                     child: Column(
                                                       children: [
                                                         const SizedBox(
                                                           height: 3,
                                                         ),
                                                         Text(
-                                                          (professors[index]
-                                                                      .rating ==
-                                                                  0)
+                                                          (professors[index].rating == 0)
                                                               ? 'нет отзывов'
                                                               : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
-                                                          style:
-                                                              const TextStyle(
+                                                          style: const TextStyle(
                                                             fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color:
-                                                                Color.fromARGB(
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Color.fromARGB(
                                                               255,
                                                               138,
                                                               138,
@@ -360,12 +345,9 @@ class _InheritedProfessorScope extends InheritedWidget {
 
   final Professor professor;
 
-  static _InheritedProfessorScope? maybeOf(BuildContext context,
-          {bool listen = true}) =>
-      listen
-          ? context
-              .dependOnInheritedWidgetOfExactType<_InheritedProfessorScope>()
-          : context.getInheritedWidgetOfExactType<_InheritedProfessorScope>();
+  static _InheritedProfessorScope? maybeOf(BuildContext context, {bool listen = true}) => listen
+      ? context.dependOnInheritedWidgetOfExactType<_InheritedProfessorScope>()
+      : context.getInheritedWidgetOfExactType<_InheritedProfessorScope>();
   static Professor professorOf(BuildContext context) =>
       maybeOf(context)?.professor ?? _notFoundInheritedWidgetOfExactType();
 
@@ -376,6 +358,5 @@ class _InheritedProfessorScope extends InheritedWidget {
       );
 
   @override
-  bool updateShouldNotify(_InheritedProfessorScope oldWidget) =>
-      !(professor == oldWidget.professor);
+  bool updateShouldNotify(_InheritedProfessorScope oldWidget) => !(professor == oldWidget.professor);
 }

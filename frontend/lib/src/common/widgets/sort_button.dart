@@ -12,19 +12,20 @@ import '../enums/sorting_type.dart';
 /// {@endtemplate}
 class SortButton extends StatefulWidget {
   final SortingType type;
+  final ValueNotifier<int>? valueNotifier;
 
   /// {@macro sort_button}
   const SortButton({
     super.key,
-    required this.type, // ignore: unused_element
+    required this.type,
+    required this.valueNotifier, // ignore: unused_element
   });
 
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _SortButtonState? maybeOf(BuildContext context) =>
-      context.findAncestorStateOfType<_SortButtonState>();
+  static _SortButtonState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_SortButtonState>();
 
   @override
   State<SortButton> createState() => _SortButtonState();
@@ -33,7 +34,10 @@ class SortButton extends StatefulWidget {
 /// State for widget SortButton.
 class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
   AnimationController? _controller;
+  //ValueNotifier<int>? _valueNotifier;
   static const Duration _animationDuration = Duration(milliseconds: 300);
+
+  int testValue = 0;
 
   static const double sortingElementsHeight = 40;
   static const List<String> sortingElements = [
@@ -41,8 +45,8 @@ class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
     'Я-А',
     'С высоким рейтингом',
     'С низким рейтингом',
-    'Новые',
-    'Старые'
+    //'Новые',
+    //'Старые'
   ];
 
   /* #region Lifecycle */
@@ -52,6 +56,8 @@ class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
       duration: _animationDuration,
       vsync: this,
     );
+
+    //_valueNotifier = ValueNotifier(0);
 
     super.initState();
     // Initial state initialization
@@ -93,34 +99,43 @@ class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Показать сначала'),
+                    const Text(
+                      'Показать сначала',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
                     const SizedBox(
                       height: 16,
                     ),
                     Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFEEF9EF),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          for (var index = 0;
-                              index < sortingElements.length;
-                              ++index)
-                            SizedBox(
-                              height: sortingElementsHeight,
-                              child: Row(
-                                children: [
-                                  Radio(
-                                      value: 1,
-                                      groupValue: 0,
-                                      onChanged: (_) {}),
-                                  Text(sortingElements[index]),
-                                ],
-                              ),
-                            ),
-                        ],
+                      decoration:
+                          BoxDecoration(color: const Color(0xFFEEF9EF), borderRadius: BorderRadius.circular(12)),
+                      child: ValueListenableBuilder<int>(
+                        valueListenable: widget.valueNotifier!,
+                        builder: (context, selectedValue, child) {
+                          return Column(
+                            children: [
+                              for (var index = 0; index < sortingElements.length; ++index)
+                                SizedBox(
+                                  height: sortingElementsHeight,
+                                  child: Row(
+                                    children: [
+                                      Radio<int>(
+                                        value: index,
+                                        groupValue: selectedValue,
+                                        onChanged: (newValue) {
+                                          widget.valueNotifier!.value = newValue!;
+                                          Future.delayed(const Duration(microseconds: 1000)).then((_) {
+                                            Navigator.pop(context);
+                                          });
+                                        },
+                                      ),
+                                      Text(sortingElements[index]),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
                       ),
                     )
                   ],

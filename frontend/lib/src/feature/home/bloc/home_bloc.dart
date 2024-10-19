@@ -56,6 +56,24 @@ class TextFieldChanged extends HomePageEvent {
           name == other.name;
 }
 
+class SortingTypeChanged extends HomePageEvent {
+  final int count;
+  final String group;
+  final int order;
+  SortingTypeChanged(
+      {required this.count, required this.group, required this.order});
+
+  @override
+  int get hashCode => order.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SortingTypeChanged &&
+          runtimeType == other.runtimeType &&
+          order == other.order;
+}
+
 /// InitializationState data class
 @Freezed()
 sealed class HomePageState with _$HomePageState {
@@ -77,8 +95,8 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
     on<ListRequested>(
       (event, emit) async {
         try {
-          final stream = repository.getProfessorsByGroup(
-              event.count, event.group);
+          final stream =
+              repository.getProfessorsByGroup(event.count, event.group, 0);
           stream.listen((e) => add(AddListToState(professors: e.professors)));
         } on Object catch (error, _) {
           emit(HomePageState.error(error));
@@ -114,6 +132,19 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
           )
           .asyncExpand(mapper),
     );
+    on<SortingTypeChanged>((event, emit) async {
+      try {
+        final stream = repository.getProfessorsByGroup(
+          event.count,
+          event.group,
+          event.order
+        );
+        stream.listen((e) => add(AddListToState(professors: e.professors)));
+      } on Object catch (error, _) {
+        emit(HomePageState.error(error));
+        rethrow;
+      }
+    });
   }
 
   @override

@@ -51,8 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels !=
-        _scrollController?.position.minScrollExtent) {
+    if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
       _valueNotifier?.value = true;
     } else {
       _valueNotifier?.value = false;
@@ -99,8 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
           visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
             onPressed: () {
-              _scrollController?.animateTo(0,
-                  duration: scrollDuration, curve: Curves.easeInOut);
+              _scrollController?.animateTo(0, duration: scrollDuration, curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -141,8 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () async {
                     _isEditingProfile!.value = !_isEditingProfile!.value;
                     if (!_isEditingProfile!.value) {
-                      await InitializationScope.repositoryOf(context)
-                          .updateUser(
+                      await InitializationScope.repositoryOf(context).updateUser(
                         User(
                           id: UserScope.userOf(context).id,
                           name: _textEditingController.text,
@@ -161,8 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ValueListenableBuilder(
                       valueListenable: _isEditingProfile!,
                       builder: (context, value, _) => !value
-                          ? SvgPicture.asset(
-                              'assets/icons/profileeditbutton.svg')
+                          ? SvgPicture.asset('assets/icons/profileeditbutton.svg')
                           : SvgPicture.asset('assets/icons/check.svg'),
                     ),
                   ),
@@ -191,13 +187,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                       UserScope.userOf(context).avatar,
                                     ),
                                   ),
-                                  child:
-                                      UserScope.userOf(context).avatar.isEmpty
-                                          ? SvgPicture.asset(
-                                              'assets/icons/no_photo.svg',
-                                              width: 79,
-                                            )
-                                          : null),
+                                  child: UserScope.userOf(context).avatar.isEmpty
+                                      ? SvgPicture.asset(
+                                          'assets/icons/no_photo.svg',
+                                          width: 79,
+                                        )
+                                      : null),
                             ),
                             Positioned(
                               right: 10.36,
@@ -214,13 +209,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                         const SizedBox(height: 20),
                                         ElevatedButton(
                                           onPressed: () {
-                                            Navigator.pop(
-                                                context); // Закрываем модальное окно
-                                            _pickImage(
-                                                context); // Вызываем функцию выбора изображения
+                                            Navigator.pop(context); // Закрываем модальное окно
+                                            _pickImage(context); // Вызываем функцию выбора изображения
                                           },
-                                          child:
-                                              const Text('Выбрать из галереи'),
+                                          child: const Text('Выбрать из галереи'),
                                         ),
                                       ],
                                     ),
@@ -235,20 +227,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Text(
                           'ID: ${UserScope.userOf(context).id}',
-                          style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
+                          style: const TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         ValueListenableBuilder(
                           valueListenable: _isEditingProfile!,
-                          builder: (context, value, _) =>
-                              ValueListenableBuilder(
+                          builder: (context, value, _) => ValueListenableBuilder(
                             valueListenable: _textEditingController,
-                            builder: (context, textValue, _) =>
-                                AnimatedContainer(
-                              width: textValue.text.isNotEmpty &&
-                                      textValue.text.length * 30 > 100
+                            builder: (context, textValue, _) => AnimatedContainer(
+                              width: textValue.text.isNotEmpty && textValue.text.length * 30 > 100
                                   ? textValue.text.length * 30
                                   : 100,
                               height: 50,
@@ -257,8 +243,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 border: value
                                     ? Border.all(
                                         color: textValue.text.length < 15
-                                            ? const Color.fromARGB(
-                                                255, 168, 239, 171)
+                                            ? const Color.fromARGB(255, 168, 239, 171)
                                             : Colors.red,
                                         width: 1)
                                     : null,
@@ -272,10 +257,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     readOnly: !value,
                                     textAlign: TextAlign.center,
                                     textAlignVertical: TextAlignVertical.center,
-                                    decoration: const InputDecoration(
-                                        counterText: '',
-                                        counter: null,
-                                        border: InputBorder.none),
+                                    decoration:
+                                        const InputDecoration(counterText: '', counter: null, border: InputBorder.none),
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 36,
@@ -335,13 +318,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               const SizedBox(width: 8),
                               Container(
-                                width: professors.isNotEmpty
-                                    ? professors.length.toString().length * 20
-                                    : 30,
+                                width: professors.isNotEmpty ? professors.length.toString().length * 20 : 30,
                                 height: 26,
                                 decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 233, 252, 232),
+                                  color: const Color.fromARGB(255, 233, 252, 232),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                                 child: Center(
@@ -357,9 +337,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ],
                           ),
-                          const SortButton(
-                            type: SortingType.reviews,
-                          )
+                          //const SortButton(
+                          //  type: SortingType.reviews,
+                          //)
                         ],
                       ),
                     ),

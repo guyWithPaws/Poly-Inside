@@ -12,7 +12,6 @@ service SearchService {
   rpc GetReviewWithProfessor(ReviewsByUserIdRequest) returns (stream ReviewWithProfessorResponse);
   rpc GetListProfessorsByGroup(ListProfessorsByGroupRequest) returns (stream ListProfessorsByGroupResponce);
   
-
   // Review's methods
   rpc AddReview(Review) returns (AddReviewResponse);
   rpc UpdateReview(Review) returns (UpdateReviewResponse);
@@ -36,6 +35,10 @@ message ReviewWithUserResponse{
 message ListProfessorsByGroupRequest {
   int32 count = 1;
   string group = 2;
+  int32 order = 3; // 0 - в алафвитном порядке от А до Я
+                   // 1 - в алафвитном порядке от Я до А
+                   // 2 - с высоким рейтингом
+                   // 3 - с низким рейтингом
 }
 
 message ReviewWithUser {

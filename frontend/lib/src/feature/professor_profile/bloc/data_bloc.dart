@@ -31,7 +31,7 @@ class NewListEvent extends ProfessorDataEvent {
 }
 
 @Freezed()
-sealed class ProfessorDataState with _$DataState {
+sealed class ProfessorDataState with _$ProfessorDataState {
   const ProfessorDataState._();
   const factory ProfessorDataState.processing() = ProcessingState;
   const factory ProfessorDataState.idle() = IdleState;

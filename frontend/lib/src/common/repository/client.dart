@@ -5,7 +5,7 @@ abstract class ClientRepository {
   Future<void> addUser(User user);
   Future<User> getUserByUserId(int userId);
   Stream<GetListProfessorResponse> getAllProfessors(int i);
-  Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(int count, String group);
+  Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(int count, String group, int order);
   Stream<ReviewWithUserResponse> getAllReviewsByProfessor(String professorId);
   Future<bool> addReview(Review review);
   Future<void> updateReview(Review review);
