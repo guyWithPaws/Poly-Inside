@@ -57,6 +57,7 @@ dependencies:
   animated_flip_counter: ^0.3.4
   bloc_concurrency: ^0.2.5
   image_picker: ^0.8.4+4
+  crypto: ^3.0.6
 
 dev_dependencies:
   flutter_test:

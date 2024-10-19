@@ -3,8 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:poly_inside/src/common/utils/capitalizer.dart';
-import 'package:poly_inside/src/common/utils/word_formatter.dart';
+import 'package:poly_inside/src/common/extensions/string.dart';
 import 'package:poly_inside/src/common/widgets/sort_button.dart';
 import 'package:poly_inside/src/common/widgets/static_stars_rating.dart';
 import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
@@ -15,6 +14,8 @@ import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
 import 'package:poly_inside/src/feature/user_profile/widget/user_profile_page.dart';
 import 'package:shared/shared.dart';
+
+import '../../../common/enums/sorting_type.dart';
 
 /// {@template home_page}
 /// HomePage widget.
@@ -64,8 +65,13 @@ class _HomePageState extends State<HomePage> {
         }
       });
     _textEditingController = TextEditingController()
-      ..addListener(() => _bloc?.add(TextFieldChanged(
-          name: _textEditingController?.text.toLowerCase() ?? '')));
+      ..addListener(() {
+        debugPrint(_textEditingController!.text);
+        if (_textEditingController!.text.isNotEmpty) {
+          _bloc?.add(TextFieldChanged(
+              name: _textEditingController!.text.toLowerCase()));
+        }
+      });
     super.initState();
   }
 
@@ -175,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SortButton(
-                    type: SortingTypes.professors,
+                    type: SortingType.professors,
                   )
                 ],
               ),

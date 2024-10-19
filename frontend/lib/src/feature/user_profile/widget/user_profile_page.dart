@@ -13,6 +13,7 @@ import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
 import 'package:shared/shared.dart';
 
+import '../../../common/enums/sorting_type.dart';
 import '../../../common/widgets/sort_button.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -357,7 +358,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                           const SortButton(
-                            type: SortingTypes.reviews,
+                            type: SortingType.reviews,
                           )
                         ],
                       ),

@@ -5,20 +5,7 @@ import 'package:shared/shared.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 
 import '../../feature/initialization/widget/initialization.dart';
-
-enum ReactionType {
-  like,
-  dislike;
-
-  String get path {
-    switch (this) {
-      case ReactionType.like:
-        return 'assets/icons/like.svg';
-      case ReactionType.dislike:
-        return 'assets/icons/dislike.svg';
-    }
-  }
-}
+import '../enums/reaction_type.dart';
 
 class Reactions extends StatefulWidget {
   final Review? review;
@@ -54,10 +41,15 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       likeCount += isLiked ? 1 : -1;
     });
     if (isLiked) {
-      InitializationScope.repositoryOf(context)
-          .addReaction(UserScope.userOf(context).id, widget.professor!.id, widget.review!.id, true);
+      InitializationScope.repositoryOf(context).addReaction(
+          UserScope.userOf(context).id,
+          widget.professor!.id,
+          widget.review!.id,
+          true);
     }
-    isLiked ? _likeAnimationController?.forward() : _likeAnimationController?.reverse();
+    isLiked
+        ? _likeAnimationController?.forward()
+        : _likeAnimationController?.reverse();
     _dislikeAnimationController!.reverse();
   }
 
@@ -69,13 +61,18 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       dislikeCount += isDisliked ? 1 : -1;
     });
     if (!isDisliked) {
-      InitializationScope.repositoryOf(context)
-          .addReaction(UserScope.userOf(context).id, widget.professor!.id, widget.review!.id, false);
+      InitializationScope.repositoryOf(context).addReaction(
+          UserScope.userOf(context).id,
+          widget.professor!.id,
+          widget.review!.id,
+          false);
     } else {
       InitializationScope.repositoryOf(context).deleteReaction(Reaction());
     }
 
-    isDisliked ? _dislikeAnimationController?.forward() : _dislikeAnimationController?.reverse();
+    isDisliked
+        ? _dislikeAnimationController?.forward()
+        : _dislikeAnimationController?.reverse();
     _likeAnimationController!.reverse();
   }
 
@@ -115,7 +112,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   ReactionType.like.path,
                   alignment: Alignment.bottomRight,
                   colorFilter: ColorFilter.mode(
-                      isLiked ? const Color.fromARGB(255, 34, 166, 64) : const Color.fromARGB(255, 138, 138, 138),
+                      isLiked
+                          ? const Color.fromARGB(255, 34, 166, 64)
+                          : const Color.fromARGB(255, 138, 138, 138),
                       BlendMode.srcIn),
                 ),
               ),
@@ -127,7 +126,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               value: likeCount,
               duration: const Duration(milliseconds: 200),
               textStyle: TextStyle(
-                color: isLiked ? const Color.fromRGBO(0, 0, 0, 1) : const Color.fromARGB(255, 138, 138, 138),
+                color: isLiked
+                    ? const Color.fromRGBO(0, 0, 0, 1)
+                    : const Color.fromARGB(255, 138, 138, 138),
                 fontWeight: isLiked ? FontWeight.w600 : FontWeight.w400,
               ),
             )
@@ -149,7 +150,10 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   ReactionType.dislike.path,
                   alignment: Alignment.bottomRight,
                   colorFilter: ColorFilter.mode(
-                      isDisliked ? Colors.red : const Color.fromARGB(255, 138, 138, 138), BlendMode.srcIn),
+                      isDisliked
+                          ? Colors.red
+                          : const Color.fromARGB(255, 138, 138, 138),
+                      BlendMode.srcIn),
                 ),
               ),
             ),
@@ -160,7 +164,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               value: dislikeCount,
               duration: const Duration(microseconds: 200),
               textStyle: TextStyle(
-                color: isDisliked ? Colors.black : const Color.fromARGB(255, 138, 138, 138),
+                color: isDisliked
+                    ? Colors.black
+                    : const Color.fromARGB(255, 138, 138, 138),
                 fontWeight: isDisliked ? FontWeight.w600 : FontWeight.w400,
               ),
             )

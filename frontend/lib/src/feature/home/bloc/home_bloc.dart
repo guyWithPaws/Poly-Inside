@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
-import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared/shared.dart';
 

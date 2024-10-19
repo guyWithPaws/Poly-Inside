@@ -360,6 +360,7 @@ class DatabaseProviderImpl
 
     yield* (database.select(database.professors)
           ..where((u) => u.id.isIn(professorsIds))
+          ..orderBy([(t) => OrderingTerm(expression: t.name)])
           ..limit(count))
         .watch()
         .asBroadcastStream();
