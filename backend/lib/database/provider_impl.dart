@@ -357,7 +357,8 @@ class DatabaseProviderImpl
         .get();
     var professorsIds =
         professorsByGroup.map((group) => group.professorId).toList();
-    (database.select(database.professors)
+
+    yield* (database.select(database.professors)
           ..where((u) => u.id.isIn(professorsIds))
           ..limit(count))
         .watch()
