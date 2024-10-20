@@ -25,7 +25,8 @@ class ListRequested extends HomePageEvent {
       identical(this, other) ||
       other is ListRequested &&
           runtimeType == other.runtimeType &&
-          count == other.count && order == other.order;
+          count == other.count &&
+          order == other.order;
 }
 
 class AddListToState extends HomePageEvent {
@@ -98,7 +99,7 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
       (event, emit) async {
         try {
           final stream = repository.getProfessorsByGroup(
-              event.count, event.group, 1);
+              event.count, event.group, event.order);
           stream.listen((e) => add(AddListToState(professors: e.professors)));
         } on Object catch (error, _) {
           emit(HomePageState.error(error));
