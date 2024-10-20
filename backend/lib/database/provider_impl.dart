@@ -183,17 +183,22 @@ class DatabaseProviderImpl
     final professor = await (database.select(database.professors)
           ..where((f) => f.id.equals(review.professorId)))
         .getSingle();
-    var newHarshness =
-        ((professor.harshness * professor.reviewsCount) - review.harshness) /
+    var newHarshness = (professor.reviewsCount - 1 == 0)
+        ? 0.0
+        : ((professor.harshness * professor.reviewsCount) - review.harshness) /
             (professor.reviewsCount - 1);
-    var newLoyalty =
-        ((professor.loyalty * professor.reviewsCount) - review.loyalty) /
+    var newLoyalty = (professor.reviewsCount - 1 == 0)
+        ? 0.0
+        : ((professor.loyalty * professor.reviewsCount) - review.loyalty) /
             (professor.reviewsCount - 1);
-    var newObjectivity = ((professor.objectivity * professor.reviewsCount) -
-            review.objectivity) /
-        (professor.reviewsCount - 1);
-    var newProfessionalism =
-        ((professor.professionalism * professor.reviewsCount) -
+    var newObjectivity = (professor.reviewsCount - 1 == 0)
+        ? 0.0
+        : ((professor.objectivity * professor.reviewsCount) -
+                review.objectivity) /
+            (professor.reviewsCount - 1);
+    var newProfessionalism = (professor.reviewsCount - 1 == 0)
+        ? 0.0
+        : ((professor.professionalism * professor.reviewsCount) -
                 review.professionalism) /
             (professor.reviewsCount - 1);
     var newRating =
