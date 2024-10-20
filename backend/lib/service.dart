@@ -12,13 +12,15 @@ class GRPCService extends SearchServiceBase {
 
   @override
   Future<AddReviewResponse> addReview(ServiceCall call, Review request) async {
-    l.v('AddReview with ${request.toString()}');
+    l.v('Client with ip: ${call.remoteAddress!.address}');
+
     final passed = Filter.instance.check(request.comment);
     if (passed) {
       await provider.addReview(request);
+      l.v('Add review with id: ${request.id}');
     } else {
       await provider.addRejectedReview(request);
-      l.v('Rejected review: ${request.comment}');
+      l.v('Add rejected review with id: ${request.id}}');
     }
     return AddReviewResponse()..passed = passed;
   }
@@ -26,7 +28,9 @@ class GRPCService extends SearchServiceBase {
   @override
   Stream<GetListProfessorResponse> getListProfessor(
       ServiceCall call, ListProfessorRequest request) async* {
-    l.v('GetListProfessor');
+    l
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('Get list of a professors');
     final professors = provider.getAllProfessors(request.count);
     await for (final list in professors) {
       yield GetListProfessorResponse(professors: list);
@@ -36,7 +40,9 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<User> getProfile(
       ServiceCall call, UserInfoByUserIdRequest request) async {
-    l.v('GetProfile with ${request.id}');
+    l
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('GetProfile with ${request.id}');
     final user = await provider.getUserByUserId(request.id);
     return user ?? User();
   }
@@ -44,7 +50,9 @@ class GRPCService extends SearchServiceBase {
   @override
   Stream<ReviewWithUserResponse> getReviewsByProfessorId(
       ServiceCall call, ReviewsByProfessorIdRequest request) async* {
-    l.v('GetReviewsByProfessorId with ${request.id}');
+    l
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('GetReviewsByProfessorId with ${request.id}');
     final stream = provider.getAllReviewsByProfessor(request.id);
     await for (final list in stream) {
       yield ReviewWithUserResponse(list: list);
@@ -54,7 +62,9 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<UpdateProfileResponse> updateProfile(
       ServiceCall call, User request) async {
-    l.v('EditProfile with ${request.toString()}');
+    l
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('Update profile; id: ${request.id}, name: ${request.name}');
 
     await provider.updateUser(request);
     return UpdateProfileResponse();
@@ -63,7 +73,9 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<UpdateReviewResponse> updateReview(
       ServiceCall call, Review request) async {
-    l.v('EditReview with ${request.id}');
+    l
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('Update Review with id: ${request.id}');
     await provider.updateReview(request);
     return UpdateReviewResponse();
   }
@@ -71,7 +83,9 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<DeleteReviewResponse> deleteReview(
       ServiceCall call, DeleteReviewRequest request) async {
-    l.v('DeleteReview with ${request.toString()}');
+    l
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('DeleteReview with id: ${request.reviewId}');
 
     await provider.deleteReview(request.reviewId);
     return DeleteReviewResponse();
@@ -79,7 +93,9 @@ class GRPCService extends SearchServiceBase {
 
   @override
   Future<AddProfileResponse> addProfile(ServiceCall call, User request) async {
-    l.v('AddProfile with ${request.toString()}');
+    l
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('Add profile with id: ${request.id}; name: ${request.name}');
 
     await provider.addUser(request);
     return AddProfileResponse();
@@ -88,7 +104,9 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<SearchResponse> searchProfessorByName(
       ServiceCall call, SearchRequest request) async {
-    l.v('Search professor with name ${request.name}');
+    l
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('Search professor with name: ${request.name}');
     final list = await provider.findProfessorByName(
       request.name,
       request.count,
@@ -100,7 +118,9 @@ class GRPCService extends SearchServiceBase {
   Stream<ReviewWithProfessorResponse> getReviewWithProfessor(
       ServiceCall call, ReviewsByUserIdRequest request) async* {
     final stream = provider.getReviewsWithProfessor(request.id);
-    l.v('Get reviews with professor with id: ${request.id}');
+    l
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('Get reviews with professor with id: ${request.id}');
     await for (final list in stream) {
       yield ReviewWithProfessorResponse(list: list);
     }
@@ -170,8 +190,8 @@ class GRPCService extends SearchServiceBase {
     final professors = provider.getProfessorsByGroup(
         request.count, request.group, request.order);
     l
-      ..v('Client with ip: ${call.remoteAddress}; metadata: ${call.clientMetadata}')
-      ..v('Get professors by group ${request.group}');
+      ..v('Client with ip: ${call.remoteAddress!.address}')
+      ..v('Get professors by group: ${request.group}');
     await for (final list in professors) {
       yield ListProfessorsByGroupResponce(professors: list);
     }
