@@ -169,6 +169,9 @@ class GRPCService extends SearchServiceBase {
       ServiceCall call, ListProfessorsByGroupRequest request) async* {
     final professors = provider.getProfessorsByGroup(
         request.count, request.group, request.order);
+    l
+      ..v('Client with ip: ${call.remoteAddress}; metadata: ${call.clientMetadata}')
+      ..v('Get professors by group ${request.group}');
     await for (final list in professors) {
       yield ListProfessorsByGroupResponce(professors: list);
     }
