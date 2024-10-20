@@ -56,9 +56,7 @@ class _HomePageState extends State<HomePage> {
             _scrollController?.position.maxScrollExtent) {
           count += 20;
           _bloc?.add(ListRequested(
-              count: count,
-              group: UserScope.userOf(context).group,
-              order: 3));
+              count: count, group: UserScope.userOf(context).group, order: 3));
         }
         if (_scrollController?.position.pixels !=
             _scrollController?.position.minScrollExtent) {
@@ -230,6 +228,8 @@ class _HomePageState extends State<HomePage> {
                             height: 25,
                           ),
                           itemBuilder: (context, index) {
+                            debugPrint(
+                                '${professors[index].name}, ${professors[index].professionalism}');
                             return RepaintBoundary(
                               child: GestureDetector(
                                 onTap: () {

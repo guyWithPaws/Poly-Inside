@@ -176,12 +176,49 @@ class DatabaseProviderImpl
           );
 
   @override
-  Future<int> deleteReview(String reviewId) async =>
-      await (database.delete(database.reviews)
-            ..where(
-              (f) => f.id.equals(reviewId),
-            ))
-          .go();
+  Future<void> deleteReview(String reviewId) async {
+    final review = await (database.select(database.reviews)
+          ..where((f) => f.id.equals(reviewId)))
+        .getSingle();
+    final professor = await (database.select(database.professors)
+          ..where((f) => f.id.equals(review.professorId)))
+        .getSingle();
+    var newHarshness =
+        ((professor.harshness * professor.reviewsCount) - review.harshness) /
+            (professor.reviewsCount - 1);
+    var newLoyalty =
+        ((professor.loyalty * professor.reviewsCount) - review.loyalty) /
+            (professor.reviewsCount - 1);
+    var newObjectivity = ((professor.objectivity * professor.reviewsCount) -
+            review.objectivity) /
+        (professor.reviewsCount - 1);
+    var newProfessionalism =
+        ((professor.professionalism * professor.reviewsCount) -
+                review.professionalism) /
+            (professor.reviewsCount - 1);
+    var newRating =
+        (newHarshness + newLoyalty + newObjectivity + newProfessionalism) / 4;
+    var newReviewsCount = professor.reviewsCount - 1;
+
+    await database.update(database.professors).replace(
+          ProfessorsCompanion(
+              id: Value(professor.id),
+              name: Value(professor.name),
+              avatar: Value(Uint8List.fromList(professor.avatar)),
+              smallAvatar: Value(Uint8List.fromList(professor.smallAvatar)),
+              reviewsCount: Value(newReviewsCount),
+              rating: Value(newRating),
+              harshness: Value(newHarshness),
+              loyalty: Value(newLoyalty),
+              objectivity: Value(newObjectivity),
+              professionalism: Value(newProfessionalism)),
+        );
+    await (database.delete(database.reviews)
+          ..where(
+            (f) => f.id.equals(reviewId),
+          ))
+        .go();
+  }
 
   @override
   Future<void> addUser(User user) async {
@@ -353,7 +390,7 @@ class DatabaseProviderImpl
   @override
   Stream<List<Professor>> getProfessorsByGroup(
       int count, String group, int order) async* {
-        ListProfessorsByGroupRequest();
+    ListProfessorsByGroupRequest();
     var professorsByGroup = await (database.select(database.groups)
           ..where((t) => t.number.equals(group)))
         .get();

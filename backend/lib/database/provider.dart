@@ -24,7 +24,7 @@ abstract class ReviewProvider {
   // CRUD operations
   Future<int> addReview(Review review);
   Future<bool> updateReview(Review review);
-  Future<int> deleteReview(String reviewId);
+  Future<void> deleteReview(String reviewId);
 
   Future<Review> getReview(String id);
 
