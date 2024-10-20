@@ -14,7 +14,9 @@ abstract class HomePageEvent {}
 class ListRequested extends HomePageEvent {
   final int count;
   final String group;
-  ListRequested({required this.count, required this.group});
+  final int order;
+  ListRequested(
+      {required this.count, required this.group, required this.order});
   @override
   int get hashCode => count.hashCode;
 
@@ -23,7 +25,7 @@ class ListRequested extends HomePageEvent {
       identical(this, other) ||
       other is ListRequested &&
           runtimeType == other.runtimeType &&
-          count == other.count;
+          count == other.count && order == other.order;
 }
 
 class AddListToState extends HomePageEvent {
@@ -95,8 +97,8 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
     on<ListRequested>(
       (event, emit) async {
         try {
-          final stream =
-              repository.getProfessorsByGroup(event.count, event.group, 0);
+          final stream = repository.getProfessorsByGroup(
+              event.count, event.group, 1);
           stream.listen((e) => add(AddListToState(professors: e.professors)));
         } on Object catch (error, _) {
           emit(HomePageState.error(error));
@@ -132,19 +134,26 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
           )
           .asyncExpand(mapper),
     );
-    on<SortingTypeChanged>((event, emit) async {
-      try {
-        final stream = repository.getProfessorsByGroup(
-          event.count,
-          event.group,
-          event.order
-        );
-        stream.listen((e) => add(AddListToState(professors: e.professors)));
-      } on Object catch (error, _) {
-        emit(HomePageState.error(error));
-        rethrow;
-      }
-    });
+    on<SortingTypeChanged>(
+      (event, emit) async {
+        try {
+          final stream = repository.getProfessorsByGroup(
+              event.count, event.group, event.order);
+          stream.listen((e) => add(AddListToState(professors: e.professors)));
+        } on Object catch (error, _) {
+          emit(HomePageState.error(error));
+          rethrow;
+        }
+      },
+      transformer: (events, mapper) => events
+          .debounceTime(
+            const Duration(milliseconds: 100),
+          )
+          .throttleTime(
+            const Duration(milliseconds: 100),
+          )
+          .asyncExpand(mapper),
+    );
   }
 
   @override

@@ -332,7 +332,7 @@ class DatabaseProviderImpl
                 case 3:
                   return OrderingTerm(expression: t.rating, mode: OrderingMode.desc);
                 default:
-                  return OrderingTerm(expression: t.name);
+                  return OrderingTerm(expression: t.name, mode: OrderingMode.desc);
               }
             }
           ])

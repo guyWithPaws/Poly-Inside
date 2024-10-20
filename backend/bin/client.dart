@@ -13,5 +13,16 @@ Future<int> main([List<String>? args]) async {
     ),
   );
 
+  var client = SearchServiceClient(channel);
+
+  var stream = client.getListProfessorsByGroup(ListProfessorsByGroupRequest(
+      count: 10, group: '5132704/30003', order: 3));
+
+  stream.listen((data) {
+    data.professors.forEach((t) {
+      print(t.name);
+    });
+  });
+
   return 0;
 }
