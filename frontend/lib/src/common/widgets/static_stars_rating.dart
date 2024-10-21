@@ -15,7 +15,11 @@ class StaticStarsRating extends StatelessWidget {
 
   /// {@macro static_stars_rating}
   StaticStarsRating(
-      {super.key, required this.spaceBetween, required this.size, required this.textSize, required this.value});
+      {super.key,
+      required this.spaceBetween,
+      required this.size,
+      required this.textSize,
+      required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +29,15 @@ class StaticStarsRating extends StatelessWidget {
           Row(
             children: [
               for (int i = 0; i < 5; ++i)
-                i < int.parse(value.toStringAsFixed(0)) || i > int.parse(value.toStringAsFixed(0))
+                i < int.parse(value.toStringAsFixed(0)) ||
+                        i > int.parse(value.toStringAsFixed(0))
                     ? SizedBox(
                         width: size,
                         height: size,
-                        child: Image.asset((i < int.parse(value.toStringAsFixed(0))) ? starUrl : greyStarUrl),
+                        child: Image.asset(
+                            (i < int.parse(value.toStringAsFixed(0)))
+                                ? starUrl
+                                : greyStarUrl),
                       )
                     : Stack(
                         children: [

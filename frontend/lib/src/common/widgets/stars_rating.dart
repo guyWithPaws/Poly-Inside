@@ -32,7 +32,8 @@ class StarsRating extends StatefulWidget {
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _StarsRatingState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_StarsRatingState>();
+  static _StarsRatingState? maybeOf(BuildContext context) =>
+      context.findAncestorStateOfType<_StarsRatingState>();
 
   @override
   State<StarsRating> createState() => _StarsRatingState();
@@ -75,8 +76,10 @@ class _StarsRatingState extends State<StarsRating> {
         if (widget.enableDragDetector) {
           setState(
             () {
-              widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
-              widget.valueNotifier!.value = double.parse(widget.value.toStringAsFixed(1));
+              widget.value = (details.localPosition.dx / widget.size.width)
+                  .clamp(1.0, 5.0);
+              widget.valueNotifier!.value =
+                  double.parse(widget.value.toStringAsFixed(1));
             },
           );
         }
@@ -85,8 +88,10 @@ class _StarsRatingState extends State<StarsRating> {
         if (widget.enableDragDetector) {
           setState(
             () {
-              widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
-              widget.valueNotifier!.value = double.parse(widget.value.toStringAsFixed(1));
+              widget.value = (details.localPosition.dx / widget.size.width)
+                  .clamp(1.0, 5.0);
+              widget.valueNotifier!.value =
+                  double.parse(widget.value.toStringAsFixed(1));
             },
           );
         }

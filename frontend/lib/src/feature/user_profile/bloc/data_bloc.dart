@@ -25,7 +25,9 @@ class NewListEvent extends ProfileDataEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is NewListEvent && runtimeType == other.runtimeType && professors == other.professors;
+      other is NewListEvent &&
+          runtimeType == other.runtimeType &&
+          professors == other.professors;
 }
 
 @Freezed()
@@ -34,7 +36,8 @@ sealed class ProfileDataState with _$DataState {
   const factory ProfileDataState.processing() = ProcessingState;
   const factory ProfileDataState.idle() = IdleState;
   const factory ProfileDataState.error(Object e) = ErrorState;
-  const factory ProfileDataState.loaded(List<ReviewWithProfessor> professors) = LoadedState;
+  const factory ProfileDataState.loaded(List<ReviewWithProfessor> professors) =
+      LoadedState;
 }
 
 /// Business Logic Component DataBLoC
@@ -58,13 +61,14 @@ class ProfileDataBLoC extends Bloc<ProfileDataEvent, ProfileDataState> {
     );
     on<ProfileDataRequested>(
       (event, emit) {
-        _subscription = _repository.getReviewsWithProfessor(event.userId).listen(
-              (e) => add(
-                NewListEvent(
-                  professors: e.list,
-                ),
-              ),
-            );
+        _subscription =
+            _repository.getReviewsWithProfessor(event.userId).listen(
+                  (e) => add(
+                    NewListEvent(
+                      professors: e.list,
+                    ),
+                  ),
+                );
       },
     );
   }

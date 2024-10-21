@@ -4,31 +4,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/extensions/string.dart';
-import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
-import 'package:poly_inside/src/common/widgets/sort_button.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/professor_profile/bloc/data_bloc.dart';
-import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
 
-import '../../../common/enums/review_type.dart';
-import '../../../common/enums/sorting_type.dart';
 
 /// {@template professor_profile_page}
 /// ProfessorProfilePage widget.
 /// {@endtemplate}
 class ProfessorProfilePage extends StatefulWidget {
   final Professor professor;
-  final ClientRepository repository;
 
   /// {@macro professor_profile_page}
   const ProfessorProfilePage({
     super.key,
     required this.professor,
-    required this.repository, // ignore: unused_element
   });
 
   /// The state from the closest instance of this class
@@ -60,7 +53,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
+    if (_scrollController?.position.pixels !=
+        _scrollController?.position.minScrollExtent) {
       _valueNotifier?.value = true;
     } else {
       _valueNotifier?.value = false;
@@ -75,12 +69,13 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
 
   @override
   void didChangeDependencies() {
-    _bloc ??= ProfessorDataBLoC(repository: InitializationScope.repositoryOf(context))
-      ..add(
-        ProfessorDataRequested(
-          professorId: widget.professor.id,
-        ),
-      );
+    _bloc ??=
+        ProfessorDataBLoC(repository: InitializationScope.repositoryOf(context))
+          ..add(
+            ProfessorDataRequested(
+              professorId: widget.professor.id,
+            ),
+          );
     super.didChangeDependencies();
     // The configuration of InheritedWidgets has changed
     // Also called after initState but before build
@@ -104,16 +99,11 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
         builder: (context, value, _) => FloatingActionButton.extended(
           onPressed: () {
             _valueNotifier!.value
-                ? _scrollController?.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut)
-                : Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (builderContext) => ReviewPage(
-                        professor: widget.professor,
-                        type: ReviewType.add,
-                      ),
-                    ),
-                  );
+                ? _scrollController?.animateTo(0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut)
+                : Navigator.of(context)
+                    .pushNamed('/review', arguments: widget.professor);
           },
           backgroundColor: Colors.green,
           label: AnimatedSize(
@@ -123,7 +113,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                   ? const Icon(Icons.arrow_upward)
                   : const Text(
                       'Написать отзыв',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                     ),
             ),
           ),
@@ -163,7 +154,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           backgroundImage: MemoryImage(
                             Uint8List.fromList(widget.professor.avatar),
                           ),
-                          child: Uint8List.fromList(widget.professor.avatar).isEmpty
+                          child: Uint8List.fromList(widget.professor.avatar)
+                                  .isEmpty
                               ? SvgPicture.asset(
                                   'assets/icons/no_photo.svg',
                                   width: 69,
@@ -174,7 +166,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                         child: Text(
                           textAlign: TextAlign.center,
                           widget.professor.name.capitalize(),
-                          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.w600),
                         ),
                       ),
                       Row(
@@ -253,7 +246,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                       width: 20,
                                       height: 26,
                                       decoration: BoxDecoration(
-                                        color: const Color.fromARGB(255, 233, 252, 232),
+                                        color: const Color.fromARGB(
+                                            255, 233, 252, 232),
                                         borderRadius: BorderRadius.circular(7),
                                       ),
                                       child: Center(
@@ -286,7 +280,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               ),
               loaded: (professors) => SliverList.separated(
                 itemCount: professors.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 16),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   return ReviewTitle(
                     review: professors[index].review,

@@ -3,8 +3,6 @@ Flutter-based Telegram Web App for educational purposes with gRPC backend
 
 ## TODO
 Исправить:
-- dockerFile для backend и frontend, слишком много ненужный файлов копируем
-- НАКОНЕЦ-ТО НАСТРОИТЬ .gitignore, чтобы не копировать лишние файлы
 - парсер
 - лайки
 - кеширование запросов

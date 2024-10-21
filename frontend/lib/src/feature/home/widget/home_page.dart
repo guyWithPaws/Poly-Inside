@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:poly_inside/src/common/widgets/static_stars_rating.dart';
 import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:poly_inside/src/feature/home/widget/search_bar.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
-import 'package:poly_inside/src/feature/professor_profile/widget/professor_profile_page.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
 import 'package:poly_inside/src/feature/user_profile/widget/user_profile_page.dart';
@@ -233,20 +233,9 @@ class _HomePageState extends State<HomePage> {
                             return RepaintBoundary(
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (builderContext) =>
-                                          _InheritedProfessorScope(
-                                        professor: professors[index],
-                                        child: ProfessorProfilePage(
-                                          repository:
-                                              InitializationScope.repositoryOf(
-                                                  context),
-                                          professor: professors[index],
-                                        ),
-                                      ),
-                                    ),
+                                  Navigator.of(context).pushNamed(
+                                    '/professor',
+                                    arguments: professors[index],
                                   );
                                   _textEditingController?.clear();
                                   _node?.unfocus();
@@ -391,6 +380,7 @@ class _InheritedProfessorScope extends InheritedWidget {
       );
 
   @override
-  bool updateShouldNotify(_InheritedProfessorScope oldWidget) =>
-      !(professor == oldWidget.professor);
+  bool updateShouldNotify(_InheritedProfessorScope oldWidget) {
+    return !(professor == oldWidget.professor);
+  }
 }

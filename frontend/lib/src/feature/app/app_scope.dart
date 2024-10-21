@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:poly_inside/src/common/enums/review_type.dart';
 import 'package:poly_inside/src/common/theme.dart';
+import 'package:poly_inside/src/common/widgets/error_page.dart';
+import 'package:poly_inside/src/feature/professor_profile/widget/professor_profile_page.dart';
+import 'package:poly_inside/src/feature/review/review_page.dart';
+import 'package:shared/shared.dart';
 
 /// {@template app}
 /// App widget.
@@ -49,30 +54,60 @@ class _AppScopeState extends State<AppScope> {
   /* #endregion */
 
   @override
-  Widget build(BuildContext context) => _InheritedApp(
-        state: this,
-        child: MaterialApp(
-          darkTheme: ThemeData(
-            textTheme: GoogleFonts.montserratTextTheme(),
-            colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
-                  surface: Colors.white,
-                  onSurface: Colors.black,
-                  outline: Colors.grey.shade700,
+  Widget build(BuildContext context) {
+    return _InheritedApp(
+      state: this,
+      child: MaterialApp(
+        initialRoute: '/',
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/':
+              return MaterialPageRoute(builder: (context) => widget.child);
+            case '/professor':
+              final professor = settings.arguments as Professor;
+              return MaterialPageRoute(
+                builder: (context) => ProfessorProfilePage(
+                  professor: professor,
                 ),
-          ),
-          title: 'Poly Inside',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            textTheme: GoogleFonts.montserratTextTheme(),
-            colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
-                  surface: Colors.white,
-                  onSurface: Colors.black,
-                  outline: Colors.grey.shade700,
+              );
+            case '/review':
+              final professor = settings.arguments as Professor;
+              return MaterialPageRoute(
+                builder: (context) => ReviewPage(
+                  professor: professor,
+                  type: ReviewType.add,
                 ),
-          ),
-          home: widget.child,
+              );
+            default:
+              return MaterialPageRoute(
+                builder: (context) => ErrorPage(
+                  onPressed: () {},
+                ),
+              );
+          }
+        },
+        darkTheme: ThemeData(
+          textTheme: GoogleFonts.montserratTextTheme(),
+          colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
+                surface: Colors.white,
+                onSurface: Colors.black,
+                outline: Colors.grey.shade700,
+              ),
         ),
-      );
+        title: 'Poly Inside',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          textTheme: GoogleFonts.montserratTextTheme(),
+          colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
+                surface: Colors.white,
+                onSurface: Colors.black,
+                outline: Colors.grey.shade700,
+              ),
+        ),
+        // home: widget.child,
+      ),
+    );
+  }
 }
 
 /// Inherited widget for quick access in the element tree.
@@ -87,9 +122,10 @@ class _InheritedApp extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   /// For example: `App.maybeOf(context)`.
-  static _InheritedApp? maybeOf(BuildContext context, {bool listen = true}) => listen
-      ? context.dependOnInheritedWidgetOfExactType<_InheritedApp>()
-      : context.getInheritedWidgetOfExactType<_InheritedApp>();
+  static _InheritedApp? maybeOf(BuildContext context, {bool listen = true}) =>
+      listen
+          ? context.dependOnInheritedWidgetOfExactType<_InheritedApp>()
+          : context.getInheritedWidgetOfExactType<_InheritedApp>();
 
   static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
         'Out of scope, not found inherited widget '
