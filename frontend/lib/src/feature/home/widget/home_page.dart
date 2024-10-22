@@ -1,11 +1,9 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poly_inside/src/common/extensions/string.dart';
-import 'package:poly_inside/src/common/widgets/sort_button.dart';
 import 'package:poly_inside/src/common/widgets/static_stars_rating.dart';
 import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:poly_inside/src/feature/home/widget/search_bar.dart';
@@ -15,7 +13,6 @@ import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
 import 'package:poly_inside/src/feature/user_profile/widget/user_profile_page.dart';
 import 'package:shared/shared.dart';
 
-import '../../../common/enums/sorting_type.dart';
 
 /// {@template home_page}
 /// HomePage widget.
@@ -37,8 +34,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
-  ValueNotifier<int>? _sortingValueNotifier;
   HomeBloc? _bloc;
+  HomeBloc? _searchBloc;
+  bool isTyping = false;
   ProfileDataBLoC? _profileDataBLoC;
   TextEditingController? _textEditingController;
   FocusNode? _node;
@@ -55,8 +53,12 @@ class _HomePageState extends State<HomePage> {
         if (_scrollController?.position.pixels ==
             _scrollController?.position.maxScrollExtent) {
           count += 20;
-          _bloc?.add(ListRequested(
-              count: count, group: UserScope.userOf(context).group, order: 3));
+          _bloc?.add(
+            ListRequested(
+              count: count,
+              group: UserScope.userOf(context).group,
+            ),
+          );
         }
         if (_scrollController?.position.pixels !=
             _scrollController?.position.minScrollExtent) {
@@ -66,20 +68,39 @@ class _HomePageState extends State<HomePage> {
         }
       });
     _textEditingController = TextEditingController()
-      ..addListener(() {
-        if (_textEditingController!.text.isNotEmpty) {
-          _bloc?.add(TextFieldChanged(
-              name: _textEditingController!.text.toLowerCase()));
-        }
-      });
-    _sortingValueNotifier = ValueNotifier(0)
-      ..addListener(() {
-        debugPrint(_sortingValueNotifier!.value.toString());
-        _bloc?.add(SortingTypeChanged(
-            count: count,
-            group: UserScope.userOf(context).group,
-            order: _sortingValueNotifier!.value));
-      });
+      ..addListener(
+        () {
+          if (_textEditingController!.text.isNotEmpty) {
+            setState(() {
+              isTyping = true;
+            });
+            _searchBloc?.add(
+              TextFieldChanged(
+                name: _textEditingController!.text.toLowerCase(),
+              ),
+            );
+          } else {
+            if (isTyping) {
+              setState(() {
+                isTyping = false;
+              });
+            }
+          }
+        },
+      );
+    // _sortingValueNotifier = ValueNotifier(0)
+    //   ..addListener(
+    //     () {
+    //       debugPrint(_sortingValueNotifier!.value.toString());
+    //       _bloc?.add(
+    //         SortingTypeChanged(
+    //           count: count,
+    //           group: UserScope.userOf(context).group,
+    //           order: _sortingValueNotifier!.value,
+    //         ),
+    //       );
+    //     },
+    //   );
     super.initState();
   }
 
@@ -87,12 +108,15 @@ class _HomePageState extends State<HomePage> {
   void didChangeDependencies() {
     _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))
       ..add(ListRequested(
-          count: count,
-          group: UserScope.userOf(context).group,
-          order: _sortingValueNotifier!.value));
+        count: count,
+        group: UserScope.userOf(context).group,
+      ));
     _profileDataBLoC ??=
         ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
           ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
+    _searchBloc ??= HomeBloc(
+      repository: InitializationScope.repositoryOf(context),
+    );
     super.didChangeDependencies();
   }
 
@@ -183,10 +207,10 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 16,
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Text(
                         'Мои преподаватели',
@@ -199,10 +223,6 @@ class _HomePageState extends State<HomePage> {
                       Icon(CupertinoIcons.question_circle),
                     ],
                   ),
-                  SortButton(
-                    valueNotifier: _sortingValueNotifier,
-                    type: SortingType.professors,
-                  )
                 ],
               ),
               const SizedBox(
@@ -210,7 +230,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(
                 child: BlocBuilder<HomeBloc, HomePageState>(
-                  bloc: _bloc,
+                  bloc: isTyping ? _searchBloc : _bloc,
                   builder: (context, state) {
                     return state.when(
                       processing: () => const Center(
@@ -221,21 +241,23 @@ class _HomePageState extends State<HomePage> {
                         child: Text(error.toString()),
                       ),
                       loaded: (professors) {
+                        var sorted = professors.toList();
                         return ListView.separated(
                           controller: _scrollController,
-                          itemCount: professors.length,
+                          itemCount: sorted.length,
                           separatorBuilder: (context, index) => const SizedBox(
                             height: 25,
                           ),
                           itemBuilder: (context, index) {
-                            debugPrint(
-                                '${professors[index].name}, ${professors[index].professionalism}');
                             return RepaintBoundary(
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pushNamed(
                                     '/professor',
-                                    arguments: professors[index],
+                                    arguments: [
+                                      sorted[index],
+                                      isTyping ? _searchBloc : _bloc
+                                    ],
                                   );
                                   _textEditingController?.clear();
                                   _node?.unfocus();
@@ -253,13 +275,17 @@ class _HomePageState extends State<HomePage> {
                                         CircleAvatar(
                                           backgroundColor: Colors.grey[200],
                                           radius: 27,
-                                          backgroundImage: MemoryImage(
-                                            Uint8List.fromList(
-                                              professors[index].avatar,
-                                            ),
-                                          ),
+                                          backgroundImage: Uint8List.fromList(
+                                            sorted[index].avatar,
+                                          ).isNotEmpty
+                                              ? MemoryImage(
+                                                  Uint8List.fromList(
+                                                    sorted[index].avatar,
+                                                  ),
+                                                )
+                                              : null,
                                           child: Uint8List.fromList(
-                                            professors[index].avatar,
+                                            sorted[index].avatar,
                                           ).isEmpty
                                               ? SvgPicture.asset(
                                                   'assets/icons/no_photo.svg',
@@ -277,9 +303,7 @@ class _HomePageState extends State<HomePage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                professors[index]
-                                                    .name
-                                                    .capitalize(),
+                                                sorted[index].name.capitalize(),
                                                 style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
@@ -291,8 +315,7 @@ class _HomePageState extends State<HomePage> {
                                                     spaceBetween: 8,
                                                     textSize: 16,
                                                     size: 20,
-                                                    value: professors[index]
-                                                        .rating,
+                                                    value: sorted[index].rating,
                                                   ),
                                                   Align(
                                                     alignment:
@@ -303,11 +326,11 @@ class _HomePageState extends State<HomePage> {
                                                           height: 3,
                                                         ),
                                                         Text(
-                                                          (professors[index]
+                                                          (sorted[index]
                                                                       .rating ==
                                                                   0)
                                                               ? 'нет отзывов'
-                                                              : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
+                                                              : '${sorted[index].reviewsCount} ${reviewInRussian.formatReview(sorted[index].reviewsCount)}',
                                                           style:
                                                               const TextStyle(
                                                             fontSize: 16,

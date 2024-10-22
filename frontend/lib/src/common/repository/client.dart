@@ -6,13 +6,13 @@ abstract class ClientRepository {
   Future<User> getUserByUserId(int userId);
   Stream<GetListProfessorResponse> getAllProfessors(int i);
   Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(
-      int count, String group, int order);
+      int count, String group);
   Stream<ReviewWithUserResponse> getAllReviewsByProfessor(String professorId);
   Future<bool> addReview(Review review);
   Future<void> updateReview(Review review);
   Future<void> deleteReview(String reviewId);
   Future<void> updateUser(User user);
-  Future<SearchResponse> findProfessorByName(String name, int count);
+  Stream<FindProfessorResponse> findProfessorByName(String name, int count);
   Stream<ReviewWithProfessorResponse> getReviewsWithProfessor(int userId);
   Future<void> addReaction(
       int userId, String professorId, String reviewId, bool liked);

@@ -40,7 +40,7 @@ class ClientRepositoryImpl implements ClientRepository {
   Future<void> updateUser(User user) => client.updateProfile(user);
 
   @override
-  Future<SearchResponse> findProfessorByName(String name, int count) =>
+  Stream<FindProfessorResponse> findProfessorByName(String name, int count) =>
       client.searchProfessorByName(SearchRequest()
         ..name = name
         ..count = count);
@@ -81,7 +81,7 @@ class ClientRepositoryImpl implements ClientRepository {
 
   @override
   Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(
-          int count, String group, int order) =>
-      client.getListProfessorsByGroup(ListProfessorsByGroupRequest(
-          count: count, group: group, order: order));
+          int count, String group) =>
+      client.getListProfessorsByGroup(
+          ListProfessorsByGroupRequest(count: count, group: group));
 }

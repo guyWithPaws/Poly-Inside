@@ -16,11 +16,11 @@ class DatabaseProviderImpl
   final AppDatabase database;
 
   @override
-  Future<List<Professor>> findProfessorByName(String name, int count) =>
+  Stream<List<Professor>> findProfessorByName(String name, int count) =>
       (database.select(database.professors)
             ..where((u) => u.name.like('%$name%'))
             ..limit(count))
-          .get();
+          .watch();
 
   @override
   Stream<List<Professor>> getAllProfessors(int count) =>
@@ -393,8 +393,7 @@ class DatabaseProviderImpl
   }
 
   @override
-  Stream<List<Professor>> getProfessorsByGroup(
-      int count, String group, int order) async* {
+  Stream<List<Professor>> getProfessorsByGroup(int count, String group) async* {
     ListProfessorsByGroupRequest();
     var professorsByGroup = await (database.select(database.groups)
           ..where((t) => t.number.equals(group)))
@@ -403,24 +402,6 @@ class DatabaseProviderImpl
         professorsByGroup.map((group) => group.professorId).toList();
     yield* (database.select(database.professors)
           ..where((u) => u.id.isIn(professorsIds))
-          ..orderBy([
-            (t) {
-              switch (order) {
-                case 0:
-                  return OrderingTerm(expression: t.name);
-                case 1:
-                  return OrderingTerm(
-                      expression: t.name, mode: OrderingMode.desc);
-                case 2:
-                  return OrderingTerm(expression: t.rating);
-                case 3:
-                  return OrderingTerm(
-                      expression: t.rating, mode: OrderingMode.desc);
-                default:
-                  return OrderingTerm(expression: t.name);
-              }
-            }
-          ])
           ..limit(count))
         .watch()
         .asBroadcastStream();

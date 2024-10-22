@@ -33,11 +33,11 @@ class NewListEvent extends ProfessorDataEvent {
 @Freezed()
 sealed class ProfessorDataState with _$ProfessorDataState {
   const ProfessorDataState._();
-  const factory ProfessorDataState.processing() = ProcessingState;
-  const factory ProfessorDataState.idle() = IdleState;
-  const factory ProfessorDataState.error(Object e) = ErrorState;
+  const factory ProfessorDataState.processing() = ProcessingProfessorState;
+  const factory ProfessorDataState.idle() = IdleProfessorState;
+  const factory ProfessorDataState.error(Object e) = ErrorProfessorState;
   const factory ProfessorDataState.loaded(List<ReviewWithUser> professors) =
-      LoadedState;
+      LoadedProfessorState;
 }
 
 /// Business Logic Component DataBLoC

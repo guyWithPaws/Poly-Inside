@@ -14,9 +14,10 @@ abstract class HomePageEvent {}
 class ListRequested extends HomePageEvent {
   final int count;
   final String group;
-  final int order;
-  ListRequested(
-      {required this.count, required this.group, required this.order});
+  ListRequested({
+    required this.count,
+    required this.group,
+  });
   @override
   int get hashCode => count.hashCode;
 
@@ -25,8 +26,7 @@ class ListRequested extends HomePageEvent {
       identical(this, other) ||
       other is ListRequested &&
           runtimeType == other.runtimeType &&
-          count == other.count &&
-          order == other.order;
+          count == other.count;
 }
 
 class AddListToState extends HomePageEvent {
@@ -98,8 +98,8 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
     on<ListRequested>(
       (event, emit) async {
         try {
-          final stream = repository.getProfessorsByGroup(
-              event.count, event.group, event.order);
+          final stream =
+              repository.getProfessorsByGroup(event.count, event.group);
           stream.listen((e) => add(AddListToState(professors: e.professors)));
         } on Object catch (error, _) {
           emit(HomePageState.error(error));
@@ -119,8 +119,18 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
       (event, emit) async {
         await FirebaseAnalytics.instance.logSearch(searchTerm: event.name);
         try {
-          final list = await repository.findProfessorByName(event.name, 30);
-          _controller?.add(list.professors);
+          _subscription?.cancel();
+          final list = repository.findProfessorByName(event.name, 30);
+          _subscription = list.listen(
+            (data) {
+              print(data.professors);
+              add(
+                AddListToState(
+                  professors: data.professors,
+                ),
+              );
+            },
+          );
         } on Object catch (error, _) {
           emit(HomePageState.error(error));
           rethrow;
@@ -139,7 +149,9 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
       (event, emit) async {
         try {
           final stream = repository.getProfessorsByGroup(
-              event.count, event.group, event.order);
+            event.count,
+            event.group,
+          );
           stream.listen((e) => add(AddListToState(professors: e.professors)));
         } on Object catch (error, _) {
           emit(HomePageState.error(error));
@@ -159,10 +171,12 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
 
   @override
   Future<void> close() {
+    _subscription?.cancel();
     _controller?.close();
     return super.close();
   }
 
   final StreamController<List<Professor>>? _controller;
+  StreamSubscription? _subscription;
   final ClientRepository repository;
 }

@@ -43,26 +43,26 @@ mixin _$ProfessorDataState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ProcessingState value) processing,
-    required TResult Function(IdleState value) idle,
-    required TResult Function(ErrorState value) error,
-    required TResult Function(LoadedState value) loaded,
+    required TResult Function(ProcessingProfessorState value) processing,
+    required TResult Function(IdleProfessorState value) idle,
+    required TResult Function(ErrorProfessorState value) error,
+    required TResult Function(LoadedProfessorState value) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProcessingState value)? processing,
-    TResult? Function(IdleState value)? idle,
-    TResult? Function(ErrorState value)? error,
-    TResult? Function(LoadedState value)? loaded,
+    TResult? Function(ProcessingProfessorState value)? processing,
+    TResult? Function(IdleProfessorState value)? idle,
+    TResult? Function(ErrorProfessorState value)? error,
+    TResult? Function(LoadedProfessorState value)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProcessingState value)? processing,
-    TResult Function(IdleState value)? idle,
-    TResult Function(ErrorState value)? error,
-    TResult Function(LoadedState value)? loaded,
+    TResult Function(ProcessingProfessorState value)? processing,
+    TResult Function(IdleProfessorState value)? idle,
+    TResult Function(ErrorProfessorState value)? error,
+    TResult Function(LoadedProfessorState value)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -90,18 +90,21 @@ class _$ProfessorDataStateCopyWithImpl<$Res, $Val extends ProfessorDataState>
 }
 
 /// @nodoc
-abstract class _$$ProcessingStateImplCopyWith<$Res> {
-  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value,
-          $Res Function(_$ProcessingStateImpl) then) =
-      __$$ProcessingStateImplCopyWithImpl<$Res>;
+abstract class _$$ProcessingProfessorStateImplCopyWith<$Res> {
+  factory _$$ProcessingProfessorStateImplCopyWith(
+          _$ProcessingProfessorStateImpl value,
+          $Res Function(_$ProcessingProfessorStateImpl) then) =
+      __$$ProcessingProfessorStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ProcessingStateImplCopyWithImpl<$Res>
-    extends _$ProfessorDataStateCopyWithImpl<$Res, _$ProcessingStateImpl>
-    implements _$$ProcessingStateImplCopyWith<$Res> {
-  __$$ProcessingStateImplCopyWithImpl(
-      _$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
+class __$$ProcessingProfessorStateImplCopyWithImpl<$Res>
+    extends _$ProfessorDataStateCopyWithImpl<$Res,
+        _$ProcessingProfessorStateImpl>
+    implements _$$ProcessingProfessorStateImplCopyWith<$Res> {
+  __$$ProcessingProfessorStateImplCopyWithImpl(
+      _$ProcessingProfessorStateImpl _value,
+      $Res Function(_$ProcessingProfessorStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfessorDataState
@@ -110,8 +113,8 @@ class __$$ProcessingStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ProcessingStateImpl extends ProcessingState {
-  const _$ProcessingStateImpl() : super._();
+class _$ProcessingProfessorStateImpl extends ProcessingProfessorState {
+  const _$ProcessingProfessorStateImpl() : super._();
 
   @override
   String toString() {
@@ -121,7 +124,8 @@ class _$ProcessingStateImpl extends ProcessingState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProcessingStateImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$ProcessingProfessorStateImpl);
   }
 
   @override
@@ -167,10 +171,10 @@ class _$ProcessingStateImpl extends ProcessingState {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ProcessingState value) processing,
-    required TResult Function(IdleState value) idle,
-    required TResult Function(ErrorState value) error,
-    required TResult Function(LoadedState value) loaded,
+    required TResult Function(ProcessingProfessorState value) processing,
+    required TResult Function(IdleProfessorState value) idle,
+    required TResult Function(ErrorProfessorState value) error,
+    required TResult Function(LoadedProfessorState value) loaded,
   }) {
     return processing(this);
   }
@@ -178,10 +182,10 @@ class _$ProcessingStateImpl extends ProcessingState {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProcessingState value)? processing,
-    TResult? Function(IdleState value)? idle,
-    TResult? Function(ErrorState value)? error,
-    TResult? Function(LoadedState value)? loaded,
+    TResult? Function(ProcessingProfessorState value)? processing,
+    TResult? Function(IdleProfessorState value)? idle,
+    TResult? Function(ErrorProfessorState value)? error,
+    TResult? Function(LoadedProfessorState value)? loaded,
   }) {
     return processing?.call(this);
   }
@@ -189,10 +193,10 @@ class _$ProcessingStateImpl extends ProcessingState {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProcessingState value)? processing,
-    TResult Function(IdleState value)? idle,
-    TResult Function(ErrorState value)? error,
-    TResult Function(LoadedState value)? loaded,
+    TResult Function(ProcessingProfessorState value)? processing,
+    TResult Function(IdleProfessorState value)? idle,
+    TResult Function(ErrorProfessorState value)? error,
+    TResult Function(LoadedProfessorState value)? loaded,
     required TResult orElse(),
   }) {
     if (processing != null) {
@@ -202,24 +206,24 @@ class _$ProcessingStateImpl extends ProcessingState {
   }
 }
 
-abstract class ProcessingState extends ProfessorDataState {
-  const factory ProcessingState() = _$ProcessingStateImpl;
-  const ProcessingState._() : super._();
+abstract class ProcessingProfessorState extends ProfessorDataState {
+  const factory ProcessingProfessorState() = _$ProcessingProfessorStateImpl;
+  const ProcessingProfessorState._() : super._();
 }
 
 /// @nodoc
-abstract class _$$IdleStateImplCopyWith<$Res> {
-  factory _$$IdleStateImplCopyWith(
-          _$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
-      __$$IdleStateImplCopyWithImpl<$Res>;
+abstract class _$$IdleProfessorStateImplCopyWith<$Res> {
+  factory _$$IdleProfessorStateImplCopyWith(_$IdleProfessorStateImpl value,
+          $Res Function(_$IdleProfessorStateImpl) then) =
+      __$$IdleProfessorStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$IdleStateImplCopyWithImpl<$Res>
-    extends _$ProfessorDataStateCopyWithImpl<$Res, _$IdleStateImpl>
-    implements _$$IdleStateImplCopyWith<$Res> {
-  __$$IdleStateImplCopyWithImpl(
-      _$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then)
+class __$$IdleProfessorStateImplCopyWithImpl<$Res>
+    extends _$ProfessorDataStateCopyWithImpl<$Res, _$IdleProfessorStateImpl>
+    implements _$$IdleProfessorStateImplCopyWith<$Res> {
+  __$$IdleProfessorStateImplCopyWithImpl(_$IdleProfessorStateImpl _value,
+      $Res Function(_$IdleProfessorStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfessorDataState
@@ -228,8 +232,8 @@ class __$$IdleStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$IdleStateImpl extends IdleState {
-  const _$IdleStateImpl() : super._();
+class _$IdleProfessorStateImpl extends IdleProfessorState {
+  const _$IdleProfessorStateImpl() : super._();
 
   @override
   String toString() {
@@ -239,7 +243,7 @@ class _$IdleStateImpl extends IdleState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$IdleStateImpl);
+        (other.runtimeType == runtimeType && other is _$IdleProfessorStateImpl);
   }
 
   @override
@@ -285,10 +289,10 @@ class _$IdleStateImpl extends IdleState {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ProcessingState value) processing,
-    required TResult Function(IdleState value) idle,
-    required TResult Function(ErrorState value) error,
-    required TResult Function(LoadedState value) loaded,
+    required TResult Function(ProcessingProfessorState value) processing,
+    required TResult Function(IdleProfessorState value) idle,
+    required TResult Function(ErrorProfessorState value) error,
+    required TResult Function(LoadedProfessorState value) loaded,
   }) {
     return idle(this);
   }
@@ -296,10 +300,10 @@ class _$IdleStateImpl extends IdleState {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProcessingState value)? processing,
-    TResult? Function(IdleState value)? idle,
-    TResult? Function(ErrorState value)? error,
-    TResult? Function(LoadedState value)? loaded,
+    TResult? Function(ProcessingProfessorState value)? processing,
+    TResult? Function(IdleProfessorState value)? idle,
+    TResult? Function(ErrorProfessorState value)? error,
+    TResult? Function(LoadedProfessorState value)? loaded,
   }) {
     return idle?.call(this);
   }
@@ -307,10 +311,10 @@ class _$IdleStateImpl extends IdleState {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProcessingState value)? processing,
-    TResult Function(IdleState value)? idle,
-    TResult Function(ErrorState value)? error,
-    TResult Function(LoadedState value)? loaded,
+    TResult Function(ProcessingProfessorState value)? processing,
+    TResult Function(IdleProfessorState value)? idle,
+    TResult Function(ErrorProfessorState value)? error,
+    TResult Function(LoadedProfessorState value)? loaded,
     required TResult orElse(),
   }) {
     if (idle != null) {
@@ -320,26 +324,26 @@ class _$IdleStateImpl extends IdleState {
   }
 }
 
-abstract class IdleState extends ProfessorDataState {
-  const factory IdleState() = _$IdleStateImpl;
-  const IdleState._() : super._();
+abstract class IdleProfessorState extends ProfessorDataState {
+  const factory IdleProfessorState() = _$IdleProfessorStateImpl;
+  const IdleProfessorState._() : super._();
 }
 
 /// @nodoc
-abstract class _$$ErrorStateImplCopyWith<$Res> {
-  factory _$$ErrorStateImplCopyWith(
-          _$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
-      __$$ErrorStateImplCopyWithImpl<$Res>;
+abstract class _$$ErrorProfessorStateImplCopyWith<$Res> {
+  factory _$$ErrorProfessorStateImplCopyWith(_$ErrorProfessorStateImpl value,
+          $Res Function(_$ErrorProfessorStateImpl) then) =
+      __$$ErrorProfessorStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object e});
 }
 
 /// @nodoc
-class __$$ErrorStateImplCopyWithImpl<$Res>
-    extends _$ProfessorDataStateCopyWithImpl<$Res, _$ErrorStateImpl>
-    implements _$$ErrorStateImplCopyWith<$Res> {
-  __$$ErrorStateImplCopyWithImpl(
-      _$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then)
+class __$$ErrorProfessorStateImplCopyWithImpl<$Res>
+    extends _$ProfessorDataStateCopyWithImpl<$Res, _$ErrorProfessorStateImpl>
+    implements _$$ErrorProfessorStateImplCopyWith<$Res> {
+  __$$ErrorProfessorStateImplCopyWithImpl(_$ErrorProfessorStateImpl _value,
+      $Res Function(_$ErrorProfessorStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfessorDataState
@@ -349,7 +353,7 @@ class __$$ErrorStateImplCopyWithImpl<$Res>
   $Res call({
     Object? e = null,
   }) {
-    return _then(_$ErrorStateImpl(
+    return _then(_$ErrorProfessorStateImpl(
       null == e ? _value.e : e,
     ));
   }
@@ -357,8 +361,8 @@ class __$$ErrorStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorStateImpl extends ErrorState {
-  const _$ErrorStateImpl(this.e) : super._();
+class _$ErrorProfessorStateImpl extends ErrorProfessorState {
+  const _$ErrorProfessorStateImpl(this.e) : super._();
 
   @override
   final Object e;
@@ -372,7 +376,7 @@ class _$ErrorStateImpl extends ErrorState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ErrorStateImpl &&
+            other is _$ErrorProfessorStateImpl &&
             const DeepCollectionEquality().equals(other.e, e));
   }
 
@@ -385,8 +389,9 @@ class _$ErrorStateImpl extends ErrorState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith =>
-      __$$ErrorStateImplCopyWithImpl<_$ErrorStateImpl>(this, _$identity);
+  _$$ErrorProfessorStateImplCopyWith<_$ErrorProfessorStateImpl> get copyWith =>
+      __$$ErrorProfessorStateImplCopyWithImpl<_$ErrorProfessorStateImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -428,10 +433,10 @@ class _$ErrorStateImpl extends ErrorState {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ProcessingState value) processing,
-    required TResult Function(IdleState value) idle,
-    required TResult Function(ErrorState value) error,
-    required TResult Function(LoadedState value) loaded,
+    required TResult Function(ProcessingProfessorState value) processing,
+    required TResult Function(IdleProfessorState value) idle,
+    required TResult Function(ErrorProfessorState value) error,
+    required TResult Function(LoadedProfessorState value) loaded,
   }) {
     return error(this);
   }
@@ -439,10 +444,10 @@ class _$ErrorStateImpl extends ErrorState {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProcessingState value)? processing,
-    TResult? Function(IdleState value)? idle,
-    TResult? Function(ErrorState value)? error,
-    TResult? Function(LoadedState value)? loaded,
+    TResult? Function(ProcessingProfessorState value)? processing,
+    TResult? Function(IdleProfessorState value)? idle,
+    TResult? Function(ErrorProfessorState value)? error,
+    TResult? Function(LoadedProfessorState value)? loaded,
   }) {
     return error?.call(this);
   }
@@ -450,10 +455,10 @@ class _$ErrorStateImpl extends ErrorState {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProcessingState value)? processing,
-    TResult Function(IdleState value)? idle,
-    TResult Function(ErrorState value)? error,
-    TResult Function(LoadedState value)? loaded,
+    TResult Function(ProcessingProfessorState value)? processing,
+    TResult Function(IdleProfessorState value)? idle,
+    TResult Function(ErrorProfessorState value)? error,
+    TResult Function(LoadedProfessorState value)? loaded,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -463,34 +468,34 @@ class _$ErrorStateImpl extends ErrorState {
   }
 }
 
-abstract class ErrorState extends ProfessorDataState {
-  const factory ErrorState(final Object e) = _$ErrorStateImpl;
-  const ErrorState._() : super._();
+abstract class ErrorProfessorState extends ProfessorDataState {
+  const factory ErrorProfessorState(final Object e) = _$ErrorProfessorStateImpl;
+  const ErrorProfessorState._() : super._();
 
   Object get e;
 
   /// Create a copy of ProfessorDataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith =>
+  _$$ErrorProfessorStateImplCopyWith<_$ErrorProfessorStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$LoadedStateImplCopyWith<$Res> {
-  factory _$$LoadedStateImplCopyWith(
-          _$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
-      __$$LoadedStateImplCopyWithImpl<$Res>;
+abstract class _$$LoadedProfessorStateImplCopyWith<$Res> {
+  factory _$$LoadedProfessorStateImplCopyWith(_$LoadedProfessorStateImpl value,
+          $Res Function(_$LoadedProfessorStateImpl) then) =
+      __$$LoadedProfessorStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<ReviewWithUser> professors});
 }
 
 /// @nodoc
-class __$$LoadedStateImplCopyWithImpl<$Res>
-    extends _$ProfessorDataStateCopyWithImpl<$Res, _$LoadedStateImpl>
-    implements _$$LoadedStateImplCopyWith<$Res> {
-  __$$LoadedStateImplCopyWithImpl(
-      _$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
+class __$$LoadedProfessorStateImplCopyWithImpl<$Res>
+    extends _$ProfessorDataStateCopyWithImpl<$Res, _$LoadedProfessorStateImpl>
+    implements _$$LoadedProfessorStateImplCopyWith<$Res> {
+  __$$LoadedProfessorStateImplCopyWithImpl(_$LoadedProfessorStateImpl _value,
+      $Res Function(_$LoadedProfessorStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfessorDataState
@@ -500,7 +505,7 @@ class __$$LoadedStateImplCopyWithImpl<$Res>
   $Res call({
     Object? professors = null,
   }) {
-    return _then(_$LoadedStateImpl(
+    return _then(_$LoadedProfessorStateImpl(
       null == professors
           ? _value._professors
           : professors // ignore: cast_nullable_to_non_nullable
@@ -511,8 +516,8 @@ class __$$LoadedStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadedStateImpl extends LoadedState {
-  const _$LoadedStateImpl(final List<ReviewWithUser> professors)
+class _$LoadedProfessorStateImpl extends LoadedProfessorState {
+  const _$LoadedProfessorStateImpl(final List<ReviewWithUser> professors)
       : _professors = professors,
         super._();
 
@@ -533,7 +538,7 @@ class _$LoadedStateImpl extends LoadedState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoadedStateImpl &&
+            other is _$LoadedProfessorStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._professors, _professors));
   }
@@ -547,8 +552,10 @@ class _$LoadedStateImpl extends LoadedState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith =>
-      __$$LoadedStateImplCopyWithImpl<_$LoadedStateImpl>(this, _$identity);
+  _$$LoadedProfessorStateImplCopyWith<_$LoadedProfessorStateImpl>
+      get copyWith =>
+          __$$LoadedProfessorStateImplCopyWithImpl<_$LoadedProfessorStateImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -590,10 +597,10 @@ class _$LoadedStateImpl extends LoadedState {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ProcessingState value) processing,
-    required TResult Function(IdleState value) idle,
-    required TResult Function(ErrorState value) error,
-    required TResult Function(LoadedState value) loaded,
+    required TResult Function(ProcessingProfessorState value) processing,
+    required TResult Function(IdleProfessorState value) idle,
+    required TResult Function(ErrorProfessorState value) error,
+    required TResult Function(LoadedProfessorState value) loaded,
   }) {
     return loaded(this);
   }
@@ -601,10 +608,10 @@ class _$LoadedStateImpl extends LoadedState {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProcessingState value)? processing,
-    TResult? Function(IdleState value)? idle,
-    TResult? Function(ErrorState value)? error,
-    TResult? Function(LoadedState value)? loaded,
+    TResult? Function(ProcessingProfessorState value)? processing,
+    TResult? Function(IdleProfessorState value)? idle,
+    TResult? Function(ErrorProfessorState value)? error,
+    TResult? Function(LoadedProfessorState value)? loaded,
   }) {
     return loaded?.call(this);
   }
@@ -612,10 +619,10 @@ class _$LoadedStateImpl extends LoadedState {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProcessingState value)? processing,
-    TResult Function(IdleState value)? idle,
-    TResult Function(ErrorState value)? error,
-    TResult Function(LoadedState value)? loaded,
+    TResult Function(ProcessingProfessorState value)? processing,
+    TResult Function(IdleProfessorState value)? idle,
+    TResult Function(ErrorProfessorState value)? error,
+    TResult Function(LoadedProfessorState value)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -625,16 +632,16 @@ class _$LoadedStateImpl extends LoadedState {
   }
 }
 
-abstract class LoadedState extends ProfessorDataState {
-  const factory LoadedState(final List<ReviewWithUser> professors) =
-      _$LoadedStateImpl;
-  const LoadedState._() : super._();
+abstract class LoadedProfessorState extends ProfessorDataState {
+  const factory LoadedProfessorState(final List<ReviewWithUser> professors) =
+      _$LoadedProfessorStateImpl;
+  const LoadedProfessorState._() : super._();
 
   List<ReviewWithUser> get professors;
 
   /// Create a copy of ProfessorDataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$LoadedProfessorStateImplCopyWith<_$LoadedProfessorStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

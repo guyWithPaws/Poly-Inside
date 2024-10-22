@@ -153,7 +153,7 @@ class _ReviewPageState extends State<ReviewPage> {
                 .updateReview(outputReview);
           }
 
-          await showDialog(
+          showDialog(
             context: context,
             builder: (builderContext) {
               return AlertDialog(
@@ -168,13 +168,16 @@ class _ReviewPageState extends State<ReviewPage> {
                                 width: 100,
                                 height: 100,
                                 child: rive.RiveAnimation.asset(
-                                    controllers: [], 'assets/rive/success.riv'),
+                                  controllers: [],
+                                  'assets/rive/success.riv',
+                                ),
                               )
                             : const SizedBox(
                                 width: 150,
                                 height: 150,
                                 child: rive.RiveAnimation.asset(
-                                    'assets/rive/error.riv'),
+                                  'assets/rive/error.riv',
+                                ),
                               ),
                         (passed)
                             ? AnimatedTextKit(
@@ -197,6 +200,11 @@ class _ReviewPageState extends State<ReviewPage> {
               );
             },
           );
+          Future.delayed(const Duration(milliseconds: 2000),
+              () => Navigator.of(context).pop());
+          if (passed) {
+            Navigator.of(context).pop();
+          }
         },
         backgroundColor: Colors.green,
         label: Center(

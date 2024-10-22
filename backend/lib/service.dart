@@ -102,16 +102,18 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
-  Future<SearchResponse> searchProfessorByName(
-      ServiceCall call, SearchRequest request) async {
+  Stream<FindProfessorResponse> searchProfessorByName(
+      ServiceCall call, SearchRequest request) async* {
     l
       ..v('Client with ip: ${call.remoteAddress!.address}')
       ..v('Search professor with name: ${request.name}');
-    final list = await provider.findProfessorByName(
+    final data = provider.findProfessorByName(
       request.name,
       request.count,
     );
-    return SearchResponse(professors: list);
+    await for (final list in data) {
+      yield FindProfessorResponse(professors: list);
+    }
   }
 
   @override
@@ -187,8 +189,8 @@ class GRPCService extends SearchServiceBase {
   @override
   Stream<ListProfessorsByGroupResponce> getListProfessorsByGroup(
       ServiceCall call, ListProfessorsByGroupRequest request) async* {
-    final professors = provider.getProfessorsByGroup(
-        request.count, request.group, request.order);
+    final professors =
+        provider.getProfessorsByGroup(request.count, request.group);
     l
       ..v('Client with ip: ${call.remoteAddress!.address}')
       ..v('Get professors by group: ${request.group}');

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_inside/src/common/enums/review_type.dart';
 import 'package:poly_inside/src/common/theme.dart';
 import 'package:poly_inside/src/common/widgets/error_page.dart';
+import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:poly_inside/src/feature/professor_profile/widget/professor_profile_page.dart';
 import 'package:poly_inside/src/feature/review/review_page.dart';
 import 'package:shared/shared.dart';
@@ -64,10 +65,12 @@ class _AppScopeState extends State<AppScope> {
             case '/':
               return MaterialPageRoute(builder: (context) => widget.child);
             case '/professor':
-              final professor = settings.arguments as Professor;
+              final professor = (settings.arguments as List)[0] as Professor;
+              final bloc = (settings.arguments as List)[1] as HomeBloc;
               return MaterialPageRoute(
                 builder: (context) => ProfessorProfilePage(
-                  professor: professor,
+                  homeBloc: bloc,
+                  professorId: professor.id,
                 ),
               );
             case '/review':

@@ -8,11 +8,10 @@ service SearchService {
 
   // Professor's methods
   rpc GetListProfessor(ListProfessorRequest) returns (stream GetListProfessorResponse);
-  rpc SearchProfessorByName(SearchRequest) returns (SearchResponse);
+  rpc SearchProfessorByName(SearchRequest) returns (stream FindProfessorResponse);
   rpc GetReviewWithProfessor(ReviewsByUserIdRequest) returns (stream ReviewWithProfessorResponse);
   rpc GetListProfessorsByGroup(ListProfessorsByGroupRequest) returns (stream ListProfessorsByGroupResponce);
   
-
   // Review's methods
   rpc AddReview(Review) returns (AddReviewResponse);
   rpc UpdateReview(Review) returns (UpdateReviewResponse);
@@ -33,9 +32,17 @@ message ReviewWithUserResponse{
   repeated ReviewWithUser list = 1;
 }
 
+message FindProfessorResponse{
+  repeated Professor professors = 1;
+}
+
 message ListProfessorsByGroupRequest {
   int32 count = 1;
   string group = 2;
+  // int32 order = 3; // 0 - в алафвитном порядке от А до Я
+  //                  // 1 - в алафвитном порядке от Я до А
+  //                  // 2 - с высоким рейтингом
+  //                  // 3 - с низким рейтингом
 }
 
 message ReviewWithUser {
@@ -140,7 +147,7 @@ message Review {
   string date = 8;
   string professorId = 9;
   int32 likes = 10;
-  int32 dislikes = 11;
+  int32 dislikes = 11
 }
 
 message Reaction {

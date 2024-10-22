@@ -31,7 +31,7 @@ class NewListEvent extends ProfileDataEvent {
 }
 
 @Freezed()
-sealed class ProfileDataState with _$DataState {
+sealed class ProfileDataState with _$ProfileDataState {
   const ProfileDataState._();
   const factory ProfileDataState.processing() = ProcessingState;
   const factory ProfileDataState.idle() = IdleState;

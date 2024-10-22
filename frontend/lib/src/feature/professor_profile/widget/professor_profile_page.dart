@@ -7,21 +7,23 @@ import 'package:poly_inside/src/common/extensions/string.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
+import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/professor_profile/bloc/data_bloc.dart';
 import 'package:shared/shared.dart';
-
 
 /// {@template professor_profile_page}
 /// ProfessorProfilePage widget.
 /// {@endtemplate}
 class ProfessorProfilePage extends StatefulWidget {
-  final Professor professor;
+  final String professorId;
+  final HomeBloc? homeBloc;
 
   /// {@macro professor_profile_page}
   const ProfessorProfilePage({
+    required this.professorId,
+    this.homeBloc,
     super.key,
-    required this.professor,
   });
 
   /// The state from the closest instance of this class
@@ -40,6 +42,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   ProfessorDataBLoC? _bloc;
+  late Professor professor;
 
   /* #region Lifecycle */
   @override
@@ -73,7 +76,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
         ProfessorDataBLoC(repository: InitializationScope.repositoryOf(context))
           ..add(
             ProfessorDataRequested(
-              professorId: widget.professor.id,
+              professorId: widget.professorId,
             ),
           );
     super.didChangeDependencies();
@@ -103,7 +106,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.easeInOut)
                 : Navigator.of(context)
-                    .pushNamed('/review', arguments: widget.professor);
+                    .pushNamed('/review', arguments: professor);
           },
           backgroundColor: Colors.green,
           label: AnimatedSize(
@@ -141,67 +144,142 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                          backgroundColor: Colors.grey[200],
-                          radius: 69,
-                          backgroundImage: MemoryImage(
-                            Uint8List.fromList(widget.professor.avatar),
-                          ),
-                          child: Uint8List.fromList(widget.professor.avatar)
-                                  .isEmpty
-                              ? SvgPicture.asset(
-                                  'assets/icons/no_photo.svg',
-                                  width: 69,
-                                )
-                              : null),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.5,
-                        child: Text(
-                          textAlign: TextAlign.center,
-                          widget.professor.name.capitalize(),
-                          style: const TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.w600),
+          BlocBuilder<HomeBloc, HomePageState>(
+            builder: (context, state) => state.maybeWhen(
+              orElse: () => const Placeholder(),
+              loaded: (professors) {
+                professor =
+                    professors.where((e) => e.id == widget.professorId).first;
+                return SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                                backgroundColor: Colors.grey[200],
+                                radius: 69,
+                                backgroundImage: Uint8List.fromList(
+                                            professor.avatar)
+                                        .isNotEmpty
+                                    ? MemoryImage(
+                                        Uint8List.fromList(professor.avatar),
+                                      )
+                                    : null,
+                                child:
+                                    Uint8List.fromList(professor.avatar).isEmpty
+                                        ? SvgPicture.asset(
+                                            'assets/icons/no_photo.svg',
+                                            width: 69,
+                                          )
+                                        : null),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                professor.name.capitalize(),
+                                style: const TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                StarsRating(
+                                  value: professor.rating,
+                                  size: const Size(32, 32),
+                                  spaceBetween: 23,
+                                  textSize: 28,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 32),
+                            ProfessorFeatures(
+                              objectivity: professor.objectivity,
+                              harshness: professor.harshness,
+                              loyalty: professor.loyalty,
+                              professionalism: professor.professionalism,
+                              textSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                          ],
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          StarsRating(
-                            value: widget.professor.rating,
-                            size: const Size(32, 32),
-                            spaceBetween: 23,
-                            textSize: 28,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 32),
-                      ProfessorFeatures(
-                        objectivity: widget.professor.objectivity,
-                        harshness: widget.professor.harshness,
-                        loyalty: widget.professor.loyalty,
-                        professionalism: widget.professor.professionalism,
-                        textSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      const SizedBox(
-                        height: 8,
                       ),
                     ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
+            bloc: widget.homeBloc,
           ),
+          // SliverList(
+          //   delegate: SliverChildListDelegate(
+          //     [
+          //       Padding(
+          //         padding: const EdgeInsets.only(left: 16, right: 16),
+          //         child: Column(
+          //           children: [
+          //             CircleAvatar(
+          //                 backgroundColor: Colors.grey[200],
+          //                 radius: 69,
+          //                 backgroundImage: MemoryImage(
+          //                   Uint8List.fromList(widget.professor.avatar),
+          //                 ),
+          //                 child: Uint8List.fromList(widget.professor.avatar)
+          //                         .isEmpty
+          //                     ? SvgPicture.asset(
+          //                         'assets/icons/no_photo.svg',
+          //                         width: 69,
+          //                       )
+          //                     : null),
+          //             SizedBox(
+          //               width: MediaQuery.of(context).size.width / 1.5,
+          //               child: Text(
+          //                 textAlign: TextAlign.center,
+          //                 widget.professor.name.capitalize(),
+          //                 style: const TextStyle(
+          //                     fontSize: 25, fontWeight: FontWeight.w600),
+          //               ),
+          //             ),
+          //             Row(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: [
+          //                 StarsRating(
+          //                   value: widget.professor.rating,
+          //                   size: const Size(32, 32),
+          //                   spaceBetween: 23,
+          //                   textSize: 28,
+          //                 ),
+          //               ],
+          //             ),
+          //             const SizedBox(height: 32),
+          //             ProfessorFeatures(
+          //               objectivity: widget.professor.objectivity,
+          //               harshness: widget.professor.harshness,
+          //               loyalty: widget.professor.loyalty,
+          //               professionalism: widget.professor.professionalism,
+          //               textSize: 12,
+          //               fontWeight: FontWeight.w600,
+          //             ),
+          //             const SizedBox(
+          //               height: 16,
+          //             ),
+          //             const SizedBox(
+          //               height: 8,
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           BlocBuilder<ProfessorDataBLoC, ProfessorDataState>(
             builder: (context, state) => state.maybeWhen(
               orElse: () => const SliverToBoxAdapter(
@@ -285,7 +363,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 itemBuilder: (context, index) {
                   return ReviewTitle(
                     review: professors[index].review,
-                    professor: widget.professor,
+                    professor: professor,
                     user: professors[index].user,
                     reaction: professors[index].reaction,
                   );
