@@ -37,16 +37,23 @@ class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
   AnimationController? _controller;
   static const Duration _animationDuration = Duration(milliseconds: 300);
 
-  int testValue = 0;
-
   static const double sortingElementsHeight = 40;
-  static const List<String> sortingElements = [
+
+  late final List<String> sortingElements;
+  static const List<String> professorSortingElements = [
     'А-Я',
     'Я-А',
     'С высоким рейтингом',
     'С низким рейтингом',
     //'Новые',
     //'Старые'
+  ];
+
+  static const List<String> reviewsSortingElements = [
+    'Новые',
+    'Старые',
+    'С высоким рейтингом',
+    'С низким рейтингом',
   ];
 
   /* #region Lifecycle */
@@ -56,6 +63,12 @@ class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
       duration: _animationDuration,
       vsync: this,
     );
+
+    if (widget.type == SortingType.professors) {
+      sortingElements = professorSortingElements;
+    } else {
+      sortingElements = reviewsSortingElements;
+    }
 
     super.initState();
     // Initial state initialization
@@ -90,7 +103,9 @@ class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
         showCupertinoModalBottomSheet(
           context: context,
           builder: (context) => SizedBox(
-            height: sortingElementsHeight * (sortingElements.length + 1) + 50,
+            height:
+                sortingElementsHeight * (sortingElements.length + 1) +
+                    50,
             child: Material(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

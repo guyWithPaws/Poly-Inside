@@ -40,12 +40,10 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       isLiked = !isLiked;
       likeCount += isLiked ? 1 : -1;
     });
-    if (isLiked) {
-      InitializationScope.repositoryOf(context).addReaction(
-          UserScope.userOf(context).id,
-          widget.professor!.id,
-          widget.review!.id,
-          true);
+    if (isLiked && widget.reaction!.id == UserScope.userOf(context).id) {
+      InitializationScope.repositoryOf(context).addReaction(Reaction());
+    } else {
+      
     }
     isLiked
         ? _likeAnimationController?.forward()
@@ -61,13 +59,13 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       dislikeCount += isDisliked ? 1 : -1;
     });
     if (!isDisliked) {
-      InitializationScope.repositoryOf(context).addReaction(
-          UserScope.userOf(context).id,
-          widget.professor!.id,
-          widget.review!.id,
-          false);
+      // InitializationScope.repositoryOf(context).addReaction(
+      //     UserScope.userOf(context).id,
+      //     widget.professor!.id,
+      //     widget.review!.id,
+      //     false);
     } else {
-      InitializationScope.repositoryOf(context).deleteReaction(Reaction());
+      //InitializationScope.repositoryOf(context).deleteReaction(Reaction());
     }
 
     isDisliked

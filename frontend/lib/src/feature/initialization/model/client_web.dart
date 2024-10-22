@@ -4,7 +4,7 @@ import 'package:grpc/service_api.dart';
 ClientChannel getChannel() {
   return GrpcWebClientChannel.xhr(
     Uri.parse(
-      'http://127.0.0.1:9090',
+      'http://127.0.0.1:8080',
     ),
   );
 }

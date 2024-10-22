@@ -1,3 +1,4 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,9 @@ import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/professor_profile/bloc/data_bloc.dart';
 import 'package:shared/shared.dart';
+
+import '../../../common/enums/sorting_type.dart';
+import '../../../common/widgets/sort_button.dart';
 
 /// {@template professor_profile_page}
 /// ProfessorProfilePage widget.
@@ -41,6 +45,7 @@ class ProfessorProfilePage extends StatefulWidget {
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
+  ValueNotifier<int>? _sortingValueNotifier;
   ProfessorDataBLoC? _bloc;
   late Professor professor;
 
@@ -50,17 +55,21 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     _scrollController = ScrollController();
     _scrollController?.addListener(scrollListener);
     _valueNotifier = ValueNotifier(false);
+    _sortingValueNotifier = ValueNotifier(0);
 
     super.initState();
     // Initial state initialization
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels !=
-        _scrollController?.position.minScrollExtent) {
-      _valueNotifier?.value = true;
-    } else {
+    if (_scrollController?.position.pixels ==
+            _scrollController?.position.minScrollExtent ||
+        _scrollController?.position.minScrollExtent ==
+            _scrollController?.position.maxScrollExtent) {
       _valueNotifier?.value = false;
+    } else {
+      debugPrint(_scrollController?.position.toString());
+      _valueNotifier?.value = true;
     }
   }
 
@@ -101,7 +110,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
         valueListenable: _valueNotifier!,
         builder: (context, value, _) => FloatingActionButton.extended(
           onPressed: () {
-            _valueNotifier!.value
+            value
                 ? _scrollController?.animateTo(0,
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.easeInOut)
@@ -112,7 +121,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
           label: AnimatedSize(
             duration: const Duration(milliseconds: 150),
             child: Center(
-              child: _valueNotifier!.value
+              child: value
                   ? const Icon(Icons.arrow_upward)
                   : const Text(
                       'Написать отзыв',
@@ -148,6 +157,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
             builder: (context, state) => state.maybeWhen(
               orElse: () => const Placeholder(),
               loaded: (professors) {
+                _valueNotifier!.value = professors.isEmpty;
                 professor =
                     professors.where((e) => e.id == widget.professorId).first;
                 return SliverList(
@@ -157,23 +167,26 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Column(
                           children: [
-                            CircleAvatar(
-                                backgroundColor: Colors.grey[200],
-                                radius: 69,
-                                backgroundImage: Uint8List.fromList(
-                                            professor.avatar)
-                                        .isNotEmpty
-                                    ? MemoryImage(
-                                        Uint8List.fromList(professor.avatar),
-                                      )
-                                    : null,
-                                child:
-                                    Uint8List.fromList(professor.avatar).isEmpty
-                                        ? SvgPicture.asset(
-                                            'assets/icons/no_photo.svg',
-                                            width: 69,
-                                          )
-                                        : null),
+                            Hero(
+                              tag: professor.id,
+                              child: CircleAvatar(
+                                  backgroundColor: Colors.grey[200],
+                                  radius: 69,
+                                  backgroundImage: Uint8List.fromList(
+                                              professor.avatar)
+                                          .isNotEmpty
+                                      ? MemoryImage(
+                                          Uint8List.fromList(professor.avatar),
+                                        )
+                                      : null,
+                                  child: Uint8List.fromList(professor.avatar)
+                                          .isEmpty
+                                      ? SvgPicture.asset(
+                                          'assets/icons/no_photo.svg',
+                                          width: 69,
+                                        )
+                                      : null),
+                            ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 1.5,
                               child: Text(
@@ -219,67 +232,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
             ),
             bloc: widget.homeBloc,
           ),
-          // SliverList(
-          //   delegate: SliverChildListDelegate(
-          //     [
-          //       Padding(
-          //         padding: const EdgeInsets.only(left: 16, right: 16),
-          //         child: Column(
-          //           children: [
-          //             CircleAvatar(
-          //                 backgroundColor: Colors.grey[200],
-          //                 radius: 69,
-          //                 backgroundImage: MemoryImage(
-          //                   Uint8List.fromList(widget.professor.avatar),
-          //                 ),
-          //                 child: Uint8List.fromList(widget.professor.avatar)
-          //                         .isEmpty
-          //                     ? SvgPicture.asset(
-          //                         'assets/icons/no_photo.svg',
-          //                         width: 69,
-          //                       )
-          //                     : null),
-          //             SizedBox(
-          //               width: MediaQuery.of(context).size.width / 1.5,
-          //               child: Text(
-          //                 textAlign: TextAlign.center,
-          //                 widget.professor.name.capitalize(),
-          //                 style: const TextStyle(
-          //                     fontSize: 25, fontWeight: FontWeight.w600),
-          //               ),
-          //             ),
-          //             Row(
-          //               mainAxisAlignment: MainAxisAlignment.center,
-          //               children: [
-          //                 StarsRating(
-          //                   value: widget.professor.rating,
-          //                   size: const Size(32, 32),
-          //                   spaceBetween: 23,
-          //                   textSize: 28,
-          //                 ),
-          //               ],
-          //             ),
-          //             const SizedBox(height: 32),
-          //             ProfessorFeatures(
-          //               objectivity: widget.professor.objectivity,
-          //               harshness: widget.professor.harshness,
-          //               loyalty: widget.professor.loyalty,
-          //               professionalism: widget.professor.professionalism,
-          //               textSize: 12,
-          //               fontWeight: FontWeight.w600,
-          //             ),
-          //             const SizedBox(
-          //               height: 16,
-          //             ),
-          //             const SizedBox(
-          //               height: 8,
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           BlocBuilder<ProfessorDataBLoC, ProfessorDataState>(
             builder: (context, state) => state.maybeWhen(
               orElse: () => const SliverToBoxAdapter(
@@ -291,19 +243,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           children: [
-                            const Text('Мой отзыв'),
-                            // SliverList.builder(
-                            //   itemCount: 1,
-                            //   itemBuilder: (context, index) {
-                            //     return ReviewTitle(
-                            //       review: Review(
-                            //         comment: 'hhuuuui',
-                            //           date: DateTime.now().toString()),
-                            //       professor: widget.professor,
-                            //       user: UserScope.userOf(context),
-                            //     );
-                            //   },
-                            // ),
                             const SizedBox(
                               height: 8,
                             ),
@@ -329,9 +268,11 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                         borderRadius: BorderRadius.circular(7),
                                       ),
                                       child: Center(
-                                        child: Text(
-                                          '${professors.length}',
-                                          style: const TextStyle(
+                                        child: AnimatedFlipCounter(
+                                          value: professors.length,
+                                          duration:
+                                              const Duration(milliseconds: 200),
+                                          textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
                                           ),
@@ -340,7 +281,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                     )
                                   ],
                                 ),
-                                //const SortButton(type: SortingType.reviews),
+                                SortButton(
+                                    valueNotifier: _sortingValueNotifier,
+                                    type: SortingType.reviews),
                               ],
                             ),
                           ],

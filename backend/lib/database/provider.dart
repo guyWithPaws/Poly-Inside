@@ -42,7 +42,7 @@ abstract class ReactionProvider {
   // CRUD operations
   Future<void> addReaction(Reaction reaction);
   Future<void> updateReaction(Reaction reaction);
-  Future<void> deleteReaction(int userId, String professorId, String reviewId);
+  Future<void> deleteReaction(String id);
   Future<bool> isReactionExists(Reaction reaction);
   Future<Reaction> getReaction(String reactionId);
 }

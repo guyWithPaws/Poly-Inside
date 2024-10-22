@@ -33,3 +33,5 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+backend/bin/server.exe
+backend/bin/server.exe

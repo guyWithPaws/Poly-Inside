@@ -111,14 +111,26 @@ final $typed_data.Uint8List reviewWithProfessorDescriptor = $convert.base64Decod
     'gKCXByb2Zlc3NvchgCIAEoCzIKLlByb2Zlc3NvclIJcHJvZmVzc29yEiUKCHJlYWN0aW9uGAMg'
     'ASgLMgkuUmVhY3Rpb25SCHJlYWN0aW9u');
 
-@$core.Deprecated('Use likeResponseDescriptor instead')
-const LikeResponse$json = {
-  '1': 'LikeResponse',
+@$core.Deprecated('Use reactionResponseDescriptor instead')
+const ReactionResponse$json = {
+  '1': 'ReactionResponse',
 };
 
-/// Descriptor for `LikeResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List likeResponseDescriptor = $convert.base64Decode(
-    'CgxMaWtlUmVzcG9uc2U=');
+/// Descriptor for `ReactionResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List reactionResponseDescriptor = $convert.base64Decode(
+    'ChBSZWFjdGlvblJlc3BvbnNl');
+
+@$core.Deprecated('Use deleteReactionRequestDescriptor instead')
+const DeleteReactionRequest$json = {
+  '1': 'DeleteReactionRequest',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+  ],
+};
+
+/// Descriptor for `DeleteReactionRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteReactionRequestDescriptor = $convert.base64Decode(
+    'ChVEZWxldGVSZWFjdGlvblJlcXVlc3QSDgoCaWQYASABKAlSAmlk');
 
 @$core.Deprecated('Use reviewStreamDescriptor instead')
 const ReviewStream$json = {

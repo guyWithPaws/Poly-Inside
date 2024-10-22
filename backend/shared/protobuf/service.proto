@@ -17,7 +17,11 @@ service SearchService {
   rpc UpdateReview(Review) returns (UpdateReviewResponse);
   rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse);
   rpc GetReviewsByProfessorId(ReviewsByProfessorIdRequest) returns (stream ReviewWithUserResponse);
-  rpc AddReviewReaction(Reaction) returns (LikeResponse);
+
+  // Reaction's methods
+  rpc AddReaction(Reaction) returns (ReactionResponse);
+  rpc DeleteReaction(DeleteReactionRequest) returns (ReactionResponse);
+  rpc UpdateReaction(Reaction) returns (ReactionResponse);
 }
 
 message ListProfessorsByGroupResponce {
@@ -39,10 +43,6 @@ message FindProfessorResponse{
 message ListProfessorsByGroupRequest {
   int32 count = 1;
   string group = 2;
-  // int32 order = 3; // 0 - в алафвитном порядке от А до Я
-  //                  // 1 - в алафвитном порядке от Я до А
-  //                  // 2 - с высоким рейтингом
-  //                  // 3 - с низким рейтингом
 }
 
 message ReviewWithUser {
@@ -57,7 +57,11 @@ message ReviewWithProfessor {
   Reaction reaction = 3;
 }
 
-message LikeResponse {}
+message ReactionResponse {}
+
+message DeleteReactionRequest {
+  string id = 1;
+}
 
 message ReviewStream{
   repeated Review reviews = 1;
@@ -155,5 +159,5 @@ message Reaction {
   int32 userId = 2;
   string professorId = 3;
   string reviewId = 4;
-  int32 type = 5; // 1 - like, 0 - dislike, 2 - delete 
+  int32 type = 5; // 0 - dislike, 1 - like 
 }

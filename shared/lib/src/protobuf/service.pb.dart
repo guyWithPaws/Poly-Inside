@@ -421,13 +421,13 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
   Reaction ensureReaction() => $_ensure(2);
 }
 
-class LikeResponse extends $pb.GeneratedMessage {
-  factory LikeResponse() => create();
-  LikeResponse._() : super();
-  factory LikeResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory LikeResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+class ReactionResponse extends $pb.GeneratedMessage {
+  factory ReactionResponse() => create();
+  ReactionResponse._() : super();
+  factory ReactionResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ReactionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LikeResponse', createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ReactionResponse', createEmptyInstance: create)
     ..hasRequiredFields = false
   ;
 
@@ -435,22 +435,72 @@ class LikeResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  LikeResponse clone() => LikeResponse()..mergeFromMessage(this);
+  ReactionResponse clone() => ReactionResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  LikeResponse copyWith(void Function(LikeResponse) updates) => super.copyWith((message) => updates(message as LikeResponse)) as LikeResponse;
+  ReactionResponse copyWith(void Function(ReactionResponse) updates) => super.copyWith((message) => updates(message as ReactionResponse)) as ReactionResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static LikeResponse create() => LikeResponse._();
-  LikeResponse createEmptyInstance() => create();
-  static $pb.PbList<LikeResponse> createRepeated() => $pb.PbList<LikeResponse>();
+  static ReactionResponse create() => ReactionResponse._();
+  ReactionResponse createEmptyInstance() => create();
+  static $pb.PbList<ReactionResponse> createRepeated() => $pb.PbList<ReactionResponse>();
   @$core.pragma('dart2js:noInline')
-  static LikeResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LikeResponse>(create);
-  static LikeResponse? _defaultInstance;
+  static ReactionResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ReactionResponse>(create);
+  static ReactionResponse? _defaultInstance;
+}
+
+class DeleteReactionRequest extends $pb.GeneratedMessage {
+  factory DeleteReactionRequest({
+    $core.String? id,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    return $result;
+  }
+  DeleteReactionRequest._() : super();
+  factory DeleteReactionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DeleteReactionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteReactionRequest', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  DeleteReactionRequest clone() => DeleteReactionRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  DeleteReactionRequest copyWith(void Function(DeleteReactionRequest) updates) => super.copyWith((message) => updates(message as DeleteReactionRequest)) as DeleteReactionRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static DeleteReactionRequest create() => DeleteReactionRequest._();
+  DeleteReactionRequest createEmptyInstance() => create();
+  static $pb.PbList<DeleteReactionRequest> createRepeated() => $pb.PbList<DeleteReactionRequest>();
+  @$core.pragma('dart2js:noInline')
+  static DeleteReactionRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DeleteReactionRequest>(create);
+  static DeleteReactionRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
 }
 
 class ReviewStream extends $pb.GeneratedMessage {

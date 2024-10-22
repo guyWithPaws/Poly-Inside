@@ -13,6 +13,9 @@ import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
 import 'package:shared/shared.dart';
 
+import '../../../common/enums/sorting_type.dart';
+import '../../../common/widgets/sort_button.dart';
+
 class ProfilePage extends StatefulWidget {
   final ProfileDataBLoC? bloc;
 
@@ -29,8 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   ValueNotifier<bool>? _isEditingProfile;
+  ValueNotifier<int>? _sortingValueNotifier;
   final TextEditingController _textEditingController = TextEditingController();
-  // ProfileDataBLoC? _bloc;
 
   static const Duration scrollDuration = Duration(milliseconds: 500);
 
@@ -42,17 +45,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
     _valueNotifier = ValueNotifier(false);
     _isEditingProfile = ValueNotifier(false);
+    _sortingValueNotifier = ValueNotifier(0);
 
     super.initState();
     // Initial state initialization
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels !=
-        _scrollController?.position.minScrollExtent) {
-      _valueNotifier?.value = true;
-    } else {
+    if (_scrollController?.position.pixels ==
+            _scrollController?.position.minScrollExtent ||
+        _scrollController!.position.pixels ==
+            (_scrollController!.position.maxScrollExtent)) {
       _valueNotifier?.value = false;
+    } else {
+      _valueNotifier?.value = true;
     }
   }
 
@@ -68,12 +74,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _pickImage(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      print('Выбрано изображение: ${image.path}');
-    } else {
-      print('Изображение не выбрано');
-    }
   }
 
   @override
@@ -318,47 +318,54 @@ class _ProfilePageState extends State<ProfilePage> {
                   BlocBuilder<ProfileDataBLoC, ProfileDataState>(
                     builder: (context, state) => state.maybeWhen(
                       orElse: () => const SizedBox(),
-                      loaded: (professors) => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              const Text(
-                                "Отзывы",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                width: professors.isNotEmpty
-                                    ? professors.length.toString().length * 20
-                                    : 30,
-                                height: 26,
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 233, 252, 232),
-                                  borderRadius: BorderRadius.circular(7),
-                                ),
-                                child: Center(
-                                  child: AnimatedFlipCounter(
-                                    value: professors.length,
-                                    duration: const Duration(milliseconds: 200),
-                                    textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
+                      loaded: (professors) => professors.isNotEmpty
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Text(
+                                      "Отзывы",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      width: professors.isNotEmpty
+                                          ? professors.length
+                                                  .toString()
+                                                  .length *
+                                              20
+                                          : 30,
+                                      height: 26,
+                                      decoration: BoxDecoration(
+                                        color: const Color.fromARGB(
+                                            255, 233, 252, 232),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                      child: Center(
+                                        child: AnimatedFlipCounter(
+                                          value: professors.length,
+                                          duration:
+                                              const Duration(milliseconds: 200),
+                                          textStyle: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          //const SortButton(
-                          //  type: SortingType.reviews,
-                          //)
-                        ],
-                      ),
+                                SortButton(
+                                  valueNotifier: _sortingValueNotifier,
+                                  type: SortingType.reviews,
+                                )
+                              ],
+                            )
+                          : const SizedBox(),
                     ),
                     bloc: widget.bloc,
                   ),
@@ -380,17 +387,45 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ),
-              loaded: (professors) => SliverList.separated(
-                itemCount: professors.length,
-                itemBuilder: (context, index) {
-                  return ReviewTitle(
-                    review: professors[index].review,
-                    professor: professors[index].professor,
+              loaded: (professors) => ValueListenableBuilder(
+                valueListenable: _sortingValueNotifier!,
+                builder: (context, value, _) {
+                  var sorted = professors.toList();
+
+                  switch (_sortingValueNotifier!.value) {
+                    case 0:
+                      sorted.sort(
+                          (a, b) => a.review.date.compareTo(b.review.date));
+                      sorted = sorted.reversed.toList();
+                      break;
+                    case 1:
+                      sorted.sort(
+                          (a, b) => a.review.date.compareTo(b.review.date));
+                      break;
+                    case 2:
+                      sorted.sort(
+                          (a, b) => a.review.likes.compareTo(b.review.likes));
+                      sorted = sorted.reversed.toList();
+                      break;
+                    case 3:
+                      sorted.sort(
+                          (a, b) => a.review.likes.compareTo(b.review.likes));
+
+                      break;
+                  }
+                  return SliverList.separated(
+                    itemCount: professors.length,
+                    itemBuilder: (context, index) {
+                      return ReviewTitle(
+                        review: sorted[index].review,
+                        professor: sorted[index].professor,
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 20,
+                    ),
                   );
                 },
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 20,
-                ),
               ),
             ),
             bloc: widget.bloc,

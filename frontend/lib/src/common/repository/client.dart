@@ -14,9 +14,9 @@ abstract class ClientRepository {
   Future<void> updateUser(User user);
   Stream<FindProfessorResponse> findProfessorByName(String name, int count);
   Stream<ReviewWithProfessorResponse> getReviewsWithProfessor(int userId);
-  Future<void> addReaction(
-      int userId, String professorId, String reviewId, bool liked);
-  Future<void> deleteReaction(Reaction reaction);
+  Future<void> addReaction(Reaction reaction);
+  Future<void> deleteReaction(String id);
+  Future<void> updateReaction(Reaction reaction);
 }
 
 abstract class UserRepository {

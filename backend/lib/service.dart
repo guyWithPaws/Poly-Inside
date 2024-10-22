@@ -128,63 +128,63 @@ class GRPCService extends SearchServiceBase {
     }
   }
 
-  @override
-  Future<LikeResponse> addReviewReaction(
-      ServiceCall call, Reaction request) async {
-    if (request.type == 2) {
-      //var reaction = await provider.getReaction(request.id);
-      await provider.deleteReaction(
-          request.userId, request.professorId, request.reviewId);
-      var review = await provider.getReview(request.reviewId);
-      if (request.type == 1) {
-        review.likes -= 1;
-      } else {
-        review.dislikes -= 1;
-      }
-      await provider.updateReview(review);
-      // ignore: lines_longer_than_80_chars
-      l.v('Delete reaction with userId: ${request.userId} professorId: ${request.professorId} reviewId: ${request.reviewId}');
-    } else {
-      final response = await provider.isReactionExists(Reaction(
-        userId: request.userId,
-        professorId: request.professorId,
-        reviewId: request.reviewId,
-      ));
-      var review = await provider.getReview(request.reviewId);
-      if (request.type == 1 && response) {
-        review
-          ..likes += 1
-          ..dislikes -= 1;
-      } else if (request.type == 0 && response) {
-        review
-          ..likes -= 1
-          ..dislikes += 1;
-      }
+  // @override
+  // Future<LikeResponse> addReviewReaction(
+  //     ServiceCall call, Reaction request) async {
+  //   if (request.type == 2) {
+  //     //var reaction = await provider.getReaction(request.id);
+  //     await provider.deleteReaction(
+  //         request.userId, request.professorId, request.reviewId);
+  //     var review = await provider.getReview(request.reviewId);
+  //     if (request.type == 1) {
+  //       review.likes -= 1;
+  //     } else {
+  //       review.dislikes -= 1;
+  //     }
+  //     await provider.updateReview(review);
+  //     // ignore: lines_longer_than_80_chars
+  //     l.v('Delete reaction with userId: ${request.userId} professorId: ${request.professorId} reviewId: ${request.reviewId}');
+  //   } else {
+  //     final response = await provider.isReactionExists(Reaction(
+  //       userId: request.userId,
+  //       professorId: request.professorId,
+  //       reviewId: request.reviewId,
+  //     ));
+  //     var review = await provider.getReview(request.reviewId);
+  //     if (request.type == 1 && response) {
+  //       review
+  //         ..likes += 1
+  //         ..dislikes -= 1;
+  //     } else if (request.type == 0 && response) {
+  //       review
+  //         ..likes -= 1
+  //         ..dislikes += 1;
+  //     }
 
-      if (response) {
-        await provider.updateReaction(Reaction(
-            id: request.id,
-            userId: request.userId,
-            professorId: request.professorId,
-            reviewId: request.reviewId,
-            type: request.type));
+  //     if (response) {
+  //       await provider.updateReaction(Reaction(
+  //           id: request.id,
+  //           userId: request.userId,
+  //           professorId: request.professorId,
+  //           reviewId: request.reviewId,
+  //           type: request.type));
 
-        await provider.updateReview(review);
-        // ignore: lines_longer_than_80_chars
-        l.v('Update reaction with id ${request.id} to ${request.type == 1 ? 'like' : 'dislike'}');
-      } else {
-        await provider.addReaction(Reaction(
-            id: request.id,
-            userId: request.userId,
-            professorId: request.professorId,
-            reviewId: request.reviewId,
-            type: request.type));
-        l.v('Add ${request.type == 0 ? 'dislike' : 'like'} reaction');
-        await provider.updateReview(review);
-      }
-    }
-    return LikeResponse();
-  }
+  //       await provider.updateReview(review);
+  //       // ignore: lines_longer_than_80_chars
+  //       l.v('Update reaction with id ${request.id} to ${request.type == 1 ? 'like' : 'dislike'}');
+  //     } else {
+  //       await provider.addReaction(Reaction(
+  //           id: request.id,
+  //           userId: request.userId,
+  //           professorId: request.professorId,
+  //           reviewId: request.reviewId,
+  //           type: request.type));
+  //       l.v('Add ${request.type == 0 ? 'dislike' : 'like'} reaction');
+  //       await provider.updateReview(review);
+  //     }
+  //   }
+  //   return LikeResponse();
+  // }
 
   @override
   Stream<ListProfessorsByGroupResponce> getListProfessorsByGroup(
@@ -197,5 +197,30 @@ class GRPCService extends SearchServiceBase {
     await for (final list in professors) {
       yield ListProfessorsByGroupResponce(professors: list);
     }
+  }
+
+  @override
+  Future<ReactionResponse> addReaction(
+      ServiceCall call, Reaction request) async {
+    await provider.addReaction(request);
+    l.v('Add reaction with id: ${request.id}');
+    return ReactionResponse();
+  }
+
+  @override
+  Future<ReactionResponse> deleteReaction(
+      ServiceCall call, DeleteReactionRequest request) async {
+    await provider.deleteReaction(request.id);
+    l.v('Delete reaction with id: ${request.id}');
+    return ReactionResponse();
+  }
+
+  @override
+  Future<ReactionResponse> updateReaction(
+      ServiceCall call, Reaction request) async {
+    await provider.updateReaction(request);
+    // ignore: lines_longer_than_80_chars
+    l.v('Update reaction with id: ${request.id} to ${request.type == 1 ? 'like' : 'dislike'}');
+    return ReactionResponse();
   }
 }

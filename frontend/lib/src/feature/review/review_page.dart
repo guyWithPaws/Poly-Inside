@@ -128,7 +128,6 @@ class _ReviewPageState extends State<ReviewPage> {
               UserScope.userOf(context).id.toString() +
                   DateTime.now().toString());
           var generatedReviewId = sha1.convert(reviewIdBytes).toString();
-          //debugPrint(generatedReviewId);
           Review outputReview = Review(
               id: generatedReviewId,
               objectivity: _valueObjectivityNotifier!.value,
@@ -143,12 +142,10 @@ class _ReviewPageState extends State<ReviewPage> {
               professorId: widget.professor.id);
           bool passed = true;
           if (widget.type == ReviewType.add) {
-            //debugPrint(outputReview.toString());
             passed = await InitializationScope.repositoryOf(context)
                 .addReview(outputReview);
           } else {
             outputReview.id = widget.review!.id;
-            //debugPrint('Editing reviewId: ${widget.review!.reviewId}');
             await InitializationScope.repositoryOf(context)
                 .updateReview(outputReview);
           }
@@ -219,25 +216,28 @@ class _ReviewPageState extends State<ReviewPage> {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 35,
-                    child: ClipOval(
-                      child: Uint8List.fromList(
-                        widget.professor.avatar,
-                      ).isNotEmpty
-                          ? Image.memory(
-                              height: 70,
-                              width: 70,
-                              fit: BoxFit.cover,
-                              Uint8List.fromList(
-                                widget.professor.avatar,
+                  Hero(
+                    tag: widget.professor.id,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[200],
+                      radius: 35,
+                      child: ClipOval(
+                        child: Uint8List.fromList(
+                          widget.professor.avatar,
+                        ).isNotEmpty
+                            ? Image.memory(
+                                height: 70,
+                                width: 70,
+                                fit: BoxFit.cover,
+                                Uint8List.fromList(
+                                  widget.professor.avatar,
+                                ),
+                              )
+                            : SvgPicture.asset(
+                                'assets/icons/no_photo.svg',
+                                width: 40,
                               ),
-                            )
-                          : SvgPicture.asset(
-                              'assets/icons/no_photo.svg',
-                              width: 40,
-                            ),
+                      ),
                     ),
                   ),
                   const SizedBox(

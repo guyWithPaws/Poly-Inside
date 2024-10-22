@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:poly_inside/src/common/enums/sorting_type.dart';
 import 'package:poly_inside/src/common/extensions/string.dart';
 import 'package:poly_inside/src/common/widgets/static_stars_rating.dart';
 import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
 import 'package:poly_inside/src/feature/user_profile/widget/user_profile_page.dart';
 import 'package:shared/shared.dart';
 
+import '../../../common/widgets/sort_button.dart';
 
 /// {@template home_page}
 /// HomePage widget.
@@ -34,6 +36,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
+  ValueNotifier<int>? _sortingValueNotifier;
   HomeBloc? _bloc;
   HomeBloc? _searchBloc;
   bool isTyping = false;
@@ -43,6 +46,8 @@ class _HomePageState extends State<HomePage> {
   String reviewInRussian = 'отзыв';
   int count = 20;
   static const Duration scrollDuration = Duration(milliseconds: 500);
+
+  var homeProfessors = [];
 
   @override
   void initState() {
@@ -88,19 +93,10 @@ class _HomePageState extends State<HomePage> {
           }
         },
       );
-    // _sortingValueNotifier = ValueNotifier(0)
-    //   ..addListener(
-    //     () {
-    //       debugPrint(_sortingValueNotifier!.value.toString());
-    //       _bloc?.add(
-    //         SortingTypeChanged(
-    //           count: count,
-    //           group: UserScope.userOf(context).group,
-    //           order: _sortingValueNotifier!.value,
-    //         ),
-    //       );
-    //     },
-    //   );
+    _sortingValueNotifier = ValueNotifier(0)
+      ..addListener(
+        () {},
+      );
     super.initState();
   }
 
@@ -207,10 +203,10 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 16,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Text(
                         'Мои преподаватели',
@@ -223,6 +219,10 @@ class _HomePageState extends State<HomePage> {
                       Icon(CupertinoIcons.question_circle),
                     ],
                   ),
+                  SortButton(
+                    type: SortingType.professors,
+                    valueNotifier: _sortingValueNotifier,
+                  )
                 ],
               ),
               const SizedBox(
@@ -241,123 +241,160 @@ class _HomePageState extends State<HomePage> {
                         child: Text(error.toString()),
                       ),
                       loaded: (professors) {
-                        var sorted = professors.toList();
-                        return ListView.separated(
-                          controller: _scrollController,
-                          itemCount: sorted.length,
-                          separatorBuilder: (context, index) => const SizedBox(
-                            height: 25,
-                          ),
-                          itemBuilder: (context, index) {
-                            return RepaintBoundary(
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                    '/professor',
-                                    arguments: [
-                                      sorted[index],
-                                      isTyping ? _searchBloc : _bloc
-                                    ],
-                                  );
-                                  _textEditingController?.clear();
-                                  _node?.unfocus();
-                                },
-                                child: Container(
-                                  width: 360,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: const Color(0xFFEEF9EF),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundColor: Colors.grey[200],
-                                          radius: 27,
-                                          backgroundImage: Uint8List.fromList(
-                                            sorted[index].avatar,
-                                          ).isNotEmpty
-                                              ? MemoryImage(
-                                                  Uint8List.fromList(
-                                                    sorted[index].avatar,
-                                                  ),
-                                                )
-                                              : null,
-                                          child: Uint8List.fromList(
-                                            sorted[index].avatar,
-                                          ).isEmpty
-                                              ? SvgPicture.asset(
-                                                  'assets/icons/no_photo.svg',
-                                                )
-                                              : null,
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                sorted[index].name.capitalize(),
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              Stack(
-                                                children: [
-                                                  StaticStarsRating(
-                                                    spaceBetween: 8,
-                                                    textSize: 16,
-                                                    size: 20,
-                                                    value: sorted[index].rating,
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Column(
-                                                      children: [
-                                                        const SizedBox(
-                                                          height: 3,
-                                                        ),
-                                                        Text(
-                                                          (sorted[index]
-                                                                      .rating ==
-                                                                  0)
-                                                              ? 'нет отзывов'
-                                                              : '${sorted[index].reviewsCount} ${reviewInRussian.formatReview(sorted[index].reviewsCount)}',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color:
-                                                                Color.fromARGB(
-                                                              255,
-                                                              138,
-                                                              138,
-                                                              138,
+                        return ValueListenableBuilder(
+                          valueListenable: _sortingValueNotifier!,
+                          builder: (context, value, _) {
+                            var sorted = professors.toList();
+                            switch (_sortingValueNotifier!.value) {
+                              case 0:
+                                sorted.sort((a, b) => a.name.compareTo(b.name));
+                                break;
+                              case 1:
+                                sorted.sort((a, b) => a.name.compareTo(b.name));
+                                sorted = sorted.reversed.toList();
+                                break;
+                              case 2:
+                                sorted.sort(
+                                    (a, b) => a.rating.compareTo(b.rating));
+                                sorted = sorted.reversed.toList();
+                                break;
+                              case 3:
+                                sorted.sort(
+                                    (a, b) => a.rating.compareTo(b.rating));
+
+                                break;
+                            }
+                            return ListView.separated(
+                              controller: _scrollController,
+                              itemCount: sorted.length,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                height: 25,
+                              ),
+                              itemBuilder: (context, index) {
+                                return RepaintBoundary(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(
+                                        '/professor',
+                                        arguments: [
+                                          sorted[index],
+                                          isTyping ? _searchBloc : _bloc
+                                        ],
+                                      );
+                                      _textEditingController?.clear();
+                                      _node?.unfocus();
+                                    },
+                                    child: Container(
+                                      width: 360,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: const Color(0xFFEEF9EF),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Hero(
+                                              tag: sorted[index].id,
+                                              child: CircleAvatar(
+                                                backgroundColor:
+                                                    Colors.grey[200],
+                                                radius: 27,
+                                                backgroundImage:
+                                                    Uint8List.fromList(
+                                                  sorted[index].avatar,
+                                                ).isNotEmpty
+                                                        ? MemoryImage(
+                                                            Uint8List.fromList(
+                                                              sorted[index]
+                                                                  .avatar,
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ],
+                                                          )
+                                                        : null,
+                                                child: Uint8List.fromList(
+                                                  sorted[index].avatar,
+                                                ).isEmpty
+                                                    ? SvgPicture.asset(
+                                                        'assets/icons/no_photo.svg',
+                                                      )
+                                                    : null,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    sorted[index]
+                                                        .name
+                                                        .capitalize(),
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
+                                                  ),
+                                                  Stack(
+                                                    children: [
+                                                      StaticStarsRating(
+                                                        spaceBetween: 8,
+                                                        textSize: 16,
+                                                        size: 20,
+                                                        value: sorted[index]
+                                                            .rating,
+                                                      ),
+                                                      Align(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Column(
+                                                          children: [
+                                                            const SizedBox(
+                                                              height: 3,
+                                                            ),
+                                                            Text(
+                                                              (sorted[index]
+                                                                          .rating ==
+                                                                      0)
+                                                                  ? 'нет отзывов'
+                                                                  : '${sorted[index].reviewsCount} ${reviewInRussian.formatReview(sorted[index].reviewsCount)}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                  255,
+                                                                  138,
+                                                                  138,
+                                                                  138,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                             );
                           },
                         );

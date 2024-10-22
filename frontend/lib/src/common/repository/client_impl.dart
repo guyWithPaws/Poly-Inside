@@ -55,33 +55,20 @@ class ClientRepositoryImpl implements ClientRepository {
       );
 
   @override
-  Future<void> addReaction(
-      int userId, String professorId, String reviewId, bool liked) async {
-    var bytes = utf8.encode(
-        userId.toString() + professorId.toString() + reviewId.toString());
-    var hash = sha1.convert(bytes);
-    client.addReviewReaction(Reaction(
-        id: hash.toString(),
-        userId: userId,
-        professorId: professorId,
-        reviewId: reviewId,
-        type: liked ? 1 : 0));
-  }
+  Future<void> addReaction(Reaction reaction) async =>
+      await client.addReaction(reaction);
 
   @override
-  Future<void> deleteReaction(Reaction reaction) async =>
-      await client.addReviewReaction(
-        Reaction(
-            id: reaction.id,
-            professorId: reaction.professorId,
-            userId: reaction.userId,
-            reviewId: reaction.reviewId,
-            type: 2),
-      );
+  Future<void> deleteReaction(String id) async =>
+      await client.deleteReaction(id);
 
   @override
   Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(
           int count, String group) =>
       client.getListProfessorsByGroup(
           ListProfessorsByGroupRequest(count: count, group: group));
+
+  @override
+  Future<void> updateReaction(Reaction reaction) async =>
+      await client.updateReaction(reaction);
 }

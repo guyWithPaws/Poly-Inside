@@ -330,14 +330,8 @@ class DatabaseProviderImpl
           );
 
   @override
-  Future<void> deleteReaction(
-      int userId, String professorId, String reviewId) async {
-    l.v('Delete reaction');
-    await (database.delete(database.reactions)
-          ..where((t) =>
-              (t.userId.equals(userId)) &
-              t.professorId.equals(professorId) &
-              t.reviewId.equals(reviewId)))
+  Future<void> deleteReaction(String id) async {
+    await (database.delete(database.reactions)..where((t) => t.id.equals(id)))
         .go();
   }
 

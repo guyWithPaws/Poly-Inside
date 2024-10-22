@@ -65,10 +65,18 @@ class SearchServiceClient extends $grpc.Client {
       '/SearchService/GetReviewsByProfessorId',
       ($0.ReviewsByProfessorIdRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.ReviewWithUserResponse.fromBuffer(value));
-  static final _$addReviewReaction = $grpc.ClientMethod<$0.Reaction, $0.LikeResponse>(
-      '/SearchService/AddReviewReaction',
+  static final _$addReaction = $grpc.ClientMethod<$0.Reaction, $0.ReactionResponse>(
+      '/SearchService/AddReaction',
       ($0.Reaction value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.LikeResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.ReactionResponse.fromBuffer(value));
+  static final _$deleteReaction = $grpc.ClientMethod<$0.DeleteReactionRequest, $0.ReactionResponse>(
+      '/SearchService/DeleteReaction',
+      ($0.DeleteReactionRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ReactionResponse.fromBuffer(value));
+  static final _$updateReaction = $grpc.ClientMethod<$0.Reaction, $0.ReactionResponse>(
+      '/SearchService/UpdateReaction',
+      ($0.Reaction value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ReactionResponse.fromBuffer(value));
 
   SearchServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -120,8 +128,16 @@ class SearchServiceClient extends $grpc.Client {
     return $createStreamingCall(_$getReviewsByProfessorId, $async.Stream.fromIterable([request]), options: options);
   }
 
-  $grpc.ResponseFuture<$0.LikeResponse> addReviewReaction($0.Reaction request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$addReviewReaction, request, options: options);
+  $grpc.ResponseFuture<$0.ReactionResponse> addReaction($0.Reaction request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$addReaction, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.ReactionResponse> deleteReaction($0.DeleteReactionRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$deleteReaction, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.ReactionResponse> updateReaction($0.Reaction request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$updateReaction, request, options: options);
   }
 }
 
@@ -207,13 +223,27 @@ abstract class SearchServiceBase extends $grpc.Service {
         true,
         ($core.List<$core.int> value) => $0.ReviewsByProfessorIdRequest.fromBuffer(value),
         ($0.ReviewWithUserResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.Reaction, $0.LikeResponse>(
-        'AddReviewReaction',
-        addReviewReaction_Pre,
+    $addMethod($grpc.ServiceMethod<$0.Reaction, $0.ReactionResponse>(
+        'AddReaction',
+        addReaction_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.Reaction.fromBuffer(value),
-        ($0.LikeResponse value) => value.writeToBuffer()));
+        ($0.ReactionResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.DeleteReactionRequest, $0.ReactionResponse>(
+        'DeleteReaction',
+        deleteReaction_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.DeleteReactionRequest.fromBuffer(value),
+        ($0.ReactionResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Reaction, $0.ReactionResponse>(
+        'UpdateReaction',
+        updateReaction_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Reaction.fromBuffer(value),
+        ($0.ReactionResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.AddProfileResponse> addProfile_Pre($grpc.ServiceCall call, $async.Future<$0.User> request) async {
@@ -260,8 +290,16 @@ abstract class SearchServiceBase extends $grpc.Service {
     yield* getReviewsByProfessorId(call, await request);
   }
 
-  $async.Future<$0.LikeResponse> addReviewReaction_Pre($grpc.ServiceCall call, $async.Future<$0.Reaction> request) async {
-    return addReviewReaction(call, await request);
+  $async.Future<$0.ReactionResponse> addReaction_Pre($grpc.ServiceCall call, $async.Future<$0.Reaction> request) async {
+    return addReaction(call, await request);
+  }
+
+  $async.Future<$0.ReactionResponse> deleteReaction_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteReactionRequest> request) async {
+    return deleteReaction(call, await request);
+  }
+
+  $async.Future<$0.ReactionResponse> updateReaction_Pre($grpc.ServiceCall call, $async.Future<$0.Reaction> request) async {
+    return updateReaction(call, await request);
   }
 
   $async.Future<$0.AddProfileResponse> addProfile($grpc.ServiceCall call, $0.User request);
@@ -275,5 +313,7 @@ abstract class SearchServiceBase extends $grpc.Service {
   $async.Future<$0.UpdateReviewResponse> updateReview($grpc.ServiceCall call, $0.Review request);
   $async.Future<$0.DeleteReviewResponse> deleteReview($grpc.ServiceCall call, $0.DeleteReviewRequest request);
   $async.Stream<$0.ReviewWithUserResponse> getReviewsByProfessorId($grpc.ServiceCall call, $0.ReviewsByProfessorIdRequest request);
-  $async.Future<$0.LikeResponse> addReviewReaction($grpc.ServiceCall call, $0.Reaction request);
+  $async.Future<$0.ReactionResponse> addReaction($grpc.ServiceCall call, $0.Reaction request);
+  $async.Future<$0.ReactionResponse> deleteReaction($grpc.ServiceCall call, $0.DeleteReactionRequest request);
+  $async.Future<$0.ReactionResponse> updateReaction($grpc.ServiceCall call, $0.Reaction request);
 }
