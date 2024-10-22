@@ -147,7 +147,7 @@ message Review {
   string date = 8;
   string professorId = 9;
   int32 likes = 10;
-  int32 dislikes = 11
+  int32 dislikes = 11;
 }
 
 message Reaction {
