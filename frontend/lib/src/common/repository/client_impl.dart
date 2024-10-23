@@ -60,7 +60,7 @@ class ClientRepositoryImpl implements ClientRepository {
 
   @override
   Future<void> deleteReaction(String id) async =>
-      await client.deleteReaction(id);
+      await client.deleteReaction(DeleteReactionRequest(id: id));
 
   @override
   Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(
