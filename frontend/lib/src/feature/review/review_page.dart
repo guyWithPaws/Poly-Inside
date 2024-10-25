@@ -51,10 +51,18 @@ class _ReviewPageState extends State<ReviewPage> {
   ValueNotifier<double>? _valueHarshnessNotifier;
   ValueNotifier<double>? _valueObjectivityNotifier;
 
+  rive.RiveAnimationController? _animationController;
+
   /* #region Lifecycle */
   @override
   void initState() {
     _textEditingController = TextEditingController();
+
+    _animationController = rive.OneShotAnimation(
+      'Comp 1', // Не менять название анимации
+      autoplay: true,
+      onStop: () => Navigator.of(context).pop(),
+    );
 
     if (widget.type == ReviewType.edit) {
       _textEditingController!.text = widget.review!.comment;
@@ -150,7 +158,7 @@ class _ReviewPageState extends State<ReviewPage> {
                 .updateReview(outputReview);
           }
 
-          showDialog(
+          await showDialog(
             context: context,
             builder: (builderContext) {
               return AlertDialog(
@@ -161,12 +169,18 @@ class _ReviewPageState extends State<ReviewPage> {
                     child: Column(
                       children: [
                         (passed)
-                            ? const SizedBox(
+                            ? SizedBox(
                                 width: 100,
                                 height: 100,
                                 child: rive.RiveAnimation.asset(
-                                  controllers: [],
                                   'assets/rive/success.riv',
+                                  // onInit: (artboard) => setState(() {
+                                  //   final controller =
+                                  //       rive.StateMachineController
+                                  //           .fromArtboard(artboard, 'Test');
+                                  //   artboard.addController(controller!);
+                                  // }),
+                                  controllers: [_animationController!],
                                 ),
                               )
                             : const SizedBox(
@@ -196,12 +210,9 @@ class _ReviewPageState extends State<ReviewPage> {
                 ),
               );
             },
-          );
-          Future.delayed(const Duration(milliseconds: 2000),
-              () => Navigator.of(context).pop());
-          if (passed) {
-            Navigator.of(context).pop();
-          }
+          ).then((_) {
+            if (passed) Navigator.of(context).pop();
+          });
         },
         backgroundColor: Colors.green,
         label: Center(

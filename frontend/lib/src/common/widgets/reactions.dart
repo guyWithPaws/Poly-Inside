@@ -113,7 +113,6 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
     _likeCounter!.value += _isLikedNotifier!.value ? -1 : 0;
     _isLikedNotifier!.value = false;
 
-    debugPrint(widget.reaction.toString());
 
     _isDislikedNotifier!.value
         ? _dislikeAnimationController?.forward()
@@ -128,6 +127,14 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
 
     _isDislikedNotifier = ValueNotifier(false);
     _isLikedNotifier = ValueNotifier(false);
+    if (widget.reaction!.id.isNotEmpty) {
+      debugPrint('huuuui ${widget.reaction!.type.toString()}');
+      if (widget.reaction!.type == 1) {
+        _isLikedNotifier!.value = true;
+      } else if (widget.reaction!.type == 0){
+        _isDislikedNotifier!.value = true;
+      }
+    }
 
     _likeAnimationController = AnimationController(
       vsync: this,
@@ -164,7 +171,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: _onLikeTap,
+                onTap: UserScope.userOf(context).id != widget.review!.userId
+                    ? _onLikeTap
+                    : null,
                 child: ScaleTransition(
                   scale: Tween<double>(
                     begin: 1.0,
@@ -207,7 +216,9 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: _onDislikeTap,
+                onTap: UserScope.userOf(context).id != widget.review!.userId
+                    ? _onDislikeTap
+                    : null,
                 child: ScaleTransition(
                   scale: Tween<double>(
                     begin: 1.0,

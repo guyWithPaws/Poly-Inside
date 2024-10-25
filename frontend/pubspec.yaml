@@ -87,7 +87,8 @@ flutter:
   assets:
     - assets/icons/no_photo.svg
     - assets/icons/
-    - assets/rive/
+    - assets/rive/error.riv
+    - assets/rive/success.riv
     - assets/icons/check.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see

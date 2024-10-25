@@ -260,7 +260,12 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                     ),
                                     const SizedBox(width: 8),
                                     Container(
-                                      width: 20,
+                                      width: professors.isNotEmpty
+                                          ? professors.length
+                                                  .toString()
+                                                  .length *
+                                              20
+                                          : 30,
                                       height: 26,
                                       decoration: BoxDecoration(
                                         color: const Color.fromARGB(

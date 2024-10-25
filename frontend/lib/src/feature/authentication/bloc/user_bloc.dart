@@ -10,7 +10,7 @@ import 'package:shared/shared.dart';
 
 part 'user_bloc.freezed.dart';
 
-int? getId() => 12345678;
+int? getId() => 1234567890;
 String? getGroup() => '5132704/30003';
 
 class UserBloc extends Bloc<UserEvent, UserState> {

@@ -6,8 +6,8 @@ import 'package:shared/shared.dart';
 Future<int> main([List<String>? args]) async {
   // ignore: unused_local_variable
   final channel = ClientChannel(
-    '127.0.0.1',
-    port: 9090,
+    'localhost',
+    port: 8080,
     options: const ChannelOptions(
       credentials: ChannelCredentials.insecure(),
     ),
@@ -18,11 +18,8 @@ Future<int> main([List<String>? args]) async {
   var stream = client.getListProfessorsByGroup(
       ListProfessorsByGroupRequest(count: 10, group: '5132704/30003'));
 
-  stream.listen((data) {
-    for (final t in data.professors) {
-      print(t.name);
-    }
-  });
+  var test =
+      client.getReviewWithProfessor(ReviewsByUserIdRequest(id: 12345678));
 
   return 0;
 }
