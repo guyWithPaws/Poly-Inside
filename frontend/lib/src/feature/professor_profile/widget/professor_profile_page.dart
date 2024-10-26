@@ -46,6 +46,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   ValueNotifier<int>? _sortingValueNotifier;
+  ValueNotifier<bool>? _buttonVisibilityNotifier;
   ProfessorDataBLoC? _bloc;
   late Professor professor;
 
@@ -56,6 +57,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     _scrollController?.addListener(scrollListener);
     _valueNotifier = ValueNotifier(false);
     _sortingValueNotifier = ValueNotifier(0);
+    _buttonVisibilityNotifier = ValueNotifier(true);
 
     super.initState();
     // Initial state initialization
@@ -63,13 +65,14 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
 
   void scrollListener() {
     if (_scrollController?.position.pixels ==
-            _scrollController?.position.minScrollExtent ||
-        _scrollController?.position.minScrollExtent ==
-            _scrollController?.position.maxScrollExtent) {
-      _valueNotifier?.value = false;
+        _scrollController?.position.minScrollExtent) {
+      _valueNotifier!.value = false;
+    } else if (_scrollController?.position.pixels ==
+        _scrollController?.position.maxScrollExtent) {
+      _buttonVisibilityNotifier!.value = false;
     } else {
-      debugPrint(_scrollController?.position.toString());
-      _valueNotifier?.value = true;
+      _buttonVisibilityNotifier!.value = true;
+      _valueNotifier!.value = true;
     }
   }
 
@@ -108,26 +111,32 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     return Scaffold(
       floatingActionButton: ValueListenableBuilder(
         valueListenable: _valueNotifier!,
-        builder: (context, value, _) => FloatingActionButton.extended(
-          onPressed: () {
-            value
-                ? _scrollController?.animateTo(0,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut)
-                : Navigator.of(context)
-                    .pushNamed('/review', arguments: professor);
-          },
-          backgroundColor: Colors.green,
-          label: AnimatedSize(
-            duration: const Duration(milliseconds: 150),
-            child: Center(
-              child: value
-                  ? const Icon(Icons.arrow_upward)
-                  : const Text(
-                      'Написать отзыв',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-                    ),
+        builder: (context, value, _) => ValueListenableBuilder(
+          valueListenable: _buttonVisibilityNotifier!,
+          builder: (context, visibilityValue, _) => Visibility(
+            visible: visibilityValue,
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                value
+                    ? _scrollController?.animateTo(0,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut)
+                    : Navigator.of(context)
+                        .pushNamed('/review', arguments: professor);
+              },
+              backgroundColor: Colors.green,
+              label: AnimatedSize(
+                duration: const Duration(milliseconds: 150),
+                child: Center(
+                  child: value
+                      ? const Icon(Icons.arrow_upward)
+                      : const Text(
+                          'Написать отзыв',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
+                ),
+              ),
             ),
           ),
         ),
@@ -237,65 +246,69 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               orElse: () => const SliverToBoxAdapter(
                 child: SizedBox(),
               ),
-              loaded: (professors) => SliverToBoxAdapter(
-                child: professors.isNotEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Text(
-                                      "Отзывы",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Container(
-                                      width: professors.isNotEmpty
-                                          ? professors.length
-                                                  .toString()
-                                                  .length *
-                                              20
-                                          : 30,
-                                      height: 26,
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 233, 252, 232),
-                                        borderRadius: BorderRadius.circular(7),
-                                      ),
-                                      child: Center(
-                                        child: AnimatedFlipCounter(
-                                          value: professors.length,
-                                          duration:
-                                              const Duration(milliseconds: 200),
-                                          textStyle: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+              loaded: (professors) {
+                return SliverToBoxAdapter(
+                  child: professors.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Отзывы",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                                SortButton(
-                                    valueNotifier: _sortingValueNotifier,
-                                    type: SortingType.reviews),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    : const SizedBox(),
-              ),
+                                      const SizedBox(width: 8),
+                                      Container(
+                                        width: professors.isNotEmpty
+                                            ? professors.length
+                                                    .toString()
+                                                    .length *
+                                                20
+                                            : 30,
+                                        height: 26,
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 233, 252, 232),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        child: Center(
+                                          child: AnimatedFlipCounter(
+                                            value: professors.length,
+                                            duration: const Duration(
+                                                milliseconds: 200),
+                                            textStyle: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SortButton(
+                                      valueNotifier: _sortingValueNotifier,
+                                      type: SortingType.reviews),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
+                );
+              },
             ),
             bloc: _bloc,
           ),
@@ -304,25 +317,34 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               orElse: () => const SliverToBoxAdapter(
                 child: SizedBox(),
               ),
-              loaded: (professors) => SliverList.separated(
-                itemCount: professors.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 16),
-                itemBuilder: (context, index) {
-                  return ReviewTitle(
-                    review: professors[index].review,
-                    professor: professor,
-                    user: professors[index].user,
-                    reaction: professors[index].reaction,
-                  );
-                },
-              ),
+              loaded: (professors) {
+                if (professors.isEmpty) {
+                  if (_valueNotifier!.value) {
+                    _valueNotifier!.value = false;
+                    WidgetsBinding.instance
+                        .addPostFrameCallback((_) => setState(() {}));
+                  }
+                }
+                return SliverList.separated(
+                  itemCount: professors.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 16),
+                  itemBuilder: (context, index) {
+                    return ReviewTitle(
+                      review: professors[index].review,
+                      professor: professor,
+                      user: professors[index].user,
+                      reaction: professors[index].reaction,
+                    );
+                  },
+                );
+              },
             ),
             bloc: _bloc,
           ),
           const SliverToBoxAdapter(
             child: SizedBox(
-              height: 100,
+              height: 16,
             ),
           )
         ],

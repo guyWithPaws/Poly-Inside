@@ -85,7 +85,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/icons/no_photo.svg
     - assets/icons/
     - assets/rive/error.riv
     - assets/rive/success.riv

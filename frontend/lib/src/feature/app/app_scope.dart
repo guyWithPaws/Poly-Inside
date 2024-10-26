@@ -5,7 +5,7 @@ import 'package:poly_inside/src/common/theme.dart';
 import 'package:poly_inside/src/common/widgets/error_page.dart';
 import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:poly_inside/src/feature/professor_profile/widget/professor_profile_page.dart';
-import 'package:poly_inside/src/feature/review/review_page.dart';
+import 'package:poly_inside/src/feature/review/widget/review_page.dart';
 import 'package:shared/shared.dart';
 
 /// {@template app}

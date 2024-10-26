@@ -28,6 +28,13 @@ services:
       - "9090:9090"
     networks:
       - dev
+    volumes:
+      - './backend/db.sqlite:/backend/db.sqlite'
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend/lib/
+
 
   # frontend:
   #   build:

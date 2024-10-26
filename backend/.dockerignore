@@ -6,3 +6,9 @@ build/
 .github/
 .gitignore
 .packages
+tests/
+sqlite3.dll
+server.log
+Makefile
+LICENSE
+README.md

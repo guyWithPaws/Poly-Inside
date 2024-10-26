@@ -127,14 +127,14 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
 
     _isDislikedNotifier = ValueNotifier(false);
     _isLikedNotifier = ValueNotifier(false);
-    if (widget.reaction!.id.isNotEmpty) {
-      debugPrint('huuuui ${widget.reaction!.type.toString()}');
-      if (widget.reaction!.type == 1) {
-        _isLikedNotifier!.value = true;
-      } else if (widget.reaction!.type == 0){
-        _isDislikedNotifier!.value = true;
-      }
-    }
+    // if (widget.reaction!.id.isNotEmpty) {
+    //   debugPrint('huuuui ${widget.reaction!.type.toString()}');
+    //   if (widget.reaction!.type == 1) {
+    //     _isLikedNotifier!.value = true;
+    //   } else if (widget.reaction!.type == 0){
+    //     _isDislikedNotifier!.value = true;
+    //   }
+    // }
 
     _likeAnimationController = AnimationController(
       vsync: this,

@@ -13,7 +13,7 @@ import 'package:shared/shared.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:crypto/crypto.dart';
 
-import '../../common/enums/review_type.dart';
+import '../../../common/enums/review_type.dart';
 
 /// {@template review_page}
 /// ReviewPage widget.

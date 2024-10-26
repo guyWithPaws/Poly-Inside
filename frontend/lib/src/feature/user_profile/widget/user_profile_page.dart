@@ -90,21 +90,18 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: ValueListenableBuilder(
-        valueListenable: _valueNotifier!,
-        builder: (_, value, child) => Visibility(
-          visible: _valueNotifier!.value,
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              _scrollController?.animateTo(0,
-                  duration: scrollDuration, curve: Curves.easeInOut);
-            },
-            backgroundColor: Colors.green,
-            label: const AnimatedSize(
-              duration: Duration(milliseconds: 150),
-              child: Center(
-                child: Icon(CupertinoIcons.up_arrow),
-              ),
+      floatingActionButton: Visibility(
+        visible: _valueNotifier!.value,
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            _scrollController?.animateTo(0,
+                duration: scrollDuration, curve: Curves.easeInOut);
+          },
+          backgroundColor: Colors.green,
+          label: const AnimatedSize(
+            duration: Duration(milliseconds: 150),
+            child: Center(
+              child: Icon(CupertinoIcons.up_arrow),
             ),
           ),
         ),
@@ -325,7 +322,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Row(
                                   children: [
                                     const Text(
-                                      "Отзывы",
+                                      "Мои отзывы",
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600,

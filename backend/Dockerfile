@@ -2,11 +2,13 @@ FROM dart:3.6.0-216.1.beta-sdk AS build
 
 RUN apt-get update && apt-get install -y sqlite3 libsqlite3-dev
 
+#RUN apt install -y sqlite3 libsqlite3-dev
+
 WORKDIR /backend
 COPY pubspec.* ./
 
 COPY . .
-COPY db.sqlite /backend/db.sqlite
+# COPY db.sqlite /backend/db.sqlite
 
 RUN dart pub get
 
