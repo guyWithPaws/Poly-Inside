@@ -1,4 +1,13 @@
-.exe
-.local-chrome
-db_1.sqlite
-db.sqlite
+# исполняемые файлы
+*.exe
+
+# папка с файлами headless браузера
+.local-chrome/
+
+# файлы базы данных
+*.sqlite
+
+# временные файлы и файлы системы
+*.log
+*.tmp
+.DS_Store
