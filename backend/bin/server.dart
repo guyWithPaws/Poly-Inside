@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:async';
 import 'dart:io';
 
@@ -17,9 +19,7 @@ Future<void> main() async {
       await runZonedGuarded(
         () async {
           final logger = Logger(file: file);
-          // ignore: cascade_invocations
-          logger.start();
-          // await Filter.instance.initializeAsyncLoaders();
+          
           final database = AppDatabase(NativeDatabase(File('db.sqlite')));
           final provider = DatabaseProviderImpl(database: database);
 
@@ -33,12 +33,7 @@ Future<void> main() async {
           await server.serve(port: 9090);
           l.i('[Server]: Server is listening on port ${server.port}');
         },
-        (e, st) {
-          // file
-          //   ..writeAsStringSync(e.toString())
-          //   ..writeAsStringSync(st.toString());
-          // l.e(e, st);
-        },
+        (e, st) {},
       );
     },
     LogOptions(

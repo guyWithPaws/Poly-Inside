@@ -9,14 +9,21 @@ import 'package:poly_inside_server/validator/validator.dart';
 import 'package:shared/shared.dart';
 
 class GRPCService extends SearchServiceBase {
-  GRPCService({required this.provider});
   final DatabaseProviderImpl provider;
+
+  final FileDataLoader dataLoader = FileDataLoader();
+  final TextProcessor textProcessor = TextProcessor();
+  late final Filter filter;
+
+  GRPCService({required this.provider}) {
+    filter = Filter(dataLoader: dataLoader, textProcessor: textProcessor);
+  }
 
   @override
   Future<AddReviewResponse> addReview(ServiceCall call, Review request) async {
     l.v('Client with ip: ${call.remoteAddress!.address}');
 
-    final passed = Filter.instance.check(request.comment);
+    final passed = filter.check(request.comment);
     if (passed) {
       await provider.addReview(request);
       l.v('Add review with id: ${request.id}');

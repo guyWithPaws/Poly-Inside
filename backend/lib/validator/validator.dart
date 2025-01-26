@@ -3,56 +3,19 @@ import 'dart:io';
 
 import 'package:l/l.dart';
 
-extension on String {
-  static final RegExp unneccessarySpace = RegExp(r'\s+');
-  static final RegExp unnecessarySymbols = RegExp('[0-9|.|,|!|?|/]');
-  static final RegExp tooShortWords = RegExp(r'\b[a-z]{1,2}\b');
+class FileDataLoader {
+  final File jsonFile = File('/assets/alphabet.json');
+  final File txtFile = File('/assets/bad_words.txt');
 
-  List<String> makeBeautiful() => replaceAll(unnecessarySymbols, ' ')
-      .replaceAll(tooShortWords, ' ')
-      .replaceAll(unneccessarySpace, ' ')
-      .toLowerCase()
-      .split(' ')
-      .toList();
-}
-
-class Filter {
-  late String originalMessage;
-
-  Map<String, String> alphabet = {};
-  List<String> badWords = [];
-  List<String> messageWords = [];
-
-  static File jsonFile = File('/assets/alphabet.json');
-  static File txtFile = File('/assets/bad_words.txt');
-  static int numberOfBadWords = 4;
-
-  Filter._();
-  static final Filter instance = Filter._();
-
-  bool check(String userMessage) {
-    originalMessage = userMessage;
-    messageWords = originalMessage.makeBeautiful();
-    return messageAnalyzer();
-  }
-
-  Future<void> initializeAsyncLoaders() async {
-    alphabet = await loadAlphabetFromJsonFile();
-    badWords = await loadWordsFromFile();
-    l.i('[Filter]: Filter initialization was successful');
-  }
-
-  Future<List<String>> loadWordsFromFile() async {
+  Future<Set<String>> loadWordsFromFile() async {
     final contents = await txtFile.readAsLines(encoding: const Utf8Codec());
     final badWords = <String>{};
 
     for (final word in contents) {
-      if (word.isNotEmpty) {
-        badWords.add(word.toLowerCase());
-      }
+      if (word.isNotEmpty) badWords.add(word);
     }
 
-    return badWords.toList();
+    return badWords;
   }
 
   Future<Map<String, String>> loadAlphabetFromJsonFile() async {
@@ -67,8 +30,43 @@ class Filter {
         }
       }
     }
-
     return alphabet;
+  }
+}
+
+class TextProcessor {
+  final RegExp unneccessarySpace = RegExp(r'\s+');
+  final RegExp unnecessarySymbols = RegExp('[0-9|.|,|!|?|/]');
+  final RegExp tooShortWords = RegExp(r'\b[a-z]{1,2}\b');
+
+  List<String> makeBeautiful(String input) => input
+      .replaceAll(unnecessarySymbols, ' ')
+      .replaceAll(tooShortWords, ' ')
+      .replaceAll(unneccessarySpace, ' ')
+      .toLowerCase()
+      .split(' ')
+      .toList();
+}
+
+class Filter {
+  final FileDataLoader dataLoader;
+  final TextProcessor textProcessor;
+
+  late Map<String, String> alphabet;
+  late Set<String> badWords;
+  late List<String> messageWords;
+
+  Filter({required this.dataLoader, required this.textProcessor});
+
+  Future<void> initializeAsyncLoaders() async {
+    alphabet = await dataLoader.loadAlphabetFromJsonFile();
+    badWords = await dataLoader.loadWordsFromFile();
+    l.i('[Filter]: Filter initialization was successful');
+  }
+
+  bool check(String userMessage) {
+    messageWords = textProcessor.makeBeautiful(userMessage);
+    return messageAnalyzer();
   }
 
   bool messageAnalyzer() {
@@ -92,10 +90,9 @@ class Filter {
   }
 
   bool searchBadWord() {
-    var regExpBadWord = RegExp('');
     for (final word in messageWords) {
       for (final badWord in badWords) {
-        regExpBadWord = RegExp(badWord);
+        final regExpBadWord = RegExp(badWord);
         if (word.replaceAll(regExpBadWord, '').isEmpty) {
           return false;
         }
