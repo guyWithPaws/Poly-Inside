@@ -18,7 +18,8 @@ abstract class ProfessorProvider {
 
   Stream<List<Professor>> findProfessorByName(String name, int count);
   Future<List<Professor>> getOnceAllProfessors();
-  Future<void> addProfessorToGroup(String id, String number, String professorId);
+  Future<void> addProfessorToGroup(
+      String id, String number, String professorId);
 }
 
 abstract class ReviewProvider {
@@ -33,6 +34,7 @@ abstract class ReviewProvider {
   Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId);
 }
 
+// ignore: one_member_abstracts
 abstract class RejectedReviewProvider {
   // CRUD operations
   Future<void> addRejectedReview(Review review);

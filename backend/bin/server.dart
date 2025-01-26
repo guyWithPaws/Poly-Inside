@@ -6,6 +6,7 @@ import 'package:grpc/grpc.dart';
 import 'package:l/l.dart';
 import 'package:poly_inside_server/database/database.dart';
 import 'package:poly_inside_server/database/provider_impl.dart';
+import 'package:poly_inside_server/logger.dart';
 import 'package:poly_inside_server/parser/parser.dart';
 import 'package:poly_inside_server/service.dart';
 
@@ -15,6 +16,9 @@ Future<void> main() async {
     () async {
       await runZonedGuarded(
         () async {
+          final logger = Logger(file: file);
+          // ignore: cascade_invocations
+          logger.start();
           // await Filter.instance.initializeAsyncLoaders();
           final database = AppDatabase(NativeDatabase(File('db.sqlite')));
           final provider = DatabaseProviderImpl(database: database);
@@ -25,14 +29,15 @@ Future<void> main() async {
           final server = Server.create(services: [
             GRPCService(provider: provider),
           ], interceptors: []);
+          l.i('[Server]: Server starts!');
           await server.serve(port: 9090);
-          l.i('[Server]: Server is listening on ${server.port} port');
+          l.i('[Server]: Server is listening on port ${server.port}');
         },
         (e, st) {
-          file
-            ..writeAsStringSync(e.toString())
-            ..writeAsStringSync(st.toString());
-          l.e(e, st);
+          // file
+          //   ..writeAsStringSync(e.toString())
+          //   ..writeAsStringSync(st.toString());
+          // l.e(e, st);
         },
       );
     },

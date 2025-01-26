@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:l/l.dart';
 import 'package:poly_inside_server/database/database.dart';
 import 'package:poly_inside_server/database/provider.dart';
 import 'package:shared/shared.dart';
@@ -27,7 +26,6 @@ class DatabaseProviderImpl
       (database.select(database.professors)..limit(count))
           .watch()
           .asBroadcastStream();
-
 
   @override
   Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId) =>
@@ -411,6 +409,7 @@ class DatabaseProviderImpl
           ..where((f) => f.id.equals(reaction.reviewId)))
         .write(outputReviewsCompanion);
     await database.update(database.reactions).write(ReactionsCompanion(
+        // ignore: avoid_bool_literals_in_conditional_expressions
         liked: Value<bool>(reaction.type == 1 ? true : false)));
   }
 

@@ -352,6 +352,7 @@ class GroupsParser {
         professorsIdsAndNames =
             await databaseService.updateProfessorsIdsAndNames();
 
+        // ignore: lines_longer_than_80_chars
         // l.e('[Parser]: Error! Professor exists, but he is not on the staff page!');
         continue;
       }
