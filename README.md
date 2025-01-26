@@ -3,7 +3,7 @@ Flutter-based Telegram Web App for educational purposes with gRPC backend
 
 ## TODO
 Исправить:
-- парсер
+- ~~парсер~~
 - лайки
 - кеширование запросов
 - передача данных между экранами через BuildContext (сразу закроем проблему с обновлением данных)
