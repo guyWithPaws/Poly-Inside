@@ -10,7 +10,7 @@ Flutter-based Telegram Web App for educational purposes with gRPC backend
 - Редактирование профиля пользователя
 - Навести красоту (экраны загрузки, ошибок)
 - Бэкап данных
-- Продумать систему логгирования
+- ~~Продумать систему логгирования~~
 
 ## Flutter Reinstalling
 - Pavel -2
