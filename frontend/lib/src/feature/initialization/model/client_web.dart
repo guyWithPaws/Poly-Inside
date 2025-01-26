@@ -8,3 +8,11 @@ ClientChannel getChannel() {
     ),
   );
 }
+
+ClientChannel getLocalhostChannel() {
+  return GrpcWebClientChannel.xhr(
+    Uri.parse(
+      'http://127.0.0.1:8080',
+    ),
+  );
+}

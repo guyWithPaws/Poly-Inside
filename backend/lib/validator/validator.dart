@@ -23,8 +23,8 @@ class Filter {
   List<String> badWords = [];
   List<String> messageWords = [];
 
-  static File jsonFile = File('assets/alphabet.json');
-  static File txtFile = File('assets/bad_words.txt');
+  static File jsonFile = File('/assets/alphabet.json');
+  static File txtFile = File('/assets/bad_words.txt');
   static int numberOfBadWords = 4;
 
   Filter._();
@@ -72,10 +72,8 @@ class Filter {
   }
 
   bool messageAnalyzer() {
-    messageWords = messageWords
-        .map((word) =>
-            word.split('').map((letter) => alphabet[letter] ?? letter).join())
-        .toList();
+    messageWords =
+        messageWords.map((word) => word.split('').map((letter) => alphabet[letter] ?? letter).join()).toList();
 
     var localStorage = <String>[];
     for (var i = 0; i < messageWords.length; ++i) {

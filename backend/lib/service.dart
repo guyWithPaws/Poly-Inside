@@ -1,4 +1,7 @@
 // ignore: implementation_imports
+// ignore_for_file: lines_longer_than_80_chars
+
+// ignore: implementation_imports
 import 'package:grpc/src/server/call.dart';
 import 'package:l/l.dart';
 import 'package:poly_inside_server/database/provider_impl.dart';
@@ -7,7 +10,6 @@ import 'package:shared/shared.dart';
 
 class GRPCService extends SearchServiceBase {
   GRPCService({required this.provider});
-
   final DatabaseProviderImpl provider;
 
   @override
@@ -128,64 +130,6 @@ class GRPCService extends SearchServiceBase {
     }
   }
 
-  // @override
-  // Future<LikeResponse> addReviewReaction(
-  //     ServiceCall call, Reaction request) async {
-  //   if (request.type == 2) {
-  //     //var reaction = await provider.getReaction(request.id);
-  //     await provider.deleteReaction(
-  //         request.userId, request.professorId, request.reviewId);
-  //     var review = await provider.getReview(request.reviewId);
-  //     if (request.type == 1) {
-  //       review.likes -= 1;
-  //     } else {
-  //       review.dislikes -= 1;
-  //     }
-  //     await provider.updateReview(review);
-  //     // ignore: lines_longer_than_80_chars
-  //     l.v('Delete reaction with userId: ${request.userId} professorId: ${request.professorId} reviewId: ${request.reviewId}');
-  //   } else {
-  //     final response = await provider.isReactionExists(Reaction(
-  //       userId: request.userId,
-  //       professorId: request.professorId,
-  //       reviewId: request.reviewId,
-  //     ));
-  //     var review = await provider.getReview(request.reviewId);
-  //     if (request.type == 1 && response) {
-  //       review
-  //         ..likes += 1
-  //         ..dislikes -= 1;
-  //     } else if (request.type == 0 && response) {
-  //       review
-  //         ..likes -= 1
-  //         ..dislikes += 1;
-  //     }
-
-  //     if (response) {
-  //       await provider.updateReaction(Reaction(
-  //           id: request.id,
-  //           userId: request.userId,
-  //           professorId: request.professorId,
-  //           reviewId: request.reviewId,
-  //           type: request.type));
-
-  //       await provider.updateReview(review);
-  //       // ignore: lines_longer_than_80_chars
-  //       l.v('Update reaction with id ${request.id} to ${request.type == 1 ? 'like' : 'dislike'}');
-  //     } else {
-  //       await provider.addReaction(Reaction(
-  //           id: request.id,
-  //           userId: request.userId,
-  //           professorId: request.professorId,
-  //           reviewId: request.reviewId,
-  //           type: request.type));
-  //       l.v('Add ${request.type == 0 ? 'dislike' : 'like'} reaction');
-  //       await provider.updateReview(review);
-  //     }
-  //   }
-  //   return LikeResponse();
-  // }
-
   @override
   Stream<ListProfessorsByGroupResponce> getListProfessorsByGroup(
       ServiceCall call, ListProfessorsByGroupRequest request) async* {
@@ -219,8 +163,16 @@ class GRPCService extends SearchServiceBase {
   Future<ReactionResponse> updateReaction(
       ServiceCall call, Reaction request) async {
     await provider.updateReaction(request);
-    // ignore: lines_longer_than_80_chars
     l.v('Update reaction with id: ${request.id} to ${request.type == 1 ? 'like' : 'dislike'}');
     return ReactionResponse();
+  }
+
+  @override
+  Stream<GetListGroupsResponce> getListGroups(
+      ServiceCall call, GroupListRequest request) async* {
+    final data = provider.getGroups(request.count, request.group);
+    await for (final group in data) {
+      yield GetListGroupsResponce(groups: group);
+    }
   }
 }

@@ -35,8 +35,7 @@ class ReviewPage extends StatefulWidget {
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _ReviewPageState? maybeOf(BuildContext context) =>
-      context.findAncestorStateOfType<_ReviewPageState>();
+  static _ReviewPageState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_ReviewPageState>();
 
   @override
   State<ReviewPage> createState() => _ReviewPageState();
@@ -51,18 +50,21 @@ class _ReviewPageState extends State<ReviewPage> {
   ValueNotifier<double>? _valueHarshnessNotifier;
   ValueNotifier<double>? _valueObjectivityNotifier;
 
-  rive.RiveAnimationController? _animationController;
+  rive.RiveAnimationController? _successAnimationController;
+  rive.RiveAnimationController? _errorAnimationController;
 
   /* #region Lifecycle */
   @override
   void initState() {
     _textEditingController = TextEditingController();
 
-    _animationController = rive.OneShotAnimation(
+    _successAnimationController = rive.OneShotAnimation(
       'Comp 1', // Не менять название анимации
       autoplay: true,
       onStop: () => Navigator.of(context).pop(),
     );
+
+    _errorAnimationController = rive.OneShotAnimation('Comp 1', autoplay: true, onStop: () => Navigator.pop);
 
     if (widget.type == ReviewType.edit) {
       _textEditingController!.text = widget.review!.comment;
@@ -132,9 +134,7 @@ class _ReviewPageState extends State<ReviewPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          var reviewIdBytes = utf8.encode(
-              UserScope.userOf(context).id.toString() +
-                  DateTime.now().toString());
+          var reviewIdBytes = utf8.encode(UserScope.userOf(context).id.toString() + DateTime.now().toString());
           var generatedReviewId = sha1.convert(reviewIdBytes).toString();
           Review outputReview = Review(
               id: generatedReviewId,
@@ -150,12 +150,10 @@ class _ReviewPageState extends State<ReviewPage> {
               professorId: widget.professor.id);
           bool passed = true;
           if (widget.type == ReviewType.add) {
-            passed = await InitializationScope.repositoryOf(context)
-                .addReview(outputReview);
+            passed = await InitializationScope.repositoryOf(context).addReview(outputReview);
           } else {
             outputReview.id = widget.review!.id;
-            await InitializationScope.repositoryOf(context)
-                .updateReview(outputReview);
+            await InitializationScope.repositoryOf(context).updateReview(outputReview);
           }
 
           await showDialog(
@@ -174,13 +172,7 @@ class _ReviewPageState extends State<ReviewPage> {
                                 height: 100,
                                 child: rive.RiveAnimation.asset(
                                   'assets/rive/success.riv',
-                                  // onInit: (artboard) => setState(() {
-                                  //   final controller =
-                                  //       rive.StateMachineController
-                                  //           .fromArtboard(artboard, 'Test');
-                                  //   artboard.addController(controller!);
-                                  // }),
-                                  controllers: [_animationController!],
+                                  controllers: [_successAnimationController!],
                                 ),
                               )
                             : const SizedBox(
@@ -193,16 +185,11 @@ class _ReviewPageState extends State<ReviewPage> {
                         (passed)
                             ? AnimatedTextKit(
                                 isRepeatingAnimation: false,
-                                animatedTexts: [
-                                  TyperAnimatedText(
-                                      'Ваш отзыв успешно сохранён')
-                                ],
+                                animatedTexts: [TyperAnimatedText('Ваш отзыв успешно сохранён')],
                               )
                             : AnimatedTextKit(
                                 isRepeatingAnimation: false,
-                                animatedTexts: [
-                                  TyperAnimatedText('Проверьте свой отзыв')
-                                ],
+                                animatedTexts: [TyperAnimatedText('Проверьте свой отзыв')],
                               ),
                       ],
                     ),
@@ -216,8 +203,7 @@ class _ReviewPageState extends State<ReviewPage> {
         },
         backgroundColor: Colors.green,
         label: Center(
-          child:
-              Text(widget.type == ReviewType.add ? 'Опубликовать' : 'Изменить'),
+          child: Text(widget.type == ReviewType.add ? 'Опубликовать' : 'Изменить'),
         ),
       ),
       body: Padding(
@@ -283,8 +269,7 @@ class _ReviewPageState extends State<ReviewPage> {
                 width: MediaQuery.of(context).size.width,
                 height: 170,
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 238, 249, 237),
-                    borderRadius: BorderRadius.circular(12)),
+                    color: const Color.fromARGB(255, 238, 249, 237), borderRadius: BorderRadius.circular(12)),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -344,16 +329,13 @@ class _ReviewPageState extends State<ReviewPage> {
               const SizedBox(
                 height: 16,
               ),
-              const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Оставьте комментарий:')),
+              const Align(alignment: Alignment.centerLeft, child: Text('Оставьте комментарий:')),
               const SizedBox(
                 height: 16,
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 238, 249, 237),
-                    borderRadius: BorderRadius.circular(12)),
+                    color: const Color.fromARGB(255, 238, 249, 237), borderRadius: BorderRadius.circular(12)),
                 width: MediaQuery.of(context).size.width,
                 child: GestureDetector(
                   onTap: () {},

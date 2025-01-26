@@ -5,6 +5,7 @@ service SearchService {
   rpc AddProfile (User) returns (AddProfileResponse);
   rpc UpdateProfile (User) returns (UpdateProfileResponse);
   rpc GetProfile(UserInfoByUserIdRequest) returns (User);
+  rpc GetListGroups(GroupListRequest) returns (stream GetListGroupsResponce);
 
   // Professor's methods
   rpc GetListProfessor(ListProfessorRequest) returns (stream GetListProfessorResponse);
@@ -26,6 +27,15 @@ service SearchService {
 
 message ListProfessorsByGroupResponce {
   repeated Professor professors = 1;
+}
+
+message GroupListRequest {
+  int32 count = 1;
+  string group = 2;
+}
+
+message GetListGroupsResponce {
+  repeated Group groups = 1;
 }
 
 message ReviewWithProfessorResponse{
@@ -125,6 +135,12 @@ message User {
   bytes avatar = 3;
   int32 rating = 4;
   string group = 5;
+}
+
+message Group {
+  string id = 1;
+  string number = 2;
+  string professorId = 3;
 }
 
 message Professor {

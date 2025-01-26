@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
   ValueNotifier<bool>? _valueNotifier;
   ValueNotifier<bool>? _isEditingProfile;
   ValueNotifier<int>? _sortingValueNotifier;
-  final TextEditingController _textEditingController = TextEditingController();
+  TextEditingController? _textEditingController;
 
   static const Duration scrollDuration = Duration(milliseconds: 500);
 
@@ -42,6 +42,8 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController?.addListener(scrollListener);
+
+    _textEditingController = TextEditingController();
 
     _valueNotifier = ValueNotifier(false);
     _isEditingProfile = ValueNotifier(false);
@@ -64,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void didChangeDependencies() {
-    _textEditingController.text = UserScope.userOf(context).name;
+    _textEditingController!.text = UserScope.userOf(context).name;
     // _bloc ??=
     //     ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
     //       ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
@@ -80,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void dispose() {
     _scrollController?.dispose();
     _valueNotifier?.dispose();
-    _textEditingController.dispose();
+    _textEditingController?.dispose();
     // _bloc?.close();
     // Permanent removal of a tree stent
     super.dispose();
@@ -139,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           .updateUser(
                         User(
                           id: UserScope.userOf(context).id,
-                          name: _textEditingController.text,
+                          name: _textEditingController!.text,
                         ),
                       );
                     }
@@ -208,10 +210,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         const SizedBox(height: 20),
                                         ElevatedButton(
                                           onPressed: () {
-                                            Navigator.pop(
-                                                context); // Закрываем модальное окно
-                                            _pickImage(
-                                                context); // Вызываем функцию выбора изображения
+                                            Navigator.pop(context);
+                                            _pickImage(context);
                                           },
                                           child:
                                               const Text('Выбрать из галереи'),
@@ -238,7 +238,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           valueListenable: _isEditingProfile!,
                           builder: (context, value, _) =>
                               ValueListenableBuilder(
-                            valueListenable: _textEditingController,
+                            valueListenable: _textEditingController!,
                             builder: (context, textValue, _) =>
                                 AnimatedContainer(
                               width: textValue.text.isNotEmpty &&
@@ -284,27 +284,43 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(
                           height: 8,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Группа:",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                        GestureDetector(
+                          onTap: () => showCupertinoModalBottomSheet(
+                            context: context,
+                            builder: (context) => SizedBox(
+                              height: MediaQuery.of(context).size.height - 100,
                             ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              UserScope.userOf(context).group,
-                              style: const TextStyle(
-                                fontSize: 16,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Группа:",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            )
-                          ],
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 3, vertical: 2),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.green),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.green[50]),
+                                child: Text(
+                                  UserScope.userOf(context).group,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),

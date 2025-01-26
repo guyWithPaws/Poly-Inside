@@ -5,8 +5,7 @@ abstract class ClientRepository {
   Future<void> addUser(User user);
   Future<User> getUserByUserId(int userId);
   Stream<GetListProfessorResponse> getAllProfessors(int i);
-  Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(
-      int count, String group);
+  Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(int count, String group);
   Stream<ReviewWithUserResponse> getAllReviewsByProfessor(String professorId);
   Future<bool> addReview(Review review);
   Future<void> updateReview(Review review);
@@ -17,6 +16,7 @@ abstract class ClientRepository {
   Future<void> addReaction(Reaction reaction);
   Future<void> deleteReaction(String id);
   Future<void> updateReaction(Reaction reaction);
+  Stream<GetListGroupsResponce> findGroup(int count, String number);
 }
 
 abstract class UserRepository {

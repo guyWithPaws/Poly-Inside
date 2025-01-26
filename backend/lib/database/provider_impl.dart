@@ -28,6 +28,7 @@ class DatabaseProviderImpl
           .watch()
           .asBroadcastStream();
 
+
   @override
   Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId) =>
       (database.select(database.reviews)
@@ -268,7 +269,7 @@ class DatabaseProviderImpl
 
   @override
   Future<List<Professor>> getOnceAllProfessors() async =>
-      await (database.select(database.professors)..limit(4000)).get();
+      await database.select(database.professors).get();
 
   @override
   Future<void> addRejectedReview(Review review) async {
@@ -455,4 +456,11 @@ class DatabaseProviderImpl
         .watch()
         .asBroadcastStream();
   }
+
+  @override
+  Stream<List<Group>> getGroups(int count, String number) =>
+      (database.select(database.groups)
+            ..where((u) => u.number.like('%$number%'))
+            ..limit(count))
+          .watch();
 }

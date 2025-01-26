@@ -14,8 +14,7 @@ class Skeletonizer extends StatefulWidget {
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _SkeletonizerState? maybeOf(BuildContext context) =>
-      context.findAncestorStateOfType<_SkeletonizerState>();
+  static _SkeletonizerState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_SkeletonizerState>();
 
   @override
   State<Skeletonizer> createState() => _SkeletonizerState();

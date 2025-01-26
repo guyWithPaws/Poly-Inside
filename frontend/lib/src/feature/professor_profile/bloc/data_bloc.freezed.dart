@@ -70,8 +70,7 @@ mixin _$ProfessorDataState {
 
 /// @nodoc
 abstract class $ProfessorDataStateCopyWith<$Res> {
-  factory $ProfessorDataStateCopyWith(
-          ProfessorDataState value, $Res Function(ProfessorDataState) then) =
+  factory $ProfessorDataStateCopyWith(ProfessorDataState value, $Res Function(ProfessorDataState) then) =
       _$ProfessorDataStateCopyWithImpl<$Res, ProfessorDataState>;
 }
 
@@ -92,19 +91,16 @@ class _$ProfessorDataStateCopyWithImpl<$Res, $Val extends ProfessorDataState>
 /// @nodoc
 abstract class _$$ProcessingProfessorStateImplCopyWith<$Res> {
   factory _$$ProcessingProfessorStateImplCopyWith(
-          _$ProcessingProfessorStateImpl value,
-          $Res Function(_$ProcessingProfessorStateImpl) then) =
+          _$ProcessingProfessorStateImpl value, $Res Function(_$ProcessingProfessorStateImpl) then) =
       __$$ProcessingProfessorStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$ProcessingProfessorStateImplCopyWithImpl<$Res>
-    extends _$ProfessorDataStateCopyWithImpl<$Res,
-        _$ProcessingProfessorStateImpl>
+    extends _$ProfessorDataStateCopyWithImpl<$Res, _$ProcessingProfessorStateImpl>
     implements _$$ProcessingProfessorStateImplCopyWith<$Res> {
   __$$ProcessingProfessorStateImplCopyWithImpl(
-      _$ProcessingProfessorStateImpl _value,
-      $Res Function(_$ProcessingProfessorStateImpl) _then)
+      _$ProcessingProfessorStateImpl _value, $Res Function(_$ProcessingProfessorStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfessorDataState
@@ -123,9 +119,7 @@ class _$ProcessingProfessorStateImpl extends ProcessingProfessorState {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ProcessingProfessorStateImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$ProcessingProfessorStateImpl);
   }
 
   @override
@@ -213,8 +207,8 @@ abstract class ProcessingProfessorState extends ProfessorDataState {
 
 /// @nodoc
 abstract class _$$IdleProfessorStateImplCopyWith<$Res> {
-  factory _$$IdleProfessorStateImplCopyWith(_$IdleProfessorStateImpl value,
-          $Res Function(_$IdleProfessorStateImpl) then) =
+  factory _$$IdleProfessorStateImplCopyWith(
+          _$IdleProfessorStateImpl value, $Res Function(_$IdleProfessorStateImpl) then) =
       __$$IdleProfessorStateImplCopyWithImpl<$Res>;
 }
 
@@ -222,8 +216,7 @@ abstract class _$$IdleProfessorStateImplCopyWith<$Res> {
 class __$$IdleProfessorStateImplCopyWithImpl<$Res>
     extends _$ProfessorDataStateCopyWithImpl<$Res, _$IdleProfessorStateImpl>
     implements _$$IdleProfessorStateImplCopyWith<$Res> {
-  __$$IdleProfessorStateImplCopyWithImpl(_$IdleProfessorStateImpl _value,
-      $Res Function(_$IdleProfessorStateImpl) _then)
+  __$$IdleProfessorStateImplCopyWithImpl(_$IdleProfessorStateImpl _value, $Res Function(_$IdleProfessorStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfessorDataState
@@ -242,8 +235,7 @@ class _$IdleProfessorStateImpl extends IdleProfessorState {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$IdleProfessorStateImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$IdleProfessorStateImpl);
   }
 
   @override
@@ -331,8 +323,8 @@ abstract class IdleProfessorState extends ProfessorDataState {
 
 /// @nodoc
 abstract class _$$ErrorProfessorStateImplCopyWith<$Res> {
-  factory _$$ErrorProfessorStateImplCopyWith(_$ErrorProfessorStateImpl value,
-          $Res Function(_$ErrorProfessorStateImpl) then) =
+  factory _$$ErrorProfessorStateImplCopyWith(
+          _$ErrorProfessorStateImpl value, $Res Function(_$ErrorProfessorStateImpl) then) =
       __$$ErrorProfessorStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object e});
@@ -342,8 +334,8 @@ abstract class _$$ErrorProfessorStateImplCopyWith<$Res> {
 class __$$ErrorProfessorStateImplCopyWithImpl<$Res>
     extends _$ProfessorDataStateCopyWithImpl<$Res, _$ErrorProfessorStateImpl>
     implements _$$ErrorProfessorStateImplCopyWith<$Res> {
-  __$$ErrorProfessorStateImplCopyWithImpl(_$ErrorProfessorStateImpl _value,
-      $Res Function(_$ErrorProfessorStateImpl) _then)
+  __$$ErrorProfessorStateImplCopyWithImpl(
+      _$ErrorProfessorStateImpl _value, $Res Function(_$ErrorProfessorStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfessorDataState
@@ -381,8 +373,7 @@ class _$ErrorProfessorStateImpl extends ErrorProfessorState {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
 
   /// Create a copy of ProfessorDataState
   /// with the given fields replaced by the non-null parameter values.
@@ -390,8 +381,7 @@ class _$ErrorProfessorStateImpl extends ErrorProfessorState {
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorProfessorStateImplCopyWith<_$ErrorProfessorStateImpl> get copyWith =>
-      __$$ErrorProfessorStateImplCopyWithImpl<_$ErrorProfessorStateImpl>(
-          this, _$identity);
+      __$$ErrorProfessorStateImplCopyWithImpl<_$ErrorProfessorStateImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -477,14 +467,13 @@ abstract class ErrorProfessorState extends ProfessorDataState {
   /// Create a copy of ProfessorDataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorProfessorStateImplCopyWith<_$ErrorProfessorStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ErrorProfessorStateImplCopyWith<_$ErrorProfessorStateImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$LoadedProfessorStateImplCopyWith<$Res> {
-  factory _$$LoadedProfessorStateImplCopyWith(_$LoadedProfessorStateImpl value,
-          $Res Function(_$LoadedProfessorStateImpl) then) =
+  factory _$$LoadedProfessorStateImplCopyWith(
+          _$LoadedProfessorStateImpl value, $Res Function(_$LoadedProfessorStateImpl) then) =
       __$$LoadedProfessorStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<ReviewWithUser> professors});
@@ -494,8 +483,8 @@ abstract class _$$LoadedProfessorStateImplCopyWith<$Res> {
 class __$$LoadedProfessorStateImplCopyWithImpl<$Res>
     extends _$ProfessorDataStateCopyWithImpl<$Res, _$LoadedProfessorStateImpl>
     implements _$$LoadedProfessorStateImplCopyWith<$Res> {
-  __$$LoadedProfessorStateImplCopyWithImpl(_$LoadedProfessorStateImpl _value,
-      $Res Function(_$LoadedProfessorStateImpl) _then)
+  __$$LoadedProfessorStateImplCopyWithImpl(
+      _$LoadedProfessorStateImpl _value, $Res Function(_$LoadedProfessorStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfessorDataState
@@ -539,23 +528,19 @@ class _$LoadedProfessorStateImpl extends LoadedProfessorState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedProfessorStateImpl &&
-            const DeepCollectionEquality()
-                .equals(other._professors, _professors));
+            const DeepCollectionEquality().equals(other._professors, _professors));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_professors));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_professors));
 
   /// Create a copy of ProfessorDataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoadedProfessorStateImplCopyWith<_$LoadedProfessorStateImpl>
-      get copyWith =>
-          __$$LoadedProfessorStateImplCopyWithImpl<_$LoadedProfessorStateImpl>(
-              this, _$identity);
+  _$$LoadedProfessorStateImplCopyWith<_$LoadedProfessorStateImpl> get copyWith =>
+      __$$LoadedProfessorStateImplCopyWithImpl<_$LoadedProfessorStateImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -633,8 +618,7 @@ class _$LoadedProfessorStateImpl extends LoadedProfessorState {
 }
 
 abstract class LoadedProfessorState extends ProfessorDataState {
-  const factory LoadedProfessorState(final List<ReviewWithUser> professors) =
-      _$LoadedProfessorStateImpl;
+  const factory LoadedProfessorState(final List<ReviewWithUser> professors) = _$LoadedProfessorStateImpl;
   const LoadedProfessorState._() : super._();
 
   List<ReviewWithUser> get professors;
@@ -642,6 +626,5 @@ abstract class LoadedProfessorState extends ProfessorDataState {
   /// Create a copy of ProfessorDataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedProfessorStateImplCopyWith<_$LoadedProfessorStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$LoadedProfessorStateImplCopyWith<_$LoadedProfessorStateImpl> get copyWith => throw _privateConstructorUsedError;
 }

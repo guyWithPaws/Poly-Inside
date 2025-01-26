@@ -21,6 +21,8 @@ dependencies:
   shared:
     path: shared
   image: ^4.2.0
+  puppeteer: ^3.16.0
+  intl: ^0.20.2
   # path: ^1.8.0
 
 dev_dependencies:

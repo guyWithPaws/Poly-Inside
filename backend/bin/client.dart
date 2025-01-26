@@ -15,11 +15,9 @@ Future<int> main([List<String>? args]) async {
 
   var client = SearchServiceClient(channel);
 
-  var stream = client.getListProfessorsByGroup(
-      ListProfessorsByGroupRequest(count: 10, group: '5132704/30003'));
+  var stream = client.getListProfessorsByGroup(ListProfessorsByGroupRequest(count: 10, group: '5132704/30003'));
 
-  var test =
-      client.getReviewWithProfessor(ReviewsByUserIdRequest(id: 12345678));
+  var test = client.getReviewWithProfessor(ReviewsByUserIdRequest(id: 12345678));
 
   return 0;
 }

@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:shared/shared.dart';
 // ignore: depend_on_referenced_packages
-import 'package:crypto/crypto.dart';
 
 class ClientRepositoryImpl implements ClientRepository {
   final SearchServiceClient client;
@@ -16,7 +13,7 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   @override
-  Future<void> addUser(User user) => client.addProfile(user);
+  Future<void> addUser(User user) async => await client.addProfile(user);
 
   @override
   Stream<GetListProfessorResponse> getAllProfessors(int count) =>
@@ -71,4 +68,8 @@ class ClientRepositoryImpl implements ClientRepository {
   @override
   Future<void> updateReaction(Reaction reaction) async =>
       await client.updateReaction(reaction);
+
+  @override
+  Stream<GetListGroupsResponce> findGroup(int count, String number) =>
+      client.getListGroups(GroupListRequest(count: count, group: number));
 }

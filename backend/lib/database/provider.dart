@@ -6,6 +6,7 @@ abstract class UserProvider {
   Future<bool> updateUser(User user);
 
   Future<User?> getUserByUserId(int userId);
+  Stream<List<Group>> getGroups(int count, String number);
 }
 
 abstract class ProfessorProvider {
@@ -17,8 +18,7 @@ abstract class ProfessorProvider {
 
   Stream<List<Professor>> findProfessorByName(String name, int count);
   Future<List<Professor>> getOnceAllProfessors();
-  Future<void> addProfessorToGroup(
-      String id, String number, String professorId);
+  Future<void> addProfessorToGroup(String id, String number, String professorId);
 }
 
 abstract class ReviewProvider {

@@ -23,10 +23,7 @@ class ListRequested extends HomePageEvent {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ListRequested &&
-          runtimeType == other.runtimeType &&
-          count == other.count;
+      identical(this, other) || other is ListRequested && runtimeType == other.runtimeType && count == other.count;
 }
 
 class AddListToState extends HomePageEvent {
@@ -39,9 +36,7 @@ class AddListToState extends HomePageEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AddListToState &&
-          runtimeType == other.runtimeType &&
-          professors == other.professors;
+      other is AddListToState && runtimeType == other.runtimeType && professors == other.professors;
 }
 
 class TextFieldChanged extends HomePageEvent {
@@ -53,28 +48,21 @@ class TextFieldChanged extends HomePageEvent {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is TextFieldChanged &&
-          runtimeType == other.runtimeType &&
-          name == other.name;
+      identical(this, other) || other is TextFieldChanged && runtimeType == other.runtimeType && name == other.name;
 }
 
 class SortingTypeChanged extends HomePageEvent {
   final int count;
   final String group;
   final int order;
-  SortingTypeChanged(
-      {required this.count, required this.group, required this.order});
+  SortingTypeChanged({required this.count, required this.group, required this.order});
 
   @override
   int get hashCode => order.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SortingTypeChanged &&
-          runtimeType == other.runtimeType &&
-          order == other.order;
+      identical(this, other) || other is SortingTypeChanged && runtimeType == other.runtimeType && order == other.order;
 }
 
 /// InitializationState data class
@@ -91,15 +79,12 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
   HomeBloc({required this.repository})
       : _controller = StreamController<List<Professor>>(),
         super(const HomePageState.idle()) {
-    _controller?.stream
-        .listen((event) => add(AddListToState(professors: event)));
-    on<AddListToState>(
-        (event, emit) => emit(HomePageState.loaded(event.professors)));
+    _controller?.stream.listen((event) => add(AddListToState(professors: event)));
+    on<AddListToState>((event, emit) => emit(HomePageState.loaded(event.professors)));
     on<ListRequested>(
       (event, emit) async {
         try {
-          final stream =
-              repository.getProfessorsByGroup(event.count, event.group);
+          final stream = repository.getProfessorsByGroup(event.count, event.group);
           stream.listen((e) => add(AddListToState(professors: e.professors)));
         } on Object catch (error, _) {
           emit(HomePageState.error(error));

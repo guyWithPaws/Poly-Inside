@@ -37,8 +37,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
   ValueNotifier<int>? _dislikeCounter;
 
   String _generateId(String professorId, String reviewId) {
-    var idBytes = utf8.encode(
-        UserScope.userOf(context).id.toString() + professorId + reviewId);
+    var idBytes = utf8.encode(UserScope.userOf(context).id.toString() + professorId + reviewId);
     var id = sha1.convert(idBytes).toString();
     return id;
   }
@@ -66,8 +65,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       );
     } else if (_isLikedNotifier!.value && !_isDislikedNotifier!.value) {
       debugPrint('Убрали лайк');
-      InitializationScope.repositoryOf(context)
-          .deleteReaction(_generateId(widget.professor!.id, widget.review!.id));
+      InitializationScope.repositoryOf(context).deleteReaction(_generateId(widget.professor!.id, widget.review!.id));
     }
     _isLikedNotifier!.value = !_isLikedNotifier!.value;
     _likeCounter!.value += _isLikedNotifier!.value ? 1 : -1;
@@ -75,9 +73,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
     _dislikeCounter!.value += _isDislikedNotifier!.value ? -1 : 0;
     _isDislikedNotifier!.value = false;
 
-    _isLikedNotifier!.value
-        ? _likeAnimationController?.forward()
-        : _likeAnimationController?.reverse();
+    _isLikedNotifier!.value ? _likeAnimationController?.forward() : _likeAnimationController?.reverse();
     _dislikeAnimationController!.reverse();
   }
 
@@ -104,8 +100,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
       );
     } else if (!_isLikedNotifier!.value && _isDislikedNotifier!.value) {
       debugPrint('Убрали дизлайк');
-      InitializationScope.repositoryOf(context)
-          .deleteReaction(_generateId(widget.professor!.id, widget.review!.id));
+      InitializationScope.repositoryOf(context).deleteReaction(_generateId(widget.professor!.id, widget.review!.id));
     }
     _isDislikedNotifier!.value = !_isDislikedNotifier!.value;
     _dislikeCounter!.value += _isDislikedNotifier!.value ? 1 : -1;
@@ -113,10 +108,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
     _likeCounter!.value += _isLikedNotifier!.value ? -1 : 0;
     _isLikedNotifier!.value = false;
 
-
-    _isDislikedNotifier!.value
-        ? _dislikeAnimationController?.forward()
-        : _dislikeAnimationController?.reverse();
+    _isDislikedNotifier!.value ? _dislikeAnimationController?.forward() : _dislikeAnimationController?.reverse();
     _likeAnimationController!.reverse();
   }
 
@@ -171,9 +163,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: UserScope.userOf(context).id != widget.review!.userId
-                    ? _onLikeTap
-                    : null,
+                onTap: UserScope.userOf(context).id != widget.review!.userId ? _onLikeTap : null,
                 child: ScaleTransition(
                   scale: Tween<double>(
                     begin: 1.0,
@@ -183,9 +173,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                     ReactionType.like.path,
                     alignment: Alignment.bottomRight,
                     colorFilter: ColorFilter.mode(
-                        isLiked
-                            ? const Color.fromARGB(255, 34, 166, 64)
-                            : const Color.fromARGB(255, 138, 138, 138),
+                        isLiked ? const Color.fromARGB(255, 34, 166, 64) : const Color.fromARGB(255, 138, 138, 138),
                         BlendMode.srcIn),
                   ),
                 ),
@@ -199,9 +187,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   value: likeCount,
                   duration: const Duration(milliseconds: 200),
                   textStyle: TextStyle(
-                    color: isLiked
-                        ? const Color.fromRGBO(0, 0, 0, 1)
-                        : const Color.fromARGB(255, 138, 138, 138),
+                    color: isLiked ? const Color.fromRGBO(0, 0, 0, 1) : const Color.fromARGB(255, 138, 138, 138),
                     fontWeight: isLiked ? FontWeight.w600 : FontWeight.w400,
                   ),
                 ),
@@ -216,9 +202,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: UserScope.userOf(context).id != widget.review!.userId
-                    ? _onDislikeTap
-                    : null,
+                onTap: UserScope.userOf(context).id != widget.review!.userId ? _onDislikeTap : null,
                 child: ScaleTransition(
                   scale: Tween<double>(
                     begin: 1.0,
@@ -228,10 +212,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                     ReactionType.dislike.path,
                     alignment: Alignment.bottomRight,
                     colorFilter: ColorFilter.mode(
-                        isDisliked
-                            ? Colors.red
-                            : const Color.fromARGB(255, 138, 138, 138),
-                        BlendMode.srcIn),
+                        isDisliked ? Colors.red : const Color.fromARGB(255, 138, 138, 138), BlendMode.srcIn),
                   ),
                 ),
               ),
@@ -244,9 +225,7 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
                   value: dislikeCount,
                   duration: const Duration(microseconds: 200),
                   textStyle: TextStyle(
-                    color: isDisliked
-                        ? Colors.black
-                        : const Color.fromARGB(255, 138, 138, 138),
+                    color: isDisliked ? Colors.black : const Color.fromARGB(255, 138, 138, 138),
                     fontWeight: isDisliked ? FontWeight.w600 : FontWeight.w400,
                   ),
                 ),

@@ -64,11 +64,9 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   }
 
   void scrollListener() {
-    if (_scrollController?.position.pixels ==
-        _scrollController?.position.minScrollExtent) {
+    if (_scrollController?.position.pixels == _scrollController?.position.minScrollExtent) {
       _valueNotifier!.value = false;
-    } else if (_scrollController?.position.pixels ==
-        _scrollController?.position.maxScrollExtent) {
+    } else if (_scrollController?.position.pixels == _scrollController?.position.maxScrollExtent) {
       _buttonVisibilityNotifier!.value = false;
     } else {
       _buttonVisibilityNotifier!.value = true;
@@ -84,13 +82,12 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
 
   @override
   void didChangeDependencies() {
-    _bloc ??=
-        ProfessorDataBLoC(repository: InitializationScope.repositoryOf(context))
-          ..add(
-            ProfessorDataRequested(
-              professorId: widget.professorId,
-            ),
-          );
+    _bloc ??= ProfessorDataBLoC(repository: InitializationScope.repositoryOf(context))
+      ..add(
+        ProfessorDataRequested(
+          professorId: widget.professorId,
+        ),
+      );
     super.didChangeDependencies();
     // The configuration of InheritedWidgets has changed
     // Also called after initState but before build
@@ -119,10 +116,8 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               onPressed: () {
                 value
                     ? _scrollController?.animateTo(0,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut)
-                    : Navigator.of(context)
-                        .pushNamed('/review', arguments: professor);
+                        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut)
+                    : Navigator.of(context).pushNamed('/review', arguments: professor);
               },
               backgroundColor: Colors.green,
               label: AnimatedSize(
@@ -132,8 +127,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                       ? const Icon(Icons.arrow_upward)
                       : const Text(
                           'Написать отзыв',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                         ),
                 ),
               ),
@@ -167,8 +161,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
               orElse: () => const Placeholder(),
               loaded: (professors) {
                 _valueNotifier!.value = professors.isEmpty;
-                professor =
-                    professors.where((e) => e.id == widget.professorId).first;
+                professor = professors.where((e) => e.id == widget.professorId).first;
                 return SliverList(
                   delegate: SliverChildListDelegate(
                     [
@@ -181,15 +174,12 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                               child: CircleAvatar(
                                   backgroundColor: Colors.grey[200],
                                   radius: 69,
-                                  backgroundImage: Uint8List.fromList(
-                                              professor.avatar)
-                                          .isNotEmpty
+                                  backgroundImage: Uint8List.fromList(professor.avatar).isNotEmpty
                                       ? MemoryImage(
                                           Uint8List.fromList(professor.avatar),
                                         )
                                       : null,
-                                  child: Uint8List.fromList(professor.avatar)
-                                          .isEmpty
+                                  child: Uint8List.fromList(professor.avatar).isEmpty
                                       ? SvgPicture.asset(
                                           'assets/icons/no_photo.svg',
                                           width: 69,
@@ -201,8 +191,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                               child: Text(
                                 textAlign: TextAlign.center,
                                 professor.name.capitalize(),
-                                style: const TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.w600),
+                                style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
                               ),
                             ),
                             Row(
@@ -257,8 +246,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                 height: 8,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -271,24 +259,16 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                       ),
                                       const SizedBox(width: 8),
                                       Container(
-                                        width: professors.isNotEmpty
-                                            ? professors.length
-                                                    .toString()
-                                                    .length *
-                                                20
-                                            : 30,
+                                        width: professors.isNotEmpty ? professors.length.toString().length * 20 : 30,
                                         height: 26,
                                         decoration: BoxDecoration(
-                                          color: const Color.fromARGB(
-                                              255, 233, 252, 232),
-                                          borderRadius:
-                                              BorderRadius.circular(7),
+                                          color: const Color.fromARGB(255, 233, 252, 232),
+                                          borderRadius: BorderRadius.circular(7),
                                         ),
                                         child: Center(
                                           child: AnimatedFlipCounter(
                                             value: professors.length,
-                                            duration: const Duration(
-                                                milliseconds: 200),
+                                            duration: const Duration(milliseconds: 200),
                                             textStyle: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -298,9 +278,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                                       )
                                     ],
                                   ),
-                                  SortButton(
-                                      valueNotifier: _sortingValueNotifier,
-                                      type: SortingType.reviews),
+                                  SortButton(valueNotifier: _sortingValueNotifier, type: SortingType.reviews),
                                 ],
                               ),
                             ],
@@ -321,14 +299,12 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                 if (professors.isEmpty) {
                   if (_valueNotifier!.value) {
                     _valueNotifier!.value = false;
-                    WidgetsBinding.instance
-                        .addPostFrameCallback((_) => setState(() {}));
+                    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
                   }
                 }
                 return SliverList.separated(
                   itemCount: professors.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 16),
+                  separatorBuilder: (context, index) => const SizedBox(height: 16),
                   itemBuilder: (context, index) {
                     return ReviewTitle(
                       review: professors[index].review,

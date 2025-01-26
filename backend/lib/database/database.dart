@@ -19,6 +19,7 @@ class Professors extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
+@UseRowClass(Group)
 class Groups extends Table {
   TextColumn get id => text()();
   TextColumn get number => text()();
@@ -88,8 +89,7 @@ class Reviews extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DriftDatabase(
-    tables: [Professors, Users, Reviews, RejectedReviews, Reactions, Groups])
+@DriftDatabase(tables: [Professors, Users, Reviews, RejectedReviews, Reactions, Groups])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 

@@ -21,8 +21,7 @@ import '../../../common/widgets/sort_button.dart';
 /// {@endtemplate}
 class HomePage extends StatefulWidget {
   // ignore: library_private_types_in_public_api
-  static _HomePageState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_HomePageState>();
+  static _HomePageState? of(BuildContext context) => context.findAncestorStateOfType<_HomePageState>();
 
   /// {@macro home_page}
   const HomePage({
@@ -55,8 +54,7 @@ class _HomePageState extends State<HomePage> {
     _valueNotifier = ValueNotifier(false);
     _scrollController = ScrollController()
       ..addListener(() {
-        if (_scrollController?.position.pixels ==
-            _scrollController?.position.maxScrollExtent) {
+        if (_scrollController?.position.pixels == _scrollController?.position.maxScrollExtent) {
           count += 20;
           _bloc?.add(
             ListRequested(
@@ -65,8 +63,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         }
-        if (_scrollController?.position.pixels !=
-            _scrollController?.position.minScrollExtent) {
+        if (_scrollController?.position.pixels != _scrollController?.position.minScrollExtent) {
           _valueNotifier!.value = true;
         } else {
           _valueNotifier!.value = false;
@@ -107,9 +104,8 @@ class _HomePageState extends State<HomePage> {
         count: count,
         group: UserScope.userOf(context).group,
       ));
-    _profileDataBLoC ??=
-        ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
-          ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
+    _profileDataBLoC ??= ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
+      ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
     _searchBloc ??= HomeBloc(
       repository: InitializationScope.repositoryOf(context),
     );
@@ -135,8 +131,7 @@ class _HomePageState extends State<HomePage> {
           visible: _valueNotifier!.value,
           child: FloatingActionButton.extended(
             onPressed: () {
-              _scrollController?.animateTo(0,
-                  duration: scrollDuration, curve: Curves.easeInOut);
+              _scrollController?.animateTo(0, duration: scrollDuration, curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -210,8 +205,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         'Мои преподаватели',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         width: 8,
@@ -254,21 +248,18 @@ class _HomePageState extends State<HomePage> {
                                 sorted = sorted.reversed.toList();
                                 break;
                               case 2:
-                                sorted.sort(
-                                    (a, b) => a.rating.compareTo(b.rating));
+                                sorted.sort((a, b) => a.rating.compareTo(b.rating));
                                 sorted = sorted.reversed.toList();
                                 break;
                               case 3:
-                                sorted.sort(
-                                    (a, b) => a.rating.compareTo(b.rating));
+                                sorted.sort((a, b) => a.rating.compareTo(b.rating));
 
                                 break;
                             }
                             return ListView.separated(
                               controller: _scrollController,
                               itemCount: sorted.length,
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(
+                              separatorBuilder: (context, index) => const SizedBox(
                                 height: 25,
                               ),
                               itemBuilder: (context, index) {
@@ -277,10 +268,7 @@ class _HomePageState extends State<HomePage> {
                                     onTap: () {
                                       Navigator.of(context).pushNamed(
                                         '/professor',
-                                        arguments: [
-                                          sorted[index],
-                                          isTyping ? _searchBloc : _bloc
-                                        ],
+                                        arguments: [sorted[index], isTyping ? _searchBloc : _bloc],
                                       );
                                       _textEditingController?.clear();
                                       _node?.unfocus();
@@ -298,20 +286,17 @@ class _HomePageState extends State<HomePage> {
                                             Hero(
                                               tag: sorted[index].id,
                                               child: CircleAvatar(
-                                                backgroundColor:
-                                                    Colors.grey[200],
+                                                backgroundColor: Colors.grey[200],
                                                 radius: 27,
-                                                backgroundImage:
-                                                    Uint8List.fromList(
+                                                backgroundImage: Uint8List.fromList(
                                                   sorted[index].avatar,
                                                 ).isNotEmpty
-                                                        ? MemoryImage(
-                                                            Uint8List.fromList(
-                                                              sorted[index]
-                                                                  .avatar,
-                                                            ),
-                                                          )
-                                                        : null,
+                                                    ? MemoryImage(
+                                                        Uint8List.fromList(
+                                                          sorted[index].avatar,
+                                                        ),
+                                                      )
+                                                    : null,
                                                 child: Uint8List.fromList(
                                                   sorted[index].avatar,
                                                 ).isEmpty
@@ -326,20 +311,14 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                             Expanded(
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    sorted[index]
-                                                        .name
-                                                        .capitalize(),
+                                                    sorted[index].name.capitalize(),
                                                     style: const TextStyle(
                                                       fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600,
+                                                      fontWeight: FontWeight.w600,
                                                     ),
                                                   ),
                                                   Stack(
@@ -348,31 +327,23 @@ class _HomePageState extends State<HomePage> {
                                                         spaceBetween: 8,
                                                         textSize: 16,
                                                         size: 20,
-                                                        value: sorted[index]
-                                                            .rating,
+                                                        value: sorted[index].rating,
                                                       ),
                                                       Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
+                                                        alignment: Alignment.centerRight,
                                                         child: Column(
                                                           children: [
                                                             const SizedBox(
                                                               height: 3,
                                                             ),
                                                             Text(
-                                                              (sorted[index]
-                                                                          .rating ==
-                                                                      0)
+                                                              (sorted[index].rating == 0)
                                                                   ? 'нет отзывов'
                                                                   : '${sorted[index].reviewsCount} ${reviewInRussian.formatReview(sorted[index].reviewsCount)}',
-                                                              style:
-                                                                  const TextStyle(
+                                                              style: const TextStyle(
                                                                 fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: Color
-                                                                    .fromARGB(
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Color.fromARGB(
                                                                   255,
                                                                   138,
                                                                   138,
@@ -424,12 +395,9 @@ class _InheritedProfessorScope extends InheritedWidget {
 
   final Professor professor;
 
-  static _InheritedProfessorScope? maybeOf(BuildContext context,
-          {bool listen = true}) =>
-      listen
-          ? context
-              .dependOnInheritedWidgetOfExactType<_InheritedProfessorScope>()
-          : context.getInheritedWidgetOfExactType<_InheritedProfessorScope>();
+  static _InheritedProfessorScope? maybeOf(BuildContext context, {bool listen = true}) => listen
+      ? context.dependOnInheritedWidgetOfExactType<_InheritedProfessorScope>()
+      : context.getInheritedWidgetOfExactType<_InheritedProfessorScope>();
   static Professor professorOf(BuildContext context) =>
       maybeOf(context)?.professor ?? _notFoundInheritedWidgetOfExactType();
 

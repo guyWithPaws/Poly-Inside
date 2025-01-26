@@ -1,2 +1,4 @@
-*.exe
-server.exe
+.exe
+.local-chrome
+db_1.sqlite
+db.sqlite

@@ -70,8 +70,7 @@ mixin _$InitializationState {
 
 /// @nodoc
 abstract class $InitializationStateCopyWith<$Res> {
-  factory $InitializationStateCopyWith(
-          InitializationState value, $Res Function(InitializationState) then) =
+  factory $InitializationStateCopyWith(InitializationState value, $Res Function(InitializationState) then) =
       _$InitializationStateCopyWithImpl<$Res, InitializationState>;
 }
 
@@ -91,18 +90,14 @@ class _$InitializationStateCopyWithImpl<$Res, $Val extends InitializationState>
 
 /// @nodoc
 abstract class _$$ProcessingImplCopyWith<$Res> {
-  factory _$$ProcessingImplCopyWith(
-          _$ProcessingImpl value, $Res Function(_$ProcessingImpl) then) =
+  factory _$$ProcessingImplCopyWith(_$ProcessingImpl value, $Res Function(_$ProcessingImpl) then) =
       __$$ProcessingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ProcessingImplCopyWithImpl<$Res>
-    extends _$InitializationStateCopyWithImpl<$Res, _$ProcessingImpl>
+class __$$ProcessingImplCopyWithImpl<$Res> extends _$InitializationStateCopyWithImpl<$Res, _$ProcessingImpl>
     implements _$$ProcessingImplCopyWith<$Res> {
-  __$$ProcessingImplCopyWithImpl(
-      _$ProcessingImpl _value, $Res Function(_$ProcessingImpl) _then)
-      : super(_value, _then);
+  __$$ProcessingImplCopyWithImpl(_$ProcessingImpl _value, $Res Function(_$ProcessingImpl) _then) : super(_value, _then);
 
   /// Create a copy of InitializationState
   /// with the given fields replaced by the non-null parameter values.
@@ -120,8 +115,7 @@ class _$ProcessingImpl extends Processing {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProcessingImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$ProcessingImpl);
   }
 
   @override
@@ -209,17 +203,13 @@ abstract class Processing extends InitializationState {
 
 /// @nodoc
 abstract class _$$IdleImplCopyWith<$Res> {
-  factory _$$IdleImplCopyWith(
-          _$IdleImpl value, $Res Function(_$IdleImpl) then) =
-      __$$IdleImplCopyWithImpl<$Res>;
+  factory _$$IdleImplCopyWith(_$IdleImpl value, $Res Function(_$IdleImpl) then) = __$$IdleImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$IdleImplCopyWithImpl<$Res>
-    extends _$InitializationStateCopyWithImpl<$Res, _$IdleImpl>
+class __$$IdleImplCopyWithImpl<$Res> extends _$InitializationStateCopyWithImpl<$Res, _$IdleImpl>
     implements _$$IdleImplCopyWith<$Res> {
-  __$$IdleImplCopyWithImpl(_$IdleImpl _value, $Res Function(_$IdleImpl) _then)
-      : super(_value, _then);
+  __$$IdleImplCopyWithImpl(_$IdleImpl _value, $Res Function(_$IdleImpl) _then) : super(_value, _then);
 
   /// Create a copy of InitializationState
   /// with the given fields replaced by the non-null parameter values.
@@ -237,8 +227,7 @@ class _$IdleImpl extends Idle {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$IdleImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$IdleImpl);
   }
 
   @override
@@ -326,20 +315,15 @@ abstract class Idle extends InitializationState {
 
 /// @nodoc
 abstract class _$$ErrorImplCopyWith<$Res> {
-  factory _$$ErrorImplCopyWith(
-          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
-      __$$ErrorImplCopyWithImpl<$Res>;
+  factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object e});
 }
 
 /// @nodoc
-class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$InitializationStateCopyWithImpl<$Res, _$ErrorImpl>
+class __$$ErrorImplCopyWithImpl<$Res> extends _$InitializationStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
-  __$$ErrorImplCopyWithImpl(
-      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
-      : super(_value, _then);
+  __$$ErrorImplCopyWithImpl(_$ErrorImpl _value, $Res Function(_$ErrorImpl) _then) : super(_value, _then);
 
   /// Create a copy of InitializationState
   /// with the given fields replaced by the non-null parameter values.
@@ -370,22 +354,18 @@ class _$ErrorImpl extends Error {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ErrorImpl &&
-            const DeepCollectionEquality().equals(other.e, e));
+        (other.runtimeType == runtimeType && other is _$ErrorImpl && const DeepCollectionEquality().equals(other.e, e));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
 
   /// Create a copy of InitializationState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -471,25 +451,21 @@ abstract class Error extends InitializationState {
   /// Create a copy of InitializationState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$InitializedImplCopyWith<$Res> {
-  factory _$$InitializedImplCopyWith(
-          _$InitializedImpl value, $Res Function(_$InitializedImpl) then) =
+  factory _$$InitializedImplCopyWith(_$InitializedImpl value, $Res Function(_$InitializedImpl) then) =
       __$$InitializedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({ClientRepository repository});
 }
 
 /// @nodoc
-class __$$InitializedImplCopyWithImpl<$Res>
-    extends _$InitializationStateCopyWithImpl<$Res, _$InitializedImpl>
+class __$$InitializedImplCopyWithImpl<$Res> extends _$InitializationStateCopyWithImpl<$Res, _$InitializedImpl>
     implements _$$InitializedImplCopyWith<$Res> {
-  __$$InitializedImplCopyWithImpl(
-      _$InitializedImpl _value, $Res Function(_$InitializedImpl) _then)
+  __$$InitializedImplCopyWithImpl(_$InitializedImpl _value, $Res Function(_$InitializedImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of InitializationState
@@ -526,8 +502,7 @@ class _$InitializedImpl extends Initialized {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitializedImpl &&
-            (identical(other.repository, repository) ||
-                other.repository == repository));
+            (identical(other.repository, repository) || other.repository == repository));
   }
 
   @override
@@ -617,8 +592,7 @@ class _$InitializedImpl extends Initialized {
 }
 
 abstract class Initialized extends InitializationState {
-  const factory Initialized(final ClientRepository repository) =
-      _$InitializedImpl;
+  const factory Initialized(final ClientRepository repository) = _$InitializedImpl;
   const Initialized._() : super._();
 
   ClientRepository get repository;
@@ -626,6 +600,5 @@ abstract class Initialized extends InitializationState {
   /// Create a copy of InitializationState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$InitializedImplCopyWith<_$InitializedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$InitializedImplCopyWith<_$InitializedImpl> get copyWith => throw _privateConstructorUsedError;
 }
