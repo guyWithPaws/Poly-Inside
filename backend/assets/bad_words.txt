@@ -19,7 +19,8 @@ spam
 xyй
 xyя
 xyёв
-xуе,xуй
+xуе
+xуй
 xую
 zaeb
 zaebal
