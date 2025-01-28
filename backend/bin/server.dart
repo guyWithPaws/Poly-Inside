@@ -10,7 +10,6 @@ import 'package:poly_inside_server/database/database.dart';
 import 'package:poly_inside_server/database/provider_impl.dart';
 import 'package:poly_inside_server/logger.dart';
 import 'package:poly_inside_server/parser/parser.dart';
-import 'package:poly_inside_server/scheduler/scheduler.dart';
 import 'package:poly_inside_server/service.dart';
 
 Future<void> main() async {

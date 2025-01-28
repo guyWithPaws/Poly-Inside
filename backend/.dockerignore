@@ -12,3 +12,5 @@ server.log
 Makefile
 LICENSE
 README.md
+.local-chrome
+

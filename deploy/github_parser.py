@@ -12,10 +12,10 @@ class GithubParser:
         self.track_changes()
     
     def parse_webpage(self) -> LxmlSoup:
-        logging.info('[Parser]: Trying parse webpage')
+        logging.info('[GithubParser]: Trying parse webpage')
         try:
             html = requests.get(self.url).text
-            logging.info('[Parser]: Get html document')
+            logging.info('[GithubParser]: Get html document')
         except Exception as e:
             logging.error(e)
 
@@ -23,12 +23,12 @@ class GithubParser:
         return soup
 
     def track_changes(self) -> bool:
-        logging.info('[Parser]: Track changes')
+        logging.info('[GithubParser]: Track changes')
         soup = self.parse_webpage()
         data = soup.find_all('span', class_='fgColor-default')
 
         commit = data[0].text().split()[0]
-        logging.info(f'[Parser]: Commits: {commit}')
+        logging.info(f'[GithubParser]: Commits: {commit}')
         if (commit != self.current_commit):
             self.current_commit = commit
             return True
