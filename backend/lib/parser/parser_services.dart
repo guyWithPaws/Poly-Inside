@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
@@ -7,6 +8,8 @@ import 'package:image/image.dart' as img;
 import 'package:l/l.dart';
 import 'package:poly_inside_server/database/provider_impl.dart';
 import 'package:poly_inside_server/parser/parser_data.dart';
+import 'package:poly_inside_server/parser/progress_bar.dart';
+import 'package:puppeteer/protocol/cache_storage.dart';
 import 'package:puppeteer/puppeteer.dart';
 import 'package:shared/shared.dart';
 
@@ -41,13 +44,20 @@ class ClickerService {
   static const Duration duration = Duration(milliseconds: 500);
 
   Future<List<GroupData>> getAllGroupsLinks(List<String> links) async {
+    await downloadChrome();
     var browser = await puppeteer.launch();
+    l.i('Puppeteer has started!');
 
     var page = await browser.newPage();
 
     var groupsLinks = <GroupData>[];
 
+    var counter = 0;
+    var progressBar = ProgressBar(totalLength: links.length);
     for (final link in links) {
+      counter++;
+
+      progressBar.update(counter);
       groupsLinks.addAll(await getGroupData(page, link));
     }
 
@@ -73,8 +83,6 @@ class ClickerService {
           });
         })();
         ''');
-
-      await Future<void>.delayed(duration);
 
       for (final level in educationLevels) {
         await page.evaluate<void>('''
@@ -157,7 +165,7 @@ class ImageService {
 
 class DatabaseService {
   final DatabaseProviderImpl provider;
-  late final List<Professor> professorsData;
+  late List<Professor> professorsData;
   late final List<String> professorsNames;
 
   DatabaseService._({
@@ -169,9 +177,9 @@ class DatabaseService {
   }
 
   static Future<DatabaseService> create(DatabaseProviderImpl provider) async {
-    final professorsData = await provider.getOnceAllProfessors();
+    final professorsData_ = await provider.getOnceAllProfessors();
     return DatabaseService._(
-        provider: provider, professorsData: professorsData);
+        provider: provider, professorsData: professorsData_);
   }
 
   Future<void> addProfessor(
