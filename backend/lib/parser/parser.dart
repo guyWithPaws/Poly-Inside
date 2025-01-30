@@ -1,14 +1,11 @@
 // ignore_for_file: cascade_invocations
 
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
-import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -99,31 +96,31 @@ class Parser {
     }
 
     l.i('[Parser]: Downloading professors links!');
-    // var professorsLinks = professorsParser.getProfessorsLinks(response);
+    var professorsLinks = professorsParser.getProfessorsLinks(response);
 
     var counter = 0;
-    // var totalProfessorsNumber = multiplier * professorsLinks.length;
-    // l.i('[Parser]: Total professors count: $totalProfessorsNumber');
+    var totalProfessorsNumber = multiplier * professorsLinks.length;
+    l.i('[Parser]: Total professors count: $totalProfessorsNumber');
 
-    // var progressBar =
-    //     ProgressBar(totalLength: totalProfessorsNumber, multiplier: multiplier);
+    var progressBar =
+        ProgressBar(totalLength: totalProfessorsNumber, multiplier: multiplier);
 
-    var maxAsyncRequests = 15;
+    var maxAsyncRequests = 20;
     var tasks = <Future<void>>[];
-    // for (final link in professorsLinks) {
-    //   counter++;
+    for (final link in professorsLinks) {
+      counter++;
 
-    //   progressBar.update(counter);
+      progressBar.update(counter);
 
-    //   tasks.add(professorsParser.parseProfessorPage(link));
+      tasks.add(professorsParser.parseProfessorPage(link));
 
-    //   if (tasks.length >= maxAsyncRequests) {
-    //     await Future.wait(tasks);
-    //     tasks.clear();
-    //   }
-    // }
+      if (tasks.length >= maxAsyncRequests) {
+        await Future.wait(tasks);
+        tasks.clear();
+      }
+    }
 
-    // await Future.wait(tasks);
+    await Future.wait(tasks);
 
     try {
       response = await httpClientService.get(Uri.parse(mainSchedulePage));
@@ -143,7 +140,7 @@ class Parser {
     var totalNumberOfGroupLinks = groupsLinks.length;
 
     l.i('[Parser]: Total groups count: $totalNumberOfGroupLinks');
-    var progressBar = ProgressBar(totalLength: totalNumberOfGroupLinks);
+    progressBar = ProgressBar(totalLength: totalNumberOfGroupLinks);
 
     maxAsyncRequests = 20;
     counter = 0;
@@ -205,11 +202,6 @@ class ProfessorsParser {
     return linksToProfessors;
   }
 
-  Future<Professor> getProfessorData(Document professorPage, int number) async {
-    
-    return Professor();
-  }
-
   Future<void> parseProfessorPage(String professorUrl) async {
     late final http.Response response;
     try {
@@ -231,6 +223,8 @@ class ProfessorsParser {
             .getElementsByClassName('col-sm-9 col-md-10')[number]
             .children[0]
             .text
+            .trimLeft()
+            .trimRight()
             .toLowerCase();
 
         if (databaseService.professorsNames.contains(professorName)) continue;
@@ -362,13 +356,25 @@ class GroupsParser {
     return professors.toSet().toList();
   }
 
+  Future<String> findMisteryProfessor(String misteryProfessor,
+      List<Map<String, String>> professorsIdsAndNames) async {
+    var professorsNames = professorsIdsAndNames.map((data) => data['name']!);
+    for (final partOfMisteryProfessor in misteryProfessor.split(' ')) {
+      if (professorsNames.contains(partOfMisteryProfessor)) {
+        var id = professorsIdsAndNames.firstWhere(
+            (data) => data['name']! == partOfMisteryProfessor)['id'];
+        return id!;
+      }
+    }
+    return 'Not found';
+  }
+
   Future<List<String>> matchNameWithId(List<String> professors) async {
-    var professorsId = <String>[];
+    var professorsId = <String>{};
     databaseService.professorsData = await provider.getOnceAllProfessors();
     var professorsIdsAndNames =
         await databaseService.getProfessorsIdsAndNames();
 
-    print(professorsIdsAndNames.length);
     for (final professor in professors) {
       var professorsNames = professorsIdsAndNames.map((data) => data['name']);
       if (professorsNames.contains(professor)) {
@@ -376,26 +382,20 @@ class GroupsParser {
             .firstWhere((data) => data['name']! == professor)['id'];
         professorsId.add(id!);
       } else {
-        print('$professor Not in database');
+        var result =
+            await findMisteryProfessor(professor, professorsIdsAndNames);
+        if (result != 'Not found') {
+          professorsId.add(result);
+        } else {
+          await addProfessorIfHeNotExists(professor);
+          databaseService.professorsData =
+              await provider.getOnceAllProfessors();
+          professorsIdsAndNames =
+              await databaseService.getProfessorsIdsAndNames();
+        }
       }
-      // try {
-      //   var testNames = professorsIdsAndNames.map((data) => data['name']);
-      //   print(professor + testNames.contains(professor).toString());
-      //   var id = professorsIdsAndNames
-      //       .firstWhere((data) => data['name']! == professor)['id'];
-      //   professorsId.add(id!);
-      // } on Object {
-      //   file.writeAsStringSync(professor + '\n', mode: FileMode.append);
-      //   await addProfessorIfHeNotExists(professor);
-      //   professorsIdsAndNames =
-      //       await databaseService.updateProfessorsIdsAndNames();
-
-      //   // ignore: lines_longer_than_80_chars
-      //   // l.e('[Parser]: Error! Professor exists, but he is not on the staff page!');
-      //   continue;
-      // }
     }
-    return professorsId;
+    return professorsId.toList();
   }
 
   Future<void> addProfessorIfHeNotExists(String professorName) async {

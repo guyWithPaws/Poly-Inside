@@ -1,8 +1,15 @@
 networks:
   dev:
-
+    driver: bridge
 
 services:
+
+  db:
+    build: ./backend/lib/database
+    volumes:
+      - './backend/db.sqlite:/db/db.sqlite'
+    restart: always
+
   envoy:
     build: ./proxy/envoy
     ports:
@@ -12,14 +19,16 @@ services:
     depends_on:
       - backend
 
-  # nginx:
-  #   build: ./proxy/nginx
-  #   networks:
-  #     - dev
-  #   depends_on:
-  #     - envoy
-  #     - backend
-  #     - frontend
+  nginx:
+    build: ./proxy/nginx
+    ports:
+      - "80:80"
+    networks:
+      - dev
+    depends_on:
+      - envoy
+      - backend
+      # - frontend
 
   backend:
     build:
@@ -28,14 +37,12 @@ services:
       - "9090:9090"
     networks:
       - dev
-    volumes:
-      - './backend/db.sqlite:/backend/db.sqlite'
+    # volumes:
+    #   - './backend/db.sqlite:/backend/db.sqlite'
     develop:
       watch:
         - action: rebuild
           path: ./backend/lib/
-
-
   # frontend:
   #   build:
   #     context: ./frontend
@@ -48,5 +55,3 @@ services:
   #   build: ./bot
   # networks:
   #   - dev
-  # depends_on:
-  #   - nginx

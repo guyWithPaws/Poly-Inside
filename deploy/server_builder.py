@@ -4,7 +4,6 @@ from time import sleep
 
 from deploy.github_parser import GithubParser
 
-
 class ServerBuilder:
     def __init__(self):
         self.parser = GithubParser()
@@ -23,7 +22,7 @@ class ServerBuilder:
 
     def run_docker(self):
         logging.info('[Builder]: Docker compose up')
-        subprocess.run(["docker", "compose", "watch"])
+        subprocess.run(["docker", "compose", "up", "--build"])
 
     def run(self):  
         while True:
