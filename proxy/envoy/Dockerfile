@@ -8,5 +8,7 @@ RUN ls -l /usr/local/bin/func-e
 
 COPY envoy.yaml /etc/envoy/envoy.yaml
 
+EXPOSE 8080
+
 CMD [ "/usr/local/bin/func-e", "run", "-c", "/etc/envoy/envoy.yaml" ]
 

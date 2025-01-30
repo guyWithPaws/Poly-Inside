@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
@@ -9,7 +8,6 @@ import 'package:l/l.dart';
 import 'package:poly_inside_server/database/provider_impl.dart';
 import 'package:poly_inside_server/parser/parser_data.dart';
 import 'package:poly_inside_server/parser/progress_bar.dart';
-import 'package:puppeteer/protocol/cache_storage.dart';
 import 'package:puppeteer/puppeteer.dart';
 import 'package:shared/shared.dart';
 
@@ -46,7 +44,6 @@ class ClickerService {
   Future<List<GroupData>> getAllGroupsLinks(List<String> links) async {
     await downloadChrome();
     var browser = await puppeteer.launch();
-    l.i('Puppeteer has started!');
 
     var page = await browser.newPage();
 

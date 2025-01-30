@@ -23,15 +23,16 @@ class GRPCService extends SearchServiceBase {
   Future<AddReviewResponse> addReview(ServiceCall call, Review request) async {
     l.v('Client with ip: ${call.remoteAddress!.address}');
 
-    final passed = filter.check(request.comment);
-    if (passed) {
-      await provider.addReview(request);
-      l.v('Add review with id: ${request.id}');
-    } else {
-      await provider.addRejectedReview(request);
-      l.v('Add rejected review with id: ${request.id}}');
-    }
-    return AddReviewResponse()..passed = passed;
+    // final passed = filter.check(request.comment);
+    await provider.addReview(request);
+    l.v('Add review with id: ${request.id}');
+    // if (passed) {
+
+    // } else {
+    //   await provider.addRejectedReview(request);
+    //   l.v('Add rejected review with id: ${request.id}}');
+    // }
+    return AddReviewResponse()..passed = true;
   }
 
   @override
