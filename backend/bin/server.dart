@@ -20,7 +20,7 @@ Future<void> main() async {
         () async {
           final logger = Logger(file: file);
           
-          final database = AppDatabase(NativeDatabase(File('/db/db.sqlite')));
+          final database = AppDatabase(NativeDatabase(File('db.sqlite')));
           final provider = DatabaseProviderImpl(database: database);
 
           final parser = await Parser.create(provider);
