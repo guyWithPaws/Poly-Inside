@@ -1,4 +1,7 @@
 import 'package:drift/drift.dart';
+import 'package:drift_postgres/drift_postgres.dart';
+import 'package:postgres/postgres.dart';
+import 'package:postgres/postgres.dart' as pg;
 import 'package:shared/shared.dart';
 
 part 'database.g.dart';
@@ -92,10 +95,25 @@ class Reviews extends Table {
 @DriftDatabase(
     tables: [Professors, Users, Reviews, RejectedReviews, Reactions, Groups])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase(super.e);
+  AppDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 4;
+
+  static QueryExecutor _openConnection() => PgDatabase(
+        endpoint: pg.Endpoint(
+            host: 'database',
+            database: 'postgres_db', // Имя вашей базы данных
+            username: 'postgres_user', // Имя пользователя
+            password: 'postgres_password',
+            port: 5432),
+        settings: const ConnectionSettings(
+          // If you expect to talk to a Postgres database over
+          // a public connection,
+          // please use SslMode.verifyFull instead.
+          sslMode: SslMode.disable,
+        ),
+      );
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
