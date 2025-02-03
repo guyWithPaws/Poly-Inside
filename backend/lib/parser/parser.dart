@@ -17,7 +17,7 @@ import 'package:poly_inside_server/parser/progress_bar.dart';
 import 'package:shared/shared.dart';
 
 Future<void> main() async {
-  final database = AppDatabase(NativeDatabase(File('db.sqlite')));
+  final database = AppDatabase();
   final provider = DatabaseProviderImpl(database: database);
 
   final parser = await Parser.create(provider);
