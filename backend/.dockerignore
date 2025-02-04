@@ -1,16 +1,29 @@
-.dockerignore
-Dockerfile
+# folders
 build/
+test/
 .dart_tool/
 .git/
 .github/
+tests/
+.local-chrome/
+
+# files
+*.sqlite
+*.dll
+*.md
+*.log
+*.lock
+*.sh
+
+.dockerignore
 .gitignore
 .packages
-tests/
-sqlite3.dll
-server.log
+
+devtools_options.yaml
+Dockerfile
+database.g.dart
 Makefile
 LICENSE
-README.md
-.local-chrome
+
+
 

@@ -1,0 +1,29 @@
+# ignore folders
+.dart_tool/
+.idea/
+.vscode/
+build/
+android/
+ios/
+test/
+linux/
+macos/
+windows/
+.git/
+.github/
+logs/
+node_modules/
+
+# ignore files
+.metadata
+.packages
+pubspec.lock
+.env
+.env.*
+.DS_Store
+.flutter-plugins
+.flutter-plugins-dependencies
+.gitignore
+Dockerfile
+*.lock
+*.md
