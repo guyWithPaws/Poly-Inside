@@ -1,43 +1,30 @@
-FROM debian:buster-slim
+ARG VERSION="stable"
 
-ENV DEBIAN_FRONTEND=noninteractive
+FROM plugfox/flutter:${VERSION} as builder
 
-RUN apt-get update && \
-    apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback python3 && \
-    apt-get clean
+# Setup flutter tools for web developement
+RUN set -eux; flutter config --no-analytics --enable-web \
+    && flutter precache --universal --web
 
-ENV DEBIAN_FRONTEND=dialog
-ENV PUB_HOSTED_URL=https://pub.flutter-io.cn
-ENV FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+# Add lables
+LABEL name="plugfox/flutter:${VERSION}-web" \
+    description="Alpine with flutter & dart for web" \
+    flutter.channel="${VERSION}" \
+    flutter.version="${VERSION}"
 
-# download Flutter SDK from Flutter Github repo
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+# By default
+# USER root
+COPY ./shared /shared
+WORKDIR /build
+SHELL [ "/bin/bash", "-c" ]
+COPY ./frontend .
+RUN flutter pub get && flutter build web
 
-# Set flutter environment path
-ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
+# test ngrok
+FROM python:3.9-slim
 
-RUN flutter config --no-enable-android && \
-    flutter config --no-enable-ios && \
-    flutter config --no-enable-windows && \
-    flutter config --no-enable-linux
+COPY --from=builder /build/build/web /app
 
-RUN rm -rf /usr/local/flutter/bin/cache/artifacts/engine/android-arm-release && \
-    rm -rf /usr/local/flutter/bin/cache/artifacts/engine/android-arm64-release && \
-    rm -rf /usr/local/flutter/bin/cache/artifacts/engine/android-x64-release && \
-    rm -rf /usr/local/flutter/bin/cache/artifacts/engine/windows-x64-release
+WORKDIR /app
 
-RUN flutter doctor
-
-# Copy files to container and build
-# RUN mkdir /app/
-# COPY . /app/
-# WORKDIR /app/
-# RUN flutter build web
-
-# Record the exposed port
-EXPOSE 9000
-
-# make server startup script executable and start the web server
-# RUN ["chmod", "+x", "/app/server/server.sh"]
-
-# ENTRYPOINT [ "/app/server/server.sh"]
+CMD ["python", "-m", "http.server", "8081"]
