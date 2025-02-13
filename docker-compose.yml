@@ -1,6 +1,6 @@
-
 services:
   envoy:
+    container_name: envoy
     build: ./proxy/envoy
     ports:
       - "8080:8080"
@@ -10,6 +10,7 @@ services:
       - server
 
   nginx:
+    container_name: nginx
     build: ./proxy/nginx
     ports:
       - "80:80"
@@ -19,19 +20,21 @@ services:
       - envoy
       - server
 
-  ngrok:
-    build: ./proxy/ngrok
-    networks:
-      - dev
-    ports:
-      - "4040:4040"
-    depends_on:
-      - web-builder
+  # ngrok:
+  #   container_name: ngrok
+  #   build: ./proxy/ngrok
+  #   networks:
+  #     - dev
+  #   ports:
+  #     - "4040:4040"
+  #   depends_on:
+  #     - web_builder
 
   server:
+    container_name: server
     build:
       context: .
-      dockerfile: ./backend/Dockerfile
+      dockerfile: ./backend/server/Dockerfile
     ports:
       - "9090:9090"
     networks:
@@ -44,26 +47,26 @@ services:
       - database
 
   # parser:
-  #   build: 
-  #     context: ./backend/lib/parser
+  #   container_name: parser
+  #   build:
+  #     context: .
+  #     dockerfile: ./backend/parser/Dockerfile
   #   networks:
   #     - dev
   #   depends_on:
   #     - database
+
+  # web_builder:
+  #   container_name: web_builder
+  #   build:
+  #     context: .
+  #     dockerfile: ./frontend/Dockerfile
+  #   networks:
+  #     - dev
+  #   ports:
+  #     - "8081:8081"
+  #   depends_on:
   #     - server
-
-  web-builder:
-    build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
-    networks:
-      - dev
-    ports:
-      - "8081:8081"
-    depends_on:
-      - server
-
-
 
   database:
     image: postgres:latest
