@@ -17,7 +17,7 @@ Flutter-based Telegram Web App for educational purposes with gRPC backend
 - Goxa -3
 - Arseniy - 2
 
-### Notes for Devs
+## Notes for Devs
 Чтобы подключится к текущей сессии с рабочей версией проекта - вводить команду
 ```
 tmux attach -t server
