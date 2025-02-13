@@ -10,4 +10,4 @@ RUN apt update && apt install -y curl && \
 # yup i khow it's bad to do that...
 RUN ngrok config add-authtoken 2rzPq43fo2WTUUdhUR20J8gtBuf_78754y2RpvL65J9DVvqSm
 
-CMD ["ngrok", "http", "--url=infinite-cow-hip.ngrok-free.app", "web-builder:8081"]
+CMD ["ngrok", "http", "--url=infinite-cow-hip.ngrok-free.app", "nginx:80"]
