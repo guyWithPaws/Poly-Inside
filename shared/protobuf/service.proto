@@ -4,8 +4,10 @@ service SearchService {
   // User's methods
   rpc AddProfile (User) returns (AddProfileResponse);
   rpc UpdateProfile (User) returns (UpdateProfileResponse);
+  rpc UpdateUserName(UpdateUserNameRequest) returns (UpdateUserNameResponce);
   rpc GetProfile(UserInfoByUserIdRequest) returns (User);
   rpc GetListGroups(GroupListRequest) returns (stream GetListGroupsResponce);
+  rpc ChangeGroupNumber(ChangeGroupNumberRequest) returns (ChangeGroupNumberResponce);
 
   // Professor's methods
   rpc GetListProfessor(ListProfessorRequest) returns (stream GetListProfessorResponse);
@@ -23,6 +25,9 @@ service SearchService {
   rpc AddReaction(Reaction) returns (ReactionResponse);
   rpc DeleteReaction(DeleteReactionRequest) returns (ReactionResponse);
   rpc UpdateReaction(Reaction) returns (ReactionResponse);
+
+  // Group's method
+  rpc GetGroupsNumbers(GetGroupsNumbersRequest) returns (stream GroupsNumbersResponce);
 }
 
 message ListProfessorsByGroupResponce {
@@ -32,6 +37,25 @@ message ListProfessorsByGroupResponce {
 message GroupListRequest {
   int32 count = 1;
   string group = 2;
+}
+
+message GroupsNumbersResponce {
+  repeated string groupsNumbers = 1;
+}
+
+message GetGroupsNumbersRequest {
+  string groupPattern = 1;
+  int32 count = 2;
+}
+
+message ChangeGroupNumberRequest {
+  int32 userId = 1;
+  string newGroupNumber = 2;
+}
+
+message UpdateUserNameRequest {
+  int32 id = 1;
+  string newUserName = 2;
 }
 
 message GetListGroupsResponce {
@@ -69,6 +93,8 @@ message ReviewWithProfessor {
 
 message ReactionResponse {}
 
+message ChangeGroupNumberResponce {}
+
 message DeleteReactionRequest {
   string id = 1;
 }
@@ -103,6 +129,8 @@ message DeleteReviewResponse {}
 message UpdateReviewResponse {}
 
 message UpdateProfileResponse {}
+
+message UpdateUserNameResponce {}
 
 message ChangeStatusRequest{
   int32 id = 1;
