@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'data_bloc.dart';
+part of 'user_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -21,6 +21,7 @@ mixin _$ProfileDataState {
     required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
+    required TResult Function(List<Group> groups) groupsLoaded,
     required TResult Function(List<ReviewWithProfessor> professors) loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,6 +30,7 @@ mixin _$ProfileDataState {
     TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
+    TResult? Function(List<Group> groups)? groupsLoaded,
     TResult? Function(List<ReviewWithProfessor> professors)? loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,6 +39,7 @@ mixin _$ProfileDataState {
     TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
+    TResult Function(List<Group> groups)? groupsLoaded,
     TResult Function(List<ReviewWithProfessor> professors)? loaded,
     required TResult orElse(),
   }) =>
@@ -46,6 +49,7 @@ mixin _$ProfileDataState {
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
     required TResult Function(ErrorState value) error,
+    required TResult Function(GroupsLoadedState value) groupsLoaded,
     required TResult Function(LoadedState value) loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -54,6 +58,7 @@ mixin _$ProfileDataState {
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
     TResult? Function(ErrorState value)? error,
+    TResult? Function(GroupsLoadedState value)? groupsLoaded,
     TResult? Function(LoadedState value)? loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -62,6 +67,7 @@ mixin _$ProfileDataState {
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
     TResult Function(ErrorState value)? error,
+    TResult Function(GroupsLoadedState value)? groupsLoaded,
     TResult Function(LoadedState value)? loaded,
     required TResult orElse(),
   }) =>
@@ -70,12 +76,14 @@ mixin _$ProfileDataState {
 
 /// @nodoc
 abstract class $ProfileDataStateCopyWith<$Res> {
-  factory $ProfileDataStateCopyWith(ProfileDataState value, $Res Function(ProfileDataState) then) =
+  factory $ProfileDataStateCopyWith(
+          ProfileDataState value, $Res Function(ProfileDataState) then) =
       _$ProfileDataStateCopyWithImpl<$Res, ProfileDataState>;
 }
 
 /// @nodoc
-class _$ProfileDataStateCopyWithImpl<$Res, $Val extends ProfileDataState> implements $ProfileDataStateCopyWith<$Res> {
+class _$ProfileDataStateCopyWithImpl<$Res, $Val extends ProfileDataState>
+    implements $ProfileDataStateCopyWith<$Res> {
   _$ProfileDataStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -89,14 +97,17 @@ class _$ProfileDataStateCopyWithImpl<$Res, $Val extends ProfileDataState> implem
 
 /// @nodoc
 abstract class _$$ProcessingStateImplCopyWith<$Res> {
-  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value, $Res Function(_$ProcessingStateImpl) then) =
+  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value,
+          $Res Function(_$ProcessingStateImpl) then) =
       __$$ProcessingStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ProcessingStateImplCopyWithImpl<$Res> extends _$ProfileDataStateCopyWithImpl<$Res, _$ProcessingStateImpl>
+class __$$ProcessingStateImplCopyWithImpl<$Res>
+    extends _$ProfileDataStateCopyWithImpl<$Res, _$ProcessingStateImpl>
     implements _$$ProcessingStateImplCopyWith<$Res> {
-  __$$ProcessingStateImplCopyWithImpl(_$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
+  __$$ProcessingStateImplCopyWithImpl(
+      _$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileDataState
@@ -115,7 +126,8 @@ class _$ProcessingStateImpl extends ProcessingState {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$ProcessingStateImpl);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ProcessingStateImpl);
   }
 
   @override
@@ -127,6 +139,7 @@ class _$ProcessingStateImpl extends ProcessingState {
     required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
+    required TResult Function(List<Group> groups) groupsLoaded,
     required TResult Function(List<ReviewWithProfessor> professors) loaded,
   }) {
     return processing();
@@ -138,6 +151,7 @@ class _$ProcessingStateImpl extends ProcessingState {
     TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
+    TResult? Function(List<Group> groups)? groupsLoaded,
     TResult? Function(List<ReviewWithProfessor> professors)? loaded,
   }) {
     return processing?.call();
@@ -149,6 +163,7 @@ class _$ProcessingStateImpl extends ProcessingState {
     TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
+    TResult Function(List<Group> groups)? groupsLoaded,
     TResult Function(List<ReviewWithProfessor> professors)? loaded,
     required TResult orElse(),
   }) {
@@ -164,6 +179,7 @@ class _$ProcessingStateImpl extends ProcessingState {
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
     required TResult Function(ErrorState value) error,
+    required TResult Function(GroupsLoadedState value) groupsLoaded,
     required TResult Function(LoadedState value) loaded,
   }) {
     return processing(this);
@@ -175,6 +191,7 @@ class _$ProcessingStateImpl extends ProcessingState {
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
     TResult? Function(ErrorState value)? error,
+    TResult? Function(GroupsLoadedState value)? groupsLoaded,
     TResult? Function(LoadedState value)? loaded,
   }) {
     return processing?.call(this);
@@ -186,6 +203,7 @@ class _$ProcessingStateImpl extends ProcessingState {
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
     TResult Function(ErrorState value)? error,
+    TResult Function(GroupsLoadedState value)? groupsLoaded,
     TResult Function(LoadedState value)? loaded,
     required TResult orElse(),
   }) {
@@ -203,14 +221,18 @@ abstract class ProcessingState extends ProfileDataState {
 
 /// @nodoc
 abstract class _$$IdleStateImplCopyWith<$Res> {
-  factory _$$IdleStateImplCopyWith(_$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
+  factory _$$IdleStateImplCopyWith(
+          _$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
       __$$IdleStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$IdleStateImplCopyWithImpl<$Res> extends _$ProfileDataStateCopyWithImpl<$Res, _$IdleStateImpl>
+class __$$IdleStateImplCopyWithImpl<$Res>
+    extends _$ProfileDataStateCopyWithImpl<$Res, _$IdleStateImpl>
     implements _$$IdleStateImplCopyWith<$Res> {
-  __$$IdleStateImplCopyWithImpl(_$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then) : super(_value, _then);
+  __$$IdleStateImplCopyWithImpl(
+      _$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ProfileDataState
   /// with the given fields replaced by the non-null parameter values.
@@ -228,7 +250,8 @@ class _$IdleStateImpl extends IdleState {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$IdleStateImpl);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$IdleStateImpl);
   }
 
   @override
@@ -240,6 +263,7 @@ class _$IdleStateImpl extends IdleState {
     required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
+    required TResult Function(List<Group> groups) groupsLoaded,
     required TResult Function(List<ReviewWithProfessor> professors) loaded,
   }) {
     return idle();
@@ -251,6 +275,7 @@ class _$IdleStateImpl extends IdleState {
     TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
+    TResult? Function(List<Group> groups)? groupsLoaded,
     TResult? Function(List<ReviewWithProfessor> professors)? loaded,
   }) {
     return idle?.call();
@@ -262,6 +287,7 @@ class _$IdleStateImpl extends IdleState {
     TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
+    TResult Function(List<Group> groups)? groupsLoaded,
     TResult Function(List<ReviewWithProfessor> professors)? loaded,
     required TResult orElse(),
   }) {
@@ -277,6 +303,7 @@ class _$IdleStateImpl extends IdleState {
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
     required TResult Function(ErrorState value) error,
+    required TResult Function(GroupsLoadedState value) groupsLoaded,
     required TResult Function(LoadedState value) loaded,
   }) {
     return idle(this);
@@ -288,6 +315,7 @@ class _$IdleStateImpl extends IdleState {
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
     TResult? Function(ErrorState value)? error,
+    TResult? Function(GroupsLoadedState value)? groupsLoaded,
     TResult? Function(LoadedState value)? loaded,
   }) {
     return idle?.call(this);
@@ -299,6 +327,7 @@ class _$IdleStateImpl extends IdleState {
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
     TResult Function(ErrorState value)? error,
+    TResult Function(GroupsLoadedState value)? groupsLoaded,
     TResult Function(LoadedState value)? loaded,
     required TResult orElse(),
   }) {
@@ -316,16 +345,20 @@ abstract class IdleState extends ProfileDataState {
 
 /// @nodoc
 abstract class _$$ErrorStateImplCopyWith<$Res> {
-  factory _$$ErrorStateImplCopyWith(_$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
+  factory _$$ErrorStateImplCopyWith(
+          _$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
       __$$ErrorStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object e});
 }
 
 /// @nodoc
-class __$$ErrorStateImplCopyWithImpl<$Res> extends _$ProfileDataStateCopyWithImpl<$Res, _$ErrorStateImpl>
+class __$$ErrorStateImplCopyWithImpl<$Res>
+    extends _$ProfileDataStateCopyWithImpl<$Res, _$ErrorStateImpl>
     implements _$$ErrorStateImplCopyWith<$Res> {
-  __$$ErrorStateImplCopyWithImpl(_$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then) : super(_value, _then);
+  __$$ErrorStateImplCopyWithImpl(
+      _$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ProfileDataState
   /// with the given fields replaced by the non-null parameter values.
@@ -362,7 +395,8 @@ class _$ErrorStateImpl extends ErrorState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
 
   /// Create a copy of ProfileDataState
   /// with the given fields replaced by the non-null parameter values.
@@ -378,6 +412,7 @@ class _$ErrorStateImpl extends ErrorState {
     required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
+    required TResult Function(List<Group> groups) groupsLoaded,
     required TResult Function(List<ReviewWithProfessor> professors) loaded,
   }) {
     return error(e);
@@ -389,6 +424,7 @@ class _$ErrorStateImpl extends ErrorState {
     TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
+    TResult? Function(List<Group> groups)? groupsLoaded,
     TResult? Function(List<ReviewWithProfessor> professors)? loaded,
   }) {
     return error?.call(e);
@@ -400,6 +436,7 @@ class _$ErrorStateImpl extends ErrorState {
     TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
+    TResult Function(List<Group> groups)? groupsLoaded,
     TResult Function(List<ReviewWithProfessor> professors)? loaded,
     required TResult orElse(),
   }) {
@@ -415,6 +452,7 @@ class _$ErrorStateImpl extends ErrorState {
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
     required TResult Function(ErrorState value) error,
+    required TResult Function(GroupsLoadedState value) groupsLoaded,
     required TResult Function(LoadedState value) loaded,
   }) {
     return error(this);
@@ -426,6 +464,7 @@ class _$ErrorStateImpl extends ErrorState {
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
     TResult? Function(ErrorState value)? error,
+    TResult? Function(GroupsLoadedState value)? groupsLoaded,
     TResult? Function(LoadedState value)? loaded,
   }) {
     return error?.call(this);
@@ -437,6 +476,7 @@ class _$ErrorStateImpl extends ErrorState {
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
     TResult Function(ErrorState value)? error,
+    TResult Function(GroupsLoadedState value)? groupsLoaded,
     TResult Function(LoadedState value)? loaded,
     required TResult orElse(),
   }) {
@@ -456,21 +496,194 @@ abstract class ErrorState extends ProfileDataState {
   /// Create a copy of ProfileDataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GroupsLoadedStateImplCopyWith<$Res> {
+  factory _$$GroupsLoadedStateImplCopyWith(_$GroupsLoadedStateImpl value,
+          $Res Function(_$GroupsLoadedStateImpl) then) =
+      __$$GroupsLoadedStateImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<Group> groups});
+}
+
+/// @nodoc
+class __$$GroupsLoadedStateImplCopyWithImpl<$Res>
+    extends _$ProfileDataStateCopyWithImpl<$Res, _$GroupsLoadedStateImpl>
+    implements _$$GroupsLoadedStateImplCopyWith<$Res> {
+  __$$GroupsLoadedStateImplCopyWithImpl(_$GroupsLoadedStateImpl _value,
+      $Res Function(_$GroupsLoadedStateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileDataState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? groups = null,
+  }) {
+    return _then(_$GroupsLoadedStateImpl(
+      null == groups
+          ? _value._groups
+          : groups // ignore: cast_nullable_to_non_nullable
+              as List<Group>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GroupsLoadedStateImpl extends GroupsLoadedState {
+  const _$GroupsLoadedStateImpl(final List<Group> groups)
+      : _groups = groups,
+        super._();
+
+  final List<Group> _groups;
+  @override
+  List<Group> get groups {
+    if (_groups is EqualUnmodifiableListView) return _groups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_groups);
+  }
+
+  @override
+  String toString() {
+    return 'ProfileDataState.groupsLoaded(groups: $groups)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GroupsLoadedStateImpl &&
+            const DeepCollectionEquality().equals(other._groups, _groups));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_groups));
+
+  /// Create a copy of ProfileDataState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GroupsLoadedStateImplCopyWith<_$GroupsLoadedStateImpl> get copyWith =>
+      __$$GroupsLoadedStateImplCopyWithImpl<_$GroupsLoadedStateImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() processing,
+    required TResult Function() idle,
+    required TResult Function(Object e) error,
+    required TResult Function(List<Group> groups) groupsLoaded,
+    required TResult Function(List<ReviewWithProfessor> professors) loaded,
+  }) {
+    return groupsLoaded(groups);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? processing,
+    TResult? Function()? idle,
+    TResult? Function(Object e)? error,
+    TResult? Function(List<Group> groups)? groupsLoaded,
+    TResult? Function(List<ReviewWithProfessor> professors)? loaded,
+  }) {
+    return groupsLoaded?.call(groups);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? processing,
+    TResult Function()? idle,
+    TResult Function(Object e)? error,
+    TResult Function(List<Group> groups)? groupsLoaded,
+    TResult Function(List<ReviewWithProfessor> professors)? loaded,
+    required TResult orElse(),
+  }) {
+    if (groupsLoaded != null) {
+      return groupsLoaded(groups);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ProcessingState value) processing,
+    required TResult Function(IdleState value) idle,
+    required TResult Function(ErrorState value) error,
+    required TResult Function(GroupsLoadedState value) groupsLoaded,
+    required TResult Function(LoadedState value) loaded,
+  }) {
+    return groupsLoaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ProcessingState value)? processing,
+    TResult? Function(IdleState value)? idle,
+    TResult? Function(ErrorState value)? error,
+    TResult? Function(GroupsLoadedState value)? groupsLoaded,
+    TResult? Function(LoadedState value)? loaded,
+  }) {
+    return groupsLoaded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ProcessingState value)? processing,
+    TResult Function(IdleState value)? idle,
+    TResult Function(ErrorState value)? error,
+    TResult Function(GroupsLoadedState value)? groupsLoaded,
+    TResult Function(LoadedState value)? loaded,
+    required TResult orElse(),
+  }) {
+    if (groupsLoaded != null) {
+      return groupsLoaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GroupsLoadedState extends ProfileDataState {
+  const factory GroupsLoadedState(final List<Group> groups) =
+      _$GroupsLoadedStateImpl;
+  const GroupsLoadedState._() : super._();
+
+  List<Group> get groups;
+
+  /// Create a copy of ProfileDataState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GroupsLoadedStateImplCopyWith<_$GroupsLoadedStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$LoadedStateImplCopyWith<$Res> {
-  factory _$$LoadedStateImplCopyWith(_$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
+  factory _$$LoadedStateImplCopyWith(
+          _$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
       __$$LoadedStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<ReviewWithProfessor> professors});
 }
 
 /// @nodoc
-class __$$LoadedStateImplCopyWithImpl<$Res> extends _$ProfileDataStateCopyWithImpl<$Res, _$LoadedStateImpl>
+class __$$LoadedStateImplCopyWithImpl<$Res>
+    extends _$ProfileDataStateCopyWithImpl<$Res, _$LoadedStateImpl>
     implements _$$LoadedStateImplCopyWith<$Res> {
-  __$$LoadedStateImplCopyWithImpl(_$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
+  __$$LoadedStateImplCopyWithImpl(
+      _$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileDataState
@@ -514,11 +727,13 @@ class _$LoadedStateImpl extends LoadedState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedStateImpl &&
-            const DeepCollectionEquality().equals(other._professors, _professors));
+            const DeepCollectionEquality()
+                .equals(other._professors, _professors));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_professors));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_professors));
 
   /// Create a copy of ProfileDataState
   /// with the given fields replaced by the non-null parameter values.
@@ -534,6 +749,7 @@ class _$LoadedStateImpl extends LoadedState {
     required TResult Function() processing,
     required TResult Function() idle,
     required TResult Function(Object e) error,
+    required TResult Function(List<Group> groups) groupsLoaded,
     required TResult Function(List<ReviewWithProfessor> professors) loaded,
   }) {
     return loaded(professors);
@@ -545,6 +761,7 @@ class _$LoadedStateImpl extends LoadedState {
     TResult? Function()? processing,
     TResult? Function()? idle,
     TResult? Function(Object e)? error,
+    TResult? Function(List<Group> groups)? groupsLoaded,
     TResult? Function(List<ReviewWithProfessor> professors)? loaded,
   }) {
     return loaded?.call(professors);
@@ -556,6 +773,7 @@ class _$LoadedStateImpl extends LoadedState {
     TResult Function()? processing,
     TResult Function()? idle,
     TResult Function(Object e)? error,
+    TResult Function(List<Group> groups)? groupsLoaded,
     TResult Function(List<ReviewWithProfessor> professors)? loaded,
     required TResult orElse(),
   }) {
@@ -571,6 +789,7 @@ class _$LoadedStateImpl extends LoadedState {
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
     required TResult Function(ErrorState value) error,
+    required TResult Function(GroupsLoadedState value) groupsLoaded,
     required TResult Function(LoadedState value) loaded,
   }) {
     return loaded(this);
@@ -582,6 +801,7 @@ class _$LoadedStateImpl extends LoadedState {
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
     TResult? Function(ErrorState value)? error,
+    TResult? Function(GroupsLoadedState value)? groupsLoaded,
     TResult? Function(LoadedState value)? loaded,
   }) {
     return loaded?.call(this);
@@ -593,6 +813,7 @@ class _$LoadedStateImpl extends LoadedState {
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
     TResult Function(ErrorState value)? error,
+    TResult Function(GroupsLoadedState value)? groupsLoaded,
     TResult Function(LoadedState value)? loaded,
     required TResult orElse(),
   }) {
@@ -604,7 +825,8 @@ class _$LoadedStateImpl extends LoadedState {
 }
 
 abstract class LoadedState extends ProfileDataState {
-  const factory LoadedState(final List<ReviewWithProfessor> professors) = _$LoadedStateImpl;
+  const factory LoadedState(final List<ReviewWithProfessor> professors) =
+      _$LoadedStateImpl;
   const LoadedState._() : super._();
 
   List<ReviewWithProfessor> get professors;
@@ -612,5 +834,6 @@ abstract class LoadedState extends ProfileDataState {
   /// Create a copy of ProfileDataState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
