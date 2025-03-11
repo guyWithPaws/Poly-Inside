@@ -20,15 +20,15 @@ services:
       - envoy
       - server
 
-  # ngrok:
-  #   container_name: ngrok
-  #   build: ./proxy/ngrok
-  #   networks:
-  #     - dev
-  #   ports:
-  #     - "4040:4040"
-  #   depends_on:
-  #     - web_builder
+  ngrok:
+    container_name: ngrok
+    build: ./proxy/ngrok
+    networks:
+      - dev
+    ports:
+      - "4040:4040"
+    depends_on:
+      - web_builder
 
   server:
     container_name: server
@@ -56,17 +56,17 @@ services:
   #   depends_on:
   #     - database
 
-  # web_builder:
-  #   container_name: web_builder
-  #   build:
-  #     context: .
-  #     dockerfile: ./frontend/Dockerfile
-  #   networks:
-  #     - dev
-  #   ports:
-  #     - "8081:8081"
-  #   depends_on:
-  #     - server
+  web_builder:
+    container_name: web_builder
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    networks:
+      - dev
+    ports:
+      - "8081:8081"
+    depends_on:
+      - server
 
   database:
     image: postgres:latest
