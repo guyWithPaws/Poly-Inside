@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/extensions/string.dart';
 import 'package:poly_inside/src/common/widgets/stars_rating.dart';
-import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
+import 'package:poly_inside/src/feature/review/bloc/review_bloc.dart';
 import 'package:shared/shared.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:crypto/crypto.dart';
@@ -35,7 +35,8 @@ class ReviewPage extends StatefulWidget {
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _ReviewPageState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_ReviewPageState>();
+  static _ReviewPageState? maybeOf(BuildContext context) =>
+      context.findAncestorStateOfType<_ReviewPageState>();
 
   @override
   State<ReviewPage> createState() => _ReviewPageState();
@@ -50,6 +51,8 @@ class _ReviewPageState extends State<ReviewPage> {
   ValueNotifier<double>? _valueHarshnessNotifier;
   ValueNotifier<double>? _valueObjectivityNotifier;
 
+  ReviewDataBLoC? _bloc;
+
   rive.RiveAnimationController? _successAnimationController;
   rive.RiveAnimationController? _errorAnimationController;
 
@@ -61,10 +64,14 @@ class _ReviewPageState extends State<ReviewPage> {
     _successAnimationController = rive.OneShotAnimation(
       'Comp 1', // Не менять название анимации
       autoplay: true,
-      onStop: () => Navigator.of(context).pop(),
+      onStop: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      },
     );
 
-    _errorAnimationController = rive.OneShotAnimation('Comp 1', autoplay: true, onStop: () => Navigator.pop);
+    _errorAnimationController = rive.OneShotAnimation('Comp 1',
+        autoplay: true, onStop: () => Navigator.pop);
 
     if (widget.type == ReviewType.edit) {
       _textEditingController!.text = widget.review!.comment;
@@ -88,24 +95,25 @@ class _ReviewPageState extends State<ReviewPage> {
   }
 
   @override
-  void didUpdateWidget(covariant ReviewPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Widget configuration changed
-  }
-
-  @override
   void didChangeDependencies() {
+    _bloc ??= ReviewDataBLoC();
     super.didChangeDependencies();
-    // The configuration of InheritedWidgets has changed
-    // Also called after initState but before build
   }
 
   @override
   void dispose() {
-    // Permanent removal of a tree stent
+    _textEditingController?.dispose();
+    _valueHarshnessNotifier?.dispose();
+    _valueLoayltyNotifier?.dispose();
+    _valueObjectivityNotifier?.dispose();
+    _valueProfessionalismNotifier?.dispose();
+
+    _successAnimationController?.dispose();
+    _errorAnimationController?.dispose();
+
+    _bloc?.close();
     super.dispose();
   }
-  /* #endregion */
 
   @override
   Widget build(BuildContext context) {
@@ -134,27 +142,22 @@ class _ReviewPageState extends State<ReviewPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          var reviewIdBytes = utf8.encode(UserScope.userOf(context).id.toString() + DateTime.now().toString());
-          var generatedReviewId = sha1.convert(reviewIdBytes).toString();
-          Review outputReview = Review(
-              id: generatedReviewId,
-              objectivity: _valueObjectivityNotifier!.value,
-              loyalty: _valueLoayltyNotifier!.value,
-              likes: 0,
-              dislikes: 0,
-              harshness: _valueHarshnessNotifier!.value,
-              professionalism: _valueProfessionalismNotifier!.value,
-              date: DateTime.now().toString(),
-              userId: UserScope.userOf(context).id,
-              comment: _valueTextFormNotifier!.value,
-              professorId: widget.professor.id);
-          bool passed = true;
+          var review = compileReview(widget.type);
           if (widget.type == ReviewType.add) {
-            passed = await InitializationScope.repositoryOf(context).addReview(outputReview);
+            _bloc?.add(AddReviewRequest(review: review, context: context));
           } else {
-            outputReview.id = widget.review!.id;
-            await InitializationScope.repositoryOf(context).updateReview(outputReview);
+            _bloc?.add(UpdateReviewRequest(review: review, context: context));
           }
+
+          bool passed = true;
+          // if (widget.type == ReviewType.add) {
+          //   passed = await InitializationScope.repositoryOf(context)
+          //       .addReview(outputReview);
+          // } else {
+          //   outputReview.id = widget.review!.id;
+          //   await InitializationScope.repositoryOf(context)
+          //       .updateReview(outputReview);
+          // }
 
           await showDialog(
             context: context,
@@ -164,46 +167,46 @@ class _ReviewPageState extends State<ReviewPage> {
                   width: 300,
                   height: (passed) ? 130 : 200,
                   child: Center(
-                    child: Column(
-                      children: [
-                        (passed)
-                            ? SizedBox(
-                                width: 100,
-                                height: 100,
-                                child: rive.RiveAnimation.asset(
-                                  'assets/rive/success.riv',
-                                  controllers: [_successAnimationController!],
-                                ),
-                              )
-                            : const SizedBox(
-                                width: 150,
-                                height: 150,
-                                child: rive.RiveAnimation.asset(
-                                  'assets/rive/error.riv',
-                                ),
-                              ),
-                        (passed)
-                            ? AnimatedTextKit(
-                                isRepeatingAnimation: false,
-                                animatedTexts: [TyperAnimatedText('Ваш отзыв успешно сохранён')],
-                              )
-                            : AnimatedTextKit(
-                                isRepeatingAnimation: false,
-                                animatedTexts: [TyperAnimatedText('Проверьте свой отзыв')],
-                              ),
-                      ],
-                    ),
-                  ),
+                      child: BlocBuilder<ReviewDataBLoC, ReviewDataState>(
+                    bloc: _bloc,
+                    builder: (context, state) {
+                      return state.when(
+                        processing: () => const CircularProgressIndicator(),
+                        error: (error, description) => SizedBox(
+                          child: Text(description),
+                        ),
+                        approved: () => SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: rive.RiveAnimation.asset(
+                            'assets/rive/success.riv',
+                            controllers: [_successAnimationController!],
+                          ),
+                        ),
+                        rejected: () => const SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: rive.RiveAnimation.asset(
+                            'assets/rive/error.riv',
+                          ),
+                        ),
+                      );
+                    },
+                  )),
                 ),
               );
             },
-          ).then((_) {
-            if (passed) Navigator.of(context).pop();
-          });
+          );
+          // ).then((_) {
+          //   if (passed) Navigator.of(context).pop();
+          // });
         },
         backgroundColor: Colors.green,
         label: Center(
-          child: Text(widget.type == ReviewType.add ? 'Опубликовать' : 'Изменить'),
+          child: Text(
+              widget.type == ReviewType.add ? 'Опубликовать' : 'Изменить',
+              style:
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
         ),
       ),
       body: Padding(
@@ -269,7 +272,8 @@ class _ReviewPageState extends State<ReviewPage> {
                 width: MediaQuery.of(context).size.width,
                 height: 170,
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 238, 249, 237), borderRadius: BorderRadius.circular(12)),
+                    color: const Color.fromARGB(255, 238, 249, 237),
+                    borderRadius: BorderRadius.circular(12)),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -329,25 +333,30 @@ class _ReviewPageState extends State<ReviewPage> {
               const SizedBox(
                 height: 16,
               ),
-              const Align(alignment: Alignment.centerLeft, child: Text('Оставьте комментарий:')),
+              const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Оставьте комментарий:')),
               const SizedBox(
                 height: 16,
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 238, 249, 237), borderRadius: BorderRadius.circular(12)),
-                width: MediaQuery.of(context).size.width,
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextField(
-                      controller: _textEditingController,
-                      keyboardType: TextInputType.multiline,
-                      minLines: 9,
-                      maxLines: null,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
+              RepaintBoundary(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 238, 249, 237),
+                      borderRadius: BorderRadius.circular(12)),
+                  width: MediaQuery.of(context).size.width,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextField(
+                        controller: _textEditingController,
+                        keyboardType: TextInputType.multiline,
+                        minLines: 9,
+                        maxLines: null,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
                   ),
@@ -358,5 +367,31 @@ class _ReviewPageState extends State<ReviewPage> {
         ),
       ),
     );
+  }
+
+  Review compileReview(ReviewType type) {
+    String generatedReviewId = '';
+
+    if (type == ReviewType.add) {
+      var reviewIdBytes = utf8.encode(
+          UserScope.userOf(context).id.toString() + DateTime.now().toString());
+      generatedReviewId = sha1.convert(reviewIdBytes).toString();
+    } else if (type == ReviewType.edit) {
+      generatedReviewId = widget.review!.id;
+    }
+
+    var outputReview = Review(
+        id: generatedReviewId,
+        objectivity: _valueObjectivityNotifier!.value,
+        loyalty: _valueLoayltyNotifier!.value,
+        likes: 0,
+        dislikes: 0,
+        harshness: _valueHarshnessNotifier!.value,
+        professionalism: _valueProfessionalismNotifier!.value,
+        date: DateTime.now().toString(),
+        userId: UserScope.userOf(context).id,
+        comment: _valueTextFormNotifier!.value,
+        professorId: widget.professor.id);
+    return outputReview;
   }
 }
