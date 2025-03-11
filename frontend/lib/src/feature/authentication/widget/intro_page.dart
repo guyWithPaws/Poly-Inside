@@ -1,16 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:poly_inside/src/feature/authentication/bloc/user_bloc.dart';
+import 'package:shared/shared.dart';
+
+import '../../initialization/widget/initialization.dart';
 
 class IntroPage extends StatefulWidget {
-  const IntroPage({super.key});
+  const IntroPage({super.key, required this.bloc});
+
+  final UserBloc? bloc;
 
   @override
   State<IntroPage> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<IntroPage> {
+  TextEditingController? _userNameController;
+  TextEditingController? _userGroupController;
   bool checkedValue = false;
   bool value = false;
+  UserBloc? _bloc;
+
+  void _listener() {
+    _bloc?.add(GroupTextFieldChanged(group: _userGroupController!.text));
+  }
+
+  @override
+  void initState() {
+    _userNameController = TextEditingController();
+    _userGroupController = TextEditingController();
+
+    _userGroupController?.addListener(_listener);
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _bloc ??= UserBloc(
+      repository: InitializationScope.repositoryOf(context),
+      state: const UserState.idle(),
+    );
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +66,7 @@ class _MyWidgetState extends State<IntroPage> {
                   radius: 158 / 2,
                   child: ClipOval(
                     child: SvgPicture.asset(
-                      'icons/assets/camera.svg',
+                      'assets/icons/no_photo.svg',
                       width: 80,
                     ),
                   ),
@@ -50,7 +83,7 @@ class _MyWidgetState extends State<IntroPage> {
                 ),
               ),
               const SizedBox(
-                height: 17,
+                height: 8,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -58,8 +91,9 @@ class _MyWidgetState extends State<IntroPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 height: 50,
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: _userNameController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       borderSide: BorderSide.none,
@@ -67,12 +101,20 @@ class _MyWidgetState extends State<IntroPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
               CheckboxListTile(
                 title: const Text(
                   "взять ник из телеграма",
-                  style:
-                      TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 138, 138, 138)),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(
+                      255,
+                      138,
+                      138,
+                      138,
+                    ),
+                  ),
                 ),
                 value: checkedValue,
                 onChanged: (newValue) {
@@ -82,9 +124,63 @@ class _MyWidgetState extends State<IntroPage> {
                 },
                 controlAffinity: ListTileControlAffinity.leading,
               ),
+              const Text(
+                'Введите номер группы',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 210, 248, 211),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                height: 50,
+                child: TextField(
+                  controller: _userGroupController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: BlocBuilder<UserBloc, UserState>(
+                    bloc: _bloc,
+                    builder: (context, state) {
+                      return state.when(
+                          processing: (String stage) => const SizedBox(),
+                          idle: () => const SizedBox(),
+                          notAuthorized: () => const SizedBox(),
+                          error: (Object e) => const SizedBox(),
+                          loaded: (User user) => const SizedBox(),
+                          groupLoaded: (List<GroupNumber> groups) {
+                            return ListView.builder(
+                                itemCount: groups.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      _userGroupController?.text =
+                                          groups[index].number;
+                                    },
+                                    child: ListTile(
+                                      title: Text(groups[index].number),
+                                    ),
+                                  );
+                                });
+                          });
+                    }),
+              ),
               const Spacer(),
               CheckboxListTile(
-                title: const Text("Нажимая на галочку, вы соглашаетесь с условиями пользования приложения"),
+                title: const Text(
+                    "Нажимая на галочку, вы соглашаетесь с условиями пользования приложения"),
                 value: value,
                 onChanged: (nValue) {
                   setState(() {
@@ -106,7 +202,13 @@ class _MyWidgetState extends State<IntroPage> {
                     width: 197,
                     height: 64,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        widget.bloc?.add(
+                          AuthenticationRequested(
+                            name: _userNameController!.text,
+                          ),
+                        );
+                      },
                       child: const Text(
                         'Сохранить',
                         style: TextStyle(
@@ -125,5 +227,11 @@ class _MyWidgetState extends State<IntroPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _userNameController?.dispose();
+    super.dispose();
   }
 }
