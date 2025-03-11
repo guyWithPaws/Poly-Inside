@@ -16,10 +16,10 @@ Future<void> main() async {
           final logger = Logger(file: file);
 
           final database = AppDatabase();
-          await DatabaseProviderImpl.initialize(database);
-          final provider = DatabaseProviderImpl();
+          final provider = DatabaseProviderImpl(database: database);
 
           await Future.delayed(const Duration(seconds: 10));
+          // await provider.fillGroupsNumbers();
           final server = Server.create(
             services: [
               GRPCService(provider: provider),
