@@ -20,24 +20,30 @@ mixin _$UserState {
   TResult when<TResult extends Object?>({
     required TResult Function(String stage) processing,
     required TResult Function() idle,
+    required TResult Function() notAuthorized,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
+    required TResult Function(List<GroupNumber> groups) groupLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String stage)? processing,
     TResult? Function()? idle,
+    TResult? Function()? notAuthorized,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
+    TResult? Function(List<GroupNumber> groups)? groupLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String stage)? processing,
     TResult Function()? idle,
+    TResult Function()? notAuthorized,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,
+    TResult Function(List<GroupNumber> groups)? groupLoaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -45,24 +51,30 @@ mixin _$UserState {
   TResult map<TResult extends Object?>({
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
+    required TResult Function(NotAuthorizedState value) notAuthorized,
     required TResult Function(ErrorState value) error,
     required TResult Function(LoadedState value) loaded,
+    required TResult Function(GroupsLoadedState value) groupLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
+    TResult? Function(NotAuthorizedState value)? notAuthorized,
     TResult? Function(ErrorState value)? error,
     TResult? Function(LoadedState value)? loaded,
+    TResult? Function(GroupsLoadedState value)? groupLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
+    TResult Function(NotAuthorizedState value)? notAuthorized,
     TResult Function(ErrorState value)? error,
     TResult Function(LoadedState value)? loaded,
+    TResult Function(GroupsLoadedState value)? groupLoaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -70,11 +82,13 @@ mixin _$UserState {
 
 /// @nodoc
 abstract class $UserStateCopyWith<$Res> {
-  factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) = _$UserStateCopyWithImpl<$Res, UserState>;
+  factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
+      _$UserStateCopyWithImpl<$Res, UserState>;
 }
 
 /// @nodoc
-class _$UserStateCopyWithImpl<$Res, $Val extends UserState> implements $UserStateCopyWith<$Res> {
+class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
+    implements $UserStateCopyWith<$Res> {
   _$UserStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -88,16 +102,19 @@ class _$UserStateCopyWithImpl<$Res, $Val extends UserState> implements $UserStat
 
 /// @nodoc
 abstract class _$$ProcessingStateImplCopyWith<$Res> {
-  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value, $Res Function(_$ProcessingStateImpl) then) =
+  factory _$$ProcessingStateImplCopyWith(_$ProcessingStateImpl value,
+          $Res Function(_$ProcessingStateImpl) then) =
       __$$ProcessingStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String stage});
 }
 
 /// @nodoc
-class __$$ProcessingStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$ProcessingStateImpl>
+class __$$ProcessingStateImplCopyWithImpl<$Res>
+    extends _$UserStateCopyWithImpl<$Res, _$ProcessingStateImpl>
     implements _$$ProcessingStateImplCopyWith<$Res> {
-  __$$ProcessingStateImplCopyWithImpl(_$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
+  __$$ProcessingStateImplCopyWithImpl(
+      _$ProcessingStateImpl _value, $Res Function(_$ProcessingStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of UserState
@@ -118,7 +135,8 @@ class __$$ProcessingStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<
 
 /// @nodoc
 
-class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin {
+class _$ProcessingStateImpl extends ProcessingState
+    with DiagnosticableTreeMixin {
   const _$ProcessingStateImpl(this.stage) : super._();
 
   @override
@@ -154,15 +172,18 @@ class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin
   @override
   @pragma('vm:prefer-inline')
   _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith =>
-      __$$ProcessingStateImplCopyWithImpl<_$ProcessingStateImpl>(this, _$identity);
+      __$$ProcessingStateImplCopyWithImpl<_$ProcessingStateImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String stage) processing,
     required TResult Function() idle,
+    required TResult Function() notAuthorized,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
+    required TResult Function(List<GroupNumber> groups) groupLoaded,
   }) {
     return processing(stage);
   }
@@ -172,8 +193,10 @@ class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String stage)? processing,
     TResult? Function()? idle,
+    TResult? Function()? notAuthorized,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
+    TResult? Function(List<GroupNumber> groups)? groupLoaded,
   }) {
     return processing?.call(stage);
   }
@@ -183,8 +206,10 @@ class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String stage)? processing,
     TResult Function()? idle,
+    TResult Function()? notAuthorized,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,
+    TResult Function(List<GroupNumber> groups)? groupLoaded,
     required TResult orElse(),
   }) {
     if (processing != null) {
@@ -198,8 +223,10 @@ class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin
   TResult map<TResult extends Object?>({
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
+    required TResult Function(NotAuthorizedState value) notAuthorized,
     required TResult Function(ErrorState value) error,
     required TResult Function(LoadedState value) loaded,
+    required TResult Function(GroupsLoadedState value) groupLoaded,
   }) {
     return processing(this);
   }
@@ -209,8 +236,10 @@ class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
+    TResult? Function(NotAuthorizedState value)? notAuthorized,
     TResult? Function(ErrorState value)? error,
     TResult? Function(LoadedState value)? loaded,
+    TResult? Function(GroupsLoadedState value)? groupLoaded,
   }) {
     return processing?.call(this);
   }
@@ -220,8 +249,10 @@ class _$ProcessingStateImpl extends ProcessingState with DiagnosticableTreeMixin
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
+    TResult Function(NotAuthorizedState value)? notAuthorized,
     TResult Function(ErrorState value)? error,
     TResult Function(LoadedState value)? loaded,
+    TResult Function(GroupsLoadedState value)? groupLoaded,
     required TResult orElse(),
   }) {
     if (processing != null) {
@@ -240,19 +271,24 @@ abstract class ProcessingState extends UserState {
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$ProcessingStateImplCopyWith<_$ProcessingStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$IdleStateImplCopyWith<$Res> {
-  factory _$$IdleStateImplCopyWith(_$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
+  factory _$$IdleStateImplCopyWith(
+          _$IdleStateImpl value, $Res Function(_$IdleStateImpl) then) =
       __$$IdleStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$IdleStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$IdleStateImpl>
+class __$$IdleStateImplCopyWithImpl<$Res>
+    extends _$UserStateCopyWithImpl<$Res, _$IdleStateImpl>
     implements _$$IdleStateImplCopyWith<$Res> {
-  __$$IdleStateImplCopyWithImpl(_$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then) : super(_value, _then);
+  __$$IdleStateImplCopyWithImpl(
+      _$IdleStateImpl _value, $Res Function(_$IdleStateImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -276,7 +312,8 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$IdleStateImpl);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$IdleStateImpl);
   }
 
   @override
@@ -287,8 +324,10 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   TResult when<TResult extends Object?>({
     required TResult Function(String stage) processing,
     required TResult Function() idle,
+    required TResult Function() notAuthorized,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
+    required TResult Function(List<GroupNumber> groups) groupLoaded,
   }) {
     return idle();
   }
@@ -298,8 +337,10 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String stage)? processing,
     TResult? Function()? idle,
+    TResult? Function()? notAuthorized,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
+    TResult? Function(List<GroupNumber> groups)? groupLoaded,
   }) {
     return idle?.call();
   }
@@ -309,8 +350,10 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String stage)? processing,
     TResult Function()? idle,
+    TResult Function()? notAuthorized,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,
+    TResult Function(List<GroupNumber> groups)? groupLoaded,
     required TResult orElse(),
   }) {
     if (idle != null) {
@@ -324,8 +367,10 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   TResult map<TResult extends Object?>({
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
+    required TResult Function(NotAuthorizedState value) notAuthorized,
     required TResult Function(ErrorState value) error,
     required TResult Function(LoadedState value) loaded,
+    required TResult Function(GroupsLoadedState value) groupLoaded,
   }) {
     return idle(this);
   }
@@ -335,8 +380,10 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
+    TResult? Function(NotAuthorizedState value)? notAuthorized,
     TResult? Function(ErrorState value)? error,
     TResult? Function(LoadedState value)? loaded,
+    TResult? Function(GroupsLoadedState value)? groupLoaded,
   }) {
     return idle?.call(this);
   }
@@ -346,8 +393,10 @@ class _$IdleStateImpl extends IdleState with DiagnosticableTreeMixin {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
+    TResult Function(NotAuthorizedState value)? notAuthorized,
     TResult Function(ErrorState value)? error,
     TResult Function(LoadedState value)? loaded,
+    TResult Function(GroupsLoadedState value)? groupLoaded,
     required TResult orElse(),
   }) {
     if (idle != null) {
@@ -363,17 +412,158 @@ abstract class IdleState extends UserState {
 }
 
 /// @nodoc
+abstract class _$$NotAuthorizedStateImplCopyWith<$Res> {
+  factory _$$NotAuthorizedStateImplCopyWith(_$NotAuthorizedStateImpl value,
+          $Res Function(_$NotAuthorizedStateImpl) then) =
+      __$$NotAuthorizedStateImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$NotAuthorizedStateImplCopyWithImpl<$Res>
+    extends _$UserStateCopyWithImpl<$Res, _$NotAuthorizedStateImpl>
+    implements _$$NotAuthorizedStateImplCopyWith<$Res> {
+  __$$NotAuthorizedStateImplCopyWithImpl(_$NotAuthorizedStateImpl _value,
+      $Res Function(_$NotAuthorizedStateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$NotAuthorizedStateImpl extends NotAuthorizedState
+    with DiagnosticableTreeMixin {
+  const _$NotAuthorizedStateImpl() : super._();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserState.notAuthorized()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'UserState.notAuthorized'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$NotAuthorizedStateImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String stage) processing,
+    required TResult Function() idle,
+    required TResult Function() notAuthorized,
+    required TResult Function(Object e) error,
+    required TResult Function(User user) loaded,
+    required TResult Function(List<GroupNumber> groups) groupLoaded,
+  }) {
+    return notAuthorized();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String stage)? processing,
+    TResult? Function()? idle,
+    TResult? Function()? notAuthorized,
+    TResult? Function(Object e)? error,
+    TResult? Function(User user)? loaded,
+    TResult? Function(List<GroupNumber> groups)? groupLoaded,
+  }) {
+    return notAuthorized?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String stage)? processing,
+    TResult Function()? idle,
+    TResult Function()? notAuthorized,
+    TResult Function(Object e)? error,
+    TResult Function(User user)? loaded,
+    TResult Function(List<GroupNumber> groups)? groupLoaded,
+    required TResult orElse(),
+  }) {
+    if (notAuthorized != null) {
+      return notAuthorized();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ProcessingState value) processing,
+    required TResult Function(IdleState value) idle,
+    required TResult Function(NotAuthorizedState value) notAuthorized,
+    required TResult Function(ErrorState value) error,
+    required TResult Function(LoadedState value) loaded,
+    required TResult Function(GroupsLoadedState value) groupLoaded,
+  }) {
+    return notAuthorized(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ProcessingState value)? processing,
+    TResult? Function(IdleState value)? idle,
+    TResult? Function(NotAuthorizedState value)? notAuthorized,
+    TResult? Function(ErrorState value)? error,
+    TResult? Function(LoadedState value)? loaded,
+    TResult? Function(GroupsLoadedState value)? groupLoaded,
+  }) {
+    return notAuthorized?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ProcessingState value)? processing,
+    TResult Function(IdleState value)? idle,
+    TResult Function(NotAuthorizedState value)? notAuthorized,
+    TResult Function(ErrorState value)? error,
+    TResult Function(LoadedState value)? loaded,
+    TResult Function(GroupsLoadedState value)? groupLoaded,
+    required TResult orElse(),
+  }) {
+    if (notAuthorized != null) {
+      return notAuthorized(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NotAuthorizedState extends UserState {
+  const factory NotAuthorizedState() = _$NotAuthorizedStateImpl;
+  const NotAuthorizedState._() : super._();
+}
+
+/// @nodoc
 abstract class _$$ErrorStateImplCopyWith<$Res> {
-  factory _$$ErrorStateImplCopyWith(_$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
+  factory _$$ErrorStateImplCopyWith(
+          _$ErrorStateImpl value, $Res Function(_$ErrorStateImpl) then) =
       __$$ErrorStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object e});
 }
 
 /// @nodoc
-class __$$ErrorStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$ErrorStateImpl>
+class __$$ErrorStateImplCopyWithImpl<$Res>
+    extends _$UserStateCopyWithImpl<$Res, _$ErrorStateImpl>
     implements _$$ErrorStateImplCopyWith<$Res> {
-  __$$ErrorStateImplCopyWithImpl(_$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then) : super(_value, _then);
+  __$$ErrorStateImplCopyWithImpl(
+      _$ErrorStateImpl _value, $Res Function(_$ErrorStateImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -418,7 +608,8 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -433,8 +624,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   TResult when<TResult extends Object?>({
     required TResult Function(String stage) processing,
     required TResult Function() idle,
+    required TResult Function() notAuthorized,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
+    required TResult Function(List<GroupNumber> groups) groupLoaded,
   }) {
     return error(e);
   }
@@ -444,8 +637,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String stage)? processing,
     TResult? Function()? idle,
+    TResult? Function()? notAuthorized,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
+    TResult? Function(List<GroupNumber> groups)? groupLoaded,
   }) {
     return error?.call(e);
   }
@@ -455,8 +650,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String stage)? processing,
     TResult Function()? idle,
+    TResult Function()? notAuthorized,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,
+    TResult Function(List<GroupNumber> groups)? groupLoaded,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -470,8 +667,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   TResult map<TResult extends Object?>({
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
+    required TResult Function(NotAuthorizedState value) notAuthorized,
     required TResult Function(ErrorState value) error,
     required TResult Function(LoadedState value) loaded,
+    required TResult Function(GroupsLoadedState value) groupLoaded,
   }) {
     return error(this);
   }
@@ -481,8 +680,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
+    TResult? Function(NotAuthorizedState value)? notAuthorized,
     TResult? Function(ErrorState value)? error,
     TResult? Function(LoadedState value)? loaded,
+    TResult? Function(GroupsLoadedState value)? groupLoaded,
   }) {
     return error?.call(this);
   }
@@ -492,8 +693,10 @@ class _$ErrorStateImpl extends ErrorState with DiagnosticableTreeMixin {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
+    TResult Function(NotAuthorizedState value)? notAuthorized,
     TResult Function(ErrorState value)? error,
     TResult Function(LoadedState value)? loaded,
+    TResult Function(GroupsLoadedState value)? groupLoaded,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -512,21 +715,25 @@ abstract class ErrorState extends UserState {
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$ErrorStateImplCopyWith<_$ErrorStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$LoadedStateImplCopyWith<$Res> {
-  factory _$$LoadedStateImplCopyWith(_$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
+  factory _$$LoadedStateImplCopyWith(
+          _$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
       __$$LoadedStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({User user});
 }
 
 /// @nodoc
-class __$$LoadedStateImplCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$LoadedStateImpl>
+class __$$LoadedStateImplCopyWithImpl<$Res>
+    extends _$UserStateCopyWithImpl<$Res, _$LoadedStateImpl>
     implements _$$LoadedStateImplCopyWith<$Res> {
-  __$$LoadedStateImplCopyWithImpl(_$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
+  __$$LoadedStateImplCopyWithImpl(
+      _$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of UserState
@@ -590,8 +797,10 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
   TResult when<TResult extends Object?>({
     required TResult Function(String stage) processing,
     required TResult Function() idle,
+    required TResult Function() notAuthorized,
     required TResult Function(Object e) error,
     required TResult Function(User user) loaded,
+    required TResult Function(List<GroupNumber> groups) groupLoaded,
   }) {
     return loaded(user);
   }
@@ -601,8 +810,10 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String stage)? processing,
     TResult? Function()? idle,
+    TResult? Function()? notAuthorized,
     TResult? Function(Object e)? error,
     TResult? Function(User user)? loaded,
+    TResult? Function(List<GroupNumber> groups)? groupLoaded,
   }) {
     return loaded?.call(user);
   }
@@ -612,8 +823,10 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String stage)? processing,
     TResult Function()? idle,
+    TResult Function()? notAuthorized,
     TResult Function(Object e)? error,
     TResult Function(User user)? loaded,
+    TResult Function(List<GroupNumber> groups)? groupLoaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -627,8 +840,10 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
   TResult map<TResult extends Object?>({
     required TResult Function(ProcessingState value) processing,
     required TResult Function(IdleState value) idle,
+    required TResult Function(NotAuthorizedState value) notAuthorized,
     required TResult Function(ErrorState value) error,
     required TResult Function(LoadedState value) loaded,
+    required TResult Function(GroupsLoadedState value) groupLoaded,
   }) {
     return loaded(this);
   }
@@ -638,8 +853,10 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProcessingState value)? processing,
     TResult? Function(IdleState value)? idle,
+    TResult? Function(NotAuthorizedState value)? notAuthorized,
     TResult? Function(ErrorState value)? error,
     TResult? Function(LoadedState value)? loaded,
+    TResult? Function(GroupsLoadedState value)? groupLoaded,
   }) {
     return loaded?.call(this);
   }
@@ -649,8 +866,10 @@ class _$LoadedStateImpl extends LoadedState with DiagnosticableTreeMixin {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProcessingState value)? processing,
     TResult Function(IdleState value)? idle,
+    TResult Function(NotAuthorizedState value)? notAuthorized,
     TResult Function(ErrorState value)? error,
     TResult Function(LoadedState value)? loaded,
+    TResult Function(GroupsLoadedState value)? groupLoaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -669,5 +888,190 @@ abstract class LoadedState extends UserState {
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GroupsLoadedStateImplCopyWith<$Res> {
+  factory _$$GroupsLoadedStateImplCopyWith(_$GroupsLoadedStateImpl value,
+          $Res Function(_$GroupsLoadedStateImpl) then) =
+      __$$GroupsLoadedStateImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<GroupNumber> groups});
+}
+
+/// @nodoc
+class __$$GroupsLoadedStateImplCopyWithImpl<$Res>
+    extends _$UserStateCopyWithImpl<$Res, _$GroupsLoadedStateImpl>
+    implements _$$GroupsLoadedStateImplCopyWith<$Res> {
+  __$$GroupsLoadedStateImplCopyWithImpl(_$GroupsLoadedStateImpl _value,
+      $Res Function(_$GroupsLoadedStateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? groups = null,
+  }) {
+    return _then(_$GroupsLoadedStateImpl(
+      null == groups
+          ? _value._groups
+          : groups // ignore: cast_nullable_to_non_nullable
+              as List<GroupNumber>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GroupsLoadedStateImpl extends GroupsLoadedState
+    with DiagnosticableTreeMixin {
+  const _$GroupsLoadedStateImpl(final List<GroupNumber> groups)
+      : _groups = groups,
+        super._();
+
+  final List<GroupNumber> _groups;
+  @override
+  List<GroupNumber> get groups {
+    if (_groups is EqualUnmodifiableListView) return _groups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_groups);
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserState.groupLoaded(groups: $groups)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UserState.groupLoaded'))
+      ..add(DiagnosticsProperty('groups', groups));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GroupsLoadedStateImpl &&
+            const DeepCollectionEquality().equals(other._groups, _groups));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_groups));
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GroupsLoadedStateImplCopyWith<_$GroupsLoadedStateImpl> get copyWith =>
+      __$$GroupsLoadedStateImplCopyWithImpl<_$GroupsLoadedStateImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String stage) processing,
+    required TResult Function() idle,
+    required TResult Function() notAuthorized,
+    required TResult Function(Object e) error,
+    required TResult Function(User user) loaded,
+    required TResult Function(List<GroupNumber> groups) groupLoaded,
+  }) {
+    return groupLoaded(groups);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String stage)? processing,
+    TResult? Function()? idle,
+    TResult? Function()? notAuthorized,
+    TResult? Function(Object e)? error,
+    TResult? Function(User user)? loaded,
+    TResult? Function(List<GroupNumber> groups)? groupLoaded,
+  }) {
+    return groupLoaded?.call(groups);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String stage)? processing,
+    TResult Function()? idle,
+    TResult Function()? notAuthorized,
+    TResult Function(Object e)? error,
+    TResult Function(User user)? loaded,
+    TResult Function(List<GroupNumber> groups)? groupLoaded,
+    required TResult orElse(),
+  }) {
+    if (groupLoaded != null) {
+      return groupLoaded(groups);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ProcessingState value) processing,
+    required TResult Function(IdleState value) idle,
+    required TResult Function(NotAuthorizedState value) notAuthorized,
+    required TResult Function(ErrorState value) error,
+    required TResult Function(LoadedState value) loaded,
+    required TResult Function(GroupsLoadedState value) groupLoaded,
+  }) {
+    return groupLoaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ProcessingState value)? processing,
+    TResult? Function(IdleState value)? idle,
+    TResult? Function(NotAuthorizedState value)? notAuthorized,
+    TResult? Function(ErrorState value)? error,
+    TResult? Function(LoadedState value)? loaded,
+    TResult? Function(GroupsLoadedState value)? groupLoaded,
+  }) {
+    return groupLoaded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ProcessingState value)? processing,
+    TResult Function(IdleState value)? idle,
+    TResult Function(NotAuthorizedState value)? notAuthorized,
+    TResult Function(ErrorState value)? error,
+    TResult Function(LoadedState value)? loaded,
+    TResult Function(GroupsLoadedState value)? groupLoaded,
+    required TResult orElse(),
+  }) {
+    if (groupLoaded != null) {
+      return groupLoaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GroupsLoadedState extends UserState {
+  const factory GroupsLoadedState(final List<GroupNumber> groups) =
+      _$GroupsLoadedStateImpl;
+  const GroupsLoadedState._() : super._();
+
+  List<GroupNumber> get groups;
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GroupsLoadedStateImplCopyWith<_$GroupsLoadedStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
