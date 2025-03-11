@@ -359,7 +359,7 @@ class UpdateUserNameRequest extends $pb.GeneratedMessage {
 
 class GetListGroupsResponce extends $pb.GeneratedMessage {
   factory GetListGroupsResponce({
-    $core.Iterable<Group>? groups,
+    $core.Iterable<GroupNumber>? groups,
   }) {
     final $result = create();
     if (groups != null) {
@@ -372,7 +372,7 @@ class GetListGroupsResponce extends $pb.GeneratedMessage {
   factory GetListGroupsResponce.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetListGroupsResponce', createEmptyInstance: create)
-    ..pc<Group>(1, _omitFieldNames ? '' : 'groups', $pb.PbFieldType.PM, subBuilder: Group.create)
+    ..pc<GroupNumber>(1, _omitFieldNames ? '' : 'groups', $pb.PbFieldType.PM, subBuilder: GroupNumber.create)
     ..hasRequiredFields = false
   ;
 
@@ -398,7 +398,7 @@ class GetListGroupsResponce extends $pb.GeneratedMessage {
   static GetListGroupsResponce? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<Group> get groups => $_getList(0);
+  $core.List<GroupNumber> get groups => $_getList(0);
 }
 
 class ReviewWithProfessorResponse extends $pb.GeneratedMessage {
@@ -1222,12 +1222,21 @@ class DeleteReviewResponse extends $pb.GeneratedMessage {
 }
 
 class UpdateReviewResponse extends $pb.GeneratedMessage {
-  factory UpdateReviewResponse() => create();
+  factory UpdateReviewResponse({
+    $core.bool? passed,
+  }) {
+    final $result = create();
+    if (passed != null) {
+      $result.passed = passed;
+    }
+    return $result;
+  }
   UpdateReviewResponse._() : super();
   factory UpdateReviewResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory UpdateReviewResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateReviewResponse', createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'passed')
     ..hasRequiredFields = false
   ;
 
@@ -1251,6 +1260,15 @@ class UpdateReviewResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static UpdateReviewResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateReviewResponse>(create);
   static UpdateReviewResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get passed => $_getBF(0);
+  @$pb.TagNumber(1)
+  set passed($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPassed() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPassed() => clearField(1);
 }
 
 class UpdateProfileResponse extends $pb.GeneratedMessage {
@@ -1813,6 +1831,70 @@ class Group extends $pb.GeneratedMessage {
   $core.bool hasProfessorId() => $_has(2);
   @$pb.TagNumber(3)
   void clearProfessorId() => clearField(3);
+}
+
+class GroupNumber extends $pb.GeneratedMessage {
+  factory GroupNumber({
+    $core.String? id,
+    $core.String? number,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (number != null) {
+      $result.number = number;
+    }
+    return $result;
+  }
+  GroupNumber._() : super();
+  factory GroupNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GroupNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GroupNumber', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'number')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GroupNumber clone() => GroupNumber()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GroupNumber copyWith(void Function(GroupNumber) updates) => super.copyWith((message) => updates(message as GroupNumber)) as GroupNumber;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GroupNumber create() => GroupNumber._();
+  GroupNumber createEmptyInstance() => create();
+  static $pb.PbList<GroupNumber> createRepeated() => $pb.PbList<GroupNumber>();
+  @$core.pragma('dart2js:noInline')
+  static GroupNumber getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GroupNumber>(create);
+  static GroupNumber? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get number => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set number($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasNumber() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearNumber() => clearField(2);
 }
 
 class Professor extends $pb.GeneratedMessage {

@@ -99,14 +99,14 @@ final $typed_data.Uint8List updateUserNameRequestDescriptor = $convert.base64Dec
 const GetListGroupsResponce$json = {
   '1': 'GetListGroupsResponce',
   '2': [
-    {'1': 'groups', '3': 1, '4': 3, '5': 11, '6': '.Group', '10': 'groups'},
+    {'1': 'groups', '3': 1, '4': 3, '5': 11, '6': '.GroupNumber', '10': 'groups'},
   ],
 };
 
 /// Descriptor for `GetListGroupsResponce`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getListGroupsResponceDescriptor = $convert.base64Decode(
-    'ChVHZXRMaXN0R3JvdXBzUmVzcG9uY2USHgoGZ3JvdXBzGAEgAygLMgYuR3JvdXBSBmdyb3Vwcw'
-    '==');
+    'ChVHZXRMaXN0R3JvdXBzUmVzcG9uY2USJAoGZ3JvdXBzGAEgAygLMgwuR3JvdXBOdW1iZXJSBm'
+    'dyb3Vwcw==');
 
 @$core.Deprecated('Use reviewWithProfessorResponseDescriptor instead')
 const ReviewWithProfessorResponse$json = {
@@ -317,11 +317,14 @@ final $typed_data.Uint8List deleteReviewResponseDescriptor = $convert.base64Deco
 @$core.Deprecated('Use updateReviewResponseDescriptor instead')
 const UpdateReviewResponse$json = {
   '1': 'UpdateReviewResponse',
+  '2': [
+    {'1': 'passed', '3': 1, '4': 1, '5': 8, '10': 'passed'},
+  ],
 };
 
 /// Descriptor for `UpdateReviewResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List updateReviewResponseDescriptor = $convert.base64Decode(
-    'ChRVcGRhdGVSZXZpZXdSZXNwb25zZQ==');
+    'ChRVcGRhdGVSZXZpZXdSZXNwb25zZRIWCgZwYXNzZWQYASABKAhSBnBhc3NlZA==');
 
 @$core.Deprecated('Use updateProfileResponseDescriptor instead')
 const UpdateProfileResponse$json = {
@@ -447,6 +450,19 @@ const Group$json = {
 final $typed_data.Uint8List groupDescriptor = $convert.base64Decode(
     'CgVHcm91cBIOCgJpZBgBIAEoCVICaWQSFgoGbnVtYmVyGAIgASgJUgZudW1iZXISIAoLcHJvZm'
     'Vzc29ySWQYAyABKAlSC3Byb2Zlc3Nvcklk');
+
+@$core.Deprecated('Use groupNumberDescriptor instead')
+const GroupNumber$json = {
+  '1': 'GroupNumber',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'number', '3': 2, '4': 1, '5': 9, '10': 'number'},
+  ],
+};
+
+/// Descriptor for `GroupNumber`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List groupNumberDescriptor = $convert.base64Decode(
+    'CgtHcm91cE51bWJlchIOCgJpZBgBIAEoCVICaWQSFgoGbnVtYmVyGAIgASgJUgZudW1iZXI=');
 
 @$core.Deprecated('Use professorDescriptor instead')
 const Professor$json = {

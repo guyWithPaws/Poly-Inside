@@ -59,7 +59,7 @@ message UpdateUserNameRequest {
 }
 
 message GetListGroupsResponce {
-  repeated Group groups = 1;
+  repeated GroupNumber groups = 1;
 }
 
 message ReviewWithProfessorResponse{
@@ -126,7 +126,9 @@ message AddProfileResponse {}
 
 message DeleteReviewResponse {}
 
-message UpdateReviewResponse {}
+message UpdateReviewResponse {
+  bool passed = 1;
+}
 
 message UpdateProfileResponse {}
 
@@ -169,6 +171,11 @@ message Group {
   string id = 1;
   string number = 2;
   string professorId = 3;
+}
+
+message GroupNumber {
+  string id = 1;
+  string number = 2;
 }
 
 message Professor {
