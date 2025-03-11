@@ -18,6 +18,7 @@ class Professors extends Table {
   RealColumn get loyalty => real()();
   RealColumn get professionalism => real()();
   RealColumn get harshness => real()();
+
   @override
   Set<Column<Object>>? get primaryKey => {id};
 }
@@ -27,6 +28,15 @@ class Groups extends Table {
   TextColumn get id => text()();
   TextColumn get number => text()();
   TextColumn get professorId => text()();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {id};
+}
+
+@UseRowClass(GroupNumber)
+class GroupsNumbers extends Table {
+  TextColumn get id => text()();
+  TextColumn get number => text()();
 
   @override
   Set<Column<Object>>? get primaryKey => {id};
@@ -92,21 +102,28 @@ class Reviews extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DriftDatabase(
-    tables: [Professors, Users, Reviews, RejectedReviews, Reactions, Groups])
+@DriftDatabase(tables: [
+  Professors,
+  Users,
+  Reviews,
+  RejectedReviews,
+  Reactions,
+  Groups,
+  GroupsNumbers
+])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   static QueryExecutor _openConnection() => PgDatabase(
         endpoint: pg.Endpoint(
-            host: 'localhost',
+            host: 'database',
             database: 'postgres_db', // Имя вашей базы данных
             username: 'postgres_user', // Имя пользователя
             password: 'postgres_password',
-            port: 5430),
+            port: 5432),
         settings: const ConnectionSettings(
           // If you expect to talk to a Postgres database over
           // a public connection,
@@ -130,6 +147,9 @@ class AppDatabase extends _$AppDatabase {
           }
           if (from < 4) {
             await m.addColumn(users, users.group);
+          }
+          if (from < 5) {
+            await m.createTable(groupsNumbers);
           }
         },
       );
