@@ -50,7 +50,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ProfessorDataBLoC? _bloc;
   late Professor professor;
 
-  /* #region Lifecycle */
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -60,7 +59,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     _buttonVisibilityNotifier = ValueNotifier(true);
 
     super.initState();
-    // Initial state initialization
   }
 
   void scrollListener() {
@@ -89,19 +87,16 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
         ),
       );
     super.didChangeDependencies();
-    // The configuration of InheritedWidgets has changed
-    // Also called after initState but before build
   }
 
   @override
   void dispose() {
     _scrollController?.dispose();
-    _valueNotifier?.dispose();
+    // _valueNotifier?.dispose();
     _bloc?.close();
-    // Permanent removal of a tree stent
+
     super.dispose();
   }
-  /* #endregion */
 
   @override
   Widget build(BuildContext context) {

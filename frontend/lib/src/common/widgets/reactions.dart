@@ -163,7 +163,8 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: UserScope.userOf(context).id != widget.review!.userId ? _onLikeTap : null,
+                onTap: _onLikeTap,
+                // onTap: UserScope.userOf(context).id != widget.review!.userId ? _onLikeTap : null,
                 child: ScaleTransition(
                   scale: Tween<double>(
                     begin: 1.0,
@@ -181,17 +182,17 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               const SizedBox(
                 width: 8,
               ),
-              ValueListenableBuilder(
-                valueListenable: _likeCounter!,
-                builder: (context, likeCount, _) => AnimatedFlipCounter(
-                  value: likeCount,
-                  duration: const Duration(milliseconds: 200),
-                  textStyle: TextStyle(
-                    color: isLiked ? const Color.fromRGBO(0, 0, 0, 1) : const Color.fromARGB(255, 138, 138, 138),
-                    fontWeight: isLiked ? FontWeight.w600 : FontWeight.w400,
-                  ),
-                ),
-              )
+              // ValueListenableBuilder(
+              //   valueListenable: _likeCounter!,
+              //   builder: (context, likeCount, _) => AnimatedFlipCounter(
+              //     value: likeCount,
+              //     duration: const Duration(milliseconds: 200),
+              //     textStyle: TextStyle(
+              //       color: isLiked ? const Color.fromRGBO(0, 0, 0, 1) : const Color.fromARGB(255, 138, 138, 138),
+              //       fontWeight: isLiked ? FontWeight.w600 : FontWeight.w400,
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),
@@ -202,7 +203,8 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: UserScope.userOf(context).id != widget.review!.userId ? _onDislikeTap : null,
+                onTap: _onDislikeTap,
+                // onTap: UserScope.userOf(context).id != widget.review!.userId ? _onDislikeTap : null,
                 child: ScaleTransition(
                   scale: Tween<double>(
                     begin: 1.0,
@@ -219,17 +221,17 @@ class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
               const SizedBox(
                 width: 8,
               ),
-              ValueListenableBuilder(
-                valueListenable: _dislikeCounter!,
-                builder: (context, dislikeCount, _) => AnimatedFlipCounter(
-                  value: dislikeCount,
-                  duration: const Duration(microseconds: 200),
-                  textStyle: TextStyle(
-                    color: isDisliked ? Colors.black : const Color.fromARGB(255, 138, 138, 138),
-                    fontWeight: isDisliked ? FontWeight.w600 : FontWeight.w400,
-                  ),
-                ),
-              )
+              // ValueListenableBuilder(
+              //   valueListenable: _dislikeCounter!,
+              //   builder: (context, dislikeCount, _) => AnimatedFlipCounter(
+              //     value: dislikeCount,
+              //     duration: const Duration(microseconds: 200),
+              //     textStyle: TextStyle(
+              //       color: isDisliked ? Colors.black : const Color.fromARGB(255, 138, 138, 138),
+              //       fontWeight: isDisliked ? FontWeight.w600 : FontWeight.w400,
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

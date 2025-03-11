@@ -32,7 +32,8 @@ class StarsRating extends StatefulWidget {
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _StarsRatingState? maybeOf(BuildContext context) => context.findAncestorStateOfType<_StarsRatingState>();
+  static _StarsRatingState? maybeOf(BuildContext context) =>
+      context.findAncestorStateOfType<_StarsRatingState>();
 
   @override
   State<StarsRating> createState() => _StarsRatingState();
@@ -70,101 +71,107 @@ class _StarsRatingState extends State<StarsRating> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanStart: (details) {
-        if (widget.enableDragDetector) {
-          setState(
-            () {
-              widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
-              widget.valueNotifier!.value = double.parse(widget.value.toStringAsFixed(1));
-            },
-          );
-        }
-      },
-      onPanUpdate: (details) {
-        if (widget.enableDragDetector) {
-          setState(
-            () {
-              widget.value = (details.localPosition.dx / widget.size.width).clamp(1.0, 5.0);
-              widget.valueNotifier!.value = double.parse(widget.value.toStringAsFixed(1));
-            },
-          );
-        }
-      },
-      child: Row(
-        children: [
-          Row(
-            children: [
-              for (int i = 0; i < 5; i++)
-                Stack(
-                  children: [
-                    SizedBox(
-                      width: widget.size.width,
-                      height: widget.size.height,
-                      child: Image.asset(StarsRating.greyImageUrl),
-                      // child: SvgPicture.asset(
-                      // StarsRating.imageUrl,
-                      // colorFilter: const ColorFilter.mode(
-                      // StarsRating.baseColor, BlendMode.srcIn),
-                      // ),
-                    ),
-                    ShaderMask(
-                      shaderCallback: (bounds) {
-                        final fillGradient = LinearGradient(
-                          begin: Alignment.bottomLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            StarsRating.color,
-                            StarsRating.color.withOpacity(0),
-                          ],
-                          stops: [
-                            (widget.value - i >= 0) ? (widget.value - i) : 0,
-                            (widget.value - i >= 0) ? (widget.value - i) : 0,
-                          ],
-                        );
-                        return fillGradient.createShader(bounds);
-                      },
-                      blendMode: BlendMode.srcATop,
-                      child: SizedBox(
+    return RepaintBoundary(
+      child: GestureDetector(
+        onPanStart: (details) {
+          if (widget.enableDragDetector) {
+            setState(
+              () {
+                widget.value = (details.localPosition.dx / widget.size.width)
+                    .clamp(1.0, 5.0);
+                widget.valueNotifier!.value =
+                    double.parse(widget.value.toStringAsFixed(1));
+              },
+            );
+          }
+        },
+        onPanUpdate: (details) {
+          if (widget.enableDragDetector) {
+            setState(
+              () {
+                widget.value = (details.localPosition.dx / widget.size.width)
+                    .clamp(1.0, 5.0);
+                widget.valueNotifier!.value =
+                    double.parse(widget.value.toStringAsFixed(1));
+              },
+            );
+          }
+        },
+        child: Row(
+          children: [
+            Row(
+              children: [
+                for (int i = 0; i < 5; i++)
+                  Stack(
+                    children: [
+                      SizedBox(
                         width: widget.size.width,
                         height: widget.size.height,
-                        child: Image.asset(
-                          StarsRating.greyImageUrl,
-                        ),
+                        child: Image.asset(StarsRating.greyImageUrl),
+                        // child: SvgPicture.asset(
+                        // StarsRating.imageUrl,
+                        // colorFilter: const ColorFilter.mode(
+                        // StarsRating.baseColor, BlendMode.srcIn),
+                        // ),
                       ),
-                      // child: SizedBox(
-                      //   width: widget.size.width,
-                      //   height: widget.size.height,
-                      //   child: SvgPicture.asset(
-                      //     StarsRating.imageUrl,
-                      //     colorFilter: const ColorFilter.mode(
-                      //         StarsRating.baseColor, BlendMode.srcIn),
-                      //   ),
-                      // ),
-                    ),
-                  ],
-                )
-            ],
-          ),
-          SizedBox(width: widget.spaceBetween),
-          SizedBox(
-            width: widget.size.width * 2,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 3,
-                ),
-                Text(
-                  widget.value.toStringAsFixed(1),
-                  style: TextStyle(
-                    fontSize: widget.textSize,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                      ShaderMask(
+                        shaderCallback: (bounds) {
+                          final fillGradient = LinearGradient(
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              StarsRating.color,
+                              StarsRating.color.withOpacity(0),
+                            ],
+                            stops: [
+                              (widget.value - i >= 0) ? (widget.value - i) : 0,
+                              (widget.value - i >= 0) ? (widget.value - i) : 0,
+                            ],
+                          );
+                          return fillGradient.createShader(bounds);
+                        },
+                        blendMode: BlendMode.srcATop,
+                        child: SizedBox(
+                          width: widget.size.width,
+                          height: widget.size.height,
+                          child: Image.asset(
+                            StarsRating.greyImageUrl,
+                          ),
+                        ),
+                        // child: SizedBox(
+                        //   width: widget.size.width,
+                        //   height: widget.size.height,
+                        //   child: SvgPicture.asset(
+                        //     StarsRating.imageUrl,
+                        //     colorFilter: const ColorFilter.mode(
+                        //         StarsRating.baseColor, BlendMode.srcIn),
+                        //   ),
+                        // ),
+                      ),
+                    ],
+                  )
               ],
             ),
-          )
-        ],
+            SizedBox(width: widget.spaceBetween),
+            SizedBox(
+              width: widget.size.width * 2,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    widget.value.toStringAsFixed(1),
+                    style: TextStyle(
+                      fontSize: widget.textSize,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
