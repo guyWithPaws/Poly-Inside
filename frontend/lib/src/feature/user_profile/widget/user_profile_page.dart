@@ -10,7 +10,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
-import 'package:poly_inside/src/feature/user_profile/bloc/data_bloc.dart';
+import 'package:poly_inside/src/feature/user_profile/bloc/group_search_bloc/group_search_bloc.dart';
+import 'package:poly_inside/src/feature/user_profile/bloc/user_bloc/user_bloc.dart';
 import 'package:shared/shared.dart';
 
 import '../../../common/enums/sorting_type.dart';
@@ -34,6 +35,12 @@ class _ProfilePageState extends State<ProfilePage> {
   ValueNotifier<bool>? _isEditingProfile;
   ValueNotifier<int>? _sortingValueNotifier;
   TextEditingController? _textEditingController;
+  TextEditingController? _choseGroupController;
+
+  ProfileDataBLoC? _bloc;
+  GroupSearchBLoC? _groupSearchBloc;
+
+  String number = '';
 
   static const Duration scrollDuration = Duration(milliseconds: 500);
 
@@ -44,6 +51,13 @@ class _ProfilePageState extends State<ProfilePage> {
     _scrollController?.addListener(scrollListener);
 
     _textEditingController = TextEditingController();
+    _choseGroupController = TextEditingController();
+    _choseGroupController!.addListener(() {
+      if (_choseGroupController!.text.isNotEmpty) {
+        _groupSearchBloc?.add(
+            GroupTextFieldChanged(groupNumber: _choseGroupController!.text));
+      }
+    });
 
     _valueNotifier = ValueNotifier(false);
     _isEditingProfile = ValueNotifier(false);
@@ -67,9 +81,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void didChangeDependencies() {
     _textEditingController!.text = UserScope.userOf(context).name;
-    // _bloc ??=
-    //     ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
-    //       ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
+    _bloc ??=
+        ProfileDataBLoC(repository: InitializationScope.repositoryOf(context));
+    _groupSearchBloc ??=
+        GroupSearchBLoC(repository: InitializationScope.repositoryOf(context));
     super.didChangeDependencies();
   }
 
@@ -83,6 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _scrollController?.dispose();
     _valueNotifier?.dispose();
     _textEditingController?.dispose();
+    _choseGroupController?.dispose();
     // _bloc?.close();
     // Permanent removal of a tree stent
     super.dispose();
@@ -137,12 +153,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () async {
                     _isEditingProfile!.value = !_isEditingProfile!.value;
                     if (!_isEditingProfile!.value) {
+                      debugPrint(_textEditingController!.text);
                       await InitializationScope.repositoryOf(context)
                           .updateUser(
                         User(
-                          id: UserScope.userOf(context).id,
-                          name: _textEditingController!.text,
-                        ),
+                            id: UserScope.userOf(context).id,
+                            rating: UserScope.userOf(context).rating,
+                            name: _textEditingController!.text,
+                            avatar: UserScope.userOf(context).avatar,
+                            group: UserScope.userOf(context).group),
                       );
                     }
                   },
@@ -239,41 +258,43 @@ class _ProfilePageState extends State<ProfilePage> {
                           builder: (context, value, _) =>
                               ValueListenableBuilder(
                             valueListenable: _textEditingController!,
-                            builder: (context, textValue, _) =>
-                                AnimatedContainer(
-                              width: textValue.text.isNotEmpty &&
-                                      textValue.text.length * 30 > 100
-                                  ? textValue.text.length * 30
-                                  : 100,
-                              height: 50,
-                              duration: const Duration(milliseconds: 350),
-                              decoration: BoxDecoration(
-                                border: value
-                                    ? Border.all(
-                                        color: textValue.text.length < 15
-                                            ? const Color.fromARGB(
-                                                255, 168, 239, 171)
-                                            : Colors.red,
-                                        width: 1)
-                                    : null,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Center(
-                                child: SizedBox(
-                                  child: TextFormField(
-                                    maxLength: 15,
-                                    controller: _textEditingController,
-                                    readOnly: !value,
-                                    textAlign: TextAlign.center,
-                                    textAlignVertical: TextAlignVertical.center,
-                                    decoration: const InputDecoration(
-                                        counterText: '',
-                                        counter: null,
-                                        border: InputBorder.none),
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 36,
-                                      fontWeight: FontWeight.w600,
+                            builder: (context, textValue, _) => RepaintBoundary(
+                              child: AnimatedContainer(
+                                width: textValue.text.isNotEmpty &&
+                                        textValue.text.length * 30 > 100
+                                    ? textValue.text.length * 30
+                                    : 100,
+                                height: 50,
+                                duration: const Duration(milliseconds: 350),
+                                decoration: BoxDecoration(
+                                  border: value
+                                      ? Border.all(
+                                          color: textValue.text.length < 15
+                                              ? const Color.fromARGB(
+                                                  255, 168, 239, 171)
+                                              : Colors.red,
+                                          width: 1)
+                                      : null,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Center(
+                                  child: SizedBox(
+                                    child: TextFormField(
+                                      maxLength: 15,
+                                      controller: _textEditingController,
+                                      readOnly: !value,
+                                      textAlign: TextAlign.center,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      decoration: const InputDecoration(
+                                          counterText: '',
+                                          counter: null,
+                                          border: InputBorder.none),
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -288,7 +309,130 @@ class _ProfilePageState extends State<ProfilePage> {
                           onTap: () => showCupertinoModalBottomSheet(
                             context: context,
                             builder: (context) => SizedBox(
-                              height: MediaQuery.of(context).size.height - 100,
+                              height: MediaQuery.of(context).size.height - 150,
+                              child: Scaffold(
+                                body: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 0),
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xffEEF9EF),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Icon(
+                                                Icons.search,
+                                                color: Color(0xff8A8A8A),
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Expanded(
+                                                child: TextField(
+                                                  controller:
+                                                      _choseGroupController,
+                                                  textAlign: TextAlign.start,
+                                                  maxLines: 1,
+                                                  cursorColor: Colors.black,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                    hintStyle: TextStyle(
+                                                      color: Color(0xff8A8A8A),
+                                                    ),
+                                                    hintText:
+                                                        'Начните вводить номер группы...',
+                                                    border: InputBorder.none,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      Expanded(
+                                        child: BlocBuilder<GroupSearchBLoC,
+                                                GroupSearchState>(
+                                            bloc: _groupSearchBloc,
+                                            builder: (context, state) {
+                                              return state.when(
+                                                approved: () =>
+                                                    const SizedBox(),
+                                                loaded: (groups) {
+                                                  return ListView.builder(
+                                                      itemCount: groups.length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return GestureDetector(
+                                                          onTap: () =>
+                                                              _choseGroupController!
+                                                                      .text =
+                                                                  groups[index]
+                                                                      .number,
+                                                          child: ListTile(
+                                                            title: Text(
+                                                                groups[index]
+                                                                    .number),
+                                                          ),
+                                                        );
+                                                      });
+                                                },
+                                                processing: () => const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                ),
+                                                idle: () => const SizedBox(),
+                                                error: (Object e) =>
+                                                    const Center(
+                                                  child: Text('Error!'),
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                      const Spacer(),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                16,
+                                        height: 64,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            color: Colors.green),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Center(
+                                            child: Text(
+                                              'Выбрать',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(
+                                                    color: Colors.white,
+                                                  ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                           child: Row(
