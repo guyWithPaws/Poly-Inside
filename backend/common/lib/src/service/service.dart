@@ -53,7 +53,7 @@ class GRPCService extends SearchServiceBase {
     l
       ..v('Client with ip: ${call.remoteAddress!.address}')
       ..v('GetProfile with ${request.id}');
-    final user = await provider.getUser(request.id);
+    final user = await provider.getUserByUserId(request.id);
     return user ?? User();
   }
 
@@ -185,25 +185,23 @@ class GRPCService extends SearchServiceBase {
   }
 
   @override
+  Future<ChangeGroupNumberResponce> changeGroupNumber(
+      ServiceCall call, ChangeGroupNumberRequest request) {
+    // TODO: implement changeGroupNumber
+    throw UnimplementedError();
+  }
+
+  @override
   Stream<GroupsNumbersResponce> getGroupsNumbers(
-      ServiceCall call, GetGroupsNumbersRequest request) async* {
-    final data = provider.getGroupsNumers(request.groupPattern, request.count);
-    await for (final groupNumber in data) {
-      yield GroupsNumbersResponce();
-    }
+      ServiceCall call, GetGroupsNumbersRequest request) {
+    // TODO: implement getGroupsNumbers
+    throw UnimplementedError();
   }
 
   @override
   Future<UpdateUserNameResponce> updateUserName(
-      ServiceCall call, UpdateUserNameRequest request) async {
-    await provider.updateUserName(request.id, request.newUserName);
-    return UpdateUserNameResponce();
-  }
-
-  @override
-  Future<ChangeGroupNumberResponce> changeGroupNumber(
-      ServiceCall call, ChangeGroupNumberRequest request) async {
-    await provider.updateGroupNumber(request.userId, request.newGroupNumber);
-    return ChangeGroupNumberResponce();
+      ServiceCall call, UpdateUserNameRequest request) {
+    // TODO: implement updateUserName
+    throw UnimplementedError();
   }
 }

@@ -1,18 +1,15 @@
 import 'package:shared/shared.dart';
 
-abstract interface class UserProvider {
+abstract class UserProvider {
   // CRUD operations
   Future<void> addUser(User user);
-  Future<User?> getUser(int userId);
   Future<bool> updateUser(User user);
 
-  Future<void> updateUserName(int id, String newUserName);
-  Future<void> updateGroupNumber(int id, String newGroupNumber);
-  
-  Stream<List<Group>> getGroups(int count, String number);
+  Future<User?> getUserByUserId(int userId);
+  Stream<List<GroupNumber>> getGroups(int count, String number);
 }
 
-abstract interface class ProfessorProvider {
+abstract class ProfessorProvider {
   // CRUD operations
   Future<void> addProfessor(Professor professor);
 
@@ -25,7 +22,12 @@ abstract interface class ProfessorProvider {
       String id, String number, String professorId);
 }
 
-abstract interface class ReviewProvider {
+abstract class GroupProvider {
+  Future<void> changeGroupNumber();
+  Future<void> fillGroupsNumbers();
+}
+
+abstract class ReviewProvider {
   // CRUD operations
   Future<int> addReview(Review review);
   Future<bool> updateReview(Review review);
@@ -38,20 +40,16 @@ abstract interface class ReviewProvider {
 }
 
 // ignore: one_member_abstracts
-abstract interface class RejectedReviewProvider {
+abstract class RejectedReviewProvider {
   // CRUD operations
   Future<void> addRejectedReview(Review review);
 }
 
-abstract interface class ReactionProvider {
+abstract class ReactionProvider {
   // CRUD operations
   Future<void> addReaction(Reaction reaction);
   Future<void> updateReaction(Reaction reaction);
   Future<void> deleteReaction(String id);
   Future<bool> isReactionExists(Reaction reaction);
   Future<Reaction> getReaction(String reactionId);
-}
-
-abstract interface class GroupProvider {
-  Stream<List<String>> getGroupsNumers(String groupPattern, int count);
 }
