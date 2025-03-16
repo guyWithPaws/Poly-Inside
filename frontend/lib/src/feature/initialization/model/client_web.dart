@@ -4,7 +4,7 @@ import 'package:grpc/service_api.dart';
 ClientChannel getChannel() {
   return GrpcWebClientChannel.xhr(
     Uri.parse(
-      'https://infinite-cow-hip.ngrok-free.app/api/',
+      'https://infinite-cow-hip.ngrok-free.app/api',
     ),
   );
 }
@@ -12,7 +12,7 @@ ClientChannel getChannel() {
 ClientChannel getLocalhostChannel() {
   return GrpcWebClientChannel.xhr(
     Uri.parse(
-      'https://infinite-cow-hip.ngrok-free.app/api/',
+      'http://localhost:8080/api/',
     ),
   );
 }

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
@@ -88,10 +88,10 @@ class _ProfilePageState extends State<ProfilePage> {
     super.didChangeDependencies();
   }
 
-  Future<void> _pickImage(BuildContext context) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-  }
+  // Future<void> _pickImage(BuildContext context) async {
+  //   final ImagePicker picker = ImagePicker();
+  //   final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  // }
 
   @override
   void dispose() {
@@ -228,10 +228,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                         const Text('Выбрать фото'),
                                         const SizedBox(height: 20),
                                         ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            _pickImage(context);
-                                          },
+                                          onPressed: () {},
+                                          // onPressed: () {
+                                          //   Navigator.pop(context);
+                                          //   _pickImage(context);
+                                          // },
                                           child:
                                               const Text('Выбрать из галереи'),
                                         ),

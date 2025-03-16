@@ -10,7 +10,7 @@ WORKDIR /build
 
 SHELL [ "/bin/bash", "-c" ]
 COPY ./frontend .
-RUN flutter pub get && flutter build web
+RUN flutter pub get && flutter build web --wasm
 
 FROM python:3.9-slim
 
