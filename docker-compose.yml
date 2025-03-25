@@ -19,9 +19,9 @@ services:
       - "80:80"
     networks:
       - dev
-    # volumes:
-    #   - ./proxy/nginx/nginx.conf:/etc/nginx/nginx.conf
-    # command: [nginx, '-g', 'daemon off;']
+    volumes:
+      - ./proxy/nginx/nginx.conf:/etc/nginx/nginx.conf
+    command: [nginx, '-g', 'daemon off;']
     depends_on:
       - envoy
       - server
