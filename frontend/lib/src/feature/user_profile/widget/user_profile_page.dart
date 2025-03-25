@@ -42,7 +42,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   String number = '';
 
-  static const Duration scrollDuration = Duration(milliseconds: 500);
+  static const Duration scrollDuration =
+      Duration(milliseconds: 500);
 
   /* #region Lifecycle */
   @override
@@ -54,14 +55,18 @@ class _ProfilePageState extends State<ProfilePage> {
     _choseGroupController = TextEditingController();
     _choseGroupController!.addListener(() {
       if (_choseGroupController!.text.isNotEmpty) {
-        _groupSearchBloc?.add(
-            GroupTextFieldChanged(groupNumber: _choseGroupController!.text));
+        _groupSearchBloc?.add(GroupTextFieldChanged(
+            groupNumber: _choseGroupController!.text));
       }
     });
 
     _valueNotifier = ValueNotifier(false);
     _isEditingProfile = ValueNotifier(false);
-    _sortingValueNotifier = ValueNotifier(0);
+    _sortingValueNotifier = ValueNotifier(0)
+      ..addListener(() {
+        _bloc?.add(SortingRequest(
+            order: _sortingValueNotifier!.value));
+      });
 
     super.initState();
     // Initial state initialization
@@ -80,11 +85,14 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void didChangeDependencies() {
-    _textEditingController!.text = UserScope.userOf(context).name;
-    _bloc ??=
-        ProfileDataBLoC(repository: InitializationScope.repositoryOf(context));
-    _groupSearchBloc ??=
-        GroupSearchBLoC(repository: InitializationScope.repositoryOf(context));
+    _textEditingController!.text =
+        UserScope.userOf(context).name;
+    _bloc ??= ProfileDataBLoC(
+        repository:
+            InitializationScope.repositoryOf(context));
+    _groupSearchBloc ??= GroupSearchBLoC(
+        repository:
+            InitializationScope.repositoryOf(context));
     super.didChangeDependencies();
   }
 
@@ -113,7 +121,8 @@ class _ProfilePageState extends State<ProfilePage> {
         child: FloatingActionButton.extended(
           onPressed: () {
             _scrollController?.animateTo(0,
-                duration: scrollDuration, curve: Curves.easeInOut);
+                duration: scrollDuration,
+                curve: Curves.easeInOut);
           },
           backgroundColor: Colors.green,
           label: const AnimatedSize(
@@ -133,7 +142,8 @@ class _ProfilePageState extends State<ProfilePage> {
             surfaceTintColor: Colors.white,
             expandedHeight: 60,
             title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
@@ -143,25 +153,37 @@ class _ProfilePageState extends State<ProfilePage> {
                     margin: const EdgeInsets.only(left: 5),
                     alignment: Alignment.center,
                     decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 185, 185, 185),
+                      color: Color.fromARGB(
+                          255, 185, 185, 185),
                       shape: BoxShape.circle,
                     ),
-                    child: SvgPicture.asset('assets/icons/cross.svg'),
+                    child: SvgPicture.asset(
+                        'assets/icons/cross.svg'),
                   ),
                 ),
                 GestureDetector(
                   onTap: () async {
-                    _isEditingProfile!.value = !_isEditingProfile!.value;
+                    _isEditingProfile!.value =
+                        !_isEditingProfile!.value;
                     if (!_isEditingProfile!.value) {
-                      debugPrint(_textEditingController!.text);
-                      await InitializationScope.repositoryOf(context)
+                      debugPrint(
+                          _textEditingController!.text);
+                      await InitializationScope
+                              .repositoryOf(context)
                           .updateUser(
                         User(
-                            id: UserScope.userOf(context).id,
-                            rating: UserScope.userOf(context).rating,
-                            name: _textEditingController!.text,
-                            avatar: UserScope.userOf(context).avatar,
-                            group: UserScope.userOf(context).group),
+                            id: UserScope.userOf(context)
+                                .id,
+                            rating:
+                                UserScope.userOf(context)
+                                    .rating,
+                            name: _textEditingController!
+                                .text,
+                            avatar:
+                                UserScope.userOf(context)
+                                    .avatar,
+                            group: UserScope.userOf(context)
+                                .group),
                       );
                     }
                   },
@@ -178,7 +200,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       builder: (context, value, _) => !value
                           ? SvgPicture.asset(
                               'assets/icons/profileeditbutton.svg')
-                          : SvgPicture.asset('assets/icons/check.svg'),
+                          : SvgPicture.asset(
+                              'assets/icons/check.svg'),
                     ),
                   ),
                 ),
@@ -187,7 +210,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16),
               child: Column(
                 children: [
                   FittedBox(
@@ -197,51 +221,58 @@ class _ProfilePageState extends State<ProfilePage> {
                         Stack(
                           children: [
                             Hero(
-                              tag: UserScope.userOf(context).id,
+                              tag: UserScope.userOf(context)
+                                  .id,
                               child: CircleAvatar(
-                                  backgroundColor: Colors.grey[200],
+                                  backgroundColor:
+                                      Colors.grey[200],
                                   radius: 158 / 2,
-                                  backgroundImage: MemoryImage(
+                                  backgroundImage:
+                                      MemoryImage(
                                     Uint8List.fromList(
-                                      UserScope.userOf(context).avatar,
+                                      UserScope.userOf(
+                                              context)
+                                          .avatar,
                                     ),
                                   ),
-                                  child:
-                                      UserScope.userOf(context).avatar.isEmpty
-                                          ? SvgPicture.asset(
-                                              'assets/icons/no_photo.svg',
-                                              width: 79,
-                                            )
-                                          : null),
+                                  child: UserScope.userOf(
+                                              context)
+                                          .avatar
+                                          .isEmpty
+                                      ? SvgPicture.asset(
+                                          'assets/icons/no_photo.svg',
+                                          width: 79,
+                                        )
+                                      : null),
                             ),
-                            Positioned(
-                              right: 10.36,
-                              bottom: 10.36,
-                              child: IconButton(
-                                icon: const Icon(CupertinoIcons.camera),
-                                onPressed: () => showCupertinoModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) => SizedBox(
-                                    height: 300,
-                                    child: Column(
-                                      children: [
-                                        const Text('Выбрать фото'),
-                                        const SizedBox(height: 20),
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          // onPressed: () {
-                                          //   Navigator.pop(context);
-                                          //   _pickImage(context);
-                                          // },
-                                          child:
-                                              const Text('Выбрать из галереи'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Positioned(
+                            //   right: 10.36,
+                            //   bottom: 10.36,
+                            //   child: IconButton(
+                            //     icon: const Icon(CupertinoIcons.camera),
+                            //     onPressed: () => showCupertinoModalBottomSheet(
+                            //       context: context,
+                            //       builder: (BuildContext context) => SizedBox(
+                            //         height: 300,
+                            //         child: Column(
+                            //           children: [
+                            //             const Text('Выбрать фото'),
+                            //             const SizedBox(height: 20),
+                            //             ElevatedButton(
+                            //               onPressed: () {},
+                            //               // onPressed: () {
+                            //               //   Navigator.pop(context);
+                            //               //   _pickImage(context);
+                            //               // },
+                            //               child:
+                            //                   const Text('Выбрать из галереи'),
+                            //             ),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         const SizedBox(
@@ -255,46 +286,75 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontWeight: FontWeight.w600),
                         ),
                         ValueListenableBuilder(
-                          valueListenable: _isEditingProfile!,
+                          valueListenable:
+                              _isEditingProfile!,
                           builder: (context, value, _) =>
                               ValueListenableBuilder(
-                            valueListenable: _textEditingController!,
-                            builder: (context, textValue, _) => RepaintBoundary(
+                            valueListenable:
+                                _textEditingController!,
+                            builder:
+                                (context, textValue, _) =>
+                                    RepaintBoundary(
                               child: AnimatedContainer(
-                                width: textValue.text.isNotEmpty &&
-                                        textValue.text.length * 30 > 100
-                                    ? textValue.text.length * 30
+                                width: textValue.text
+                                            .isNotEmpty &&
+                                        textValue.text
+                                                    .length *
+                                                30 >
+                                            100
+                                    ? textValue
+                                            .text.length *
+                                        30
                                     : 100,
                                 height: 50,
-                                duration: const Duration(milliseconds: 350),
+                                duration: const Duration(
+                                    milliseconds: 350),
                                 decoration: BoxDecoration(
                                   border: value
                                       ? Border.all(
-                                          color: textValue.text.length < 15
-                                              ? const Color.fromARGB(
-                                                  255, 168, 239, 171)
+                                          color: textValue
+                                                      .text
+                                                      .length <
+                                                  15
+                                              ? const Color
+                                                  .fromARGB(
+                                                  255,
+                                                  168,
+                                                  239,
+                                                  171)
                                               : Colors.red,
                                           width: 1)
                                       : null,
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius:
+                                      BorderRadius.circular(
+                                          5),
                                 ),
                                 child: Center(
                                   child: SizedBox(
                                     child: TextFormField(
                                       maxLength: 15,
-                                      controller: _textEditingController,
+                                      controller:
+                                          _textEditingController,
                                       readOnly: !value,
-                                      textAlign: TextAlign.center,
+                                      textAlign:
+                                          TextAlign.center,
                                       textAlignVertical:
-                                          TextAlignVertical.center,
-                                      decoration: const InputDecoration(
-                                          counterText: '',
-                                          counter: null,
-                                          border: InputBorder.none),
-                                      style: const TextStyle(
+                                          TextAlignVertical
+                                              .center,
+                                      decoration:
+                                          const InputDecoration(
+                                              counterText:
+                                                  '',
+                                              counter: null,
+                                              border:
+                                                  InputBorder
+                                                      .none),
+                                      style:
+                                          const TextStyle(
                                         color: Colors.black,
                                         fontSize: 36,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight:
+                                            FontWeight.w600,
                                       ),
                                     ),
                                   ),
@@ -307,53 +367,85 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 8,
                         ),
                         GestureDetector(
-                          onTap: () => showCupertinoModalBottomSheet(
+                          onTap: () =>
+                              showCupertinoModalBottomSheet(
                             context: context,
                             builder: (context) => SizedBox(
-                              height: MediaQuery.of(context).size.height - 150,
+                              height: MediaQuery.of(context)
+                                      .size
+                                      .height -
+                                  150,
                               child: Scaffold(
                                 body: Padding(
-                                  padding: const EdgeInsets.all(16.0),
+                                  padding:
+                                      const EdgeInsets.all(
+                                          16.0),
                                   child: Column(
                                     children: [
                                       Align(
-                                        alignment: Alignment.topCenter,
+                                        alignment: Alignment
+                                            .topCenter,
                                         child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 0),
+                                          padding:
+                                              const EdgeInsets
+                                                  .symmetric(
+                                                  horizontal:
+                                                      8,
+                                                  vertical:
+                                                      0),
                                           width:
-                                              MediaQuery.of(context).size.width,
+                                              MediaQuery.of(
+                                                      context)
+                                                  .size
+                                                  .width,
                                           height: 60,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xffEEF9EF),
+                                          decoration:
+                                              BoxDecoration(
+                                            color: const Color(
+                                                0xffEEF9EF),
                                             borderRadius:
-                                                BorderRadius.circular(12),
+                                                BorderRadius
+                                                    .circular(
+                                                        12),
                                           ),
                                           child: Row(
-                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisSize:
+                                                MainAxisSize
+                                                    .min,
                                             children: [
                                               const Icon(
-                                                Icons.search,
-                                                color: Color(0xff8A8A8A),
+                                                Icons
+                                                    .search,
+                                                color: Color(
+                                                    0xff8A8A8A),
                                               ),
                                               const SizedBox(
                                                 width: 5,
                                               ),
                                               Expanded(
-                                                child: TextField(
+                                                child:
+                                                    TextField(
                                                   controller:
                                                       _choseGroupController,
-                                                  textAlign: TextAlign.start,
-                                                  maxLines: 1,
-                                                  cursorColor: Colors.black,
+                                                  textAlign:
+                                                      TextAlign
+                                                          .start,
+                                                  maxLines:
+                                                      1,
+                                                  cursorColor:
+                                                      Colors
+                                                          .black,
                                                   decoration:
                                                       const InputDecoration(
-                                                    hintStyle: TextStyle(
-                                                      color: Color(0xff8A8A8A),
+                                                    hintStyle:
+                                                        TextStyle(
+                                                      color:
+                                                          Color(0xff8A8A8A),
                                                     ),
                                                     hintText:
                                                         'Начните вводить номер группы...',
-                                                    border: InputBorder.none,
+                                                    border:
+                                                        InputBorder.none,
                                                   ),
                                                 ),
                                               ),
@@ -365,66 +457,79 @@ class _ProfilePageState extends State<ProfilePage> {
                                         height: 8,
                                       ),
                                       Expanded(
-                                        child: BlocBuilder<GroupSearchBLoC,
+                                        child: BlocBuilder<
+                                                GroupSearchBLoC,
                                                 GroupSearchState>(
-                                            bloc: _groupSearchBloc,
-                                            builder: (context, state) {
-                                              return state.when(
+                                            bloc:
+                                                _groupSearchBloc,
+                                            builder:
+                                                (context,
+                                                    state) {
+                                              return state
+                                                  .when(
                                                 approved: () =>
                                                     const SizedBox(),
-                                                loaded: (groups) {
+                                                loaded:
+                                                    (groups) {
                                                   return ListView.builder(
                                                       itemCount: groups.length,
-                                                      itemBuilder:
-                                                          (context, index) {
+                                                      itemBuilder: (context, index) {
                                                         return GestureDetector(
-                                                          onTap: () =>
-                                                              _choseGroupController!
-                                                                      .text =
-                                                                  groups[index]
-                                                                      .number,
+                                                          onTap: () => _choseGroupController!.text = groups[index].number,
                                                           child: ListTile(
-                                                            title: Text(
-                                                                groups[index]
-                                                                    .number),
+                                                            title: Text(groups[index].number),
                                                           ),
                                                         );
                                                       });
                                                 },
-                                                processing: () => const Center(
+                                                processing:
+                                                    () =>
+                                                        const Center(
                                                   child:
                                                       CircularProgressIndicator(),
                                                 ),
-                                                idle: () => const SizedBox(),
-                                                error: (Object e) =>
+                                                idle: () =>
+                                                    const SizedBox(),
+                                                error: (Object
+                                                        e) =>
                                                     const Center(
-                                                  child: Text('Error!'),
+                                                  child: Text(
+                                                      'Error!'),
                                                 ),
                                               );
                                             }),
                                       ),
                                       const Spacer(),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                16,
+                                        width: MediaQuery.of(
+                                                    context)
+                                                .size
+                                                .width -
+                                            16,
                                         height: 64,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(16),
-                                            color: Colors.green),
+                                                BorderRadius
+                                                    .circular(
+                                                        16),
+                                            color: Colors
+                                                .green),
                                         child: TextButton(
                                           onPressed: () {
-                                            Navigator.of(context).pop();
+                                            Navigator.of(
+                                                    context)
+                                                .pop();
                                           },
                                           child: Center(
                                             child: Text(
                                               'Выбрать',
-                                              style: Theme.of(context)
+                                              style: Theme.of(
+                                                      context)
                                                   .textTheme
                                                   .labelLarge
                                                   ?.copyWith(
-                                                    color: Colors.white,
+                                                    color: Colors
+                                                        .white,
                                                   ),
                                             ),
                                           ),
@@ -437,28 +542,38 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment:
+                                CrossAxisAlignment.center,
                             children: [
                               const Text(
                                 "Группа:",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight:
+                                      FontWeight.w500,
                                 ),
                               ),
                               const SizedBox(
                                 width: 8,
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 3, vertical: 2),
+                                padding: const EdgeInsets
+                                    .symmetric(
+                                    horizontal: 3,
+                                    vertical: 2),
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.green),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.green[50]),
+                                    border: Border.all(
+                                        color:
+                                            Colors.green),
+                                    borderRadius:
+                                        BorderRadius
+                                            .circular(10),
+                                    color:
+                                        Colors.green[50]),
                                 child: Text(
-                                  UserScope.userOf(context).group,
+                                  UserScope.userOf(context)
+                                      .group,
                                   style: const TextStyle(
                                     fontSize: 16,
                                   ),
@@ -473,12 +588,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  BlocBuilder<ProfileDataBLoC, ProfileDataState>(
-                    builder: (context, state) => state.maybeWhen(
+                  BlocBuilder<ProfileDataBLoC,
+                      ProfileDataState>(
+                    builder: (context, state) =>
+                        state.maybeWhen(
                       orElse: () => const SizedBox(),
-                      loaded: (professors) => professors.isNotEmpty
+                      loaded: (professors) => professors
+                              .isNotEmpty
                           ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment:
+                                  MainAxisAlignment
+                                      .spaceBetween,
                               children: [
                                 Row(
                                   children: [
@@ -486,31 +606,47 @@ class _ProfilePageState extends State<ProfilePage> {
                                       "Мои отзывы",
                                       style: TextStyle(
                                         fontSize: 20,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight:
+                                            FontWeight.w600,
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
+                                    const SizedBox(
+                                        width: 8),
                                     Container(
-                                      width: professors.isNotEmpty
-                                          ? professors.length
+                                      width: professors
+                                              .isNotEmpty
+                                          ? professors
+                                                  .length
                                                   .toString()
                                                   .length *
                                               20
                                           : 30,
                                       height: 26,
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 233, 252, 232),
-                                        borderRadius: BorderRadius.circular(7),
+                                      decoration:
+                                          BoxDecoration(
+                                        color: const Color
+                                            .fromARGB(255,
+                                            233, 252, 232),
+                                        borderRadius:
+                                            BorderRadius
+                                                .circular(
+                                                    7),
                                       ),
                                       child: Center(
-                                        child: AnimatedFlipCounter(
-                                          value: professors.length,
+                                        child:
+                                            AnimatedFlipCounter(
+                                          value: professors
+                                              .length,
                                           duration:
-                                              const Duration(milliseconds: 200),
-                                          textStyle: const TextStyle(
+                                              const Duration(
+                                                  milliseconds:
+                                                      200),
+                                          textStyle:
+                                              const TextStyle(
                                             fontSize: 14,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight:
+                                                FontWeight
+                                                    .w600,
                                           ),
                                         ),
                                       ),
@@ -518,7 +654,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ],
                                 ),
                                 SortButton(
-                                  valueNotifier: _sortingValueNotifier,
+                                  valueNotifier:
+                                      _sortingValueNotifier,
                                   type: SortingType.reviews,
                                 )
                               ],
@@ -545,45 +682,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ),
-              loaded: (professors) => ValueListenableBuilder(
-                valueListenable: _sortingValueNotifier!,
-                builder: (context, value, _) {
-                  var sorted = professors.toList();
-
-                  switch (_sortingValueNotifier!.value) {
-                    case 0:
-                      sorted.sort(
-                          (a, b) => a.review.date.compareTo(b.review.date));
-                      sorted = sorted.reversed.toList();
-                      break;
-                    case 1:
-                      sorted.sort(
-                          (a, b) => a.review.date.compareTo(b.review.date));
-                      break;
-                    case 2:
-                      sorted.sort(
-                          (a, b) => a.review.likes.compareTo(b.review.likes));
-                      sorted = sorted.reversed.toList();
-                      break;
-                    case 3:
-                      sorted.sort(
-                          (a, b) => a.review.likes.compareTo(b.review.likes));
-
-                      break;
-                  }
-                  return SliverList.separated(
-                    itemCount: professors.length,
-                    itemBuilder: (context, index) {
-                      return ReviewTitle(
-                        review: sorted[index].review,
-                        professor: sorted[index].professor,
-                      );
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 20,
-                    ),
+              loaded: (professors) => SliverList.separated(
+                itemCount: professors.length,
+                itemBuilder: (context, index) {
+                  return ReviewTitle(
+                    review: professors[index].review,
+                    professor: professors[index].professor,
                   );
                 },
+                separatorBuilder: (context, index) =>
+                    const SizedBox(
+                  height: 20,
+                ),
               ),
             ),
             bloc: widget.bloc,
