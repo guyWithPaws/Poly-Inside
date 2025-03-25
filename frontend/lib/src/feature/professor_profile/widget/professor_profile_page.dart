@@ -10,7 +10,7 @@ import 'package:poly_inside/src/common/widgets/stars_rating.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
 import 'package:poly_inside/src/feature/home/bloc/home_bloc.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
-import 'package:poly_inside/src/feature/professor_profile/bloc/data_bloc.dart';
+import 'package:poly_inside/src/feature/professor_profile/bloc/data_bloc/data_bloc.dart';
 import 'package:shared/shared.dart';
 
 import '../../../common/enums/sorting_type.dart';
