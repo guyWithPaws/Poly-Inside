@@ -13,6 +13,7 @@ import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/user_bloc/user_bloc.dart';
 import 'package:poly_inside/src/feature/user_profile/widget/user_profile_page.dart';
 import 'package:shared/shared.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../common/widgets/sort_button.dart';
 
@@ -95,7 +96,10 @@ class _HomePageState extends State<HomePage> {
       );
     _sortingValueNotifier = ValueNotifier(0)
       ..addListener(
-        () {},
+        () {
+          _bloc?.add(SortingTypeChanged(
+              count: count, group: '', order: _sortingValueNotifier!.value));
+        },
       );
     super.initState();
   }
@@ -219,19 +223,20 @@ class _HomePageState extends State<HomePage> {
                       GestureDetector(
                           onTap: () async {
                             await showAdaptiveDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const AlertDialog(
-                                    content: SizedBox(
-                                      height: 100,
-                                      width: 200,
-                                      child: Center(
-                                        child: Text(
-                                            'Список преподавателей основан на вашей группе\nВы можете изменить группу в профиле пользователя'),
-                                      ),
+                              context: context,
+                              builder: (context) {
+                                return const AlertDialog(
+                                  content: SizedBox(
+                                    height: 100,
+                                    width: 200,
+                                    child: Center(
+                                      child: Text(
+                                          'Список преподавателей основан на вашей группе\nВы можете изменить группу в профиле пользователя'),
                                     ),
-                                  );
-                                });
+                                  ),
+                                );
+                              },
+                            );
                           },
                           child: const Icon(CupertinoIcons.question_circle)),
                     ],
@@ -250,12 +255,30 @@ class _HomePageState extends State<HomePage> {
                   bloc: isTyping ? _searchBloc : _bloc,
                   builder: (context, state) {
                     return state.when(
+                      groupNotSelected: () => const Center(
+                        child: Text('Группа не выбрана!'),
+                      ),
                       notFound: () => const Center(
                         child: Text(
                             'No professors found. Please try again later.'),
                       ),
-                      processing: () => const Center(
-                        child: CircularProgressIndicator(),
+                      processing: () => Skeletonizer(
+                        enabled: true,
+                        child: ListView.separated(
+                            itemBuilder: (context, index) {
+                              return Container(
+                                width: 360,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: const Color(0xFFEEF9EF),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                            itemCount: 10),
                       ),
                       idle: () => const SizedBox(),
                       error: (error) => Center(
@@ -265,29 +288,9 @@ class _HomePageState extends State<HomePage> {
                         return ValueListenableBuilder(
                           valueListenable: _sortingValueNotifier!,
                           builder: (context, value, _) {
-                            var sorted = professors.toList();
-                            switch (_sortingValueNotifier!.value) {
-                              case 0:
-                                sorted.sort((a, b) => a.name.compareTo(b.name));
-                                break;
-                              case 1:
-                                sorted.sort((a, b) => a.name.compareTo(b.name));
-                                sorted = sorted.reversed.toList();
-                                break;
-                              case 2:
-                                sorted.sort(
-                                    (a, b) => a.rating.compareTo(b.rating));
-                                sorted = sorted.reversed.toList();
-                                break;
-                              case 3:
-                                sorted.sort(
-                                    (a, b) => a.rating.compareTo(b.rating));
-
-                                break;
-                            }
                             return ListView.separated(
                               controller: _scrollController,
-                              itemCount: sorted.length,
+                              itemCount: professors.length,
                               separatorBuilder: (context, index) =>
                                   const SizedBox(
                                 height: 25,
@@ -299,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.of(context).pushNamed(
                                         '/professor',
                                         arguments: [
-                                          sorted[index],
+                                          professors[index],
                                           isTyping ? _searchBloc : _bloc
                                         ],
                                       );
@@ -317,24 +320,24 @@ class _HomePageState extends State<HomePage> {
                                         child: Row(
                                           children: [
                                             Hero(
-                                              tag: sorted[index].id,
+                                              tag: professors[index].id,
                                               child: CircleAvatar(
                                                 backgroundColor:
                                                     Colors.grey[200],
                                                 radius: 27,
                                                 backgroundImage:
                                                     Uint8List.fromList(
-                                                  sorted[index].avatar,
+                                                  professors[index].avatar,
                                                 ).isNotEmpty
                                                         ? MemoryImage(
                                                             Uint8List.fromList(
-                                                              sorted[index]
+                                                              professors[index]
                                                                   .avatar,
                                                             ),
                                                           )
                                                         : null,
                                                 child: Uint8List.fromList(
-                                                  sorted[index].avatar,
+                                                  professors[index].avatar,
                                                 ).isEmpty
                                                     ? SvgPicture.asset(
                                                         'assets/icons/no_photo.svg',
@@ -354,7 +357,7 @@ class _HomePageState extends State<HomePage> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    sorted[index]
+                                                    professors[index]
                                                         .name
                                                         .capitalize(),
                                                     style: const TextStyle(
@@ -365,13 +368,13 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   Stack(
                                                     children: [
-                                                      // StaticStarsRating(
-                                                      //   spaceBetween: 8,
-                                                      //   textSize: 16,
-                                                      //   size: 20,
-                                                      //   value: sorted[index]
-                                                      //       .rating,
-                                                      // ),
+                                                      StaticStarsRating(
+                                                        spaceBetween: 8,
+                                                        textSize: 16,
+                                                        size: 20,
+                                                        value: professors[index]
+                                                            .rating,
+                                                      ),
                                                       Align(
                                                         alignment: Alignment
                                                             .centerRight,
@@ -381,11 +384,11 @@ class _HomePageState extends State<HomePage> {
                                                               height: 3,
                                                             ),
                                                             Text(
-                                                              (sorted[index]
+                                                              (professors[index]
                                                                           .rating ==
                                                                       0)
                                                                   ? 'нет отзывов'
-                                                                  : '${sorted[index].reviewsCount} ${reviewInRussian.formatReview(sorted[index].reviewsCount)}',
+                                                                  : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
                                                               style:
                                                                   const TextStyle(
                                                                 fontSize: 16,
