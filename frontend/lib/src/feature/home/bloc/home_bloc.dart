@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
+import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared/shared.dart';
 
@@ -85,6 +86,7 @@ sealed class HomePageState with _$HomePageState {
   const factory HomePageState.idle() = IdleState;
   const factory HomePageState.error(Object e) = ErrorState;
   const factory HomePageState.loaded(List<Professor> professors) = LoadedState;
+  const factory HomePageState.groupNotSelected() = GroupNotSelectedState;
   const factory HomePageState.notFound() = NotFoundState;
 }
 
@@ -99,9 +101,13 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
     on<ListRequested>(
       (event, emit) async {
         try {
-          final stream =
-              repository.getProfessorsByGroup(event.count, event.group);
-          stream.listen((e) => add(AddListToState(professors: e.professors)));
+          if (event.group.isEmpty) {
+            emit(const HomePageState.groupNotSelected());
+          } else {
+            final stream =
+                repository.getProfessorsByGroup(event.count, event.group);
+            stream.listen((e) => add(AddListToState(professors: e.professors)));
+          }
         } on Object catch (error, _) {
           emit(HomePageState.error(error));
           rethrow;
@@ -148,11 +154,30 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
     on<SortingTypeChanged>(
       (event, emit) async {
         try {
-          final stream = repository.getProfessorsByGroup(
-            event.count,
-            event.group,
-          );
-          stream.listen((e) => add(AddListToState(professors: e.professors)));
+          if (state is LoadedState) {
+            final currentState = state as LoadedState;
+            var sortedProfessors =
+                List<Professor>.from(currentState.professors);
+
+            switch (event.order) {
+              case 0:
+                sortedProfessors.sort((a, b) => a.name.compareTo(b.name));
+                break;
+              case 1:
+                sortedProfessors.sort((a, b) => a.name.compareTo(b.name));
+                sortedProfessors = sortedProfessors.reversed.toList();
+                break;
+              case 2:
+                sortedProfessors.sort((a, b) => a.rating.compareTo(b.rating));
+                sortedProfessors = sortedProfessors.reversed.toList();
+                break;
+              case 3:
+                sortedProfessors.sort((a, b) => a.rating.compareTo(b.rating));
+
+                break;
+            }
+            emit(HomePageState.loaded(sortedProfessors));
+          }
         } on Object catch (error, _) {
           emit(HomePageState.error(error));
           rethrow;
