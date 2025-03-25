@@ -65,8 +65,9 @@ class _UserScopeState extends State<UserScope> {
   /* #endregion */
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<UserBloc, UserState>(
-        builder: (context, state) => state.when(
+  Widget build(BuildContext context) =>
+      BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) => state.maybeWhen(
           processing: (stage) => const AppScope(
             child: Scaffold(
               body: Center(
@@ -87,10 +88,17 @@ class _UserScopeState extends State<UserScope> {
             state: this,
             child: widget.child,
           ),
-          notAuthorized: () => IntroPage(
-            bloc: _bloc,
+          notAuthorized: () => AppScope(
+            child: IntroPage(
+              bloc: _bloc,
+            ),
           ),
-          groupLoaded: (List<GroupNumber> groups) => const SizedBox(),
+          warning: (message) => AppScope(
+            child: IntroPage(
+              bloc: _bloc,
+            ),
+          ),
+          orElse: () => const SizedBox(),
         ),
         bloc: _bloc,
       );
@@ -112,10 +120,13 @@ class _InheritedUserScope extends InheritedWidget {
   static _InheritedUserScope? maybeOf(BuildContext context,
           {bool listen = true}) =>
       listen
-          ? context.dependOnInheritedWidgetOfExactType<_InheritedUserScope>()
-          : context.getInheritedWidgetOfExactType<_InheritedUserScope>();
+          ? context.dependOnInheritedWidgetOfExactType<
+              _InheritedUserScope>()
+          : context.getInheritedWidgetOfExactType<
+              _InheritedUserScope>();
 
-  static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
+  static Never _notFoundInheritedWidgetOfExactType() =>
+      throw ArgumentError(
         'Out of scope, not found inherited widget '
             'a _InheritedUserScope of the exact type',
         'out_of_scope',
@@ -124,9 +135,13 @@ class _InheritedUserScope extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context.
   /// For example: `UserScope.of(context)`.
-  static _InheritedUserScope of(BuildContext context, {bool listen = true}) =>
-      maybeOf(context, listen: listen) ?? _notFoundInheritedWidgetOfExactType();
+  static _InheritedUserScope of(BuildContext context,
+          {bool listen = true}) =>
+      maybeOf(context, listen: listen) ??
+      _notFoundInheritedWidgetOfExactType();
 
   @override
-  bool updateShouldNotify(covariant _InheritedUserScope oldWidget) => false;
+  bool updateShouldNotify(
+          covariant _InheritedUserScope oldWidget) =>
+      false;
 }
