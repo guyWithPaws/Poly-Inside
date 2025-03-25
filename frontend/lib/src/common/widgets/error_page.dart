@@ -3,6 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/theme.dart';
+import 'package:poly_inside/src/feature/authentication/bloc/user_bloc.dart';
+
+import '../../feature/initialization/widget/initialization.dart';
 
 /// {@template error_page}
 /// ErrorPage widget.
@@ -11,7 +14,7 @@ class ErrorPage extends StatefulWidget {
   /// {@macro error_page}
   const ErrorPage({
     required this.onPressed,
-    super.key, // ignore: unused_element
+    super.key,
   });
 
   final VoidCallback onPressed;
@@ -29,6 +32,7 @@ class ErrorPage extends StatefulWidget {
 
 /// State for widget ErrorPage.
 class _ErrorPageState extends State<ErrorPage> {
+  UserBloc? _bloc;
   /* #region Lifecycle */
   @override
   void initState() {
@@ -38,6 +42,10 @@ class _ErrorPageState extends State<ErrorPage> {
 
   @override
   void didUpdateWidget(covariant ErrorPage oldWidget) {
+    _bloc ??= UserBloc(
+      repository: InitializationScope.repositoryOf(context),
+      state: const UserState.idle(),
+    );
     super.didUpdateWidget(oldWidget);
     // Widget configuration changed
   }
@@ -59,6 +67,7 @@ class _ErrorPageState extends State<ErrorPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.montserratTextTheme(),
         colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
@@ -86,7 +95,9 @@ class _ErrorPageState extends State<ErrorPage> {
                     borderRadius: BorderRadius.circular(16),
                     color: Colors.green),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _bloc?.add(GetUserEvent());
+                  },
                   child: Center(
                     child: Text(
                       'Обновить',
