@@ -77,7 +77,8 @@ class Users extends Table {
   IntColumn get id => integer()();
   TextColumn get name => text()();
   BlobColumn get avatar => blob()();
-  IntColumn get rating => integer().withDefault(const Constant<int>(0))();
+  IntColumn get rating =>
+      integer().withDefault(const Constant<int>(0))();
   TextColumn get group => text()();
 
   @override
@@ -120,7 +121,8 @@ class AppDatabase extends _$AppDatabase {
   static QueryExecutor _openConnection() => PgDatabase(
         endpoint: pg.Endpoint(
             host: 'database',
-            database: 'postgres_db', // Имя вашей базы данных
+            database:
+                'postgres_db', // Имя вашей базы данных
             username: 'postgres_user', // Имя пользователя
             password: 'postgres_password',
             port: 5432),
@@ -143,7 +145,8 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(groups);
           }
           if (from < 3) {
-            await m.addColumn(professors, professors.smallAvatar);
+            await m.addColumn(
+                professors, professors.smallAvatar);
           }
           if (from < 4) {
             await m.addColumn(users, users.group);

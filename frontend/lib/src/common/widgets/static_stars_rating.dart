@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class StaticStarsRating extends StatelessWidget {
   static const String starUrl = 'assets/icons/star_png.png';
-  static const String greyStarUrl = 'assets/icons/grey_star_png.png';
+  static const String greyStarUrl =
+      'assets/icons/grey_star_png.png';
   static const Color color = Colors.yellow;
   late final double spaceBetween;
   late final double size;
@@ -15,7 +16,11 @@ class StaticStarsRating extends StatelessWidget {
 
   /// {@macro static_stars_rating}
   StaticStarsRating(
-      {super.key, required this.spaceBetween, required this.size, required this.textSize, required this.value});
+      {super.key,
+      required this.spaceBetween,
+      required this.size,
+      required this.textSize,
+      required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +30,18 @@ class StaticStarsRating extends StatelessWidget {
           Row(
             children: [
               for (int i = 0; i < 5; ++i)
-                i < int.parse(value.toStringAsFixed(0)) || i > int.parse(value.toStringAsFixed(0))
+                i < int.parse(value.toStringAsFixed(0)) ||
+                        i >
+                            int.parse(
+                                value.toStringAsFixed(0))
                     ? SizedBox(
                         width: size,
                         height: size,
-                        child: Image.asset((i < int.parse(value.toStringAsFixed(0))) ? starUrl : greyStarUrl),
+                        child: Image.asset((i <
+                                int.parse(value
+                                    .toStringAsFixed(0)))
+                            ? starUrl
+                            : greyStarUrl),
                       )
                     : Stack(
                         children: [
@@ -40,7 +52,8 @@ class StaticStarsRating extends StatelessWidget {
                           ),
                           ShaderMask(
                             shaderCallback: (bounds) {
-                              final fillGradient = LinearGradient(
+                              final fillGradient =
+                                  LinearGradient(
                                 begin: Alignment.bottomLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
@@ -48,11 +61,16 @@ class StaticStarsRating extends StatelessWidget {
                                   color.withOpacity(0),
                                 ],
                                 stops: [
-                                  (value - i >= 0) ? (value - i) : 0,
-                                  (value - i >= 0) ? (value - i) : 0,
+                                  (value - i >= 0)
+                                      ? (value - i)
+                                      : 0,
+                                  (value - i >= 0)
+                                      ? (value - i)
+                                      : 0,
                                 ],
                               );
-                              return fillGradient.createShader(bounds);
+                              return fillGradient
+                                  .createShader(bounds);
                             },
                             child: SizedBox(
                               width: size,

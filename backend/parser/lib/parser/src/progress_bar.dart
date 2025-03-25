@@ -16,10 +16,12 @@ class ProgressBar {
     currentProgress = counter * multiplier;
     var progress = (counter * multiplier) / totalLength;
     var progressLength = (progress * barLength).round();
-    var progressBar =
-        '=' * (progressLength > 0 ? (progressLength - 1) : progressLength) +
-            (progressLength > 0 ? '>' : '') +
-            ' ' * (barLength - progressLength);
+    var progressBar = '=' *
+            (progressLength > 0
+                ? (progressLength - 1)
+                : progressLength) +
+        (progressLength > 0 ? '>' : '') +
+        ' ' * (barLength - progressLength);
 
     l.i('\r[$progressBar] ${(progress * 100).toStringAsFixed(1)}% | Progress: ~${counter * multiplier} / $totalLength');
   }

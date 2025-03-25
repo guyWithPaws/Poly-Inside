@@ -11,15 +11,15 @@ class Logger {
 
   Logger({required this.file}) {
     file.writeAsStringSync(
-        '----- Log Info -----\n'
-        'Date: ${DateTime.now()}\n'
-        'App Version: 1.0.0\n'
-        'Logging Level: INFO\n'
-        'Operating System: ${Platform.operatingSystem}\n'
-        'Device Info: ${Platform.localHostname}\n\n'
-        '----- End of Initial Log -----\n\n',
-        mode: FileMode.append,
-      );
+      '----- Log Info -----\n'
+      'Date: ${DateTime.now()}\n'
+      'App Version: 1.0.0\n'
+      'Logging Level: INFO\n'
+      'Operating System: ${Platform.operatingSystem}\n'
+      'Device Info: ${Platform.localHostname}\n\n'
+      '----- End of Initial Log -----\n\n',
+      mode: FileMode.append,
+    );
     _logSubscription = l.listen(_writeLogMessage);
   }
 
@@ -32,7 +32,8 @@ class Logger {
       file.writeAsStringSync(output, mode: FileMode.append);
     } on Object catch (e) {
       // ignore: avoid_print
-      print('[Logger]: Error writing log message to file: $e');
+      print(
+          '[Logger]: Error writing log message to file: $e');
     }
   }
 

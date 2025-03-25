@@ -6,7 +6,8 @@ abstract class UserProvider {
   Future<bool> updateUser(User user);
 
   Future<User?> getUserByUserId(int userId);
-  Stream<List<GroupNumber>> getGroups(int count, String number);
+  Stream<List<GroupNumber>> getGroups(
+      int count, String number);
 }
 
 abstract class ProfessorProvider {
@@ -14,9 +15,11 @@ abstract class ProfessorProvider {
   Future<void> addProfessor(Professor professor);
 
   Stream<List<Professor>> getAllProfessors(int count);
-  Stream<List<Professor>> getProfessorsByGroup(int count, String group);
+  Stream<List<Professor>> getProfessorsByGroup(
+      int count, String group);
 
-  Stream<List<Professor>> findProfessorByName(String name, int count);
+  Stream<List<Professor>> findProfessorByName(
+      String name, int count);
   Future<List<Professor>> getOnceAllProfessors();
   Future<void> addProfessorToGroup(
       String id, String number, String professorId);
@@ -35,8 +38,10 @@ abstract class ReviewProvider {
 
   Future<Review> getReview(String id);
 
-  Stream<List<ReviewWithProfessor>> getReviewsWithProfessor(int userId);
-  Stream<List<ReviewWithUser>> getAllReviewsByProfessor(String professorId);
+  Stream<List<ReviewWithProfessor>> getReviewsWithProfessor(
+      int userId);
+  Stream<List<ReviewWithUser>> getAllReviewsByProfessor(
+      String professorId);
 }
 
 // ignore: one_member_abstracts

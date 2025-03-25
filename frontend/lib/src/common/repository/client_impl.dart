@@ -13,41 +13,50 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   @override
-  Future<void> addUser(User user) async => await client.addProfile(user);
+  Future<void> addUser(User user) async =>
+      await client.addProfile(user);
 
   @override
-  Stream<GetListProfessorResponse> getAllProfessors(int count) =>
+  Stream<GetListProfessorResponse> getAllProfessors(
+          int count) =>
       client.getListProfessor(
         ListProfessorRequest(count: count),
       );
 
   @override
-  Stream<ReviewWithUserResponse> getAllReviewsByProfessor(String professorId) =>
+  Stream<ReviewWithUserResponse> getAllReviewsByProfessor(
+          String professorId) =>
       client.getReviewsByProfessorId(
           ReviewsByProfessorIdRequest()..id = professorId);
 
   @override
-  Future<User> getUserByUserId(int userId) =>
-      client.getProfile(UserInfoByUserIdRequest()..id = userId);
+  Future<User> getUserByUserId(int userId) => client
+      .getProfile(UserInfoByUserIdRequest()..id = userId);
 
   @override
-  Future<void> updateReview(Review review) => client.updateReview(review);
+  Future<void> updateReview(Review review) =>
+      client.updateReview(review);
 
   @override
-  Future<void> updateUser(User user) => client.updateProfile(user);
+  Future<void> updateUser(User user) =>
+      client.updateProfile(user);
 
   @override
-  Stream<FindProfessorResponse> findProfessorByName(String name, int count) =>
+  Stream<FindProfessorResponse> findProfessorByName(
+          String name, int count) =>
       client.searchProfessorByName(SearchRequest()
         ..name = name
         ..count = count);
 
   @override
-  Stream<ReviewWithProfessorResponse> getReviewsWithProfessor(int userId) =>
-      client.getReviewWithProfessor(ReviewsByUserIdRequest(id: userId));
+  Stream<ReviewWithProfessorResponse>
+      getReviewsWithProfessor(int userId) =>
+          client.getReviewWithProfessor(
+              ReviewsByUserIdRequest(id: userId));
 
   @override
-  Future<void> deleteReview(String reviewId) async => client.deleteReview(
+  Future<void> deleteReview(String reviewId) async =>
+      client.deleteReview(
         DeleteReviewRequest(reviewId: reviewId),
       );
 
@@ -57,19 +66,23 @@ class ClientRepositoryImpl implements ClientRepository {
 
   @override
   Future<void> deleteReaction(String id) async =>
-      await client.deleteReaction(DeleteReactionRequest(id: id));
+      await client
+          .deleteReaction(DeleteReactionRequest(id: id));
 
   @override
-  Stream<ListProfessorsByGroupResponce> getProfessorsByGroup(
-          int count, String group) =>
-      client.getListProfessorsByGroup(
-          ListProfessorsByGroupRequest(count: count, group: group));
+  Stream<ListProfessorsByGroupResponce>
+      getProfessorsByGroup(int count, String group) =>
+          client.getListProfessorsByGroup(
+              ListProfessorsByGroupRequest(
+                  count: count, group: group));
 
   @override
   Future<void> updateReaction(Reaction reaction) async =>
       await client.updateReaction(reaction);
 
   @override
-  Stream<GetListGroupsResponce> findGroup(int count, String number) =>
-      client.getListGroups(GroupListRequest(count: count, group: number));
+  Stream<GetListGroupsResponce> findGroup(
+          int count, String number) =>
+      client.getListGroups(
+          GroupListRequest(count: count, group: number));
 }

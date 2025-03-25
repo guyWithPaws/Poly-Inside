@@ -70,13 +70,16 @@ class _ReviewPageState extends State<ReviewPage> {
       },
     );
 
-    _errorAnimationController = rive.OneShotAnimation('Comp 1',
-        autoplay: true, onStop: () => Navigator.pop);
+    _errorAnimationController = rive.OneShotAnimation(
+        'Comp 1',
+        autoplay: true,
+        onStop: () => Navigator.pop);
 
     if (widget.type == ReviewType.edit) {
       _textEditingController!.text = widget.review!.comment;
     }
-    _textEditingController?.addListener(_textEditingListener);
+    _textEditingController
+        ?.addListener(_textEditingListener);
 
     _valueLoayltyNotifier = ValueNotifier(1.0);
     _valueLoayltyNotifier = ValueNotifier(1.0);
@@ -91,7 +94,8 @@ class _ReviewPageState extends State<ReviewPage> {
   }
 
   void _textEditingListener() {
-    _valueTextFormNotifier!.value = _textEditingController!.text.trim();
+    _valueTextFormNotifier!.value =
+        _textEditingController!.text.trim();
   }
 
   @override
@@ -135,18 +139,22 @@ class _ReviewPageState extends State<ReviewPage> {
               color: Color.fromARGB(255, 185, 185, 185),
               shape: BoxShape.circle,
             ),
-            child: SvgPicture.asset('assets/icons/cross.svg'),
+            child:
+                SvgPicture.asset('assets/icons/cross.svg'),
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           var review = compileReview(widget.type);
           if (widget.type == ReviewType.add) {
-            _bloc?.add(AddReviewRequest(review: review, context: context));
+            _bloc?.add(AddReviewRequest(
+                review: review, context: context));
           } else {
-            _bloc?.add(UpdateReviewRequest(review: review, context: context));
+            _bloc?.add(UpdateReviewRequest(
+                review: review, context: context));
           }
 
           bool passed = true;
@@ -167,12 +175,15 @@ class _ReviewPageState extends State<ReviewPage> {
                   width: 300,
                   height: (passed) ? 130 : 200,
                   child: Center(
-                      child: BlocBuilder<ReviewDataBLoC, ReviewDataState>(
+                      child: BlocBuilder<ReviewDataBLoC,
+                          ReviewDataState>(
                     bloc: _bloc,
                     builder: (context, state) {
                       return state.when(
-                        processing: () => const CircularProgressIndicator(),
-                        error: (error, description) => SizedBox(
+                        processing: () =>
+                            const CircularProgressIndicator(),
+                        error: (error, description) =>
+                            SizedBox(
                           child: Text(description),
                         ),
                         approved: () => SizedBox(
@@ -180,7 +191,9 @@ class _ReviewPageState extends State<ReviewPage> {
                           height: 100,
                           child: rive.RiveAnimation.asset(
                             'assets/rive/success.riv',
-                            controllers: [_successAnimationController!],
+                            controllers: [
+                              _successAnimationController!
+                            ],
                           ),
                         ),
                         rejected: () => const SizedBox(
@@ -204,9 +217,12 @@ class _ReviewPageState extends State<ReviewPage> {
         backgroundColor: Colors.green,
         label: Center(
           child: Text(
-              widget.type == ReviewType.add ? 'Опубликовать' : 'Изменить',
-              style:
-                  const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+              widget.type == ReviewType.add
+                  ? 'Опубликовать'
+                  : 'Изменить',
+              style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600)),
         ),
       ),
       body: Padding(
@@ -272,16 +288,21 @@ class _ReviewPageState extends State<ReviewPage> {
                 width: MediaQuery.of(context).size.width,
                 height: 170,
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 238, 249, 237),
-                    borderRadius: BorderRadius.circular(12)),
+                    color: const Color.fromARGB(
+                        255, 238, 249, 237),
+                    borderRadius:
+                        BorderRadius.circular(12)),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceAround,
                     children: [
                       const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        mainAxisAlignment:
+                            MainAxisAlignment.spaceEvenly,
                         children: [
                           Text('Объективность'),
                           Text('Лояльность'),
@@ -290,35 +311,47 @@ class _ReviewPageState extends State<ReviewPage> {
                         ],
                       ),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment:
+                            MainAxisAlignment.spaceEvenly,
                         children: [
                           StarsRating(
-                            valueNotifier: _valueObjectivityNotifier,
-                            value: widget.review?.objectivity ?? 1,
+                            valueNotifier:
+                                _valueObjectivityNotifier,
+                            value: widget
+                                    .review?.objectivity ??
+                                1,
                             size: const Size(24, 24),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
                           ),
                           StarsRating(
-                            valueNotifier: _valueLoayltyNotifier,
-                            value: widget.review?.loyalty ?? 1,
+                            valueNotifier:
+                                _valueLoayltyNotifier,
+                            value:
+                                widget.review?.loyalty ?? 1,
                             size: const Size(24, 24),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
                           ),
                           StarsRating(
-                            valueNotifier: _valueProfessionalismNotifier,
-                            value: widget.review?.professionalism ?? 1,
+                            valueNotifier:
+                                _valueProfessionalismNotifier,
+                            value: widget.review
+                                    ?.professionalism ??
+                                1,
                             size: const Size(24, 24),
                             textSize: 20,
                             enableDragDetector: true,
                             spaceBetween: 16,
                           ),
                           StarsRating(
-                            valueNotifier: _valueHarshnessNotifier,
-                            value: widget.review?.harshness ?? 1,
+                            valueNotifier:
+                                _valueHarshnessNotifier,
+                            value:
+                                widget.review?.harshness ??
+                                    1,
                             size: const Size(24, 24),
                             textSize: 20,
                             enableDragDetector: true,
@@ -342,8 +375,10 @@ class _ReviewPageState extends State<ReviewPage> {
               RepaintBoundary(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 238, 249, 237),
-                      borderRadius: BorderRadius.circular(12)),
+                      color: const Color.fromARGB(
+                          255, 238, 249, 237),
+                      borderRadius:
+                          BorderRadius.circular(12)),
                   width: MediaQuery.of(context).size.width,
                   child: GestureDetector(
                     onTap: () {},
@@ -351,7 +386,8 @@ class _ReviewPageState extends State<ReviewPage> {
                       padding: const EdgeInsets.all(16.0),
                       child: TextField(
                         controller: _textEditingController,
-                        keyboardType: TextInputType.multiline,
+                        keyboardType:
+                            TextInputType.multiline,
                         minLines: 9,
                         maxLines: null,
                         decoration: const InputDecoration(
@@ -374,8 +410,10 @@ class _ReviewPageState extends State<ReviewPage> {
 
     if (type == ReviewType.add) {
       var reviewIdBytes = utf8.encode(
-          UserScope.userOf(context).id.toString() + DateTime.now().toString());
-      generatedReviewId = sha1.convert(reviewIdBytes).toString();
+          UserScope.userOf(context).id.toString() +
+              DateTime.now().toString());
+      generatedReviewId =
+          sha1.convert(reviewIdBytes).toString();
     } else if (type == ReviewType.edit) {
       generatedReviewId = widget.review!.id;
     }
@@ -387,7 +425,8 @@ class _ReviewPageState extends State<ReviewPage> {
         likes: 0,
         dislikes: 0,
         harshness: _valueHarshnessNotifier!.value,
-        professionalism: _valueProfessionalismNotifier!.value,
+        professionalism:
+            _valueProfessionalismNotifier!.value,
         date: DateTime.now().toString(),
         userId: UserScope.userOf(context).id,
         comment: _valueTextFormNotifier!.value,

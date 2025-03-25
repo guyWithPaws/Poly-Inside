@@ -13,25 +13,31 @@ class AddReviewRequest extends ReviewDataEvent {
   final Review review;
   final BuildContext context;
 
-  AddReviewRequest({required this.context, required this.review});
+  AddReviewRequest(
+      {required this.context, required this.review});
 }
 
 class UpdateReviewRequest extends ReviewDataEvent {
   final Review review;
   final BuildContext context;
 
-  UpdateReviewRequest({required this.review, required this.context});
+  UpdateReviewRequest(
+      {required this.review, required this.context});
 }
 
-class ReviewDataBLoC extends Bloc<ReviewDataEvent, ReviewDataState> {
-  ReviewDataBLoC() : super(const ReviewDataState.processing()) {
+class ReviewDataBLoC
+    extends Bloc<ReviewDataEvent, ReviewDataState> {
+  ReviewDataBLoC()
+      : super(const ReviewDataState.processing()) {
     on<AddReviewRequest>((event, emit) async {
       print(event.review.comment.length);
       if (event.review.comment.isNotEmpty) {
-        emit(const ReviewDataState.error(Object(), 'Отзыв слишком короткий'));
+        emit(const ReviewDataState.error(
+            Object(), 'Отзыв слишком короткий'));
       }
       try {
-        var passed = await InitializationScope.repositoryOf(event.context)
+        var passed = await InitializationScope.repositoryOf(
+                event.context)
             .addReview(event.review);
         passed
             ? emit(const ReviewDataState.approved())
@@ -44,7 +50,8 @@ class ReviewDataBLoC extends Bloc<ReviewDataEvent, ReviewDataState> {
     on<UpdateReviewRequest>((event, emit) async {
       try {
         var passed = true;
-        await InitializationScope.repositoryOf(event.context)
+        await InitializationScope.repositoryOf(
+                event.context)
             .updateReview(event.review);
         passed
             ? emit(const ReviewDataState.approved())
@@ -60,9 +67,10 @@ class ReviewDataBLoC extends Bloc<ReviewDataEvent, ReviewDataState> {
 @Freezed()
 sealed class ReviewDataState with _$ReviewDataState {
   const ReviewDataState._();
-  const factory ReviewDataState.processing() = ProcessingState;
-  const factory ReviewDataState.error(Object e, String description) =
-      ErrorState;
+  const factory ReviewDataState.processing() =
+      ProcessingState;
+  const factory ReviewDataState.error(
+      Object e, String description) = ErrorState;
   const factory ReviewDataState.approved() = ApprovedState;
   const factory ReviewDataState.rejected() = RejectedState;
 }

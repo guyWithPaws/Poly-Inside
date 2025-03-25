@@ -65,7 +65,9 @@ class SortingTypeChanged extends HomePageEvent {
   final String group;
   final int order;
   SortingTypeChanged(
-      {required this.count, required this.group, required this.order});
+      {required this.count,
+      required this.group,
+      required this.order});
 
   @override
   int get hashCode => order.hashCode;
@@ -82,11 +84,14 @@ class SortingTypeChanged extends HomePageEvent {
 @Freezed()
 sealed class HomePageState with _$HomePageState {
   const HomePageState._();
-  const factory HomePageState.processing() = ProcessingState;
+  const factory HomePageState.processing() =
+      ProcessingState;
   const factory HomePageState.idle() = IdleState;
   const factory HomePageState.error(Object e) = ErrorState;
-  const factory HomePageState.loaded(List<Professor> professors) = LoadedState;
-  const factory HomePageState.groupNotSelected() = GroupNotSelectedState;
+  const factory HomePageState.loaded(
+      List<Professor> professors) = LoadedState;
+  const factory HomePageState.groupNotSelected() =
+      GroupNotSelectedState;
   const factory HomePageState.notFound() = NotFoundState;
 }
 
@@ -94,19 +99,20 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
   HomeBloc({required this.repository})
       : _controller = StreamController<List<Professor>>(),
         super(const HomePageState.idle()) {
-    _controller?.stream
-        .listen((event) => add(AddListToState(professors: event)));
-    on<AddListToState>(
-        (event, emit) => emit(HomePageState.loaded(event.professors)));
+    _controller?.stream.listen(
+        (event) => add(AddListToState(professors: event)));
+    on<AddListToState>((event, emit) =>
+        emit(HomePageState.loaded(event.professors)));
     on<ListRequested>(
       (event, emit) async {
         try {
           if (event.group.isEmpty) {
             emit(const HomePageState.groupNotSelected());
           } else {
-            final stream =
-                repository.getProfessorsByGroup(event.count, event.group);
-            stream.listen((e) => add(AddListToState(professors: e.professors)));
+            final stream = repository.getProfessorsByGroup(
+                event.count, event.group);
+            stream.listen((e) => add(
+                AddListToState(professors: e.professors)));
           }
         } on Object catch (error, _) {
           emit(HomePageState.error(error));
@@ -124,10 +130,12 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
     );
     on<TextFieldChanged>(
       (event, emit) async {
-        await FirebaseAnalytics.instance.logSearch(searchTerm: event.name);
+        await FirebaseAnalytics.instance
+            .logSearch(searchTerm: event.name);
         try {
           _subscription?.cancel();
-          final list = repository.findProfessorByName(event.name, 30);
+          final list = repository.findProfessorByName(
+              event.name, 30);
           _subscription = list.listen(
             (data) {
               add(
@@ -156,23 +164,29 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
         try {
           if (state is LoadedState) {
             final currentState = state as LoadedState;
-            var sortedProfessors =
-                List<Professor>.from(currentState.professors);
+            var sortedProfessors = List<Professor>.from(
+                currentState.professors);
 
             switch (event.order) {
               case 0:
-                sortedProfessors.sort((a, b) => a.name.compareTo(b.name));
+                sortedProfessors.sort(
+                    (a, b) => a.name.compareTo(b.name));
                 break;
               case 1:
-                sortedProfessors.sort((a, b) => a.name.compareTo(b.name));
-                sortedProfessors = sortedProfessors.reversed.toList();
+                sortedProfessors.sort(
+                    (a, b) => a.name.compareTo(b.name));
+                sortedProfessors =
+                    sortedProfessors.reversed.toList();
                 break;
               case 2:
-                sortedProfessors.sort((a, b) => a.rating.compareTo(b.rating));
-                sortedProfessors = sortedProfessors.reversed.toList();
+                sortedProfessors.sort(
+                    (a, b) => a.rating.compareTo(b.rating));
+                sortedProfessors =
+                    sortedProfessors.reversed.toList();
                 break;
               case 3:
-                sortedProfessors.sort((a, b) => a.rating.compareTo(b.rating));
+                sortedProfessors.sort(
+                    (a, b) => a.rating.compareTo(b.rating));
 
                 break;
             }

@@ -16,7 +16,8 @@ Future<void> main() async {
           final logger = Logger(file: file);
 
           final database = AppDatabase();
-          final provider = DatabaseProviderImpl(database: database);
+          final provider =
+              DatabaseProviderImpl(database: database);
 
           await Future.delayed(const Duration(seconds: 10));
           // await provider.fillGroupsNumbers();

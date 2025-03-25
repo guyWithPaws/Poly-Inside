@@ -4,7 +4,9 @@ extension Extenision on String {
       return 'отзывов';
     } else if (number % 10 == 1) {
       return 'отзыв';
-    } else if (number % 10 == 2 || number % 10 == 3 || number % 10 == 4) {
+    } else if (number % 10 == 2 ||
+        number % 10 == 3 ||
+        number % 10 == 4) {
       return 'отзыва';
     } else {
       return 'отзывов';
@@ -16,7 +18,10 @@ extension Extension on String {
   String capitalize() {
     var output = '';
     try {
-      output = split(' ').map((word) => '${word[0].toUpperCase()}${word.substring(1)}').join(' ');
+      output = split(' ')
+          .map((word) =>
+              '${word[0].toUpperCase()}${word.substring(1)}')
+          .join(' ');
     } on RangeError {
       return this;
     }

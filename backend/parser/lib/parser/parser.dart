@@ -36,10 +36,13 @@ class Parser {
     required this.groupsParser,
   });
 
-  static Future<Parser> create(DatabaseProviderImpl provider) async {
+  static Future<Parser> create(
+      DatabaseProviderImpl provider) async {
     final httpClientService = HttpClientService();
-    final imageService = ImageService(httpClientService: httpClientService);
-    final databaseService = await DatabaseService.create(provider);
+    final imageService =
+        ImageService(httpClientService: httpClientService);
+    final databaseService =
+        await DatabaseService.create(provider);
     final cryptoService = CryptoService();
     final clickerService = ClickerService();
     final professorsParser = ProfessorsParser(
@@ -55,7 +58,7 @@ class Parser {
         cryptoService: cryptoService,
         provider: provider,
         clickerService: clickerService);
-    
+
     l.i('[Parser]: Parser was created!');
 
     return Parser._(
@@ -77,7 +80,8 @@ class Parser {
 
     late http.Response response;
     try {
-      response = await httpClientService.get(Uri.parse(staffPage));
+      response =
+          await httpClientService.get(Uri.parse(staffPage));
       // ignore: lines_longer_than_80_chars
       l.i('[Parser]: The staff page was successfully parsed. Transition to the next stage');
     } on Object catch (e) {
@@ -85,14 +89,17 @@ class Parser {
     }
 
     l.i('[Parser]: Downloading professors links!');
-    var professorsLinks = professorsParser.getProfessorsLinks(response);
+    var professorsLinks =
+        professorsParser.getProfessorsLinks(response);
 
     var counter = 0;
-    var totalProfessorsNumber = multiplier * professorsLinks.length;
+    var totalProfessorsNumber =
+        multiplier * professorsLinks.length;
     l.i('[Parser]: Total professors count: $totalProfessorsNumber');
 
-    var progressBar =
-        ProgressBar(totalLength: totalProfessorsNumber, multiplier: multiplier);
+    var progressBar = ProgressBar(
+        totalLength: totalProfessorsNumber,
+        multiplier: multiplier);
 
     var maxAsyncRequests = 20;
     var tasks = <Future<void>>[];
@@ -112,7 +119,8 @@ class Parser {
     await Future.wait(tasks);
 
     try {
-      response = await httpClientService.get(Uri.parse(mainSchedulePage));
+      response = await httpClientService
+          .get(Uri.parse(mainSchedulePage));
       // ignore: lines_longer_than_80_chars
       l.i('[Parser]: The main schedule page was successfully parsed. Transition to the next stage');
     } on Object catch (e) {
@@ -121,15 +129,18 @@ class Parser {
     }
 
     l.i('[Parser]: Getting faculties links!');
-    var facultiesLinks = groupsParser.getFacultiesLinks(response);
+    var facultiesLinks =
+        groupsParser.getFacultiesLinks(response);
     l.i('[Parser]: Total faculties count: ${facultiesLinks.length}');
 
     l.i('[Parser]: Getting groups links!');
-    var groupsLinks = await clickerService.getAllGroupsLinks(facultiesLinks);
+    var groupsLinks = await clickerService
+        .getAllGroupsLinks(facultiesLinks);
     var totalNumberOfGroupLinks = groupsLinks.length;
 
     l.i('[Parser]: Total groups count: $totalNumberOfGroupLinks');
-    progressBar = ProgressBar(totalLength: totalNumberOfGroupLinks);
+    progressBar =
+        ProgressBar(totalLength: totalNumberOfGroupLinks);
 
     maxAsyncRequests = 20;
     counter = 0;

@@ -15,17 +15,21 @@ class InitializationScope extends StatefulWidget {
     super.key, // ignore: unused_element
   });
 
-  static ClientRepository repositoryOf(BuildContext context) => _InheritedInitializationScope.of(context).repository;
+  static ClientRepository repositoryOf(
+          BuildContext context) =>
+      _InheritedInitializationScope.of(context).repository;
 
   /// The widget below this widget in the tree.
   final Widget child;
 
   @override
-  State<InitializationScope> createState() => _InitializationScopeState();
+  State<InitializationScope> createState() =>
+      _InitializationScopeState();
 }
 
 /// State for widget InitializationScope.
-class _InitializationScopeState extends State<InitializationScope> {
+class _InitializationScopeState
+    extends State<InitializationScope> {
   InitializationBloc? _bloc;
   /* #region Lifecycle */
   @override
@@ -35,14 +39,17 @@ class _InitializationScopeState extends State<InitializationScope> {
   }
 
   @override
-  void didUpdateWidget(covariant InitializationScope oldWidget) {
+  void didUpdateWidget(
+      covariant InitializationScope oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Widget configuration changed
   }
 
   @override
   void didChangeDependencies() {
-    _bloc ??= InitializationBloc(const InitializationState.idle())..add(StartInitialization());
+    _bloc ??=
+        InitializationBloc(const InitializationState.idle())
+          ..add(StartInitialization());
     super.didChangeDependencies();
     // The configuration of InheritedWidgets has changed
     // Also called after initState but before build
@@ -57,7 +64,8 @@ class _InitializationScopeState extends State<InitializationScope> {
   /* #endregion */
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<InitializationBloc, InitializationState>(
+  Widget build(BuildContext context) =>
+      BlocBuilder<InitializationBloc, InitializationState>(
         bloc: _bloc,
         builder: (context, state) => state.when(
           processing: () => const AppScope(
@@ -77,7 +85,8 @@ class _InitializationScopeState extends State<InitializationScope> {
               },
             ),
           ),
-          initialized: (repository) => _InheritedInitializationScope(
+          initialized: (repository) =>
+              _InheritedInitializationScope(
             state: this,
             repository: repository,
             child: widget.child,
@@ -87,7 +96,8 @@ class _InitializationScopeState extends State<InitializationScope> {
 }
 
 /// Inherited widget for quick access in the element tree.
-class _InheritedInitializationScope extends InheritedWidget {
+class _InheritedInitializationScope
+    extends InheritedWidget {
   const _InheritedInitializationScope({
     required this.state,
     required this.repository,
@@ -100,11 +110,17 @@ class _InheritedInitializationScope extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   /// For example: `InitializationScope.maybeOf(context)`.
-  static _InheritedInitializationScope? maybeOf(BuildContext context, {bool listen = true}) => listen
-      ? context.dependOnInheritedWidgetOfExactType<_InheritedInitializationScope>()
-      : context.getInheritedWidgetOfExactType<_InheritedInitializationScope>();
+  static _InheritedInitializationScope? maybeOf(
+          BuildContext context,
+          {bool listen = true}) =>
+      listen
+          ? context.dependOnInheritedWidgetOfExactType<
+              _InheritedInitializationScope>()
+          : context.getInheritedWidgetOfExactType<
+              _InheritedInitializationScope>();
 
-  static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
+  static Never _notFoundInheritedWidgetOfExactType() =>
+      throw ArgumentError(
         'Out of scope, not found inherited widget '
             'a _InheritedInitializationScope of the exact type',
         'out_of_scope',
@@ -113,9 +129,15 @@ class _InheritedInitializationScope extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context.
   /// For example: `InitializationScope.of(context)`.
-  static _InheritedInitializationScope of(BuildContext context, {bool listen = true}) =>
-      maybeOf(context, listen: listen) ?? _notFoundInheritedWidgetOfExactType();
+  static _InheritedInitializationScope of(
+          BuildContext context,
+          {bool listen = true}) =>
+      maybeOf(context, listen: listen) ??
+      _notFoundInheritedWidgetOfExactType();
 
   @override
-  bool updateShouldNotify(covariant _InheritedInitializationScope oldWidget) => false;
+  bool updateShouldNotify(
+          covariant _InheritedInitializationScope
+              oldWidget) =>
+      false;
 }

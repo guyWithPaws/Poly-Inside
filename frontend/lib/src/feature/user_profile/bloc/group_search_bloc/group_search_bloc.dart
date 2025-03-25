@@ -13,10 +13,13 @@ abstract class GroupSearchEvent {}
 @Freezed()
 sealed class GroupSearchState with _$GroupSearchState {
   const GroupSearchState._();
-  const factory GroupSearchState.processing() = ProcessingState;
+  const factory GroupSearchState.processing() =
+      ProcessingState;
   const factory GroupSearchState.idle() = IdleState;
-  const factory GroupSearchState.error(Object e) = ErrorState;
-  const factory GroupSearchState.loaded(List<GroupNumber> groups) = LoadedState;
+  const factory GroupSearchState.error(Object e) =
+      ErrorState;
+  const factory GroupSearchState.loaded(
+      List<GroupNumber> groups) = LoadedState;
   const factory GroupSearchState.approved() = ApprovedState;
 }
 
@@ -56,9 +59,11 @@ class UpdateGroupNumberRequest extends GroupSearchEvent {
   UpdateGroupNumberRequest({required this.groupNumber});
 }
 
-class GroupSearchBLoC extends Bloc<GroupSearchEvent, GroupSearchState> {
+class GroupSearchBLoC
+    extends Bloc<GroupSearchEvent, GroupSearchState> {
   final ClientRepository _repository;
-  StreamSubscription<GetListGroupsResponce>? _groupsNumbersSubscription;
+  StreamSubscription<GetListGroupsResponce>?
+      _groupsNumbersSubscription;
 
   GroupSearchBLoC({
     required final ClientRepository repository,
@@ -68,13 +73,13 @@ class GroupSearchBLoC extends Bloc<GroupSearchEvent, GroupSearchState> {
         ) {
     on<GroupTextFieldChanged>((event, emit) {
       _groupsNumbersSubscription?.cancel();
-      _groupsNumbersSubscription =
-          _repository.findGroup(10, event.groupNumber).listen(
-            
-                (e) => add(
-                  GroupsNumbersList(groupsNumbers: e.groups),
-                ),
-              );
+      _groupsNumbersSubscription = _repository
+          .findGroup(10, event.groupNumber)
+          .listen(
+            (e) => add(
+              GroupsNumbersList(groupsNumbers: e.groups),
+            ),
+          );
     });
     on<GroupsNumbersList>((event, emit) {
       emit(GroupSearchState.loaded(event.groupsNumbers));

@@ -70,7 +70,9 @@ class _ErrorPageState extends State<ErrorPage> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.montserratTextTheme(),
-        colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
+        colorScheme: MaterialTheme.lightScheme()
+            .toColorScheme()
+            .copyWith(
               surface: Colors.white,
               onSurface: Colors.black,
               outline: Colors.grey.shade700,
@@ -85,7 +87,8 @@ class _ErrorPageState extends State<ErrorPage> {
               const SizedBox(
                 height: 16,
               ),
-              const Text('Упс... Кажется, что-то пошло не так'),
+              const Text(
+                  'Упс... Кажется, что-то пошло не так'),
               const Text('Попробуйте обновить страницу'),
               const Spacer(),
               Container(
@@ -101,7 +104,10 @@ class _ErrorPageState extends State<ErrorPage> {
                   child: Center(
                     child: Text(
                       'Обновить',
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelLarge
+                          ?.copyWith(
                             color: Colors.white,
                           ),
                     ),

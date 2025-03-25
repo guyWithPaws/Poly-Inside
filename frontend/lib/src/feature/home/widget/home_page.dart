@@ -46,7 +46,8 @@ class _HomePageState extends State<HomePage> {
   FocusNode? _node;
   String reviewInRussian = 'отзыв';
   int count = 20;
-  static const Duration scrollDuration = Duration(milliseconds: 500);
+  static const Duration scrollDuration =
+      Duration(milliseconds: 500);
 
   var homeProfessors = [];
 
@@ -82,7 +83,8 @@ class _HomePageState extends State<HomePage> {
             });
             _searchBloc?.add(
               TextFieldChanged(
-                name: _textEditingController!.text.toLowerCase(),
+                name: _textEditingController!.text
+                    .toLowerCase(),
               ),
             );
           } else {
@@ -98,7 +100,9 @@ class _HomePageState extends State<HomePage> {
       ..addListener(
         () {
           _bloc?.add(SortingTypeChanged(
-              count: count, group: '', order: _sortingValueNotifier!.value));
+              count: count,
+              group: '',
+              order: _sortingValueNotifier!.value));
         },
       );
     super.initState();
@@ -106,14 +110,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void didChangeDependencies() {
-    _bloc ??= HomeBloc(repository: InitializationScope.repositoryOf(context))
+    _bloc ??= HomeBloc(
+        repository:
+            InitializationScope.repositoryOf(context))
       ..add(ListRequested(
         count: count,
         group: UserScope.userOf(context).group,
       ));
-    _profileDataBLoC ??=
-        ProfileDataBLoC(repository: InitializationScope.repositoryOf(context))
-          ..add(ProfileDataRequested(userId: UserScope.userOf(context).id));
+    _profileDataBLoC ??= ProfileDataBLoC(
+        repository:
+            InitializationScope.repositoryOf(context))
+      ..add(ProfileDataRequested(
+          userId: UserScope.userOf(context).id));
     _searchBloc ??= HomeBloc(
       repository: InitializationScope.repositoryOf(context),
     );
@@ -140,7 +148,8 @@ class _HomePageState extends State<HomePage> {
           child: FloatingActionButton.extended(
             onPressed: () {
               _scrollController?.animateTo(0,
-                  duration: scrollDuration, curve: Curves.easeInOut);
+                  duration: scrollDuration,
+                  curve: Curves.easeInOut);
             },
             backgroundColor: Colors.green,
             label: const AnimatedSize(
@@ -165,7 +174,8 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           builderContext,
                           MaterialPageRoute<void>(
-                            builder: (builderContext) => ProfilePage(
+                            builder: (builderContext) =>
+                                ProfilePage(
                               bloc: _profileDataBLoC,
                             ),
                           ),
@@ -177,13 +187,17 @@ class _HomePageState extends State<HomePage> {
                           backgroundColor: Colors.grey[200],
                           radius: 31,
                           child: ClipOval(
-                            child: UserScope.userOf(context).avatar.isNotEmpty
+                            child: UserScope.userOf(context)
+                                    .avatar
+                                    .isNotEmpty
                                 ? Image.memory(
                                     height: 62,
                                     width: 62,
                                     fit: BoxFit.cover,
                                     Uint8List.fromList(
-                                      UserScope.userOf(context).avatar,
+                                      UserScope.userOf(
+                                              context)
+                                          .avatar,
                                     ),
                                   )
                                 : SvgPicture.asset(
@@ -208,14 +222,16 @@ class _HomePageState extends State<HomePage> {
                 height: 16,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
                       const Text(
                         'Мои преподаватели',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(
                         width: 8,
@@ -238,7 +254,8 @@ class _HomePageState extends State<HomePage> {
                               },
                             );
                           },
-                          child: const Icon(CupertinoIcons.question_circle)),
+                          child: const Icon(CupertinoIcons
+                              .question_circle)),
                     ],
                   ),
                   SortButton(
@@ -269,15 +286,19 @@ class _HomePageState extends State<HomePage> {
                               return Container(
                                 width: 360,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: const Color(0xFFEEF9EF),
+                                  borderRadius:
+                                      BorderRadius.circular(
+                                          12),
+                                  color: const Color(
+                                      0xFFEEF9EF),
                                 ),
                               );
                             },
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                                  height: 25,
-                                ),
+                            separatorBuilder:
+                                (context, index) =>
+                                    const SizedBox(
+                                      height: 25,
+                                    ),
                             itemCount: 10),
                       ),
                       idle: () => const SizedBox(),
@@ -286,60 +307,83 @@ class _HomePageState extends State<HomePage> {
                       ),
                       loaded: (professors) {
                         return ValueListenableBuilder(
-                          valueListenable: _sortingValueNotifier!,
+                          valueListenable:
+                              _sortingValueNotifier!,
                           builder: (context, value, _) {
                             return ListView.separated(
                               controller: _scrollController,
                               itemCount: professors.length,
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(
+                              separatorBuilder:
+                                  (context, index) =>
+                                      const SizedBox(
                                 height: 25,
                               ),
-                              itemBuilder: (context, index) {
+                              itemBuilder:
+                                  (context, index) {
                                 return RepaintBoundary(
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.of(context).pushNamed(
+                                      Navigator.of(context)
+                                          .pushNamed(
                                         '/professor',
                                         arguments: [
                                           professors[index],
-                                          isTyping ? _searchBloc : _bloc
+                                          isTyping
+                                              ? _searchBloc
+                                              : _bloc
                                         ],
                                       );
-                                      _textEditingController?.clear();
+                                      _textEditingController
+                                          ?.clear();
                                       _node?.unfocus();
                                     },
                                     child: Container(
                                       width: 360,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        color: const Color(0xFFEEF9EF),
+                                      decoration:
+                                          BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius
+                                                .circular(
+                                                    12),
+                                        color: const Color(
+                                            0xFFEEF9EF),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding:
+                                            const EdgeInsets
+                                                .all(8.0),
                                         child: Row(
                                           children: [
                                             Hero(
-                                              tag: professors[index].id,
-                                              child: CircleAvatar(
+                                              tag: professors[
+                                                      index]
+                                                  .id,
+                                              child:
+                                                  CircleAvatar(
                                                 backgroundColor:
-                                                    Colors.grey[200],
+                                                    Colors.grey[
+                                                        200],
                                                 radius: 27,
-                                                backgroundImage:
-                                                    Uint8List.fromList(
-                                                  professors[index].avatar,
+                                                backgroundImage: Uint8List
+                                                        .fromList(
+                                                  professors[
+                                                          index]
+                                                      .avatar,
                                                 ).isNotEmpty
-                                                        ? MemoryImage(
-                                                            Uint8List.fromList(
-                                                              professors[index]
-                                                                  .avatar,
-                                                            ),
-                                                          )
-                                                        : null,
-                                                child: Uint8List.fromList(
-                                                  professors[index].avatar,
+                                                    ? MemoryImage(
+                                                        Uint8List.fromList(
+                                                          professors[index].avatar,
+                                                        ),
+                                                      )
+                                                    : null,
+                                                child: Uint8List
+                                                        .fromList(
+                                                  professors[
+                                                          index]
+                                                      .avatar,
                                                 ).isEmpty
-                                                    ? SvgPicture.asset(
+                                                    ? SvgPicture
+                                                        .asset(
                                                         'assets/icons/no_photo.svg',
                                                       )
                                                     : null,
@@ -354,14 +398,17 @@ class _HomePageState extends State<HomePage> {
                                                     MainAxisAlignment
                                                         .spaceAround,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                    CrossAxisAlignment
+                                                        .start,
                                                 children: [
                                                   Text(
                                                     professors[index]
                                                         .name
                                                         .capitalize(),
-                                                    style: const TextStyle(
-                                                      fontSize: 16,
+                                                    style:
+                                                        const TextStyle(
+                                                      fontSize:
+                                                          16,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -369,34 +416,30 @@ class _HomePageState extends State<HomePage> {
                                                   Stack(
                                                     children: [
                                                       StaticStarsRating(
-                                                        spaceBetween: 8,
-                                                        textSize: 16,
-                                                        size: 20,
-                                                        value: professors[index]
-                                                            .rating,
+                                                        spaceBetween:
+                                                            8,
+                                                        textSize:
+                                                            16,
+                                                        size:
+                                                            20,
+                                                        value:
+                                                            professors[index].rating,
                                                       ),
                                                       Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Column(
+                                                        alignment:
+                                                            Alignment.centerRight,
+                                                        child:
+                                                            Column(
                                                           children: [
                                                             const SizedBox(
                                                               height: 3,
                                                             ),
                                                             Text(
-                                                              (professors[index]
-                                                                          .rating ==
-                                                                      0)
-                                                                  ? 'нет отзывов'
-                                                                  : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
-                                                              style:
-                                                                  const TextStyle(
+                                                              (professors[index].rating == 0) ? 'нет отзывов' : '${professors[index].reviewsCount} ${reviewInRussian.formatReview(professors[index].reviewsCount)}',
+                                                              style: const TextStyle(
                                                                 fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: Color
-                                                                    .fromARGB(
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Color.fromARGB(
                                                                   255,
                                                                   138,
                                                                   138,
@@ -448,23 +491,28 @@ class _InheritedProfessorScope extends InheritedWidget {
 
   final Professor professor;
 
-  static _InheritedProfessorScope? maybeOf(BuildContext context,
+  static _InheritedProfessorScope? maybeOf(
+          BuildContext context,
           {bool listen = true}) =>
       listen
-          ? context
-              .dependOnInheritedWidgetOfExactType<_InheritedProfessorScope>()
-          : context.getInheritedWidgetOfExactType<_InheritedProfessorScope>();
+          ? context.dependOnInheritedWidgetOfExactType<
+              _InheritedProfessorScope>()
+          : context.getInheritedWidgetOfExactType<
+              _InheritedProfessorScope>();
   static Professor professorOf(BuildContext context) =>
-      maybeOf(context)?.professor ?? _notFoundInheritedWidgetOfExactType();
+      maybeOf(context)?.professor ??
+      _notFoundInheritedWidgetOfExactType();
 
-  static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
+  static Never _notFoundInheritedWidgetOfExactType() =>
+      throw ArgumentError(
         'Out of scope, not found inherited widget '
             'a _InheritedApp of the exact type',
         'out_of_scope',
       );
 
   @override
-  bool updateShouldNotify(_InheritedProfessorScope oldWidget) {
+  bool updateShouldNotify(
+      _InheritedProfessorScope oldWidget) {
     return !(professor == oldWidget.professor);
   }
 }
