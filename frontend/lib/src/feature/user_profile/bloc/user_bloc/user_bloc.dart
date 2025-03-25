@@ -4,7 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:shared/shared.dart';
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart' as bloc_concurrency;
+import 'package:bloc_concurrency/bloc_concurrency.dart'
+    as bloc_concurrency;
 
 part 'user_bloc.freezed.dart';
 
@@ -30,29 +31,40 @@ class NewListEvent extends ProfileDataEvent {
           professors == other.professors;
 }
 
+class SortingRequest extends ProfileDataEvent {
+  final int order;
+
+  SortingRequest({required this.order});
+}
+
 @Freezed()
 sealed class ProfileDataState with _$ProfileDataState {
   const ProfileDataState._();
-  const factory ProfileDataState.processing() = ProcessingState;
+  const factory ProfileDataState.processing() =
+      ProcessingState;
   const factory ProfileDataState.idle() = IdleState;
-  const factory ProfileDataState.error(Object e) = ErrorState;
-  const factory ProfileDataState.groupsLoaded(List<Group> groups) =
-      GroupsLoadedState;
-  const factory ProfileDataState.loaded(List<ReviewWithProfessor> professors) =
-      LoadedState;
+  const factory ProfileDataState.error(Object e) =
+      ErrorState;
+  const factory ProfileDataState.groupsLoaded(
+      List<Group> groups) = GroupsLoadedState;
+  const factory ProfileDataState.loaded(
+      List<ReviewWithProfessor> professors) = LoadedState;
 }
 
 /// Business Logic Component DataBLoC
-class ProfileDataBLoC extends Bloc<ProfileDataEvent, ProfileDataState> {
+class ProfileDataBLoC
+    extends Bloc<ProfileDataEvent, ProfileDataState> {
   ProfileDataBLoC({
     required final ClientRepository repository,
     final ProfileDataState? initialState,
   })  : _repository = repository,
-        _controller = StreamController<List<ReviewWithProfessor>>(),
+        _controller =
+            StreamController<List<ReviewWithProfessor>>(),
         super(
-          initialState ?? const ProfileDataState.idle(),
+          const ProfileDataState.idle(),
         ) {
-    _controller?.stream.listen((event) => add(NewListEvent(professors: event)));
+    _controller?.stream.listen(
+        (event) => add(NewListEvent(professors: event)));
     on<NewListEvent>(
       (event, emit) {
         emit(
@@ -63,21 +75,66 @@ class ProfileDataBLoC extends Bloc<ProfileDataEvent, ProfileDataState> {
     );
     on<ProfileDataRequested>(
       (event, emit) {
-        _subscription =
-            _repository.getReviewsWithProfessor(event.userId).listen(
-                  (e) => add(
-                    NewListEvent(
-                      professors: e.list,
-                    ),
+        try {
+          _subscription = _repository
+              .getReviewsWithProfessor(event.userId)
+              .listen(
+                (e) => add(
+                  NewListEvent(
+                    professors: e.list,
                   ),
-                );
+                ),
+              );
+        } catch (e) {
+          emit(ProfileDataState.error(e));
+          rethrow;
+        }
       },
     );
+    on<SortingRequest>((event, emit) {
+      try {
+        if (state is LoadedState) {
+          final currentState = state as LoadedState;
+          var sortedProfessors =
+              List<ReviewWithProfessor>.from(
+                  currentState.professors);
+          switch (event.order) {
+            case 0:
+              sortedProfessors.sort((a, b) =>
+                  a.review.date.compareTo(b.review.date));
+              sortedProfessors =
+                  sortedProfessors.reversed.toList();
+              break;
+            case 1:
+              sortedProfessors.sort((a, b) =>
+                  a.review.date.compareTo(b.review.date));
+              break;
+            case 2:
+              sortedProfessors.sort((a, b) =>
+                  a.review.likes.compareTo(b.review.likes));
+              sortedProfessors =
+                  sortedProfessors.reversed.toList();
+              break;
+            case 3:
+              sortedProfessors.sort((a, b) =>
+                  a.review.likes.compareTo(b.review.likes));
+
+              break;
+          }
+          emit(ProfileDataState.loaded(sortedProfessors));
+        }
+      } catch (e) {
+        emit(ProfileDataState.error(e));
+        rethrow;
+      }
+    });
   }
 
-  final StreamController<List<ReviewWithProfessor>>? _controller;
+  final StreamController<List<ReviewWithProfessor>>?
+      _controller;
   final ClientRepository _repository;
-  StreamSubscription<ReviewWithProfessorResponse>? _subscription;
+  StreamSubscription<ReviewWithProfessorResponse>?
+      _subscription;
 
   @override
   Future<void> close() {
