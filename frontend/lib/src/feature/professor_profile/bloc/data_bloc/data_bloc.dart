@@ -4,7 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:shared/shared.dart';
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart' as bloc_concurrency;
+import 'package:bloc_concurrency/bloc_concurrency.dart'
+    as bloc_concurrency;
 
 part 'data_bloc.freezed.dart';
 
@@ -25,29 +26,39 @@ class NewListEvent extends ProfessorDataEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is NewListEvent && runtimeType == other.runtimeType && professors == other.professors;
+      other is NewListEvent &&
+          runtimeType == other.runtimeType &&
+          professors == other.professors;
 }
 
 @Freezed()
 sealed class ProfessorDataState with _$ProfessorDataState {
   const ProfessorDataState._();
-  const factory ProfessorDataState.processing() = ProcessingProfessorState;
-  const factory ProfessorDataState.idle() = IdleProfessorState;
-  const factory ProfessorDataState.error(Object e) = ErrorProfessorState;
-  const factory ProfessorDataState.loaded(List<ReviewWithUser> professors) = LoadedProfessorState;
+  const factory ProfessorDataState.processing() =
+      ProcessingProfessorState;
+  const factory ProfessorDataState.idle() =
+      IdleProfessorState;
+  const factory ProfessorDataState.error(Object e) =
+      ErrorProfessorState;
+  const factory ProfessorDataState.loaded(
+          List<ReviewWithUser> professors) =
+      LoadedProfessorState;
 }
 
 /// Business Logic Component DataBLoC
-class ProfessorDataBLoC extends Bloc<ProfessorDataEvent, ProfessorDataState> {
+class ProfessorDataBLoC
+    extends Bloc<ProfessorDataEvent, ProfessorDataState> {
   ProfessorDataBLoC({
     required final ClientRepository repository,
     final ProfessorDataState? initialState,
   })  : _repository = repository,
-        _controller = StreamController<List<ReviewWithUser>>(),
+        _controller =
+            StreamController<List<ReviewWithUser>>(),
         super(
           initialState ?? const ProfessorDataState.idle(),
         ) {
-    _controller?.stream.listen((event) => add(NewListEvent(professors: event)));
+    _controller?.stream.listen(
+        (event) => add(NewListEvent(professors: event)));
     on<NewListEvent>(
       (event, emit) {
         emit(
@@ -58,7 +69,9 @@ class ProfessorDataBLoC extends Bloc<ProfessorDataEvent, ProfessorDataState> {
     );
     on<ProfessorDataRequested>(
       (event, emit) {
-        _subscription = _repository.getAllReviewsByProfessor(event.professorId).listen(
+        _subscription = _repository
+            .getAllReviewsByProfessor(event.professorId)
+            .listen(
               (e) => add(
                 NewListEvent(
                   professors: e.list,
