@@ -6,7 +6,9 @@ precommit:
 	@dart fix --apply
 
 get:
-	@dart pub get --directory backend
+	@dart pub get --directory backend/common
+	@dart pub get --directory backend/parser
+	@dart pub get --directory backend/server
 	@dart pub get --directory frontend
 	@dart pub get --directory shared
 
@@ -14,11 +16,13 @@ get:
 # brew install protobuf
 codegen: get
 	@dart pub global activate protoc_plugin
-	@protoc --dart_out=grpc:shared/lib/src shared/protobuf/service.proto
+	@protoc -I=shared/protobuf --dart_out=grpc:shared/lib/src/protobuf shared/protobuf/service.proto
 	@(cd shared && dart run build_runner build --delete-conflicting-outputs)
-	@(cd backend && dart run build_runner build --delete-conflicting-outputs)
+	@(cd backend\common && dart run build_runner build --delete-conflicting-outputs)
+	@(cd backend\parser && dart run build_runner build --delete-conflicting-outputs)
+	@(cd backend\server && dart run build_runner build --delete-conflicting-outputs)
 	@(cd frontend && dart run build_runner build --delete-conflicting-outputs)
-	@dart format --fix -l 120 frontend shared backend
+	@dart format --fix -l 60 frontend shared backend/common backend/parser backend/server
 
 # Codegeneration
 gen: codegen
@@ -26,7 +30,7 @@ gen: codegen
 # Codefix
 fix: get
 	@dart fix --apply .
-	@dart format --fix -l 120 .
+	@dart format --fix -l 60 .
 
 # Build web
 build-web:
