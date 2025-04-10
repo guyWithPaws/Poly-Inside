@@ -30,6 +30,15 @@ jobs:
         run: |
           touch .env
           cat .env
+      
+      - name: Code generation in shared folder
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
+        working-directory: shared
+      
+      - name: Code generation in frontend folder
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
 
       - name: Build web
         run: |
