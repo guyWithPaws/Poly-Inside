@@ -26,7 +26,7 @@ abstract class ProfessorProvider {
 }
 
 abstract class GroupProvider {
-  Future<void> changeGroupNumber();
+  Future<void> changeGroupNumber(int userId, String newGroupNumber);
   Future<void> fillGroupsNumbers();
 }
 
