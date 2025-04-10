@@ -63,13 +63,10 @@ class _AppScopeState extends State<AppScope> {
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
-              return MaterialPageRoute(
-                  builder: (context) => widget.child);
+              return MaterialPageRoute(builder: (context) => widget.child);
             case '/professor':
-              final professor = (settings.arguments
-                  as List)[0] as Professor;
-              final bloc = (settings.arguments as List)[1]
-                  as HomeBloc;
+              final professor = (settings.arguments as List)[0] as Professor;
+              final bloc = (settings.arguments as List)[1] as HomeBloc;
               return MaterialPageRoute(
                 builder: (context) => ProfessorProfilePage(
                   homeBloc: bloc,
@@ -77,8 +74,7 @@ class _AppScopeState extends State<AppScope> {
                 ),
               );
             case '/review':
-              final professor =
-                  settings.arguments as Professor;
+              final professor = settings.arguments as Professor;
               return MaterialPageRoute(
                 builder: (context) => ReviewPage(
                   professor: professor,
@@ -87,17 +83,13 @@ class _AppScopeState extends State<AppScope> {
               );
             default:
               return MaterialPageRoute(
-                builder: (context) => ErrorPage(
-                  onPressed: () {},
-                ),
+                builder: (context) => const ErrorPage(),
               );
           }
         },
         darkTheme: ThemeData(
           textTheme: GoogleFonts.montserratTextTheme(),
-          colorScheme: MaterialTheme.lightScheme()
-              .toColorScheme()
-              .copyWith(
+          colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
                 surface: Colors.white,
                 onSurface: Colors.black,
                 outline: Colors.grey.shade700,
@@ -107,9 +99,7 @@ class _AppScopeState extends State<AppScope> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: GoogleFonts.montserratTextTheme(),
-          colorScheme: MaterialTheme.lightScheme()
-              .toColorScheme()
-              .copyWith(
+          colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
                 surface: Colors.white,
                 onSurface: Colors.black,
                 outline: Colors.grey.shade700,
@@ -133,16 +123,12 @@ class _InheritedApp extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   /// For example: `App.maybeOf(context)`.
-  static _InheritedApp? maybeOf(BuildContext context,
-          {bool listen = true}) =>
+  static _InheritedApp? maybeOf(BuildContext context, {bool listen = true}) =>
       listen
-          ? context.dependOnInheritedWidgetOfExactType<
-              _InheritedApp>()
-          : context.getInheritedWidgetOfExactType<
-              _InheritedApp>();
+          ? context.dependOnInheritedWidgetOfExactType<_InheritedApp>()
+          : context.getInheritedWidgetOfExactType<_InheritedApp>();
 
-  static Never _notFoundInheritedWidgetOfExactType() =>
-      throw ArgumentError(
+  static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
         'Out of scope, not found inherited widget '
             'a _InheritedApp of the exact type',
         'out_of_scope',
@@ -151,13 +137,9 @@ class _InheritedApp extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context.
   /// For example: `App.of(context)`.
-  static _InheritedApp of(BuildContext context,
-          {bool listen = true}) =>
-      maybeOf(context, listen: listen) ??
-      _notFoundInheritedWidgetOfExactType();
+  static _InheritedApp of(BuildContext context, {bool listen = true}) =>
+      maybeOf(context, listen: listen) ?? _notFoundInheritedWidgetOfExactType();
 
   @override
-  bool updateShouldNotify(
-          covariant _InheritedApp oldWidget) =>
-      false;
+  bool updateShouldNotify(covariant _InheritedApp oldWidget) => false;
 }
