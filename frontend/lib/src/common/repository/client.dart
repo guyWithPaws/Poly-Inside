@@ -22,6 +22,7 @@ abstract class ClientRepository {
   Future<void> updateReaction(Reaction reaction);
   Stream<GetListGroupsResponce> findGroup(
       int count, String number);
+  Future<void> updateGroupNumber(int userId, String newGroupNumber);
 }
 
 abstract class UserRepository {
