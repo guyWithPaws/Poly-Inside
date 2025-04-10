@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/theme.dart';
 import 'package:poly_inside/src/feature/authentication/bloc/user_bloc.dart';
+import 'package:poly_inside/src/feature/initialization/bloc/init_bloc.dart';
 
 import '../../feature/initialization/widget/initialization.dart';
 
@@ -13,11 +14,8 @@ import '../../feature/initialization/widget/initialization.dart';
 class ErrorPage extends StatefulWidget {
   /// {@macro error_page}
   const ErrorPage({
-    required this.onPressed,
     super.key,
   });
-
-  final VoidCallback onPressed;
 
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
@@ -32,7 +30,7 @@ class ErrorPage extends StatefulWidget {
 
 /// State for widget ErrorPage.
 class _ErrorPageState extends State<ErrorPage> {
-  UserBloc? _bloc;
+  InitializationBloc? _bloc;
   /* #region Lifecycle */
   @override
   void initState() {
@@ -42,16 +40,18 @@ class _ErrorPageState extends State<ErrorPage> {
 
   @override
   void didUpdateWidget(covariant ErrorPage oldWidget) {
-    _bloc ??= UserBloc(
-      repository: InitializationScope.repositoryOf(context),
-      state: const UserState.idle(),
-    );
     super.didUpdateWidget(oldWidget);
     // Widget configuration changed
   }
 
   @override
   void didChangeDependencies() {
+    _bloc ??= InitializationBloc(const InitializationState.idle())
+      ..add(StartInitialization());
+    // _bloc ??= UserBloc(
+    //   repository: InitializationScope.repositoryOf(context),
+    //   state: const UserState.idle(),
+    // );
     super.didChangeDependencies();
     // The configuration of InheritedWidgets has changed
     // Also called after initState but before build
@@ -70,9 +70,7 @@ class _ErrorPageState extends State<ErrorPage> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.montserratTextTheme(),
-        colorScheme: MaterialTheme.lightScheme()
-            .toColorScheme()
-            .copyWith(
+        colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
               surface: Colors.white,
               onSurface: Colors.black,
               outline: Colors.grey.shade700,
@@ -87,8 +85,7 @@ class _ErrorPageState extends State<ErrorPage> {
               const SizedBox(
                 height: 16,
               ),
-              const Text(
-                  'Упс... Кажется, что-то пошло не так'),
+              const Text('Упс... Кажется, что-то пошло не так'),
               const Text('Попробуйте обновить страницу'),
               const Spacer(),
               Container(
@@ -99,15 +96,13 @@ class _ErrorPageState extends State<ErrorPage> {
                     color: Colors.green),
                 child: TextButton(
                   onPressed: () {
-                    _bloc?.add(GetUserEvent());
+                    print('tapapiioopipi11ioiop');
+                    _bloc?.add(StartInitialization());
                   },
                   child: Center(
                     child: Text(
                       'Обновить',
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelLarge
-                          ?.copyWith(
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
                             color: Colors.white,
                           ),
                     ),
