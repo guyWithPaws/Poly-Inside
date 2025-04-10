@@ -5,10 +5,12 @@ on:
     branches: [ "main" ]
     paths:
        - 'backend/**'
+       - 'shared/**'
   pull_request:
     branches: [ "main" ]
     paths:
        - 'backend/**'
+       - 'shared/**'
 
 jobs:
   server_build:
