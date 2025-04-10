@@ -11,10 +11,12 @@ import 'package:poly_inside/src/feature/app/app_scope.dart';
 import 'package:poly_inside/src/feature/home/widget/home_page.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main(List<String> args) => runZonedGuarded(
       () async {
         WidgetsFlutterBinding.ensureInitialized();
+        await dotenv.load(fileName: '.env');
         await initializeDateFormatting('ru_RU', null);
         await Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
@@ -44,8 +46,7 @@ void main(List<String> args) => runZonedGuarded(
 
 class MyBLoCObserver extends BlocObserver {
   @override
-  void onError(
-      BlocBase bloc, Object error, StackTrace stackTrace) {
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     FirebaseAnalytics.instance.logEvent(
       name: 'Crash',
       parameters: <String, Object>{

@@ -1,10 +1,11 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:grpc/grpc_web.dart';
 import 'package:grpc/service_api.dart';
 
 ClientChannel getChannel() {
   return GrpcWebClientChannel.xhr(
     Uri.parse(
-      'https://infinite-cow-hip.ngrok-free.app/api',
+      dotenv.get('API_URL'),
     ),
   );
 }
@@ -12,7 +13,7 @@ ClientChannel getChannel() {
 ClientChannel getLocalhostChannel() {
   return GrpcWebClientChannel.xhr(
     Uri.parse(
-      'http://localhost:8080/api/',
+      dotenv.get('LOCAL_API_URL'),
     ),
   );
 }

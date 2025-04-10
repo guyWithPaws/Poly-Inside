@@ -1,9 +1,10 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:grpc/grpc.dart';
 
 ClientChannel getChannel() {
   return ClientChannel(
-    '213.171.31.11',
-    port: 8080,
+    dotenv.get('SERVER_IP'),
+    port: dotenv.getInt('SERVER_PORT'),
     options: const ChannelOptions(
       credentials: ChannelCredentials.insecure(),
     ),
@@ -12,8 +13,8 @@ ClientChannel getChannel() {
 
 ClientChannel getLocalhostChannel() {
   return ClientChannel(
-    '127.0.0.1',
-    port: 8080,
+    '10.0.2.2',
+    port: dotenv.getInt('SERVER_PORT'),
     options: const ChannelOptions(
       credentials: ChannelCredentials.insecure(),
     ),
