@@ -1,0 +1,66 @@
+name: Dart Backend CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+       - 'backend/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+       - 'backend/**'
+
+jobs:
+  server_build:
+    name: Build Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Dart SDK
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install server dependencies
+        working-directory: backend/server
+        run: dart pub get
+
+      - name: Verify formatting
+        working-directory: backend/server
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        working-directory: backend/server
+        run: dart analyze
+
+      - name: Build server executable
+        working-directory: backend/server
+        run: dart compile exe bin/server.dart -o bin/server
+
+  parser_build:
+    name: Build Parser
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Dart SDK
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install parser dependencies
+        working-directory: backend/parser
+        run: dart pub get
+
+      - name: Verify formatting
+        working-directory: backend/parser
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        working-directory: backend/parser
+        run: dart analyze
+
+      - name: Build parser executable
+        working-directory: backend/parser
+        run: dart compile exe bin/parser.dart -o bin/parser
