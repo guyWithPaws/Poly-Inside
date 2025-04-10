@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 2.0.0+1
+version: 2.0.1
 
 environment:
   sdk: ^3.5.2
@@ -33,15 +33,13 @@ dependencies:
 
   shared:
     path: ../shared
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   bloc: ^8.1.4
   flutter_bloc: ^8.1.6
   freezed_annotation: ^2.4.4
   meta: ^1.15.0
   telegram_web_app: ^0.3.3
-  # grpc: ^4.0.1
+  grpc: ^4.0.4
   cached_network_image: ^3.4.1
   flutter_rating_stars: ^1.1.0
   flutter_svg: ^2.0.10+1
@@ -60,9 +58,6 @@ dependencies:
   go_router: ^14.3.0
   skeletonizer: ^1.4.3
   device_info_plus: ^11.3.0
-  grpc:
-      git:
-        url: https://github.com/grpc/grpc-dart.git
   flutter_dotenv: ^5.2.1
   # web_smooth_scroll: ^2.0.0
 
@@ -95,6 +90,8 @@ flutter:
     - assets/rive/error.riv
     - assets/rive/success.riv
     - assets/icons/check.svg
+
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
