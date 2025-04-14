@@ -1,1 +1,1 @@
-from . import admin, handlers
+from . import handlers
