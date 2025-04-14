@@ -2,22 +2,37 @@ name: Dart Backend CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
-       - 'backend/**'
-       - 'shared/**'
+      - "backend/**"
+      - "shared/**"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
-       - 'backend/**'
-       - 'shared/**'
+      - "backend/**"
+      - "shared/**"
 
 jobs:
   shared_build:
     name: Shared build
     runs-on: ubuntu-latest
 
-    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Dart SDK
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install dependencies
+        working-directory: shared
+        run: dart pub get
+      
+      - name: Code generation
+        working-directory: shared
+        run: dart run build_runner build --delete-conflicting-outputs
+        cache: true
+
   server_build:
     name: Build Server
     runs-on: ubuntu-latest
@@ -37,7 +52,7 @@ jobs:
       #   working-directory: backend/server
       #   run: dart format --output=none --set-exit-if-changed .
 
-  #     @(cd shared && dart run build_runner build --delete-conflicting-outputs)
+      #     @(cd shared && dart run build_runner build --delete-conflicting-outputs)
 
       - name: Analyze project source
         working-directory: backend/server
@@ -58,7 +73,6 @@ jobs:
         working-directory: backend/server
         run: |
           docker build -t server .
-
 
   parser_build:
     name: Build Parser
@@ -86,7 +100,7 @@ jobs:
       - name: Build parser executable
         working-directory: backend/parser
         run: dart compile exe bin/parser.dart -o bin/parser
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
