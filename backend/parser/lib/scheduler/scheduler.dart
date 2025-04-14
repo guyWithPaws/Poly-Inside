@@ -24,12 +24,10 @@ class Scheduler {
 
   Future<int> _readJsonFile() async {
     var data = await _file?.readAsString();
-    return int.parse(
-        jsonDecode(data!)['lastUpdate'].toString());
+    return int.parse(jsonDecode(data!)['lastUpdate'].toString());
   }
 
-  Future<void> _writeLastUpdateToJsonFile(
-      DateTime date) async {
+  Future<void> _writeLastUpdateToJsonFile(DateTime date) async {
     var data = date.millisecondsSinceEpoch.toString();
 
     var outputString = '{"lastUpdate" : $data}';
@@ -38,14 +36,12 @@ class Scheduler {
 
   Future<void> start() async {
     var lastUpdate = await _readJsonFile();
-    var lastUpdateDate =
-        DateTime.fromMillisecondsSinceEpoch(lastUpdate);
+    var lastUpdateDate = DateTime.fromMillisecondsSinceEpoch(lastUpdate);
 
     var todaysDate = DateTime.now();
     var nextUpdateDate = lastUpdateDate.add(interval);
     var difference = nextUpdateDate.difference(todaysDate);
-    difference =
-        difference.isNegative ? Duration.zero : difference;
+    difference = difference.isNegative ? Duration.zero : difference;
 
     _timer = Timer(difference, () {
       unawaited(parser.updateDatabase());
