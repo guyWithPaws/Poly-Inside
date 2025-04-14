@@ -1,4 +1,4 @@
-FROM dart:stable as builder
+FROM dart:stable AS builder
 
 COPY ./shared/lib /shared/lib
 COPY ./shared/protobuf /shared/protobuf
@@ -15,7 +15,7 @@ RUN dart pub get && \
     rm -rf /backend/.dart_tool /backend/pubspec.lock
 
 
-FROM debian:buster-slim
+FROM debian:stable-slim
 
 RUN  apt-get update \
     && apt-get install -y --no-install-recommends sqlite3 libsqlite3-dev wget gnupg ca-certificates procps libxss1 xvfb \

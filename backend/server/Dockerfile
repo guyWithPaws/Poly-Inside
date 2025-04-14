@@ -1,4 +1,4 @@
-FROM dart:stable as builder
+FROM dart:stable AS builder
 
 COPY ./shared/lib /shared/lib
 COPY ./shared/protobuf /shared/protobuf
