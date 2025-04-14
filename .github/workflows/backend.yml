@@ -14,7 +14,7 @@ on:
 
 jobs:
   shared_build:
-    name: Shared build
+    name: Build shared
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +31,6 @@ jobs:
       - name: Code generation
         working-directory: shared
         run: dart run build_runner build --delete-conflicting-outputs
-        cache: true
 
   server_build:
     name: Build Server
