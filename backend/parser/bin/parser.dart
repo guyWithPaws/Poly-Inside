@@ -10,10 +10,9 @@ Future<void> main() async {
       await runZonedGuarded(
         () async {
           final database = AppDatabase();
-          final provider =
-              DatabaseProviderImpl(database: database);
+          final provider = DatabaseProviderImpl(database: database);
 
-          await Future.delayed(const Duration(seconds: 10));
+          await Future<void>.delayed(const Duration(seconds: 10));
 
           final parser = await Parser.create(provider);
           await parser.updateDatabase();

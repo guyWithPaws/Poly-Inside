@@ -74,7 +74,6 @@ class Parser {
   }
 
   Future<void> updateDatabase() async {
-    print('adhjadgjak');
     var startTime = DateTime.now();
     l.i('[Parser]: Parser starts! Start time: $startTime');
 

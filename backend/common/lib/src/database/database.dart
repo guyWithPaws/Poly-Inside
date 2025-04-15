@@ -1,3 +1,5 @@
+// import 'package:dotenv/dotenv.dart';
+import 'package:dotenv/dotenv.dart';
 import 'package:drift/drift.dart';
 import 'package:drift_postgres/drift_postgres.dart';
 import 'package:postgres/postgres.dart';
@@ -77,8 +79,7 @@ class Users extends Table {
   IntColumn get id => integer()();
   TextColumn get name => text()();
   BlobColumn get avatar => blob()();
-  IntColumn get rating =>
-      integer().withDefault(const Constant<int>(0))();
+  IntColumn get rating => integer().withDefault(const Constant<int>(0))();
   TextColumn get group => text()();
 
   @override
@@ -118,21 +119,24 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 5;
 
-  static QueryExecutor _openConnection() => PgDatabase(
-        endpoint: pg.Endpoint(
-            host: 'database',
-            database:
-                'postgres_db', // Имя вашей базы данных
-            username: 'postgres_user', // Имя пользователя
-            password: 'postgres_password',
-            port: 5432),
-        settings: const ConnectionSettings(
-          // If you expect to talk to a Postgres database over
-          // a public connection,
-          // please use SslMode.verifyFull instead.
-          sslMode: SslMode.disable,
-        ),
-      );
+  static QueryExecutor _openConnection() {
+    var env = DotEnv()..load(['.env', 'backend/common/.env']);
+    return PgDatabase(
+      endpoint: pg.Endpoint(
+        host: env['DATABASE_HOST']!,
+        database: env['DATABASE_NAME']!, // Имя вашей базы данных
+        username: env['DATABASE_USERNAME']!, // Имя пользователя
+        password: env['DATABASE_PASSWORD']!,
+        port: int.parse(env['DATABASE_PORT']!),
+      ),
+      settings: const ConnectionSettings(
+        // If you expect to talk to a Postgres database over
+        // a public connection,
+        // please use SslMode.verifyFull instead.
+        sslMode: SslMode.disable,
+      ),
+    );
+  }
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -145,8 +149,7 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(groups);
           }
           if (from < 3) {
-            await m.addColumn(
-                professors, professors.smallAvatar);
+            await m.addColumn(professors, professors.smallAvatar);
           }
           if (from < 4) {
             await m.addColumn(users, users.group);

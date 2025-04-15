@@ -17,6 +17,7 @@ FROM alpine:latest
 
 RUN apk add --no-cache libc6-compat
 COPY --from=builder /server/bin/server /bin/server
+COPY --from=builder /server/.env /.env
 
 EXPOSE 9090
 CMD [ "/bin/server" ]
