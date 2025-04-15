@@ -10,7 +10,7 @@ WORKDIR /build
 
 SHELL [ "/bin/bash", "-c" ]
 COPY ./frontend .
-RUN flutter pub get && flutter build web --wasm
+RUN flutter pub get && flutter build web --dart-define=MODE=PROD --wasm
 
 FROM python:3.9-slim
 
