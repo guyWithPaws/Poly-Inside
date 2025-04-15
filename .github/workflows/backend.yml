@@ -65,6 +65,15 @@ jobs:
         working-directory: backend/server
         run: dart run build_runner build --delete-conflicting-outputs
 
+      - name: Create .env file from Github secrets
+        working-directory: backend/common
+        run: |
+          echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
+          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
+          echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> .env
+          echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
+          echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
+
       - name: Build server executable
         working-directory: backend/server
         run: dart compile exe bin/server.dart -o bin/server
