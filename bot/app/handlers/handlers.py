@@ -1,13 +1,15 @@
 from aiogram import Router
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types.web_app_info import WebAppInfo
 
 handler_router = Router()
 
 
 @handler_router.message(CommandStart())
 async def command_start(message: Message):
-    text_on_start_command = 'Добро пожаловать в PolyInside!'
+    text_on_start_command = 'Добро пожаловать в PolyInside!\nЧтобы запустить мини-приложение, нажмите кнопку PolyInside'
     await message.answer(text_on_start_command)
 
 
