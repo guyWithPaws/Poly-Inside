@@ -5,14 +5,14 @@ COPY ./shared/protobuf /shared/protobuf
 COPY ./shared/pubspec.yaml /shared/pubspec.yaml
 
 WORKDIR /parser
-COPY ./backend/parser .
-COPY ./backend/common .
+COPY ./backend/parser /parser
+COPY ./backend/common /common
 
+RUN cd /common && dart run build_runner build --delete-conflicting-outputs
 
-RUN dart pub get && \
+RUN cd ../parser && dart pub get && \
     dart run build_runner build --delete-conflicting-outputs && \
-    dart compile exe bin/parser.dart -o bin/parser && \
-    rm -rf /backend/.dart_tool /backend/pubspec.lock
+    dart compile exe bin/parser.dart -o bin/parser
 
 
 FROM debian:stable-slim
@@ -31,6 +31,6 @@ RUN  apt-get update \
 ENV CHROME_FORCE_NO_SANDBOX=true
 
 COPY --from=builder /parser/bin/parser /bin/parser
-COPY --from=builder /parser/.env /.env
+COPY --from=builder /common/.env /.env
 
 CMD [ "/bin/parser" ]
