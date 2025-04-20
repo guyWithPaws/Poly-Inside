@@ -5,8 +5,8 @@ COPY ./shared/protobuf /shared/protobuf
 COPY ./shared/pubspec.yaml /shared/pubspec.yaml
 
 WORKDIR /parser
-COPY ./backend/parser /parser
-COPY ./backend/common /common
+COPY ./backend/parser .
+COPY ./backend/common .
 
 
 RUN dart pub get && \
@@ -31,5 +31,6 @@ RUN  apt-get update \
 ENV CHROME_FORCE_NO_SANDBOX=true
 
 COPY --from=builder /parser/bin/parser /bin/parser
+COPY --from=builder /parser/.env /.env
 
 CMD [ "/bin/parser" ]
