@@ -13,8 +13,7 @@ services:
 
   nginx:
     container_name: nginx
-    # image: nginx:stable-alpine
-    build: ./proxy/nginx
+    image: nginx:stable-alpine
     ports:
       - "80:80"
     networks:
@@ -26,15 +25,16 @@ services:
       - envoy
       - server
 
-  # ngrok:
-  #   container_name: ngrok
-  #   build: ./proxy/ngrok
-  #   networks:
-  #     - dev
-  #   ports:
-  #     - "4040:4040"
-  #   depends_on:
-  #     - web_builder
+  ngrok:
+    container_name: ngrok
+    build: ./proxy/ngrok
+    networks:
+      - dev
+    ports:
+      - "4040:4040"
+    depends_on:
+      - web_builder
+    
 
   server:
     container_name: server
@@ -52,27 +52,34 @@ services:
     depends_on:
       - database
 
-  # parser:
-  #   container_name: parser
-  #   build:
-  #     context: .
-  #     dockerfile: ./backend/parser/Dockerfile
-  #   networks:
-  #     - dev
-  #   depends_on:
-  #     - database
+  parser:
+    container_name: parser
+    build:
+      context: .
+      dockerfile: ./backend/parser/Dockerfile
+    networks:
+      - dev
+    depends_on:
+      - database
 
-  # web_builder:
-  #   container_name: web_builder
-  #   build:
-  #     context: .
-  #     dockerfile: ./frontend/Dockerfile
-  #   networks:
-  #     - dev
-  #   ports:
-  #     - "8081:8081"
-  #   depends_on:
-  #     - server
+  web_builder:
+    container_name: web_builder
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    networks:
+      - dev
+    ports:
+      - "8081:8081"
+    depends_on:
+      - server
+
+  bot:
+    container_name: bot
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+
 
   database:
     image: postgres:latest
