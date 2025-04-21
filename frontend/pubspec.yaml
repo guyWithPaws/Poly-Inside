@@ -59,6 +59,7 @@ dependencies:
   skeletonizer: ^1.4.3
   device_info_plus: ^11.3.0
   flutter_dotenv: ^5.2.1
+  animate_do: ^4.2.0
   # web_smooth_scroll: ^2.0.0
 
 dev_dependencies:
