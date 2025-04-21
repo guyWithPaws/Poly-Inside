@@ -14,7 +14,7 @@ on:
 
 jobs:
   shared_build:
-    name: Build shared
+    name: Build Shared
     runs-on: ubuntu-latest
 
     steps:
@@ -47,21 +47,15 @@ jobs:
         working-directory: backend/server
         run: dart pub get
 
-      # - name: Verify formatting
-      #   working-directory: backend/server
-      #   run: dart format --output=none --set-exit-if-changed .
-
-      #     @(cd shared && dart run build_runner build --delete-conflicting-outputs)
-
-        # - name: Analyze project source
-        #   working-directory: backend/server
-        #   run: dart analyze
-
-      - name: Code generation
+      - name: Code generation in Shared folder
         working-directory: shared
         run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Code generation
+      - name: Code generation in Common folder
+        working-directory: backend/common
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Code generation in Server folder
         working-directory: backend/server
         run: dart run build_runner build --delete-conflicting-outputs
 
@@ -101,20 +95,16 @@ jobs:
         working-directory: backend/parser
         run: dart pub get
 
-      # - name: Verify formatting
-      #   working-directory: backend/parser
-      #   run: dart format --output=none --set-exit-if-changed .
-
-      # - name: Analyze project source
-      #   working-directory: backend/parser
-      #   run: dart analyze
-
-      - name: Code generation
+      - name: Code generation in Shared folder
         working-directory: shared
         run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Code generation
-        working-directory: backend/server
+      - name: Code generation in Common folder
+        working-directory: backend/common
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Code generation in Parser folder
+        working-directory: backend/parser
         run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Build parser executable
