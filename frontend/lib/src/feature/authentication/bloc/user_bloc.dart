@@ -9,7 +9,6 @@ import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poly_inside/src/common/repository/client.dart';
 import 'package:shared/shared.dart';
-import 'package:telegram_web_app/telegram_web_app.dart';
 import 'package:poly_inside/src/feature/authentication/model/client_stub.dart'
     if (dart.library.js_interop) 'package:poly_inside/src/feature/authentication/model/client_web.dart'
     if (dart.library.io) 'package:poly_inside/src/feature/authentication/model/client_io.dart';
@@ -17,26 +16,21 @@ import 'package:poly_inside/src/feature/authentication/model/client_stub.dart'
 part 'user_bloc.freezed.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  UserBloc(
-      {required final UserState state,
-      required this.repository})
+  UserBloc({required final UserState state, required this.repository})
       : super(state) {
     on<GetUserEvent>((event, emit) async {
       emit(const UserState.processing('Start logging in'));
 
       try {
         final id = getId();
-        emit(const UserState.processing(
-            'Getting user from database'));
+        emit(const UserState.processing('Getting user from database'));
 
         var user = await repository.getUserByUserId(id);
         if (!user.hasId()) {
           emit(const NotAuthorizedState());
         } else {
-          await FirebaseAnalytics.instance.logLogin(
-              parameters: <String, Object>{
-                'UserID': user.id
-              });
+          await FirebaseAnalytics.instance
+              .logLogin(parameters: <String, Object>{'UserID': user.id});
           emit(const UserState.processing('Loaded user'));
           emit(UserState.loaded(user));
         }
@@ -52,28 +46,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         if (event.name.isEmpty) {
           warningMessage = 'Заполните поле с именем!';
         } else if (!event.isLicenseAccepted) {
-          warningMessage =
-              'Примите пользовательское соглашение!';
+          warningMessage = 'Примите пользовательское соглашение!';
         }
 
         if (warningMessage.isNotEmpty) {
           emit(UserState.warning(warningMessage));
         } else {
-          final user = User(
-              id: getId(),
-              name: event.name,
-              group: event.group);
-          emit(const UserState.processing(
-              'Adding user to database'));
+          final user = User(id: getId(), name: event.name, group: event.group);
+          emit(const UserState.processing('Adding user to database'));
 
           await repository.addUser(user);
           emit(const UserState.processing(
               'Getting user from database after logging'));
 
-          await FirebaseAnalytics.instance.logLogin(
-              parameters: <String, Object>{
-                'UserID': user.id
-              });
+          await FirebaseAnalytics.instance
+              .logLogin(parameters: <String, Object>{'UserID': user.id});
           emit(const UserState.processing('Loaded user'));
           emit(UserState.loaded(user));
         }
@@ -81,8 +68,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         rethrow;
       }
     });
-    on<GroupsList>((event, emit) =>
-        emit(UserState.groupLoaded(event.groups)));
+    on<GroupsList>((event, emit) => emit(UserState.groupLoaded(event.groups)));
     on<GroupTextFieldChanged>((event, emit) async {
       try {
         _subscription?.cancel();
@@ -98,11 +84,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
     on<TelegramUserNameRequest>((event, emit) {
       try {
-        var user = TelegramWebApp.instance.initData.user;
-        event._controller.text = user.firstname ??
-            user.username ??
-            user.lastname ??
-            'dev';
+        event._controller.text = getUserName();
       } catch (e) {
         rethrow;
       }
@@ -125,14 +107,12 @@ class GetUserEvent extends UserEvent {
 
 class ResetWarningEvent extends UserEvent {}
 
-class AuthenticationRequestedWithoutGroup
-    extends UserEvent {}
+class AuthenticationRequestedWithoutGroup extends UserEvent {}
 
 class TelegramUserNameRequest extends UserEvent {
   final TextEditingController _controller;
 
-  TelegramUserNameRequest(
-      {required TextEditingController controller})
+  TelegramUserNameRequest({required TextEditingController controller})
       : _controller = controller;
 }
 
@@ -163,17 +143,13 @@ class SeeUserLicenseRequest extends UserEvent {}
 @Freezed()
 sealed class UserState with _$UserState {
   const UserState._();
-  const factory UserState.processing(String stage) =
-      ProcessingState;
+  const factory UserState.processing(String stage) = ProcessingState;
   const factory UserState.idle() = IdleState;
-  const factory UserState.notAuthorized() =
-      NotAuthorizedState;
+  const factory UserState.notAuthorized() = NotAuthorizedState;
   const factory UserState.error(Object e) = ErrorState;
   const factory UserState.loaded(User user) = LoadedState;
-  const factory UserState.nameLoaded(String name) =
-      NameLoadedState;
-  const factory UserState.warning(String message) =
-      WarningState;
-  const factory UserState.groupLoaded(
-      List<GroupNumber> groups) = GroupsLoadedState;
+  const factory UserState.nameLoaded(String name) = NameLoadedState;
+  const factory UserState.warning(String message) = WarningState;
+  const factory UserState.groupLoaded(List<GroupNumber> groups) =
+      GroupsLoadedState;
 }
