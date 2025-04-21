@@ -1,11 +1,14 @@
 import 'dart:typed_data';
 
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:poly_inside/src/common/extensions/string.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
-import 'package:poly_inside/src/common/widgets/reactions.dart';
+import 'package:poly_inside/src/feature/user_profile/bloc/likes_block/likes_bloc.dart';
+import '../enums/reaction_type.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/review/widget/review_page.dart';
 import 'package:shared/shared.dart';
@@ -21,22 +24,15 @@ class ReviewTitle extends StatelessWidget {
   final Review review;
   final Professor? professor;
   final User? user;
-  final Reaction? reaction;
 
   /// {@macro review_title}
   const ReviewTitle(
-      {super.key,
-      required this.review,
-      this.professor,
-      this.user,
-      this.reaction // ignore: unused_element
-      });
+      {super.key, required this.review, this.professor, this.user});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-          horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 238, 249, 237),
         borderRadius: BorderRadius.circular(12),
@@ -47,26 +43,21 @@ class ReviewTitle extends StatelessWidget {
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Row(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Uint8List.fromList(professor!.avatar)
-                              .isNotEmpty
+                      Uint8List.fromList(professor!.avatar).isNotEmpty
                           ? Image.memory(
-                              Uint8List.fromList(
-                                  professor!.avatar),
+                              Uint8List.fromList(professor!.avatar),
                               width: 60,
                               height: 60,
                               cacheHeight: 160,
                               cacheWidth: 160,
                             )
-                          : SvgPicture.asset(
-                              'assets/icons/no_photo.svg'),
+                          : SvgPicture.asset('assets/icons/no_photo.svg'),
                       // CircleAvatar(
                       //   backgroundColor: Colors.grey[200],
                       //   radius: 20,
@@ -108,46 +99,35 @@ class ReviewTitle extends StatelessWidget {
                               : user!.name,
                           overflow: TextOverflow.clip,
                           style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
+                              fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ],
                   ),
                 ),
-                (UserScope.userOf(context).id ==
-                        review.userId)
+                (UserScope.userOf(context).id == review.userId)
                     ? Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
-                            onTap: () =>
-                                showCupertinoModalBottomSheet(
+                            onTap: () => showCupertinoModalBottomSheet(
                               context: context,
-                              builder:
-                                  (BuildContext context) =>
-                                      SizedBox(
+                              builder: (BuildContext context) => SizedBox(
                                 height: 150,
                                 child: Padding(
-                                  padding: const EdgeInsets
-                                      .symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 32),
                                   child: Column(
                                     children: [
                                       GestureDetector(
-                                        onTap: () =>
-                                            Navigator.push(
+                                        onTap: () => Navigator.push(
                                           context,
-                                          MaterialPageRoute<
-                                              void>(
-                                            builder: (builderContext) => ReviewPage(
-                                                review:
-                                                    review,
-                                                professor:
-                                                    professor!,
-                                                type: ReviewType
-                                                    .edit),
+                                          MaterialPageRoute<void>(
+                                            builder: (builderContext) =>
+                                                ReviewPage(
+                                                    review: review,
+                                                    professor: professor!,
+                                                    type: ReviewType.edit),
                                           ),
                                         ),
                                         child: SizedBox(
@@ -162,10 +142,8 @@ class ReviewTitle extends StatelessWidget {
                                               const Text(
                                                 'Редактировать отзыв',
                                                 style: TextStyle(
-                                                    fontSize:
-                                                        15,
-                                                    color: Colors
-                                                        .black,
+                                                    fontSize: 15,
+                                                    color: Colors.black,
                                                     decoration:
                                                         TextDecoration.none),
                                               )
@@ -174,45 +152,53 @@ class ReviewTitle extends StatelessWidget {
                                         ),
                                       ),
                                       GestureDetector(
-                                        behavior:
-                                            HitTestBehavior
-                                                .opaque,
-                                        onTap: () =>
-                                            showDialog(
+                                        behavior: HitTestBehavior.opaque,
+                                        onTap: () => showDialog(
                                           context: context,
-                                          builder: (BuildContext
-                                                  context) =>
+                                          builder: (BuildContext context) =>
                                               AlertDialog(
-                                            content:
-                                                SizedBox(
+                                            content: SizedBox(
                                               height: 90,
                                               child: Center(
-                                                child:
-                                                    Column(
+                                                child: Column(
                                                   mainAxisSize:
-                                                      MainAxisSize
-                                                          .min,
+                                                      MainAxisSize.min,
                                                   children: [
                                                     const Text(
                                                         'Вы точно хотите удалить данный отзыв?'),
                                                     Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.spaceEvenly,
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
                                                       children: [
                                                         TextButton(
                                                           onPressed: () async {
-                                                            await InitializationScope.repositoryOf(context).deleteReview(review.id).then(
+                                                            await InitializationScope
+                                                                    .repositoryOf(
+                                                                        context)
+                                                                .deleteReview(
+                                                                    review.id)
+                                                                .then(
                                                               (_) {
-                                                                Navigator.pop(context);
-                                                                Navigator.pop(context);
+                                                                if (context
+                                                                    .mounted) {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                }
                                                               },
                                                             );
                                                           },
-                                                          child: const Text('Да'),
+                                                          child:
+                                                              const Text('Да'),
                                                         ),
                                                         TextButton(
-                                                          onPressed: () => Navigator.pop(context),
-                                                          child: const Text('Нет'),
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          child:
+                                                              const Text('Нет'),
                                                         )
                                                       ],
                                                     )
@@ -234,8 +220,7 @@ class ReviewTitle extends StatelessWidget {
                                               const Text(
                                                 'Удалить отзыв',
                                                 style: TextStyle(
-                                                    fontSize:
-                                                        15,
+                                                    fontSize: 15,
                                                     decoration:
                                                         TextDecoration.none),
                                               )
@@ -261,9 +246,7 @@ class ReviewTitle extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               review.comment,
-              style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
             ProfessorFeatures(
@@ -276,25 +259,68 @@ class ReviewTitle extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                     DateFormat.yMMMMd('ru_RU').format(
-                        DateFormat(
-                                'yyyy-MM-dd HH:mm:ss.SSSSSS')
+                        DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS')
                             .parse(review.date)),
                     style: const TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                         fontWeight: FontWeight.w500)),
-                RepaintBoundary(
-                  child: Reactions(
-                    review: review,
-                    reaction: reaction,
-                    professor: professor,
-                  ),
-                ),
+                // SizedBox(
+                //   child: Row(
+                //     children: [
+                //       GestureDetector(
+                //         onTap: () => BlocProvider.of<LikesBLoC>(context).add(
+                //           AddLike(
+                //               reviewId: review.id, professorId: professor!.id),
+                //         ),
+                //         child: SvgPicture.asset(
+                //           ReactionType.like.path,
+                //           alignment: Alignment.bottomRight,
+                //           colorFilter: const ColorFilter.mode(
+                //               Color.fromARGB(255, 138, 138, 138),
+                //               BlendMode.srcIn),
+                //         ),
+                //       ),
+                //       const SizedBox(
+                //         width: 8,
+                //       ),
+                //       Text('${review.likes}'),
+                //       const SizedBox(width: 16),
+                //       GestureDetector(
+                //         onTap: () => BlocProvider.of<LikesBLoC>(context).add(
+                //           AddDislike(reviewId: review.id),
+                //         ),
+                //         child: SvgPicture.asset(
+                //           ReactionType.dislike.path,
+                //           alignment: Alignment.bottomRight,
+                //           colorFilter: const ColorFilter.mode(
+                //               Color.fromARGB(255, 138, 138, 138),
+                //               BlendMode.srcIn),
+                //         ),
+                //       ),
+                //       const SizedBox(
+                //         width: 8,
+                //       ),
+                //       AnimatedFlipCounter(
+                //         value: review.dislikes,
+                //         duration: const Duration(milliseconds: 200),
+                //         textStyle: const TextStyle(
+                //           color: Color.fromARGB(255, 138, 138, 138),
+                //           fontWeight: FontWeight.w400,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // )
+                // Reactions(
+                //   review: review,
+                //   reaction: reaction,
+                //   professor: professor,
+                // ),
               ],
             )
           ],

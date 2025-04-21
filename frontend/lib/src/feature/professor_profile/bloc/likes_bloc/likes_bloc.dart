@@ -14,8 +14,7 @@ class UpdateLike extends LikeEvent {}
 @Freezed()
 sealed class LikeState with _$LikeState {
   const LikeState._();
-  const factory LikeState.processing() =
-      ProcessingLikeState;
+  const factory LikeState.processing() = ProcessingLikeState;
   const factory LikeState.idle() = IdleLikeState;
   const factory LikeState.error(Object e) = ErrorLikeState;
   const factory LikeState.added() = AddedLikeState;
