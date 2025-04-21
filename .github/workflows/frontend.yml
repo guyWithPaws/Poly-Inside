@@ -10,11 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: frontend
-
+        
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -27,6 +23,7 @@ jobs:
           cache: true
 
       - name: Create .env file
+        working-directory: frontend
         run: |
           touch .env
           cat .env
@@ -37,10 +34,12 @@ jobs:
         working-directory: shared
       
       - name: Code generation in frontend folder
+        working-directory: frontend
         run: |
           dart run build_runner build --delete-conflicting-outputs
 
       - name: Build web for Web Assembly
+        working-directory: frontend
         run: |
           flutter config --enable-web
           flutter build web --wasm --dart-define=MODE=PROD
@@ -48,6 +47,19 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Create docker-compose.frontend.yml
+        run: |
+          cat <<EOF > docker-compose.frontend.yml
+            version: '3.8'
+
+            services:
+              frontend:
+                container_name: frontend
+                build:
+                  context: .
+                  dockerfile: ./frontend/Dockerfile
+            EOF
+
       - name: Build Docker image
         run: |
-          docker build -t frontend .
+          docker compose -f docker-compose.frontend.yml build
