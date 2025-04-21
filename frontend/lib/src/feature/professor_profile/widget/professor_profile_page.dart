@@ -34,19 +34,15 @@ class ProfessorProfilePage extends StatefulWidget {
   /// that encloses the given context, if any.
   @internal
   // ignore: library_private_types_in_public_api
-  static _ProfessorProfilePageState? maybeOf(
-          BuildContext context) =>
-      context.findAncestorStateOfType<
-          _ProfessorProfilePageState>();
+  static _ProfessorProfilePageState? maybeOf(BuildContext context) =>
+      context.findAncestorStateOfType<_ProfessorProfilePageState>();
 
   @override
-  State<ProfessorProfilePage> createState() =>
-      _ProfessorProfilePageState();
+  State<ProfessorProfilePage> createState() => _ProfessorProfilePageState();
 }
 
 /// State for widget ProfessorProfilePage.
-class _ProfessorProfilePageState
-    extends State<ProfessorProfilePage> {
+class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   ScrollController? _scrollController;
   ValueNotifier<bool>? _valueNotifier;
   ValueNotifier<int>? _sortingValueNotifier;
@@ -79,29 +75,27 @@ class _ProfessorProfilePageState
   }
 
   @override
-  void didUpdateWidget(
-      covariant ProfessorProfilePage oldWidget) {
+  void didUpdateWidget(covariant ProfessorProfilePage oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Widget configuration changed
   }
 
   @override
   void didChangeDependencies() {
-    _bloc ??= ProfessorDataBLoC(
-        repository:
-            InitializationScope.repositoryOf(context))
-      ..add(
-        ProfessorDataRequested(
-          professorId: widget.professorId,
-        ),
-      );
+    _bloc ??=
+        ProfessorDataBLoC(repository: InitializationScope.repositoryOf(context))
+          ..add(
+            ProfessorDataRequested(
+              professorId: widget.professorId,
+            ),
+          );
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
     _scrollController?.dispose();
-    // _valueNotifier?.dispose();
+    _valueNotifier?.dispose();
     _bloc?.close();
 
     super.dispose();
@@ -112,22 +106,18 @@ class _ProfessorProfilePageState
     return Scaffold(
       floatingActionButton: ValueListenableBuilder(
         valueListenable: _valueNotifier!,
-        builder: (context, value, _) =>
-            ValueListenableBuilder(
+        builder: (context, value, _) => ValueListenableBuilder(
           valueListenable: _buttonVisibilityNotifier!,
-          builder: (context, visibilityValue, _) =>
-              Visibility(
+          builder: (context, visibilityValue, _) => Visibility(
             visible: visibilityValue,
             child: FloatingActionButton.extended(
               onPressed: () {
                 value
                     ? _scrollController?.animateTo(0,
-                        duration: const Duration(
-                            milliseconds: 500),
+                        duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut)
-                    : Navigator.of(context).pushNamed(
-                        '/review',
-                        arguments: professor);
+                    : Navigator.of(context)
+                        .pushNamed('/review', arguments: professor);
               },
               backgroundColor: Colors.green,
               label: AnimatedSize(
@@ -138,8 +128,7 @@ class _ProfessorProfilePageState
                       : const Text(
                           'Написать отзыв',
                           style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
+                              fontSize: 15, fontWeight: FontWeight.w600),
                         ),
                 ),
               ),
@@ -164,8 +153,7 @@ class _ProfessorProfilePageState
                   color: Color.fromARGB(255, 185, 185, 185),
                   shape: BoxShape.circle,
                 ),
-                child: SvgPicture.asset(
-                    'assets/icons/cross.svg'),
+                child: SvgPicture.asset('assets/icons/cross.svg'),
               ),
             ),
           ),
@@ -174,38 +162,28 @@ class _ProfessorProfilePageState
               orElse: () => const Placeholder(),
               loaded: (professors) {
                 _valueNotifier!.value = professors.isEmpty;
-                professor = professors
-                    .where(
-                        (e) => e.id == widget.professorId)
-                    .first;
+                professor =
+                    professors.where((e) => e.id == widget.professorId).first;
                 return SliverList(
                   delegate: SliverChildListDelegate(
                     [
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 16, right: 16),
+                        padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Column(
                           children: [
                             Hero(
                               tag: professor.id,
                               child: CircleAvatar(
-                                  backgroundColor:
-                                      Colors.grey[200],
+                                  backgroundColor: Colors.grey[200],
                                   radius: 69,
-                                  backgroundImage:
-                                      Uint8List.fromList(
-                                                  professor
-                                                      .avatar)
-                                              .isNotEmpty
-                                          ? MemoryImage(
-                                              Uint8List.fromList(
-                                                  professor
-                                                      .avatar),
-                                            )
-                                          : null,
-                                  child: Uint8List.fromList(
-                                              professor
-                                                  .avatar)
+                                  backgroundImage: Uint8List.fromList(
+                                              professor.avatar)
+                                          .isNotEmpty
+                                      ? MemoryImage(
+                                          Uint8List.fromList(professor.avatar),
+                                        )
+                                      : null,
+                                  child: Uint8List.fromList(professor.avatar)
                                           .isEmpty
                                       ? SvgPicture.asset(
                                           'assets/icons/no_photo.svg',
@@ -214,22 +192,16 @@ class _ProfessorProfilePageState
                                       : null),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context)
-                                      .size
-                                      .width /
-                                  1.5,
+                              width: MediaQuery.of(context).size.width / 1.5,
                               child: Text(
                                 textAlign: TextAlign.center,
                                 professor.name.capitalize(),
                                 style: const TextStyle(
-                                    fontSize: 25,
-                                    fontWeight:
-                                        FontWeight.w600),
+                                    fontSize: 25, fontWeight: FontWeight.w600),
                               ),
                             ),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 StarsRating(
                                   value: professor.rating,
@@ -241,13 +213,10 @@ class _ProfessorProfilePageState
                             ),
                             const SizedBox(height: 32),
                             ProfessorFeatures(
-                              objectivity:
-                                  professor.objectivity,
-                              harshness:
-                                  professor.harshness,
+                              objectivity: professor.objectivity,
+                              harshness: professor.harshness,
                               loyalty: professor.loyalty,
-                              professionalism:
-                                  professor.professionalism,
+                              professionalism: professor.professionalism,
                               textSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
@@ -267,8 +236,7 @@ class _ProfessorProfilePageState
             ),
             bloc: widget.homeBloc,
           ),
-          BlocBuilder<ProfessorDataBLoC,
-              ProfessorDataState>(
+          BlocBuilder<ProfessorDataBLoC, ProfessorDataState>(
             builder: (context, state) => state.maybeWhen(
               orElse: () => const SliverToBoxAdapter(
                 child: SizedBox(),
@@ -277,9 +245,7 @@ class _ProfessorProfilePageState
                 return SliverToBoxAdapter(
                   child: professors.isNotEmpty
                       ? Padding(
-                          padding:
-                              const EdgeInsets.symmetric(
-                                  horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Column(
                             children: [
                               const SizedBox(
@@ -287,8 +253,7 @@ class _ProfessorProfilePageState
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -296,52 +261,32 @@ class _ProfessorProfilePageState
                                         "Отзывы",
                                         style: TextStyle(
                                           fontSize: 20,
-                                          fontWeight:
-                                              FontWeight
-                                                  .w600,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      const SizedBox(
-                                          width: 8),
+                                      const SizedBox(width: 8),
                                       Container(
-                                        width: professors
-                                                .isNotEmpty
-                                            ? professors
-                                                    .length
+                                        width: professors.isNotEmpty
+                                            ? professors.length
                                                     .toString()
                                                     .length *
                                                 20
                                             : 30,
                                         height: 26,
-                                        decoration:
-                                            BoxDecoration(
-                                          color: const Color
-                                              .fromARGB(
-                                              255,
-                                              233,
-                                              252,
-                                              232),
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 233, 252, 232),
                                           borderRadius:
-                                              BorderRadius
-                                                  .circular(
-                                                      7),
+                                              BorderRadius.circular(7),
                                         ),
                                         child: Center(
-                                          child:
-                                              AnimatedFlipCounter(
-                                            value:
-                                                professors
-                                                    .length,
-                                            duration:
-                                                const Duration(
-                                                    milliseconds:
-                                                        200),
-                                            textStyle:
-                                                const TextStyle(
+                                          child: AnimatedFlipCounter(
+                                            value: professors.length,
+                                            duration: const Duration(
+                                                milliseconds: 200),
+                                            textStyle: const TextStyle(
                                               fontSize: 14,
-                                              fontWeight:
-                                                  FontWeight
-                                                      .w600,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                         ),
@@ -349,10 +294,8 @@ class _ProfessorProfilePageState
                                     ],
                                   ),
                                   SortButton(
-                                      valueNotifier:
-                                          _sortingValueNotifier,
-                                      type: SortingType
-                                          .reviews),
+                                      valueNotifier: _sortingValueNotifier,
+                                      type: SortingType.reviews),
                                 ],
                               ),
                             ],
@@ -364,8 +307,7 @@ class _ProfessorProfilePageState
             ),
             bloc: _bloc,
           ),
-          BlocBuilder<ProfessorDataBLoC,
-              ProfessorDataState>(
+          BlocBuilder<ProfessorDataBLoC, ProfessorDataState>(
             builder: (context, state) => state.maybeWhen(
               orElse: () => const SliverToBoxAdapter(
                 child: SizedBox(),
@@ -375,8 +317,7 @@ class _ProfessorProfilePageState
                   if (_valueNotifier!.value) {
                     _valueNotifier!.value = false;
                     WidgetsBinding.instance
-                        .addPostFrameCallback(
-                            (_) => setState(() {}));
+                        .addPostFrameCallback((_) => setState(() {}));
                   }
                 }
                 return SliverList.separated(
@@ -388,7 +329,7 @@ class _ProfessorProfilePageState
                       review: professors[index].review,
                       professor: professor,
                       user: professors[index].user,
-                      reaction: professors[index].reaction,
+                      // reaction: professors[index].reaction,
                     );
                   },
                 );
