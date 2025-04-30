@@ -15,39 +15,39 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # - name: Set up Flutter
-      #   uses: subosito/flutter-action@v2
-      #   with:
-      #     flutter-version: 3.24.3
-      #     channel: stable
-      #     cache: true
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.24.3
+          channel: stable
+          cache: true
 
-      # - name: Create .env file
-      #   working-directory: frontend
-      #   run: |
-      #     touch .env
-      #     cat .env
+      - name: Create .env file
+        working-directory: frontend
+        run: |
+          touch .env
+          cat .env
       
-      # - name: Code generation in shared folder
-      #   run: |
-      #     dart run build_runner build --delete-conflicting-outputs
-      #   working-directory: shared
+      - name: Code generation in shared folder
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
+        working-directory: shared
       
-      # - name: Code generation in frontend folder
-      #   working-directory: frontend
-      #   run: |
-      #     dart run build_runner build --delete-conflicting-outputs
+      - name: Code generation in frontend folder
+        working-directory: frontend
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
 
-      # - name: Build web for Web Assembly
-      #   working-directory: frontend
-      #   run: |
-      #     flutter config --enable-web
-      #     flutter build web --wasm --dart-define=MODE=PROD
+      - name: Build web for Web Assembly
+        working-directory: frontend
+        run: |
+          flutter config --enable-web
+          flutter build web --wasm --dart-define=MODE=PROD
       
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      # - name: Build Docker image
-      #   working-directory: ./
-      #   run: |
-      #     docker compose build web_builder
+      - name: Build Docker image
+        working-directory: ./
+        run: |
+          docker compose build web_builder
