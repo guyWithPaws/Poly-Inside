@@ -8,8 +8,10 @@ WORKDIR /parser
 COPY ./backend/parser /parser
 COPY ./backend/common /common
 
-RUN cd /common && dart run build_runner build --delete-conflicting-outputs
+WORKDIR /common
+RUN dart run build_runner build --delete-conflicting-outputs
 
+WORKDIR /parser
 RUN cd ../parser && dart pub get && \
     dart run build_runner build --delete-conflicting-outputs && \
     dart compile exe bin/parser.dart -o bin/parser
