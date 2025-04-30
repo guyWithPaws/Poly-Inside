@@ -26,7 +26,7 @@ services:
   ngrok:
     container_name: ngrok
     image: ngrok/ngrok:latest
-    command: http nginx:80
+    command: http --url=infinite-cow-hip.ngrok-free.app nginx:80
     environment:
       NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
     ports:
