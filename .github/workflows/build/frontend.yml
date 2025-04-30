@@ -47,19 +47,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Create docker-compose.frontend.yml
-        run: |
-          cat <<EOF > docker-compose.frontend.yml
-            version: '3.8'
-
-            services:
-              frontend:
-                container_name: frontend
-                build:
-                  context: .
-                  dockerfile: ./frontend/Dockerfile
-            EOF
-
       - name: Build Docker image
+        working-directory: ./
         run: |
-          docker compose -f docker-compose.frontend.yml build
+          docker compose build web_builder
