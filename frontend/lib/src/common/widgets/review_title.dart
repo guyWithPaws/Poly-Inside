@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:poly_inside/src/common/extensions/string.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
-import 'package:poly_inside/src/feature/user_profile/bloc/likes_block/likes_bloc.dart';
+import 'package:poly_inside/src/feature/user_profile/bloc/likes_bloc/likes_bloc.dart';
 import '../enums/reaction_type.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/review/widget/review_page.dart';

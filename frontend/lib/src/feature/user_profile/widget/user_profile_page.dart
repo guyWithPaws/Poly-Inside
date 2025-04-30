@@ -10,7 +10,7 @@ import 'package:poly_inside/src/common/widgets/review_title.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/group_search_bloc/group_search_bloc.dart';
-import 'package:poly_inside/src/feature/user_profile/bloc/likes_block/likes_bloc.dart';
+import 'package:poly_inside/src/feature/user_profile/bloc/likes_bloc/likes_bloc.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/user_bloc/user_bloc.dart';
 import 'package:shared/shared.dart';
 
