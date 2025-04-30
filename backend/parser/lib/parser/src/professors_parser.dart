@@ -26,14 +26,11 @@ class ProfessorsParser {
 
   List<String> getProfessorsLinks(http.Response response) {
     final htmlDocument = parse(response.body);
-    final htmlElements =
-        htmlDocument.getElementsByClassName('pagination');
-    final lastPage = int.parse(htmlElements[0]
-        .children[htmlElements[0].children.length - 2]
-        .text);
+    final htmlElements = htmlDocument.getElementsByClassName('pagination');
+    final lastPage = int.parse(
+        htmlElements[0].children[htmlElements[0].children.length - 2].text);
 
-    var progressBar =
-        ProgressBar(totalLength: lastPage - 1);
+    var progressBar = ProgressBar(totalLength: lastPage - 1);
 
     var linksToProfessors = <String>[];
     for (var i = 1; i <= lastPage; i++) {
@@ -45,12 +42,10 @@ class ProfessorsParser {
     return linksToProfessors;
   }
 
-  Future<void> parseProfessorPage(
-      String professorUrl) async {
+  Future<void> parseProfessorPage(String professorUrl) async {
     late final http.Response response;
     try {
-      response = await httpClientService
-          .get(Uri.parse(professorUrl));
+      response = await httpClientService.get(Uri.parse(professorUrl));
     } on Object catch (e) {
       l
         // ignore: lines_longer_than_80_chars
@@ -60,45 +55,35 @@ class ProfessorsParser {
 
     try {
       var professorPage = parse(response.body);
-      var length = professorPage
-          .getElementsByClassName('col-sm-9 col-md-10')
-          .length;
+      var length =
+          professorPage.getElementsByClassName('col-sm-9 col-md-10').length;
 
       for (var number = 0; number < length; number++) {
         var professorName = professorPage
-            .getElementsByClassName(
-                'col-sm-9 col-md-10')[number]
+            .getElementsByClassName('col-sm-9 col-md-10')[number]
             .children[0]
             .text
             .trimLeft()
             .trimRight()
             .toLowerCase();
 
-        if (databaseService.professorsNames
-            .contains(professorName)) continue;
+        if (databaseService.professorsNames.contains(professorName)) continue;
 
         var uniqueProfessorPattern = professorPage
             .getElementsByClassName('person-card')[number]
             .attributes['id'];
 
         var avatarSubLink = professorPage
-            .getElementsByClassName(
-                'col-sm-3 col-md-2')[number]
+            .getElementsByClassName('col-sm-3 col-md-2')[number]
             .children[0]
             .attributes['src'];
 
-        var avatars = <String, Uint8List?>{
-          'avatar': null,
-          'smallAvatar': null
-        };
+        var avatars = <String, Uint8List?>{'avatar': null, 'smallAvatar': null};
 
         if (avatarSubLink != null &&
-            !avatarSubLink
-                .contains('no-photo-user-available')) {
-          var professorAvatar =
-              'https://www.spbstu.ru/$avatarSubLink';
-          avatars =
-              await imageService.getAvatar(professorAvatar);
+            !avatarSubLink.contains('no-photo-user-available')) {
+          var professorAvatar = 'https://www.spbstu.ru/$avatarSubLink';
+          avatars = await imageService.getAvatar(professorAvatar);
         }
 
         var professor = Professor(
@@ -115,8 +100,7 @@ class ProfessorsParser {
           rating: 0,
         );
 
-        await databaseService.addProfessor(
-            professor, provider);
+        await databaseService.addProfessor(professor, provider);
       }
     } on Object catch (e) {
       l

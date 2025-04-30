@@ -122,8 +122,7 @@ class MaterialTheme {
   }
 
   ThemeData lightMediumContrast() {
-    return theme(
-        lightMediumContrastScheme().toColorScheme());
+    return theme(lightMediumContrastScheme().toColorScheme());
   }
 
   static MaterialScheme lightHighContrastScheme() {
@@ -300,8 +299,7 @@ class MaterialTheme {
   }
 
   ThemeData darkMediumContrast() {
-    return theme(
-        darkMediumContrastScheme().toColorScheme());
+    return theme(darkMediumContrastScheme().toColorScheme());
   }
 
   static MaterialScheme darkHighContrastScheme() {

@@ -137,6 +137,7 @@ class _InheritedApp extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context.
   /// For example: `App.of(context)`.
+  // ignore: unused_element
   static _InheritedApp of(BuildContext context, {bool listen = true}) =>
       maybeOf(context, listen: listen) ?? _notFoundInheritedWidgetOfExactType();
 

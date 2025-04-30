@@ -3,10 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/theme.dart';
-import 'package:poly_inside/src/feature/authentication/bloc/user_bloc.dart';
 import 'package:poly_inside/src/feature/initialization/bloc/init_bloc.dart';
 
-import '../../feature/initialization/widget/initialization.dart';
 
 /// {@template error_page}
 /// ErrorPage widget.
@@ -96,7 +94,6 @@ class _ErrorPageState extends State<ErrorPage> {
                     color: Colors.green),
                 child: TextButton(
                   onPressed: () {
-                    print('tapapiioopipi11ioiop');
                     _bloc?.add(StartInitialization());
                   },
                   child: Center(

@@ -33,11 +33,9 @@ class SortButton extends StatefulWidget {
 }
 
 /// State for widget SortButton.
-class _SortButtonState extends State<SortButton>
-    with TickerProviderStateMixin {
+class _SortButtonState extends State<SortButton> with TickerProviderStateMixin {
   AnimationController? _controller;
-  static const Duration _animationDuration =
-      Duration(milliseconds: 300);
+  static const Duration _animationDuration = Duration(milliseconds: 300);
 
   static const double sortingElementsHeight = 40;
 
@@ -105,21 +103,17 @@ class _SortButtonState extends State<SortButton>
         showCupertinoModalBottomSheet(
           context: context,
           builder: (context) => SizedBox(
-            height: sortingElementsHeight *
-                    (sortingElements.length + 1) +
-                50,
+            height: sortingElementsHeight * (sortingElements.length + 1) + 50,
             child: Material(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
                       'Показать сначала',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(
                       height: 16,
@@ -127,40 +121,29 @@ class _SortButtonState extends State<SortButton>
                     Container(
                       decoration: BoxDecoration(
                           color: const Color(0xFFEEF9EF),
-                          borderRadius:
-                              BorderRadius.circular(12)),
+                          borderRadius: BorderRadius.circular(12)),
                       child: ValueListenableBuilder<int>(
-                        valueListenable:
-                            widget.valueNotifier!,
-                        builder: (context, selectedValue,
-                            child) {
+                        valueListenable: widget.valueNotifier!,
+                        builder: (context, selectedValue, child) {
                           return Column(
                             children: [
                               for (var index = 0;
-                                  index <
-                                      sortingElements
-                                          .length;
+                                  index < sortingElements.length;
                                   ++index)
                                 SizedBox(
-                                  height:
-                                      sortingElementsHeight,
+                                  height: sortingElementsHeight,
                                   child: Row(
                                     children: [
                                       Radio<int>(
                                         value: index,
-                                        groupValue:
-                                            selectedValue,
-                                        onChanged:
-                                            (newValue) {
-                                          widget.valueNotifier!
-                                                  .value =
+                                        groupValue: selectedValue,
+                                        onChanged: (newValue) {
+                                          widget.valueNotifier!.value =
                                               newValue!;
-                                          Navigator.pop(
-                                              context);
+                                          Navigator.pop(context);
                                         },
                                       ),
-                                      Text(sortingElements[
-                                          index]),
+                                      Text(sortingElements[index]),
                                     ],
                                   ),
                                 ),
@@ -187,20 +170,17 @@ class _SortButtonState extends State<SortButton>
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const SizedBox(
                 width: 8,
               ),
-              const Icon(CupertinoIcons
-                  .line_horizontal_3_decrease),
+              const Icon(CupertinoIcons.line_horizontal_3_decrease),
               if (widget.type == SortingType.reviews)
                 const SizedBox(
                   width: 16,
                 ),
-              if (widget.type == SortingType.reviews)
-                const Text('Сортировка'),
+              if (widget.type == SortingType.reviews) const Text('Сортировка'),
               if (widget.type == SortingType.reviews)
                 const SizedBox(
                   width: 16,
@@ -211,8 +191,7 @@ class _SortButtonState extends State<SortButton>
                   builder: (context, child) {
                     return Transform.rotate(
                       angle: _controller!.value * pi,
-                      child: const Icon(
-                          CupertinoIcons.chevron_down),
+                      child: const Icon(CupertinoIcons.chevron_down),
                     );
                   },
                 ),

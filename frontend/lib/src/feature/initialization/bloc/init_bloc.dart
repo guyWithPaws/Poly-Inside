@@ -17,11 +17,9 @@ part 'init_bloc.freezed.dart';
 enum AppMode { dev, prod }
 
 AppMode getCurrentMode() {
-  const mode =
-      String.fromEnvironment('MODE', defaultValue: 'DEV');
+  const mode = String.fromEnvironment('MODE', defaultValue: 'DEV');
   return AppMode.values.firstWhere(
-    (e) =>
-        e.toString().split('.').last.toUpperCase() == mode,
+    (e) => e.toString().split('.').last.toUpperCase() == mode,
     orElse: () => AppMode.dev,
   );
 }
@@ -44,8 +42,7 @@ class InitializationBloc
         final mode = getCurrentMode();
         final channel = getChannelForMode(mode);
         final client = SearchServiceClient(channel);
-        final repostory =
-            ClientRepositoryImpl(client: client);
+        final repostory = ClientRepositoryImpl(client: client);
         emit(InitializationState.initialized(repostory));
       } on Object catch (e) {
         emit(InitializationState.error(e));
@@ -60,13 +57,11 @@ class StartInitialization extends InitializationEvent {}
 
 /// InitializationState data class
 @Freezed()
-sealed class InitializationState
-    with _$InitializationState {
+sealed class InitializationState with _$InitializationState {
   const InitializationState._();
-  const factory InitializationState.processing() =
-      Processing;
+  const factory InitializationState.processing() = Processing;
   const factory InitializationState.idle() = Idle;
   const factory InitializationState.error(Object e) = Error;
-  const factory InitializationState.initialized(
-      ClientRepository repository) = Initialized;
+  const factory InitializationState.initialized(ClientRepository repository) =
+      Initialized;
 }

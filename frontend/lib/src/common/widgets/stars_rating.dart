@@ -7,10 +7,8 @@ import 'package:meta/meta.dart';
 /// {@endtemplate}
 // ignore: must_be_immutable
 class StarsRating extends StatefulWidget {
-  static const String imageUrl =
-      'assets/icons/star_png.png';
-  static const String greyImageUrl =
-      'assets/icons/grey_star_png.png';
+  static const String imageUrl = 'assets/icons/star_png.png';
+  static const String greyImageUrl = 'assets/icons/grey_star_png.png';
   static const Color color = Colors.yellow;
   static const Color baseColor = Colors.grey;
   final ValueNotifier<double>? valueNotifier;
@@ -79,11 +77,10 @@ class _StarsRatingState extends State<StarsRating> {
           if (widget.enableDragDetector) {
             setState(
               () {
-                widget.value = (details.localPosition.dx /
-                        widget.size.width)
+                widget.value = (details.localPosition.dx / widget.size.width)
                     .clamp(1.0, 5.0);
-                widget.valueNotifier!.value = double.parse(
-                    widget.value.toStringAsFixed(1));
+                widget.valueNotifier!.value =
+                    double.parse(widget.value.toStringAsFixed(1));
               },
             );
           }
@@ -92,11 +89,10 @@ class _StarsRatingState extends State<StarsRating> {
           if (widget.enableDragDetector) {
             setState(
               () {
-                widget.value = (details.localPosition.dx /
-                        widget.size.width)
+                widget.value = (details.localPosition.dx / widget.size.width)
                     .clamp(1.0, 5.0);
-                widget.valueNotifier!.value = double.parse(
-                    widget.value.toStringAsFixed(1));
+                widget.valueNotifier!.value =
+                    double.parse(widget.value.toStringAsFixed(1));
               },
             );
           }
@@ -111,8 +107,7 @@ class _StarsRatingState extends State<StarsRating> {
                       SizedBox(
                         width: widget.size.width,
                         height: widget.size.height,
-                        child: Image.asset(
-                            StarsRating.greyImageUrl),
+                        child: Image.asset(StarsRating.greyImageUrl),
                         // child: SvgPicture.asset(
                         // StarsRating.imageUrl,
                         // colorFilter: const ColorFilter.mode(
@@ -121,26 +116,19 @@ class _StarsRatingState extends State<StarsRating> {
                       ),
                       ShaderMask(
                         shaderCallback: (bounds) {
-                          final fillGradient =
-                              LinearGradient(
+                          final fillGradient = LinearGradient(
                             begin: Alignment.bottomLeft,
                             end: Alignment.bottomRight,
                             colors: [
                               StarsRating.color,
-                              StarsRating.color
-                                  .withOpacity(0),
+                              StarsRating.color.withOpacity(0),
                             ],
                             stops: [
-                              (widget.value - i >= 0)
-                                  ? (widget.value - i)
-                                  : 0,
-                              (widget.value - i >= 0)
-                                  ? (widget.value - i)
-                                  : 0,
+                              (widget.value - i >= 0) ? (widget.value - i) : 0,
+                              (widget.value - i >= 0) ? (widget.value - i) : 0,
                             ],
                           );
-                          return fillGradient
-                              .createShader(bounds);
+                          return fillGradient.createShader(bounds);
                         },
                         blendMode: BlendMode.srcATop,
                         child: SizedBox(

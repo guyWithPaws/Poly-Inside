@@ -194,7 +194,6 @@ class GRPCService extends SearchServiceBase {
   @override
   Stream<GroupsNumbersResponce> getGroupsNumbers(
       ServiceCall call, GetGroupsNumbersRequest request) {
-    // TODO: implement getGroupsNumbers
     throw UnimplementedError();
   }
 

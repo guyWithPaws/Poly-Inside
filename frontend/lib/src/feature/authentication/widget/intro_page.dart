@@ -28,8 +28,7 @@ class _MyWidgetState extends State<IntroPage> {
 
   void _listener() {
     if (_userGroupController!.text.isNotEmpty) {
-      _bloc?.add(GroupTextFieldChanged(
-          group: _userGroupController!.text));
+      _bloc?.add(GroupTextFieldChanged(group: _userGroupController!.text));
     }
   }
 
@@ -52,35 +51,13 @@ class _MyWidgetState extends State<IntroPage> {
     super.didChangeDependencies();
   }
 
-  void _showErrorDialog(
-      BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: const Text("Ошибка"),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () =>
-                  Navigator.of(dialogContext).pop(),
-              child: const Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.montserratTextTheme(),
-        colorScheme: MaterialTheme.lightScheme()
-            .toColorScheme()
-            .copyWith(
+        colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
               surface: Colors.white,
               onSurface: Colors.black,
               outline: Colors.grey.shade700,
@@ -93,8 +70,7 @@ class _MyWidgetState extends State<IntroPage> {
           backgroundColor: Colors.white,
         ),
         body: Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: BlocConsumer<UserBloc, UserState>(
               bloc: widget.bloc,
               listener: (context, state) {
@@ -108,10 +84,8 @@ class _MyWidgetState extends State<IntroPage> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(dialogContext)
-                                  .pop();
-                              widget.bloc?.add(
-                                  ResetWarningEvent());
+                              Navigator.of(dialogContext).pop();
+                              widget.bloc?.add(ResetWarningEvent());
                             },
                             child: const Text("OK"),
                           ),
@@ -123,8 +97,7 @@ class _MyWidgetState extends State<IntroPage> {
               },
               builder: (context, state) {
                 return Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Center(
                       child: CircleAvatar(
@@ -153,18 +126,15 @@ class _MyWidgetState extends State<IntroPage> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(
-                            255, 210, 248, 211),
-                        borderRadius:
-                            BorderRadius.circular(12),
+                        color: const Color.fromARGB(255, 210, 248, 211),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       height: 50,
                       child: TextField(
                         controller: _userNameController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(12)),
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
                             borderSide: BorderSide.none,
                           ),
                         ),
@@ -188,17 +158,14 @@ class _MyWidgetState extends State<IntroPage> {
                       value: checkedValue,
                       onChanged: (newValue) {
                         newValue!
-                            ? _bloc?.add(
-                                TelegramUserNameRequest(
-                                    controller:
-                                        _userNameController!))
+                            ? _bloc?.add(TelegramUserNameRequest(
+                                controller: _userNameController!))
                             : _userNameController!.clear();
                         setState(() {
                           checkedValue = newValue;
                         });
                       },
-                      controlAffinity:
-                          ListTileControlAffinity.leading,
+                      controlAffinity: ListTileControlAffinity.leading,
                     ),
                     const Text(
                       'Введите номер группы',
@@ -212,55 +179,42 @@ class _MyWidgetState extends State<IntroPage> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(
-                            255, 210, 248, 211),
-                        borderRadius:
-                            BorderRadius.circular(12),
+                        color: const Color.fromARGB(255, 210, 248, 211),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       height: 50,
                       child: TextFormField(
                         controller: _userGroupController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(12)),
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
                             borderSide: BorderSide.none,
                           ),
                         ),
                       ),
                     ),
                     Expanded(
-                      child: BlocBuilder<UserBloc,
-                              UserState>(
+                      child: BlocBuilder<UserBloc, UserState>(
                           bloc: _bloc,
                           builder: (context, state) {
                             return state.maybeWhen(
-                                groupLoaded:
-                                    (List<GroupNumber>
-                                        groups) {
+                                groupLoaded: (List<GroupNumber> groups) {
                                   return ListView.builder(
-                                    itemCount:
-                                        groups.length,
-                                    itemBuilder:
-                                        (context, index) {
+                                    itemCount: groups.length,
+                                    itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () {
-                                          _userGroupController
-                                                  ?.text =
-                                              groups[index]
-                                                  .number;
+                                          _userGroupController?.text =
+                                              groups[index].number;
                                         },
                                         child: ListTile(
-                                          title: Text(
-                                              groups[index]
-                                                  .number),
+                                          title: Text(groups[index].number),
                                         ),
                                       );
                                     },
                                   );
                                 },
-                                orElse: () =>
-                                    const SizedBox());
+                                orElse: () => const SizedBox());
                           }),
                     ),
                     const Spacer(),
@@ -269,10 +223,8 @@ class _MyWidgetState extends State<IntroPage> {
                         text: TextSpan(
                           children: [
                             const TextSpan(
-                              text:
-                                  "Нажимая на галочку, вы соглашаетесь с ",
-                              style: TextStyle(
-                                  color: Colors.black),
+                              text: "Нажимая на галочку, вы соглашаетесь с ",
+                              style: TextStyle(color: Colors.black),
                             ),
                             TextSpan(
                               text: "условиями пользования",
@@ -281,17 +233,15 @@ class _MyWidgetState extends State<IntroPage> {
                                 decoration: TextDecoration
                                     .underline, // Нижнее подчеркивание
                               ),
-                              recognizer:
-                                  TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.of(context)
-                                          .push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const UserLicenseAgreement(),
-                                        ),
-                                      );
-                                    },
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const UserLicenseAgreement(),
+                                    ),
+                                  );
+                                },
                             ),
                           ],
                         ),
@@ -302,37 +252,27 @@ class _MyWidgetState extends State<IntroPage> {
                           value = nValue!;
                         });
                       },
-                      controlAffinity:
-                          ListTileControlAffinity.leading,
+                      controlAffinity: ListTileControlAffinity.leading,
                     ),
                     const SizedBox(height: 32),
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(12),
-                            color: const Color.fromARGB(
-                                255, 210, 248, 211),
+                            borderRadius: BorderRadius.circular(12),
+                            color: const Color.fromARGB(255, 210, 248, 211),
                           ),
-                          margin: const EdgeInsets.only(
-                              bottom: 33, right: 3),
+                          margin: const EdgeInsets.only(bottom: 33, right: 3),
                           width: 197,
                           height: 64,
                           child: TextButton(
                             onPressed: () {
                               widget.bloc?.add(
                                 AuthenticationRequested(
-                                    group:
-                                        _userGroupController!
-                                            .text,
-                                    name:
-                                        _userNameController!
-                                            .text,
-                                    isLicenseAccepted:
-                                        value),
+                                    group: _userGroupController!.text,
+                                    name: _userNameController!.text,
+                                    isLicenseAccepted: value),
                               );
                             },
                             child: const Text(

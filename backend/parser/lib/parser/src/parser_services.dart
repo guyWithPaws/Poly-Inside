@@ -30,11 +30,7 @@ class VerificationService {
 class ClickerService {
   final String mainSchedulePage = 'https://ruz.spbstu.ru';
 
-  final educationForms = <String>[
-    'Очная',
-    'Очно-заочная',
-    'Заочная'
-  ];
+  final educationForms = <String>['Очная', 'Очно-заочная', 'Заочная'];
   final educationLevels = <String>[
     'Бакалавр',
     'Магистр',
@@ -43,11 +39,9 @@ class ClickerService {
     'СПО'
   ];
 
-  static const Duration duration =
-      Duration(milliseconds: 500);
+  static const Duration duration = Duration(milliseconds: 500);
 
-  Future<List<GroupData>> getAllGroupsLinks(
-      List<String> links) async {
+  Future<List<GroupData>> getAllGroupsLinks(List<String> links) async {
     await downloadChrome();
     var browser = await puppeteer.launch();
 
@@ -56,8 +50,7 @@ class ClickerService {
     var groupsLinks = <GroupData>[];
 
     var counter = 0;
-    var progressBar =
-        ProgressBar(totalLength: links.length);
+    var progressBar = ProgressBar(totalLength: links.length);
     for (final link in links) {
       counter++;
 
@@ -70,8 +63,7 @@ class ClickerService {
     return groupsLinks;
   }
 
-  Future<List<GroupData>> getGroupData(
-      Page page, String url) async {
+  Future<List<GroupData>> getGroupData(Page page, String url) async {
     await page.goto(url);
 
     var groupsData = <GroupData>[];
@@ -117,13 +109,10 @@ class ClickerService {
             ''') as List<dynamic>;
 
         for (final data in result) {
-          final number =
-              data.values.elementAt(0).toString();
-          final link = mainSchedulePage +
-              data.values.elementAt(1).toString();
+          final number = data.values.elementAt(0).toString();
+          final link = mainSchedulePage + data.values.elementAt(1).toString();
           if (!number.contains('_')) {
-            groupsData
-                .add(GroupData(number: number, link: link));
+            groupsData.add(GroupData(number: number, link: link));
           }
         }
       }
@@ -142,8 +131,7 @@ class CryptoService {
   /// одинаковым ФИО.
   /// Good luck! 😽
   ///
-  String generateUniqueId(
-      String professorName, String uniquePattern) {
+  String generateUniqueId(String professorName, String uniquePattern) {
     var bytes = utf8.encode(professorName + uniquePattern);
     var uniqueId = sha1.convert(bytes).toString();
     return uniqueId;
@@ -158,23 +146,17 @@ class ImageService {
 
   ImageService({required this.httpClientService});
 
-  Future<Map<String, Uint8List?>> getAvatar(
-      String avatarUrl) async {
-    var data =
-        await httpClientService.get(Uri.parse(avatarUrl));
+  Future<Map<String, Uint8List?>> getAvatar(String avatarUrl) async {
+    var data = await httpClientService.get(Uri.parse(avatarUrl));
     var image = data.bodyBytes;
     var decodeImage = img.decodeImage(image);
 
-    var compressedAvatar = Uint8List.fromList(img
-        .encodeJpg(decodeImage!, quality: avatarQuality));
+    var compressedAvatar =
+        Uint8List.fromList(img.encodeJpg(decodeImage!, quality: avatarQuality));
     var compressedSmallAvatar = Uint8List.fromList(
-        img.encodeJpg(decodeImage,
-            quality: smallAvatarQuality));
+        img.encodeJpg(decodeImage, quality: smallAvatarQuality));
 
-    return {
-      'avatar': compressedAvatar,
-      'smallAvatar': compressedSmallAvatar
-    };
+    return {'avatar': compressedAvatar, 'smallAvatar': compressedSmallAvatar};
   }
 }
 
@@ -187,22 +169,18 @@ class DatabaseService {
     required this.provider,
     required this.professorsData,
   }) {
-    professorsNames = professorsData
-        .map((professor) => professor.name)
-        .toList();
+    professorsNames =
+        professorsData.map((professor) => professor.name).toList();
   }
 
-  static Future<DatabaseService> create(
-      DatabaseProviderImpl provider) async {
-    final professorsData_ =
-        await provider.getOnceAllProfessors();
+  static Future<DatabaseService> create(DatabaseProviderImpl provider) async {
+    final professorsData_ = await provider.getOnceAllProfessors();
     return DatabaseService._(
-        provider: provider,
-        professorsData: professorsData_);
+        provider: provider, professorsData: professorsData_);
   }
 
-  Future<void> addProfessor(Professor professor,
-      DatabaseProviderImpl provider) async {
+  Future<void> addProfessor(
+      Professor professor, DatabaseProviderImpl provider) async {
     try {
       await provider.addProfessor(professor);
     } on Object catch (e) {
@@ -211,8 +189,8 @@ class DatabaseService {
     }
   }
 
-  Future<List<Map<String, String>>>
-      getProfessorsIdsAndNames() async => professorsData
+  Future<List<Map<String, String>>> getProfessorsIdsAndNames() async =>
+      professorsData
           .map(
             (professor) => {
               'id': professor.id,
@@ -221,8 +199,7 @@ class DatabaseService {
           )
           .toList();
 
-  Future<List<Map<String, String>>>
-      updateProfessorsIdsAndNames() async {
+  Future<List<Map<String, String>>> updateProfessorsIdsAndNames() async {
     var data = await provider.getOnceAllProfessors();
     return data
         .map((professor) => {
@@ -232,10 +209,9 @@ class DatabaseService {
         .toList();
   }
 
-  Future<void> addProfessorToGroup(String id, String number,
-          String professorId) async =>
-      await provider.addProfessorToGroup(
-          id, number, professorId);
+  Future<void> addProfessorToGroup(
+          String id, String number, String professorId) async =>
+      await provider.addProfessorToGroup(id, number, professorId);
 
   Future<void> compareLinksWithExistingProfessors() async {}
 }

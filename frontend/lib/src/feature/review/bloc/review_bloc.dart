@@ -48,6 +48,7 @@ class ReviewDataBLoC extends Bloc<ReviewDataEvent, ReviewDataState> {
             .updateReview(event.review);
         passed
             ? emit(const ReviewDataState.approved())
+            // ignore: dead_code
             : emit(const ReviewDataState.rejected());
       } catch (e) {
         emit(ReviewDataState.error(e, ''));

@@ -1,14 +1,10 @@
 import 'dart:typed_data';
 
-import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:poly_inside/src/common/extensions/string.dart';
 import 'package:poly_inside/src/common/widgets/professor_features.dart';
-import 'package:poly_inside/src/feature/user_profile/bloc/likes_bloc/likes_bloc.dart';
-import '../enums/reaction_type.dart';
 import 'package:poly_inside/src/feature/initialization/widget/initialization.dart';
 import 'package:poly_inside/src/feature/review/widget/review_page.dart';
 import 'package:shared/shared.dart';

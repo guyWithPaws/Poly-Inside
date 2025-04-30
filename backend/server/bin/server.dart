@@ -16,8 +16,7 @@ Future<void> main() async {
           final logger = Logger(file: file);
 
           final database = AppDatabase();
-          final provider =
-              DatabaseProviderImpl(database: database);
+          final provider = DatabaseProviderImpl(database: database);
 
           await Future<void>.delayed(const Duration(seconds: 10));
           final server = Server.create(

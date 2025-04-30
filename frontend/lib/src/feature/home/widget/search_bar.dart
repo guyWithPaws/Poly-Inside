@@ -15,21 +15,18 @@ class ProfessorSearchBar extends StatefulWidget {
   });
 
   @override
-  State<ProfessorSearchBar> createState() =>
-      _ProfessorSearchBarState();
+  State<ProfessorSearchBar> createState() => _ProfessorSearchBarState();
 }
 
 /// State for widget ProfessorSearchBar.
-class _ProfessorSearchBarState
-    extends State<ProfessorSearchBar> {
+class _ProfessorSearchBarState extends State<ProfessorSearchBar> {
   @override
   void initState() {
     super.initState();
   }
 
   @override
-  void didUpdateWidget(
-      covariant ProfessorSearchBar oldWidget) {
+  void didUpdateWidget(covariant ProfessorSearchBar oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 
@@ -47,10 +44,8 @@ class _ProfessorSearchBarState
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 8, vertical: 0),
-      width:
-          MediaQuery.of(context).size.width - 62 - 36 - 18,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+      width: MediaQuery.of(context).size.width - 62 - 36 - 18,
       decoration: BoxDecoration(
         color: const Color(0xffEEF9EF),
         borderRadius: BorderRadius.circular(12),
@@ -66,9 +61,7 @@ class _ProfessorSearchBarState
             width: 5,
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width / 1.5 -
-                16 -
-                29,
+            width: MediaQuery.of(context).size.width / 1.5 - 16 - 29,
             child: TextField(
               focusNode: widget.node,
               textAlign: TextAlign.start,

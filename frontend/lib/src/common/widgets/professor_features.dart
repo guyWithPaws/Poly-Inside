@@ -37,68 +37,53 @@ class ProfessorFeatures extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Объективность',
-                  style: TextStyle(
-                      fontSize: textSize,
-                      fontWeight: fontWeight),
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
                 ),
                 Text(
                   'Лояльность',
-                  style: TextStyle(
-                      fontSize: textSize,
-                      fontWeight: fontWeight),
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
                 ),
                 Text(
                   'Профессионализм',
-                  style: TextStyle(
-                      fontSize: textSize,
-                      fontWeight: fontWeight),
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
                 ),
                 Text(
                   'Резкость',
-                  style: TextStyle(
-                      fontSize: textSize,
-                      fontWeight: fontWeight),
+                  style: TextStyle(fontSize: textSize, fontWeight: fontWeight),
                 ),
               ],
             ),
             SizedBox(
-              width:
-                  MediaQuery.of(context).size.width / 2.5,
+              width: MediaQuery.of(context).size.width / 2.5,
               child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   LinearProgressIndicator(
                     color: Colors.green,
-                    backgroundColor: const Color.fromARGB(
-                        255, 182, 248, 186),
+                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
                     value: objectivity / 5,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   LinearProgressIndicator(
                     color: Colors.green,
-                    backgroundColor: const Color.fromARGB(
-                        255, 182, 248, 186),
+                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
                     value: loyalty / 5,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   LinearProgressIndicator(
                     color: Colors.green,
-                    backgroundColor: const Color.fromARGB(
-                        255, 182, 248, 186),
+                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
                     value: professionalism / 5,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   LinearProgressIndicator(
                     color: Colors.green,
-                    backgroundColor: const Color.fromARGB(
-                        255, 182, 248, 186),
+                    backgroundColor: const Color.fromARGB(255, 182, 248, 186),
                     value: harshness / 5,
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -106,8 +91,7 @@ class ProfessorFeatures extends StatelessWidget {
               ),
             ),
             Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(

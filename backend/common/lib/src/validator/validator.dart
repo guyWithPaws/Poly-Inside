@@ -8,8 +8,7 @@ class FileDataLoader {
   final File txtFile = File('/assets/bad_words.txt');
 
   Future<Set<String>> loadWordsFromFile() async {
-    final contents = await txtFile.readAsLines(
-        encoding: const Utf8Codec());
+    final contents = await txtFile.readAsLines(encoding: const Utf8Codec());
     final badWords = <String>{};
 
     for (final word in contents) {
@@ -19,8 +18,7 @@ class FileDataLoader {
     return badWords;
   }
 
-  Future<Map<String, String>>
-      loadAlphabetFromJsonFile() async {
+  Future<Map<String, String>> loadAlphabetFromJsonFile() async {
     final jsonString = await jsonFile.readAsString();
     final jsonData = jsonDecode(jsonString);
     final alphabet = <String, String>{};
@@ -28,8 +26,7 @@ class FileDataLoader {
     if (jsonData is Map) {
       for (final entry in jsonData.entries) {
         if (entry.key is String && entry.value is String) {
-          alphabet[entry.key.toString()] =
-              entry.value as String;
+          alphabet[entry.key.toString()] = entry.value as String;
         }
       }
     }
@@ -39,8 +36,7 @@ class FileDataLoader {
 
 class TextProcessor {
   final RegExp unneccessarySpace = RegExp(r'\s+');
-  final RegExp unnecessarySymbols =
-      RegExp('[0-9|.|,|!|?|/]');
+  final RegExp unnecessarySymbols = RegExp('[0-9|.|,|!|?|/]');
   final RegExp tooShortWords = RegExp(r'\b[a-z]{1,2}\b');
 
   List<String> makeBeautiful(String input) => input
@@ -60,9 +56,7 @@ class Filter {
   late Set<String> badWords;
   late List<String> messageWords;
 
-  Filter(
-      {required this.dataLoader,
-      required this.textProcessor});
+  Filter({required this.dataLoader, required this.textProcessor});
 
   Future<void> initializeAsyncLoaders() async {
     alphabet = await dataLoader.loadAlphabetFromJsonFile();
@@ -77,10 +71,8 @@ class Filter {
 
   bool messageAnalyzer() {
     messageWords = messageWords
-        .map((word) => word
-            .split('')
-            .map((letter) => alphabet[letter] ?? letter)
-            .join())
+        .map((word) =>
+            word.split('').map((letter) => alphabet[letter] ?? letter).join())
         .toList();
 
     var localStorage = <String>[];

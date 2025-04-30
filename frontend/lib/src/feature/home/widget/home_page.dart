@@ -307,7 +307,6 @@ class _HomePageState extends State<HomePage> {
                                 return RepaintBoundary(
                                   child: GestureDetector(
                                     onTap: () {
-                                      print(professors[index].name);
                                       Navigator.of(context).pushNamed(
                                         '/professor',
                                         arguments: [
@@ -447,6 +446,7 @@ class _HomePageState extends State<HomePage> {
 /// {@template user_profile_page}
 /// _InheritedProfessorScope widget.
 /// {@endtemplate}
+// ignore: unused_element
 class _InheritedProfessorScope extends InheritedWidget {
   /// {@macro user_profile_page}
   const _InheritedProfessorScope({
@@ -463,6 +463,7 @@ class _InheritedProfessorScope extends InheritedWidget {
           ? context
               .dependOnInheritedWidgetOfExactType<_InheritedProfessorScope>()
           : context.getInheritedWidgetOfExactType<_InheritedProfessorScope>();
+  // ignore: unused_element
   static Professor professorOf(BuildContext context) =>
       maybeOf(context)?.professor ?? _notFoundInheritedWidgetOfExactType();
 

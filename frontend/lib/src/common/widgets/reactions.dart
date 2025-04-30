@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:shared/shared.dart';
-import 'package:animated_flip_counter/animated_flip_counter.dart';
 
 import '../../feature/initialization/widget/initialization.dart';
 import '../enums/reaction_type.dart';
@@ -27,8 +26,7 @@ class Reactions extends StatefulWidget {
   _ReactionsState createState() => _ReactionsState();
 }
 
-class _ReactionsState extends State<Reactions>
-    with TickerProviderStateMixin {
+class _ReactionsState extends State<Reactions> with TickerProviderStateMixin {
   AnimationController? _likeAnimationController;
   AnimationController? _dislikeAnimationController;
 
@@ -39,51 +37,41 @@ class _ReactionsState extends State<Reactions>
 
   String _generateId(String professorId, String reviewId) {
     var idBytes = utf8.encode(
-        UserScope.userOf(context).id.toString() +
-            professorId +
-            reviewId);
+        UserScope.userOf(context).id.toString() + professorId + reviewId);
     var id = sha1.convert(idBytes).toString();
     return id;
   }
 
   void _onLikeTap() {
-    if (!_isLikedNotifier!.value &&
-        !_isDislikedNotifier!.value) {
+    if (!_isLikedNotifier!.value && !_isDislikedNotifier!.value) {
       debugPrint('Нажато впервые лайк');
       InitializationScope.repositoryOf(context).addReaction(
         Reaction(
-            id: _generateId(
-                widget.professor!.id, widget.review!.id),
+            id: _generateId(widget.professor!.id, widget.review!.id),
             professorId: widget.professor!.id,
             reviewId: widget.review!.id,
             userId: UserScope.userOf(context).id,
             type: 1),
       );
-    } else if (!_isLikedNotifier!.value &&
-        _isDislikedNotifier!.value) {
+    } else if (!_isLikedNotifier!.value && _isDislikedNotifier!.value) {
       debugPrint('Поменяли с дизлайка на лайк');
-      InitializationScope.repositoryOf(context)
-          .updateReaction(
+      InitializationScope.repositoryOf(context).updateReaction(
         Reaction(
-            id: _generateId(
-                widget.professor!.id, widget.review!.id),
+            id: _generateId(widget.professor!.id, widget.review!.id),
             professorId: widget.professor!.id,
             reviewId: widget.review!.id,
             userId: UserScope.userOf(context).id,
             type: 1),
       );
-    } else if (_isLikedNotifier!.value &&
-        !_isDislikedNotifier!.value) {
+    } else if (_isLikedNotifier!.value && !_isDislikedNotifier!.value) {
       debugPrint('Убрали лайк');
       InitializationScope.repositoryOf(context)
-          .deleteReaction(_generateId(
-              widget.professor!.id, widget.review!.id));
+          .deleteReaction(_generateId(widget.professor!.id, widget.review!.id));
     }
     _isLikedNotifier!.value = !_isLikedNotifier!.value;
     _likeCounter!.value += _isLikedNotifier!.value ? 1 : -1;
 
-    _dislikeCounter!.value +=
-        _isDislikedNotifier!.value ? -1 : 0;
+    _dislikeCounter!.value += _isDislikedNotifier!.value ? -1 : 0;
     _isDislikedNotifier!.value = false;
 
     _isLikedNotifier!.value
@@ -93,42 +81,33 @@ class _ReactionsState extends State<Reactions>
   }
 
   void _onDislikeTap() {
-    if (!_isLikedNotifier!.value &&
-        !_isDislikedNotifier!.value) {
+    if (!_isLikedNotifier!.value && !_isDislikedNotifier!.value) {
       debugPrint('Нажато впервые дизлайк');
       InitializationScope.repositoryOf(context).addReaction(
         Reaction(
-            id: _generateId(
-                widget.professor!.id, widget.review!.id),
+            id: _generateId(widget.professor!.id, widget.review!.id),
             professorId: widget.professor!.id,
             reviewId: widget.review!.id,
             userId: UserScope.userOf(context).id,
             type: 0),
       );
-    } else if (_isLikedNotifier!.value &&
-        !_isDislikedNotifier!.value) {
+    } else if (_isLikedNotifier!.value && !_isDislikedNotifier!.value) {
       debugPrint('Поменяли с лайка на дизлайк');
-      InitializationScope.repositoryOf(context)
-          .updateReaction(
+      InitializationScope.repositoryOf(context).updateReaction(
         Reaction(
-            id: _generateId(
-                widget.professor!.id, widget.review!.id),
+            id: _generateId(widget.professor!.id, widget.review!.id),
             professorId: widget.professor!.id,
             reviewId: widget.review!.id,
             userId: UserScope.userOf(context).id,
             type: 0),
       );
-    } else if (!_isLikedNotifier!.value &&
-        _isDislikedNotifier!.value) {
+    } else if (!_isLikedNotifier!.value && _isDislikedNotifier!.value) {
       debugPrint('Убрали дизлайк');
       InitializationScope.repositoryOf(context)
-          .deleteReaction(_generateId(
-              widget.professor!.id, widget.review!.id));
+          .deleteReaction(_generateId(widget.professor!.id, widget.review!.id));
     }
-    _isDislikedNotifier!.value =
-        !_isDislikedNotifier!.value;
-    _dislikeCounter!.value +=
-        _isDislikedNotifier!.value ? 1 : -1;
+    _isDislikedNotifier!.value = !_isDislikedNotifier!.value;
+    _dislikeCounter!.value += _isDislikedNotifier!.value ? 1 : -1;
 
     _likeCounter!.value += _isLikedNotifier!.value ? -1 : 0;
     _isLikedNotifier!.value = false;
@@ -142,8 +121,7 @@ class _ReactionsState extends State<Reactions>
   @override
   void initState() {
     _likeCounter = ValueNotifier(widget.review!.likes);
-    _dislikeCounter =
-        ValueNotifier(widget.review!.dislikes);
+    _dislikeCounter = ValueNotifier(widget.review!.dislikes);
 
     _isDislikedNotifier = ValueNotifier(false);
     _isLikedNotifier = ValueNotifier(false);
@@ -203,10 +181,8 @@ class _ReactionsState extends State<Reactions>
                     alignment: Alignment.bottomRight,
                     colorFilter: ColorFilter.mode(
                         isLiked
-                            ? const Color.fromARGB(
-                                255, 34, 166, 64)
-                            : const Color.fromARGB(
-                                255, 138, 138, 138),
+                            ? const Color.fromARGB(255, 34, 166, 64)
+                            : const Color.fromARGB(255, 138, 138, 138),
                         BlendMode.srcIn),
                   ),
                 ),
@@ -248,8 +224,7 @@ class _ReactionsState extends State<Reactions>
                     colorFilter: ColorFilter.mode(
                         isDisliked
                             ? Colors.red
-                            : const Color.fromARGB(
-                                255, 138, 138, 138),
+                            : const Color.fromARGB(255, 138, 138, 138),
                         BlendMode.srcIn),
                   ),
                 ),

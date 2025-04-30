@@ -18,10 +18,7 @@ int getId() {
 String getUserName() {
   if (_isTelegramSupported()) {
     var user = TelegramWebApp.instance.initData.user;
-    return user.firstname ??
-        user.lastname ??
-        user.username ??
-        'dev';
+    return user.firstname ?? user.lastname ?? user.username ?? 'dev';
   }
   return 'dev';
 }

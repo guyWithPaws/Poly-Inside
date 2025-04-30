@@ -32,8 +32,7 @@ class Logger {
       file.writeAsStringSync(output, mode: FileMode.append);
     } on Object catch (e) {
       // ignore: avoid_print
-      print(
-          '[Logger]: Error writing log message to file: $e');
+      print('[Logger]: Error writing log message to file: $e');
     }
   }
 

@@ -41,9 +41,7 @@ class UserLicenseAgreement extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.montserratTextTheme(),
-        colorScheme: MaterialTheme.lightScheme()
-            .toColorScheme()
-            .copyWith(
+        colorScheme: MaterialTheme.lightScheme().toColorScheme().copyWith(
               surface: Colors.white,
               onSurface: Colors.black,
               outline: Colors.grey.shade700,
@@ -63,8 +61,7 @@ class UserLicenseAgreement extends StatelessWidget {
                 color: Color.fromARGB(255, 185, 185, 185),
                 shape: BoxShape.circle,
               ),
-              child: SvgPicture.asset(
-                  'assets/icons/cross.svg'),
+              child: SvgPicture.asset('assets/icons/cross.svg'),
             ),
           ),
         ),
@@ -92,8 +89,7 @@ class UserLicenseAgreement extends StatelessWidget {
                 '2.3. Приложение не несет ответственности за возможные ошибки или сбои, возникшие в процессе использования Приложения, включая технические неполадки, которые могут повлиять на работу системы и сохранение данных.',
               ),
               const SizedBox(height: 16.0),
-              buildSectionTitle(
-                  '3. ОБЯЗАННОСТИ ПОЛЬЗОВАТЕЛЕЙ'),
+              buildSectionTitle('3. ОБЯЗАННОСТИ ПОЛЬЗОВАТЕЛЕЙ'),
               buildSectionContent(
                 '3.1. Пользователи обязаны предоставлять только достоверную и актуальную информацию о преподавателях.',
               ),
@@ -104,8 +100,7 @@ class UserLicenseAgreement extends StatelessWidget {
                 '3.3. Пользователи соглашаются не использовать Приложение для размещения ложных данных, манипуляции с оценками и комментариями, а также для других недобросовестных действий.',
               ),
               const SizedBox(height: 16.0),
-              buildSectionTitle(
-                  '4. КОНФИДЕНЦИАЛЬНОСТЬ И ПЕРСОНАЛЬНЫЕ ДАННЫЕ'),
+              buildSectionTitle('4. КОНФИДЕНЦИАЛЬНОСТЬ И ПЕРСОНАЛЬНЫЕ ДАННЫЕ'),
               buildSectionContent(
                 '4.1. Мы обязуемся соблюдать конфиденциальность персональных данных, предоставленных Пользователями в процессе использования Приложения. Персональные данные будут обрабатываться в соответствии с действующим законодательством о защите персональных данных.',
               ),
@@ -113,8 +108,7 @@ class UserLicenseAgreement extends StatelessWidget {
                 '4.2. Пользователь соглашается с тем, что его личные данные могут быть использованы для регистрации и функционирования Приложения, а также для отправки уведомлений и маркетинговых материалов (если Пользователь не отказался от получения таких материалов).',
               ),
               const SizedBox(height: 16.0),
-              buildSectionTitle(
-                  '5. ПРАВА И ОБЯЗАННОСТИ АДМИНИСТРАТОРА'),
+              buildSectionTitle('5. ПРАВА И ОБЯЗАННОСТИ АДМИНИСТРАТОРА'),
               buildSectionContent(
                 '5.1. Мы оставляем за собой право в любое время изменять или приостанавливать работу Приложения, а также модерацию контента, размещаемого Пользователями.',
               ),
@@ -125,14 +119,12 @@ class UserLicenseAgreement extends StatelessWidget {
                 '5.3. Мы не обязаны контролировать каждое отдельное мнение, размещённое Пользователями, но при наличии жалоб или сигналов о нарушениях мы можем провести проверку и принять соответствующие меры.',
               ),
               const SizedBox(height: 16.0),
-              buildSectionTitle(
-                  '6. ИЗМЕНЕНИЯ В СОГЛАШЕНИИ'),
+              buildSectionTitle('6. ИЗМЕНЕНИЯ В СОГЛАШЕНИИ'),
               buildSectionContent(
                 '6.1. Мы оставляем за собой право в любое время изменять условия настоящего Соглашения без предварительного согласования с Пользователем. Изменения вступают в силу с момента их опубликования в Приложении.',
               ),
               const SizedBox(height: 16.0),
-              buildSectionTitle(
-                  '7. ПРАВО ИСКЛЮЧИТЕЛЬНОЙ ПРИОРИТЕТНОЙ СТАТУСА'),
+              buildSectionTitle('7. ПРАВО ИСКЛЮЧИТЕЛЬНОЙ ПРИОРИТЕТНОЙ СТАТУСА'),
               buildSectionContent(
                 '7.1. В случае возникновения споров, связанных с использованием Приложения, стороны будут пытаться разрешить их путём переговоров. Если сторонам не удастся достичь соглашения, спор будет передан в суд по месту нахождения Ответчика.',
               ),

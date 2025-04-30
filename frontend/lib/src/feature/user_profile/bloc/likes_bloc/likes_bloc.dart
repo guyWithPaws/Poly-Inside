@@ -4,8 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shared/shared.dart';
 
 import '../../../../common/repository/client.dart';
-import '../../../authentication/widget/user_scope.dart';
-import '../../../initialization/widget/initialization.dart';
 
 part 'likes_bloc.freezed.dart';
 
@@ -52,7 +50,6 @@ class LikesBLoC extends Bloc<LikesBlocEvent, LikesState> {
       );
     });
     on<AddDislike>((event, emit) {
-      print(event.reviewId);
     });
   }
 

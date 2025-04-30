@@ -7,27 +7,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class Identifier {
-  static final DeviceInfoPlugin deviceInfoPlugin =
-      DeviceInfoPlugin();
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = {};
 
   Future<void> initPlatformState() async {
     try {
       if (kIsWeb) {
-        _deviceData = _readWebBrowserInfo(
-            await deviceInfoPlugin.webBrowserInfo);
+        _deviceData =
+            _readWebBrowserInfo(await deviceInfoPlugin.webBrowserInfo);
       } else {
         _deviceData = switch (defaultTargetPlatform) {
-          TargetPlatform.android => _readAndroidBuildData(
-              await deviceInfoPlugin.androidInfo),
-          TargetPlatform.iOS => _readIosDeviceInfo(
-              await deviceInfoPlugin.iosInfo),
-          TargetPlatform.linux => _readLinuxDeviceInfo(
-              await deviceInfoPlugin.linuxInfo),
-          TargetPlatform.windows => _readWindowsDeviceInfo(
-              await deviceInfoPlugin.windowsInfo),
-          TargetPlatform.macOS => _readMacOsDeviceInfo(
-              await deviceInfoPlugin.macOsInfo),
+          TargetPlatform.android =>
+            _readAndroidBuildData(await deviceInfoPlugin.androidInfo),
+          TargetPlatform.iOS =>
+            _readIosDeviceInfo(await deviceInfoPlugin.iosInfo),
+          TargetPlatform.linux =>
+            _readLinuxDeviceInfo(await deviceInfoPlugin.linuxInfo),
+          TargetPlatform.windows =>
+            _readWindowsDeviceInfo(await deviceInfoPlugin.windowsInfo),
+          TargetPlatform.macOS =>
+            _readMacOsDeviceInfo(await deviceInfoPlugin.macOsInfo),
           TargetPlatform.fuchsia => <String, dynamic>{
               'Error:': 'Fuchsia platform isn\'t supported'
             },
@@ -41,9 +40,7 @@ class Identifier {
   }
 
   int getFingerPrint() {
-    var data = _deviceData.entries
-        .map((entry) => '${entry.value}')
-        .join('#');
+    var data = _deviceData.entries.map((entry) => '${entry.value}').join('#');
 
     var bytes = utf8.encode(data);
     var fingerprint = sha256.convert(bytes);
@@ -51,16 +48,13 @@ class Identifier {
     var truncatedHash = fingerprint.bytes.sublist(0, 8);
 
     BigInt fingerprintNumber = BigInt.parse(
-        truncatedHash
-            .map((byte) => byte.toRadixString(16))
-            .join(),
+        truncatedHash.map((byte) => byte.toRadixString(16)).join(),
         radix: 16);
 
     return fingerprintNumber.toInt();
   }
 
-  Map<String, dynamic> _readAndroidBuildData(
-      AndroidDeviceInfo build) {
+  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
     return <String, dynamic>{
       'version.securityPatch': build.version.securityPatch,
       'version.sdkInt': build.version.sdkInt,
@@ -94,8 +88,7 @@ class Identifier {
     };
   }
 
-  Map<String, dynamic> _readIosDeviceInfo(
-      IosDeviceInfo data) {
+  Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
     return <String, dynamic>{
       'name': data.name,
       'systemName': data.systemName,
@@ -114,8 +107,7 @@ class Identifier {
     };
   }
 
-  Map<String, dynamic> _readLinuxDeviceInfo(
-      LinuxDeviceInfo data) {
+  Map<String, dynamic> _readLinuxDeviceInfo(LinuxDeviceInfo data) {
     return <String, dynamic>{
       'name': data.name,
       'version': data.version,
@@ -131,8 +123,7 @@ class Identifier {
     };
   }
 
-  Map<String, dynamic> _readWebBrowserInfo(
-      WebBrowserInfo data) {
+  Map<String, dynamic> _readWebBrowserInfo(WebBrowserInfo data) {
     return <String, dynamic>{
       'browserName': data.browserName.name,
       'appCodeName': data.appCodeName,
@@ -152,8 +143,7 @@ class Identifier {
     };
   }
 
-  Map<String, dynamic> _readMacOsDeviceInfo(
-      MacOsDeviceInfo data) {
+  Map<String, dynamic> _readMacOsDeviceInfo(MacOsDeviceInfo data) {
     return <String, dynamic>{
       'computerName': data.computerName,
       'hostName': data.hostName,
@@ -172,13 +162,11 @@ class Identifier {
     };
   }
 
-  Map<String, dynamic> _readWindowsDeviceInfo(
-      WindowsDeviceInfo data) {
+  Map<String, dynamic> _readWindowsDeviceInfo(WindowsDeviceInfo data) {
     return <String, dynamic>{
       'numberOfCores': data.numberOfCores,
       'computerName': data.computerName,
-      'systemMemoryInMegabytes':
-          data.systemMemoryInMegabytes,
+      'systemMemoryInMegabytes': data.systemMemoryInMegabytes,
       'userName': data.userName,
       'majorVersion': data.majorVersion,
       'minorVersion': data.minorVersion,
