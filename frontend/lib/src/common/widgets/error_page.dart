@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 import 'package:poly_inside/src/common/theme.dart';
 import 'package:poly_inside/src/feature/initialization/bloc/init_bloc.dart';
 
-
 /// {@template error_page}
 /// ErrorPage widget.
 /// {@endtemplate}

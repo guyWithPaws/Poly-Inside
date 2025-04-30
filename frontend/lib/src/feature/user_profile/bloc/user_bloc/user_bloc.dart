@@ -43,6 +43,12 @@ class UpdateGroupNumber extends ProfileDataEvent {
   String newGroup;
 }
 
+class UpdateUserName extends ProfileDataEvent {
+  UpdateUserName({required this.userId, required this.newUserName});
+  int userId;
+  String newUserName;
+}
+
 @Freezed()
 sealed class ProfileDataState with _$ProfileDataState {
   const ProfileDataState._();
@@ -134,6 +140,17 @@ class ProfileDataBLoC extends Bloc<ProfileDataEvent, ProfileDataState> {
         try {
           _repository.updateGroupNumber(_userScope.id, event.newGroup);
           _userModel.group = event.newGroup;
+        } catch (e) {
+          emit(ProfileDataState.error(e));
+          rethrow;
+        }
+      },
+    );
+    on<UpdateUserName>(
+      (event, emit) {
+        try {
+          _repository.updateUserName(event.userId, event.newUserName);
+          _userModel.name = event.newUserName;
         } catch (e) {
           emit(ProfileDataState.error(e));
           rethrow;

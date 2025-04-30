@@ -78,4 +78,10 @@ class ClientRepositoryImpl implements ClientRepository {
     await client.changeGroupNumber(ChangeGroupNumberRequest(
         userId: userId, newGroupNumber: newGroupNumber));
   }
+
+  @override
+  Future<void> updateUserName(int userId, String newUserName) async =>
+      await client.updateUserName(
+        UpdateUserNameRequest(id: userId, newUserName: newUserName),
+      );
 }

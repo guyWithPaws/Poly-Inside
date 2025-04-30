@@ -12,7 +12,6 @@ import 'package:poly_inside/src/feature/authentication/widget/user_scope.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/group_search_bloc/group_search_bloc.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/likes_bloc/likes_bloc.dart';
 import 'package:poly_inside/src/feature/user_profile/bloc/user_bloc/user_bloc.dart';
-import 'package:shared/shared.dart';
 
 import '../../../common/enums/sorting_type.dart';
 import '../../../common/widgets/sort_button.dart';
@@ -161,15 +160,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () async {
                     _isEditingProfile!.value = !_isEditingProfile!.value;
                     if (!_isEditingProfile!.value) {
-                      debugPrint(_textEditingController!.text);
-                      await InitializationScope.repositoryOf(context)
-                          .updateUser(
-                        User(
-                            id: UserScope.userOf(context).id,
-                            rating: UserScope.userOf(context).rating,
-                            name: _textEditingController!.text,
-                            avatar: UserScope.userOf(context).avatar,
-                            group: UserScope.userOf(context).group),
+                      _bloc?.add(
+                        UpdateUserName(
+                            userId: UserScope.userOf(context).id,
+                            newUserName: _textEditingController!.text),
                       );
                     }
                   },
@@ -240,52 +234,54 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         ValueListenableBuilder(
                           valueListenable: _isEditingProfile!,
-                          builder: (context, value, _) =>
-                              ValueListenableBuilder(
-                            valueListenable: _textEditingController!,
-                            builder: (context, textValue, _) => RepaintBoundary(
-                              child: AnimatedContainer(
-                                width: textValue.text.isNotEmpty &&
-                                        textValue.text.length * 30 > 100
-                                    ? textValue.text.length * 30
-                                    : 100,
-                                height: 50,
-                                duration: const Duration(milliseconds: 350),
-                                decoration: BoxDecoration(
-                                  border: value
-                                      ? Border.all(
-                                          color: textValue.text.length < 15
-                                              ? const Color.fromARGB(
-                                                  255, 168, 239, 171)
-                                              : Colors.red,
-                                          width: 1)
-                                      : null,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: SizedBox(
-                                    child: TextFormField(
-                                      maxLength: 15,
-                                      controller: _textEditingController,
-                                      readOnly: !value,
-                                      textAlign: TextAlign.center,
-                                      textAlignVertical:
-                                          TextAlignVertical.center,
-                                      decoration: const InputDecoration(
-                                          counterText: '',
-                                          counter: null,
-                                          border: InputBorder.none),
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 36,
-                                        fontWeight: FontWeight.w600,
+                          builder: (context, value, _) {
+                            return ValueListenableBuilder(
+                              valueListenable: _textEditingController!,
+                              builder: (context, textValue, _) =>
+                                  RepaintBoundary(
+                                child: AnimatedContainer(
+                                  width: textValue.text.isNotEmpty &&
+                                          textValue.text.length * 30 > 100
+                                      ? textValue.text.length * 30
+                                      : 100,
+                                  height: 50,
+                                  duration: const Duration(milliseconds: 350),
+                                  decoration: BoxDecoration(
+                                    border: value
+                                        ? Border.all(
+                                            color: textValue.text.length < 15
+                                                ? const Color.fromARGB(
+                                                    255, 168, 239, 171)
+                                                : Colors.red,
+                                            width: 1)
+                                        : null,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                    child: SizedBox(
+                                      child: TextFormField(
+                                        maxLength: 15,
+                                        controller: _textEditingController,
+                                        readOnly: !value,
+                                        textAlign: TextAlign.center,
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
+                                        decoration: const InputDecoration(
+                                            counterText: '',
+                                            counter: null,
+                                            border: InputBorder.none),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 36,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         ),
                         const SizedBox(
                           height: 8,

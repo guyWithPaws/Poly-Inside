@@ -49,8 +49,7 @@ class LikesBLoC extends Bloc<LikesBlocEvent, LikesState> {
             type: 0),
       );
     });
-    on<AddDislike>((event, emit) {
-    });
+    on<AddDislike>((event, emit) {});
   }
 
   final ClientRepository _repository;
