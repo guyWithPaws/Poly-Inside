@@ -1,6 +1,6 @@
 ARG VERSION="stable"
 
-FROM plugfox/flutter:${VERSION} as builder
+FROM plugfox/flutter:${VERSION} AS builder
 
 RUN set -eux; flutter config --no-analytics --enable-web \
     && flutter precache --universal --web
