@@ -31,6 +31,8 @@ services:
       NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
     ports:
       - "4040:4040"
+    networks:
+      - dev
     depends_on:
       - nginx
     
