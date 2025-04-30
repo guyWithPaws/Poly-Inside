@@ -226,34 +226,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                             )
                                           : null),
                             ),
-                            // Positioned(
-                            //   right: 10.36,
-                            //   bottom: 10.36,
-                            //   child: IconButton(
-                            //     icon: const Icon(CupertinoIcons.camera),
-                            //     onPressed: () => showCupertinoModalBottomSheet(
-                            //       context: context,
-                            //       builder: (BuildContext context) => SizedBox(
-                            //         height: 300,
-                            //         child: Column(
-                            //           children: [
-                            //             const Text('Выбрать фото'),
-                            //             const SizedBox(height: 20),
-                            //             ElevatedButton(
-                            //               onPressed: () {},
-                            //               // onPressed: () {
-                            //               //   Navigator.pop(context);
-                            //               //   _pickImage(context);
-                            //               // },
-                            //               child:
-                            //                   const Text('Выбрать из галереи'),
-                            //             ),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                         const SizedBox(
