@@ -4,6 +4,7 @@ abstract class UserProvider {
   // CRUD operations
   Future<void> addUser(User user);
   Future<bool> updateUser(User user);
+  Future<void> updateUserName(int userId, String name);
 
   Future<User?> getUserByUserId(int userId);
   Stream<List<GroupNumber>> getGroups(int count, String number);

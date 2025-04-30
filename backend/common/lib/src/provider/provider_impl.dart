@@ -491,4 +491,9 @@ class DatabaseProviderImpl
       } catch (e) {}
     }
   }
+
+  @override
+  Future<void> updateUserName(int userId, String name) =>
+      (database.update(database.users)..where((f) => f.id.equals(userId)))
+          .write(UsersCompanion(name: Value<String>(name)));
 }

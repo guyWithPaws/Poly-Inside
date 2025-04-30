@@ -200,8 +200,8 @@ class GRPCService extends SearchServiceBase {
 
   @override
   Future<UpdateUserNameResponce> updateUserName(
-      ServiceCall call, UpdateUserNameRequest request) {
-    // TODO: implement updateUserName
-    throw UnimplementedError();
+      ServiceCall call, UpdateUserNameRequest request) async {
+    await provider.updateUserName(request.id, request.newUserName);
+    return UpdateUserNameResponce();
   }
 }
