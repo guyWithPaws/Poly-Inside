@@ -1,0 +1,30 @@
+name: PolyInside CD
+
+on:
+  workflow_run:
+    workflows: ["Dart Backend CI", "Telegram Bot CI", "Flutter Frontend CI"]
+    types: 
+      - completed
+
+jobs:
+  on-success: 
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /home/goxa/Poly-Inside/
+            git pull origin main
+            git status
+    
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo 'Deploy workflow failed'
