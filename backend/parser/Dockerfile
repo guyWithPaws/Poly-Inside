@@ -32,6 +32,8 @@ RUN  apt-get update \
 
 ENV CHROME_FORCE_NO_SANDBOX=true
 
+RUN mkdir -p /logs
+
 COPY --from=builder /parser/bin/parser /bin/parser
 COPY --from=builder /common/.env /.env
 
