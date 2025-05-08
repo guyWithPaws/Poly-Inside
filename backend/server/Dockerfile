@@ -1,4 +1,4 @@
-FROM dart:stable AS builder
+FROM dart:3.5.4 AS builder
 
 COPY ./shared/lib /shared/lib
 COPY ./shared/protobuf /shared/protobuf
@@ -16,6 +16,8 @@ RUN dart pub get && \
 FROM alpine:latest
 
 RUN apk add --no-cache libc6-compat
+RUN mkdir -p /logs
+
 COPY --from=builder /server/bin/server /bin/server
 COPY --from=builder /server/.env /.env
 
