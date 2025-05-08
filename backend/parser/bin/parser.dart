@@ -18,7 +18,7 @@ Future<void> main() async {
       await Future<void>.delayed(const Duration(seconds: 10));
 
       final parser = await Parser.create(provider);
-      await parser.updateDatabase();
+      // await parser.updateDatabase();
     },
     (e, st) {
       talker.error('[Parser]: Uncaught error: $e $st');
