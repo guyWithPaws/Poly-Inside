@@ -375,16 +375,16 @@ class DatabaseProviderImpl
           ..where((f) => f.id.equals(reaction.reviewId)))
         .write(outputReviewsCompanion);
 
-    await database.into(database.reactions).insert(
-          ReactionsCompanion(
-            id: Value<String>(reaction.id),
-            userId: Value<int>(reaction.userId),
-            professorId: Value<String>(reaction.professorId),
-            reviewId: Value(reaction.reviewId),
-            // ignore: avoid_bool_literals_in_conditional_expressions
-            liked: Value<bool>(reaction.type == 1 ? true : false),
-          ),
-        );
+    // await database.into(database.reactions).insert(
+    //       ReactionsCompanion(
+    //         id: Value<String>(reaction.id),
+    //         userId: Value<int>(reaction.userId),
+    //         professorId: Value<String>(reaction.professorId),
+    //         reviewId: Value(reaction.reviewId),
+    //         // ignore: avoid_bool_literals_in_conditional_expressions
+    //         liked: Value<bool>(reaction.type == 1 ? true : false),
+    //       ),
+    //     );
   }
 
   @override
