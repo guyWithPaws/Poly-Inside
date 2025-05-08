@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -586,6 +586,20 @@ const Review$json = {
     {'1': 'professorId', '3': 9, '4': 1, '5': 9, '10': 'professorId'},
     {'1': 'likes', '3': 10, '4': 1, '5': 5, '10': 'likes'},
     {'1': 'dislikes', '3': 11, '4': 1, '5': 5, '10': 'dislikes'},
+    {
+      '1': 'currentUserReaction',
+      '3': 12,
+      '4': 1,
+      '5': 5,
+      '10': 'currentUserReaction'
+    },
+    {
+      '1': 'currentUserReactionLink',
+      '3': 13,
+      '4': 1,
+      '5': 9,
+      '10': 'currentUserReactionLink'
+    },
   ],
 };
 
@@ -596,7 +610,9 @@ final $typed_data.Uint8List reviewDescriptor = $convert.base64Decode(
     'B2xveWFsdHkYBSABKAJSB2xveWFsdHkSKAoPcHJvZmVzc2lvbmFsaXNtGAYgASgCUg9wcm9mZX'
     'NzaW9uYWxpc20SHAoJaGFyc2huZXNzGAcgASgCUgloYXJzaG5lc3MSEgoEZGF0ZRgIIAEoCVIE'
     'ZGF0ZRIgCgtwcm9mZXNzb3JJZBgJIAEoCVILcHJvZmVzc29ySWQSFAoFbGlrZXMYCiABKAVSBW'
-    'xpa2VzEhoKCGRpc2xpa2VzGAsgASgFUghkaXNsaWtlcw==');
+    'xpa2VzEhoKCGRpc2xpa2VzGAsgASgFUghkaXNsaWtlcxIwChNjdXJyZW50VXNlclJlYWN0aW9u'
+    'GAwgASgFUhNjdXJyZW50VXNlclJlYWN0aW9uEjgKF2N1cnJlbnRVc2VyUmVhY3Rpb25MaW5rGA'
+    '0gASgJUhdjdXJyZW50VXNlclJlYWN0aW9uTGluaw==');
 
 @$core.Deprecated('Use reactionDescriptor instead')
 const Reaction$json = {
