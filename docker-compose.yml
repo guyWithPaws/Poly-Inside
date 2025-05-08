@@ -67,6 +67,8 @@ services:
     image: grafana/grafana:${GRAFANA_VERSION:-11.6.1}
     environment:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_SERVER_ROOT_URL=http://localhost/admin
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_BASIC_ENABLED=false
     ports:
