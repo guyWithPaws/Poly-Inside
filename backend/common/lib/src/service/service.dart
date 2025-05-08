@@ -1,12 +1,7 @@
-// ignore: implementation_imports
-// ignore_for_file: lines_longer_than_80_chars
-
-// ignore: implementation_imports
+import 'package:common/common.dart';
 import 'package:grpc/src/server/call.dart';
-import 'package:l/l.dart';
-import '../provider/provider_impl.dart';
-import '../validator/validator.dart';
 import 'package:shared/shared.dart';
+import 'package:talker/talker.dart';
 
 class GRPCService extends SearchServiceBase {
   final DatabaseProviderImpl provider;
@@ -14,33 +9,22 @@ class GRPCService extends SearchServiceBase {
   final FileDataLoader dataLoader = FileDataLoader();
   final TextProcessor textProcessor = TextProcessor();
   late final Filter filter;
+  final Talker talker;
 
-  GRPCService({required this.provider}) {
-    // filter = Filter(dataLoader: dataLoader, textProcessor: textProcessor);
-  }
+  GRPCService({required this.provider, required this.talker});
 
   @override
   Future<AddReviewResponse> addReview(ServiceCall call, Review request) async {
-    l.v('Client with ip: ${call.remoteAddress!.address}');
-
-    // final passed = filter.check(request.comment);
     await provider.addReview(request);
-    l.v('Add review with id: ${request.id}');
-    // if (passed) {
 
-    // } else {
-    //   await provider.addRejectedReview(request);
-    //   l.v('Add rejected review with id: ${request.id}}');
-    // }
+    talker.log('Add review with id: ${request.id}');
     return AddReviewResponse()..passed = true;
   }
 
   @override
   Stream<GetListProfessorResponse> getListProfessor(
       ServiceCall call, ListProfessorRequest request) async* {
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('Get list of a professors');
+    talker.log('Get list of a professors');
     final professors = provider.getAllProfessors(request.count);
     await for (final list in professors) {
       yield GetListProfessorResponse(professors: list);
@@ -50,9 +34,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<User> getProfile(
       ServiceCall call, UserInfoByUserIdRequest request) async {
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('GetProfile with ${request.id}');
+    talker.log('GetProfile with ${request.id}');
     final user = await provider.getUserByUserId(request.id);
     return user ?? User();
   }
@@ -60,9 +42,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Stream<ReviewWithUserResponse> getReviewsByProfessorId(
       ServiceCall call, ReviewsByProfessorIdRequest request) async* {
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('GetReviewsByProfessorId with ${request.id}');
+    talker.log('GetReviewsByProfessorId with ${request.id}');
     final stream = provider.getAllReviewsByProfessor(request.id);
     await for (final list in stream) {
       yield ReviewWithUserResponse(list: list);
@@ -72,9 +52,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<UpdateProfileResponse> updateProfile(
       ServiceCall call, User request) async {
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('Update profile; id: ${request.id}, name: ${request.name}');
+    talker.log('Update profile; id: ${request.id}, name: ${request.name}');
 
     await provider.updateUser(request);
     return UpdateProfileResponse();
@@ -83,9 +61,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<UpdateReviewResponse> updateReview(
       ServiceCall call, Review request) async {
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('Update Review with id: ${request.id}');
+    talker.log('Update Review with id: ${request.id}');
     await provider.updateReview(request);
     return UpdateReviewResponse();
   }
@@ -93,9 +69,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<DeleteReviewResponse> deleteReview(
       ServiceCall call, DeleteReviewRequest request) async {
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('DeleteReview with id: ${request.reviewId}');
+    talker.log('DeleteReview with id: ${request.reviewId}');
 
     await provider.deleteReview(request.reviewId);
     return DeleteReviewResponse();
@@ -103,9 +77,7 @@ class GRPCService extends SearchServiceBase {
 
   @override
   Future<AddProfileResponse> addProfile(ServiceCall call, User request) async {
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('Add profile with id: ${request.id}; name: ${request.name}');
+    talker.log('Add profile with id: ${request.id}; name: ${request.name}');
 
     await provider.addUser(request);
     return AddProfileResponse();
@@ -114,9 +86,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Stream<FindProfessorResponse> searchProfessorByName(
       ServiceCall call, SearchRequest request) async* {
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('Search professor with name: ${request.name}');
+    talker.log('Search professor with name: ${request.name}');
     final data = provider.findProfessorByName(
       request.name,
       request.count,
@@ -130,9 +100,7 @@ class GRPCService extends SearchServiceBase {
   Stream<ReviewWithProfessorResponse> getReviewWithProfessor(
       ServiceCall call, ReviewsByUserIdRequest request) async* {
     final stream = provider.getReviewsWithProfessor(request.id);
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('Get reviews with professor with id: ${request.id}');
+    talker.log('Get reviews with professor with id: ${request.id}');
     await for (final list in stream) {
       yield ReviewWithProfessorResponse(list: list);
     }
@@ -143,9 +111,7 @@ class GRPCService extends SearchServiceBase {
       ServiceCall call, ListProfessorsByGroupRequest request) async* {
     final professors =
         provider.getProfessorsByGroup(request.count, request.group);
-    l
-      ..v('Client with ip: ${call.remoteAddress!.address}')
-      ..v('Get professors by group: ${request.group}');
+    talker.log('Get professors by group: ${request.group}');
     await for (final list in professors) {
       yield ListProfessorsByGroupResponce(professors: list);
     }
@@ -155,7 +121,7 @@ class GRPCService extends SearchServiceBase {
   Future<ReactionResponse> addReaction(
       ServiceCall call, Reaction request) async {
     await provider.addReaction(request);
-    l.v('Add reaction with id: ${request.id}');
+    talker.log('Add reaction with id: ${request.id}');
     return ReactionResponse();
   }
 
@@ -163,7 +129,7 @@ class GRPCService extends SearchServiceBase {
   Future<ReactionResponse> deleteReaction(
       ServiceCall call, DeleteReactionRequest request) async {
     await provider.deleteReaction(request.id);
-    l.v('Delete reaction with id: ${request.id}');
+    talker.log('Delete reaction with id: ${request.id}');
     return ReactionResponse();
   }
 
@@ -171,13 +137,15 @@ class GRPCService extends SearchServiceBase {
   Future<ReactionResponse> updateReaction(
       ServiceCall call, Reaction request) async {
     await provider.updateReaction(request);
-    l.v('Update reaction with id: ${request.id} to ${request.type == 1 ? 'like' : 'dislike'}');
+    talker.log(
+        'Update reaction with id: ${request.id} to ${request.type == 1 ? 'like' : 'dislike'}');
     return ReactionResponse();
   }
 
   @override
   Stream<GetListGroupsResponce> getListGroups(
       ServiceCall call, GroupListRequest request) async* {
+    talker.log('GetListGroups ${request.group} count: ${request.count}');
     final data = provider.getGroups(request.count, request.group);
     await for (final group in data) {
       yield GetListGroupsResponce(groups: group);
@@ -187,6 +155,8 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<ChangeGroupNumberResponce> changeGroupNumber(
       ServiceCall call, ChangeGroupNumberRequest request) async {
+    talker.log(
+        'Change group number ${request.userId} to ${request.newGroupNumber}');
     await provider.changeGroupNumber(request.userId, request.newGroupNumber);
     return ChangeGroupNumberResponce();
   }
@@ -200,6 +170,7 @@ class GRPCService extends SearchServiceBase {
   @override
   Future<UpdateUserNameResponce> updateUserName(
       ServiceCall call, UpdateUserNameRequest request) async {
+    talker.log('Update user name ${request.id} to ${request.newUserName}');
     await provider.updateUserName(request.id, request.newUserName);
     return UpdateUserNameResponce();
   }
