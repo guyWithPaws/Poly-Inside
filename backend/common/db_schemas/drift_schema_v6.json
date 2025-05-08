@@ -1,0 +1,621 @@
+{
+    "_meta": {
+        "description": "This file contains a serialized version of schema entities for drift.",
+        "version": "1.2.0"
+    },
+    "options": {
+        "store_date_time_values_as_text": false
+    },
+    "entities": [
+        {
+            "id": 0,
+            "references": [],
+            "type": "table",
+            "data": {
+                "name": "professors",
+                "was_declared_in_moor": false,
+                "columns": [
+                    {
+                        "name": "id",
+                        "getter_name": "id",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "name",
+                        "getter_name": "name",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "small_avatar",
+                        "getter_name": "smallAvatar",
+                        "moor_type": "blob",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "avatar",
+                        "getter_name": "avatar",
+                        "moor_type": "blob",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "reviews_count",
+                        "getter_name": "reviewsCount",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "rating",
+                        "getter_name": "rating",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "objectivity",
+                        "getter_name": "objectivity",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "loyalty",
+                        "getter_name": "loyalty",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "professionalism",
+                        "getter_name": "professionalism",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "harshness",
+                        "getter_name": "harshness",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    }
+                ],
+                "is_virtual": false,
+                "without_rowid": false,
+                "constraints": [],
+                "explicit_pk": [
+                    "id"
+                ]
+            }
+        },
+        {
+            "id": 1,
+            "references": [],
+            "type": "table",
+            "data": {
+                "name": "users",
+                "was_declared_in_moor": false,
+                "columns": [
+                    {
+                        "name": "id",
+                        "getter_name": "id",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "name",
+                        "getter_name": "name",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "avatar",
+                        "getter_name": "avatar",
+                        "moor_type": "blob",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "rating",
+                        "getter_name": "rating",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": "const CustomExpression('0')",
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "group",
+                        "getter_name": "group",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    }
+                ],
+                "is_virtual": false,
+                "without_rowid": false,
+                "constraints": [],
+                "explicit_pk": [
+                    "id"
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "references": [],
+            "type": "table",
+            "data": {
+                "name": "reviews",
+                "was_declared_in_moor": false,
+                "columns": [
+                    {
+                        "name": "id",
+                        "getter_name": "id",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "user_id",
+                        "getter_name": "userId",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "professor_id",
+                        "getter_name": "professorId",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "comment",
+                        "getter_name": "comment",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "objectivity",
+                        "getter_name": "objectivity",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "loyalty",
+                        "getter_name": "loyalty",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "professionalism",
+                        "getter_name": "professionalism",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "harshness",
+                        "getter_name": "harshness",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "date",
+                        "getter_name": "date",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "likes",
+                        "getter_name": "likes",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "dislikes",
+                        "getter_name": "dislikes",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "current_user_reaction",
+                        "getter_name": "currentUserReaction",
+                        "moor_type": "int",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "current_user_reaction_link",
+                        "getter_name": "currentUserReactionLink",
+                        "moor_type": "string",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    }
+                ],
+                "is_virtual": false,
+                "without_rowid": false,
+                "constraints": [],
+                "explicit_pk": [
+                    "id"
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "references": [],
+            "type": "table",
+            "data": {
+                "name": "rejected_reviews",
+                "was_declared_in_moor": false,
+                "columns": [
+                    {
+                        "name": "id",
+                        "getter_name": "id",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "user_id",
+                        "getter_name": "userId",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "professor_id",
+                        "getter_name": "professorId",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "comment",
+                        "getter_name": "comment",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "objectivity",
+                        "getter_name": "objectivity",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "loyalty",
+                        "getter_name": "loyalty",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "professionalism",
+                        "getter_name": "professionalism",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "harshness",
+                        "getter_name": "harshness",
+                        "moor_type": "double",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "date",
+                        "getter_name": "date",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "likes",
+                        "getter_name": "likes",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "dislikes",
+                        "getter_name": "dislikes",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    }
+                ],
+                "is_virtual": false,
+                "without_rowid": false,
+                "constraints": [],
+                "explicit_pk": [
+                    "id"
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "references": [],
+            "type": "table",
+            "data": {
+                "name": "reactions",
+                "was_declared_in_moor": false,
+                "columns": [
+                    {
+                        "name": "id",
+                        "getter_name": "id",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "user_id",
+                        "getter_name": "userId",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "professor_id",
+                        "getter_name": "professorId",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "review_id",
+                        "getter_name": "reviewId",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "liked",
+                        "getter_name": "liked",
+                        "moor_type": "bool",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "defaultConstraints": "CHECK (\"liked\" IN (0, 1))",
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    }
+                ],
+                "is_virtual": false,
+                "without_rowid": false,
+                "constraints": [],
+                "explicit_pk": [
+                    "id"
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "references": [],
+            "type": "table",
+            "data": {
+                "name": "groups",
+                "was_declared_in_moor": false,
+                "columns": [
+                    {
+                        "name": "id",
+                        "getter_name": "id",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "number",
+                        "getter_name": "number",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "professor_id",
+                        "getter_name": "professorId",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    }
+                ],
+                "is_virtual": false,
+                "without_rowid": false,
+                "constraints": [],
+                "explicit_pk": [
+                    "id"
+                ]
+            }
+        },
+        {
+            "id": 6,
+            "references": [],
+            "type": "table",
+            "data": {
+                "name": "groups_numbers",
+                "was_declared_in_moor": false,
+                "columns": [
+                    {
+                        "name": "id",
+                        "getter_name": "id",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "number",
+                        "getter_name": "number",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    }
+                ],
+                "is_virtual": false,
+                "without_rowid": false,
+                "constraints": [],
+                "explicit_pk": [
+                    "id"
+                ]
+            }
+        }
+    ]
+}
