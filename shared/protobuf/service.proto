@@ -203,6 +203,8 @@ message Review {
   string professorId = 9;
   int32 likes = 10;
   int32 dislikes = 11;
+  int32 currentUserReaction = 12;
+  string currentUserReactionLink = 13;
 }
 
 message Reaction {

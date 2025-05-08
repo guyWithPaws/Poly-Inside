@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -405,102 +405,103 @@ abstract class SearchServiceBase extends $grpc.Service {
   }
 
   $async.Future<$0.AddProfileResponse> addProfile_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.User> request) async {
-    return addProfile(call, await request);
+      $grpc.ServiceCall $call, $async.Future<$0.User> $request) async {
+    return addProfile($call, await $request);
   }
 
   $async.Future<$0.UpdateProfileResponse> updateProfile_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.User> request) async {
-    return updateProfile(call, await request);
+      $grpc.ServiceCall $call, $async.Future<$0.User> $request) async {
+    return updateProfile($call, await $request);
   }
 
   $async.Future<$0.UpdateUserNameResponce> updateUserName_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.UpdateUserNameRequest> request) async {
-    return updateUserName(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.UpdateUserNameRequest> $request) async {
+    return updateUserName($call, await $request);
   }
 
-  $async.Future<$0.User> getProfile_Pre($grpc.ServiceCall call,
-      $async.Future<$0.UserInfoByUserIdRequest> request) async {
-    return getProfile(call, await request);
+  $async.Future<$0.User> getProfile_Pre($grpc.ServiceCall $call,
+      $async.Future<$0.UserInfoByUserIdRequest> $request) async {
+    return getProfile($call, await $request);
   }
 
   $async.Stream<$0.GetListGroupsResponce> getListGroups_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.GroupListRequest> request) async* {
-    yield* getListGroups(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.GroupListRequest> $request) async* {
+    yield* getListGroups($call, await $request);
   }
 
   $async.Future<$0.ChangeGroupNumberResponce> changeGroupNumber_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.ChangeGroupNumberRequest> request) async {
-    return changeGroupNumber(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ChangeGroupNumberRequest> $request) async {
+    return changeGroupNumber($call, await $request);
   }
 
   $async.Stream<$0.GetListProfessorResponse> getListProfessor_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.ListProfessorRequest> request) async* {
-    yield* getListProfessor(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ListProfessorRequest> $request) async* {
+    yield* getListProfessor($call, await $request);
   }
 
   $async.Stream<$0.FindProfessorResponse> searchProfessorByName_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.SearchRequest> request) async* {
-    yield* searchProfessorByName(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.SearchRequest> $request) async* {
+    yield* searchProfessorByName($call, await $request);
   }
 
   $async.Stream<$0.ReviewWithProfessorResponse> getReviewWithProfessor_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.ReviewsByUserIdRequest> request) async* {
-    yield* getReviewWithProfessor(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ReviewsByUserIdRequest> $request) async* {
+    yield* getReviewWithProfessor($call, await $request);
   }
 
   $async.Stream<$0.ListProfessorsByGroupResponce> getListProfessorsByGroup_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.ListProfessorsByGroupRequest> request) async* {
-    yield* getListProfessorsByGroup(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ListProfessorsByGroupRequest> $request) async* {
+    yield* getListProfessorsByGroup($call, await $request);
   }
 
   $async.Future<$0.AddReviewResponse> addReview_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.Review> request) async {
-    return addReview(call, await request);
+      $grpc.ServiceCall $call, $async.Future<$0.Review> $request) async {
+    return addReview($call, await $request);
   }
 
   $async.Future<$0.UpdateReviewResponse> updateReview_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.Review> request) async {
-    return updateReview(call, await request);
+      $grpc.ServiceCall $call, $async.Future<$0.Review> $request) async {
+    return updateReview($call, await $request);
   }
 
   $async.Future<$0.DeleteReviewResponse> deleteReview_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.DeleteReviewRequest> request) async {
-    return deleteReview(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.DeleteReviewRequest> $request) async {
+    return deleteReview($call, await $request);
   }
 
   $async.Stream<$0.ReviewWithUserResponse> getReviewsByProfessorId_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.ReviewsByProfessorIdRequest> request) async* {
-    yield* getReviewsByProfessorId(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ReviewsByProfessorIdRequest> $request) async* {
+    yield* getReviewsByProfessorId($call, await $request);
   }
 
   $async.Future<$0.ReactionResponse> addReaction_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.Reaction> request) async {
-    return addReaction(call, await request);
+      $grpc.ServiceCall $call, $async.Future<$0.Reaction> $request) async {
+    return addReaction($call, await $request);
   }
 
-  $async.Future<$0.ReactionResponse> deleteReaction_Pre($grpc.ServiceCall call,
-      $async.Future<$0.DeleteReactionRequest> request) async {
-    return deleteReaction(call, await request);
+  $async.Future<$0.ReactionResponse> deleteReaction_Pre($grpc.ServiceCall $call,
+      $async.Future<$0.DeleteReactionRequest> $request) async {
+    return deleteReaction($call, await $request);
   }
 
   $async.Future<$0.ReactionResponse> updateReaction_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.Reaction> request) async {
-    return updateReaction(call, await request);
+      $grpc.ServiceCall $call, $async.Future<$0.Reaction> $request) async {
+    return updateReaction($call, await $request);
   }
 
   $async.Stream<$0.GroupsNumbersResponce> getGroupsNumbers_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.GetGroupsNumbersRequest> request) async* {
-    yield* getGroupsNumbers(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$0.GetGroupsNumbersRequest> $request) async* {
+    yield* getGroupsNumbers($call, await $request);
   }
 
   $async.Future<$0.AddProfileResponse> addProfile(

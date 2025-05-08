@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -12,6 +12,8 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class ListProfessorsByGroupResponce extends $pb.GeneratedMessage {
   factory ListProfessorsByGroupResponce({
@@ -66,7 +68,7 @@ class ListProfessorsByGroupResponce extends $pb.GeneratedMessage {
   static ListProfessorsByGroupResponce? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<Professor> get professors => $_getList(0);
+  $pb.PbList<Professor> get professors => $_getList(0);
 }
 
 class GroupListRequest extends $pb.GeneratedMessage {
@@ -131,7 +133,7 @@ class GroupListRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasCount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearCount() => clearField(1);
+  void clearCount() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get group => $_getSZ(1);
@@ -143,7 +145,7 @@ class GroupListRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasGroup() => $_has(1);
   @$pb.TagNumber(2)
-  void clearGroup() => clearField(2);
+  void clearGroup() => $_clearField(2);
 }
 
 class GroupsNumbersResponce extends $pb.GeneratedMessage {
@@ -196,7 +198,7 @@ class GroupsNumbersResponce extends $pb.GeneratedMessage {
   static GroupsNumbersResponce? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<$core.String> get groupsNumbers => $_getList(0);
+  $pb.PbList<$core.String> get groupsNumbers => $_getList(0);
 }
 
 class GetGroupsNumbersRequest extends $pb.GeneratedMessage {
@@ -263,7 +265,7 @@ class GetGroupsNumbersRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasGroupPattern() => $_has(0);
   @$pb.TagNumber(1)
-  void clearGroupPattern() => clearField(1);
+  void clearGroupPattern() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get count => $_getIZ(1);
@@ -275,7 +277,7 @@ class GetGroupsNumbersRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasCount() => $_has(1);
   @$pb.TagNumber(2)
-  void clearCount() => clearField(2);
+  void clearCount() => $_clearField(2);
 }
 
 class ChangeGroupNumberRequest extends $pb.GeneratedMessage {
@@ -344,7 +346,7 @@ class ChangeGroupNumberRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasUserId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearUserId() => clearField(1);
+  void clearUserId() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get newGroupNumber => $_getSZ(1);
@@ -356,7 +358,7 @@ class ChangeGroupNumberRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasNewGroupNumber() => $_has(1);
   @$pb.TagNumber(2)
-  void clearNewGroupNumber() => clearField(2);
+  void clearNewGroupNumber() => $_clearField(2);
 }
 
 class UpdateUserNameRequest extends $pb.GeneratedMessage {
@@ -423,7 +425,7 @@ class UpdateUserNameRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get newUserName => $_getSZ(1);
@@ -435,7 +437,7 @@ class UpdateUserNameRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasNewUserName() => $_has(1);
   @$pb.TagNumber(2)
-  void clearNewUserName() => clearField(2);
+  void clearNewUserName() => $_clearField(2);
 }
 
 class GetListGroupsResponce extends $pb.GeneratedMessage {
@@ -489,7 +491,7 @@ class GetListGroupsResponce extends $pb.GeneratedMessage {
   static GetListGroupsResponce? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<GroupNumber> get groups => $_getList(0);
+  $pb.PbList<GroupNumber> get groups => $_getList(0);
 }
 
 class ReviewWithProfessorResponse extends $pb.GeneratedMessage {
@@ -546,7 +548,7 @@ class ReviewWithProfessorResponse extends $pb.GeneratedMessage {
   static ReviewWithProfessorResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<ReviewWithProfessor> get list => $_getList(0);
+  $pb.PbList<ReviewWithProfessor> get list => $_getList(0);
 }
 
 class ReviewWithUserResponse extends $pb.GeneratedMessage {
@@ -600,7 +602,7 @@ class ReviewWithUserResponse extends $pb.GeneratedMessage {
   static ReviewWithUserResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<ReviewWithUser> get list => $_getList(0);
+  $pb.PbList<ReviewWithUser> get list => $_getList(0);
 }
 
 class FindProfessorResponse extends $pb.GeneratedMessage {
@@ -654,7 +656,7 @@ class FindProfessorResponse extends $pb.GeneratedMessage {
   static FindProfessorResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<Professor> get professors => $_getList(0);
+  $pb.PbList<Professor> get professors => $_getList(0);
 }
 
 class ListProfessorsByGroupRequest extends $pb.GeneratedMessage {
@@ -723,7 +725,7 @@ class ListProfessorsByGroupRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasCount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearCount() => clearField(1);
+  void clearCount() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get group => $_getSZ(1);
@@ -735,7 +737,7 @@ class ListProfessorsByGroupRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasGroup() => $_has(1);
   @$pb.TagNumber(2)
-  void clearGroup() => clearField(2);
+  void clearGroup() => $_clearField(2);
 }
 
 class ReviewWithUser extends $pb.GeneratedMessage {
@@ -800,13 +802,13 @@ class ReviewWithUser extends $pb.GeneratedMessage {
   Review get review => $_getN(0);
   @$pb.TagNumber(1)
   set review(Review v) {
-    setField(1, v);
+    $_setField(1, v);
   }
 
   @$pb.TagNumber(1)
   $core.bool hasReview() => $_has(0);
   @$pb.TagNumber(1)
-  void clearReview() => clearField(1);
+  void clearReview() => $_clearField(1);
   @$pb.TagNumber(1)
   Review ensureReview() => $_ensure(0);
 
@@ -814,13 +816,13 @@ class ReviewWithUser extends $pb.GeneratedMessage {
   User get user => $_getN(1);
   @$pb.TagNumber(2)
   set user(User v) {
-    setField(2, v);
+    $_setField(2, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasUser() => $_has(1);
   @$pb.TagNumber(2)
-  void clearUser() => clearField(2);
+  void clearUser() => $_clearField(2);
   @$pb.TagNumber(2)
   User ensureUser() => $_ensure(1);
 
@@ -828,13 +830,13 @@ class ReviewWithUser extends $pb.GeneratedMessage {
   Reaction get reaction => $_getN(2);
   @$pb.TagNumber(3)
   set reaction(Reaction v) {
-    setField(3, v);
+    $_setField(3, v);
   }
 
   @$pb.TagNumber(3)
   $core.bool hasReaction() => $_has(2);
   @$pb.TagNumber(3)
-  void clearReaction() => clearField(3);
+  void clearReaction() => $_clearField(3);
   @$pb.TagNumber(3)
   Reaction ensureReaction() => $_ensure(2);
 }
@@ -902,13 +904,13 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
   Review get review => $_getN(0);
   @$pb.TagNumber(1)
   set review(Review v) {
-    setField(1, v);
+    $_setField(1, v);
   }
 
   @$pb.TagNumber(1)
   $core.bool hasReview() => $_has(0);
   @$pb.TagNumber(1)
-  void clearReview() => clearField(1);
+  void clearReview() => $_clearField(1);
   @$pb.TagNumber(1)
   Review ensureReview() => $_ensure(0);
 
@@ -916,13 +918,13 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
   Professor get professor => $_getN(1);
   @$pb.TagNumber(2)
   set professor(Professor v) {
-    setField(2, v);
+    $_setField(2, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasProfessor() => $_has(1);
   @$pb.TagNumber(2)
-  void clearProfessor() => clearField(2);
+  void clearProfessor() => $_clearField(2);
   @$pb.TagNumber(2)
   Professor ensureProfessor() => $_ensure(1);
 
@@ -930,13 +932,13 @@ class ReviewWithProfessor extends $pb.GeneratedMessage {
   Reaction get reaction => $_getN(2);
   @$pb.TagNumber(3)
   set reaction(Reaction v) {
-    setField(3, v);
+    $_setField(3, v);
   }
 
   @$pb.TagNumber(3)
   $core.bool hasReaction() => $_has(2);
   @$pb.TagNumber(3)
-  void clearReaction() => clearField(3);
+  void clearReaction() => $_clearField(3);
   @$pb.TagNumber(3)
   Reaction ensureReaction() => $_ensure(2);
 }
@@ -1080,7 +1082,7 @@ class DeleteReactionRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 }
 
 class ReviewStream extends $pb.GeneratedMessage {
@@ -1132,7 +1134,7 @@ class ReviewStream extends $pb.GeneratedMessage {
   static ReviewStream? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<Review> get reviews => $_getList(0);
+  $pb.PbList<Review> get reviews => $_getList(0);
 }
 
 class SearchResponse extends $pb.GeneratedMessage {
@@ -1184,7 +1186,7 @@ class SearchResponse extends $pb.GeneratedMessage {
   static SearchResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<Professor> get professors => $_getList(0);
+  $pb.PbList<Professor> get professors => $_getList(0);
 }
 
 class SearchRequest extends $pb.GeneratedMessage {
@@ -1249,7 +1251,7 @@ class SearchRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get count => $_getIZ(1);
@@ -1261,7 +1263,7 @@ class SearchRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasCount() => $_has(1);
   @$pb.TagNumber(2)
-  void clearCount() => clearField(2);
+  void clearCount() => $_clearField(2);
 }
 
 class GetAllProfessorsOnceRequest extends $pb.GeneratedMessage {
@@ -1358,7 +1360,7 @@ class GetListProfessorResponse extends $pb.GeneratedMessage {
   static GetListProfessorResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<Professor> get professors => $_getList(0);
+  $pb.PbList<Professor> get professors => $_getList(0);
 }
 
 class DeleteReviewRequest extends $pb.GeneratedMessage {
@@ -1418,7 +1420,7 @@ class DeleteReviewRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasReviewId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearReviewId() => clearField(1);
+  void clearReviewId() => $_clearField(1);
 }
 
 class AddProfileResponse extends $pb.GeneratedMessage {
@@ -1558,7 +1560,7 @@ class UpdateReviewResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasPassed() => $_has(0);
   @$pb.TagNumber(1)
-  void clearPassed() => clearField(1);
+  void clearPassed() => $_clearField(1);
 }
 
 class UpdateProfileResponse extends $pb.GeneratedMessage {
@@ -1705,7 +1707,7 @@ class ChangeStatusRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get status => $_getSZ(1);
@@ -1717,7 +1719,7 @@ class ChangeStatusRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasStatus() => $_has(1);
   @$pb.TagNumber(2)
-  void clearStatus() => clearField(2);
+  void clearStatus() => $_clearField(2);
 }
 
 class UserInfoByUserIdRequest extends $pb.GeneratedMessage {
@@ -1779,7 +1781,7 @@ class UserInfoByUserIdRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 }
 
 class AddReviewResponse extends $pb.GeneratedMessage {
@@ -1839,7 +1841,7 @@ class AddReviewResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasPassed() => $_has(0);
   @$pb.TagNumber(1)
-  void clearPassed() => clearField(1);
+  void clearPassed() => $_clearField(1);
 }
 
 class ReviewsByUserIdRequest extends $pb.GeneratedMessage {
@@ -1901,7 +1903,7 @@ class ReviewsByUserIdRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 }
 
 class ListProfessorRequest extends $pb.GeneratedMessage {
@@ -1962,7 +1964,7 @@ class ListProfessorRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasCount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearCount() => clearField(1);
+  void clearCount() => $_clearField(1);
 }
 
 class ReviewsByProfessorIdRequest extends $pb.GeneratedMessage {
@@ -2026,7 +2028,7 @@ class ReviewsByProfessorIdRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 }
 
 class User extends $pb.GeneratedMessage {
@@ -2105,7 +2107,7 @@ class User extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get name => $_getSZ(1);
@@ -2117,7 +2119,7 @@ class User extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasName() => $_has(1);
   @$pb.TagNumber(2)
-  void clearName() => clearField(2);
+  void clearName() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.List<$core.int> get avatar => $_getN(2);
@@ -2129,7 +2131,7 @@ class User extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasAvatar() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAvatar() => clearField(3);
+  void clearAvatar() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $core.int get rating => $_getIZ(3);
@@ -2141,7 +2143,7 @@ class User extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasRating() => $_has(3);
   @$pb.TagNumber(4)
-  void clearRating() => clearField(4);
+  void clearRating() => $_clearField(4);
 
   @$pb.TagNumber(5)
   $core.String get group => $_getSZ(4);
@@ -2153,7 +2155,7 @@ class User extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool hasGroup() => $_has(4);
   @$pb.TagNumber(5)
-  void clearGroup() => clearField(5);
+  void clearGroup() => $_clearField(5);
 }
 
 class Group extends $pb.GeneratedMessage {
@@ -2221,7 +2223,7 @@ class Group extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get number => $_getSZ(1);
@@ -2233,7 +2235,7 @@ class Group extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasNumber() => $_has(1);
   @$pb.TagNumber(2)
-  void clearNumber() => clearField(2);
+  void clearNumber() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get professorId => $_getSZ(2);
@@ -2245,7 +2247,7 @@ class Group extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasProfessorId() => $_has(2);
   @$pb.TagNumber(3)
-  void clearProfessorId() => clearField(3);
+  void clearProfessorId() => $_clearField(3);
 }
 
 class GroupNumber extends $pb.GeneratedMessage {
@@ -2309,7 +2311,7 @@ class GroupNumber extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get number => $_getSZ(1);
@@ -2321,7 +2323,7 @@ class GroupNumber extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasNumber() => $_has(1);
   @$pb.TagNumber(2)
-  void clearNumber() => clearField(2);
+  void clearNumber() => $_clearField(2);
 }
 
 class Professor extends $pb.GeneratedMessage {
@@ -2431,7 +2433,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get name => $_getSZ(1);
@@ -2443,7 +2445,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasName() => $_has(1);
   @$pb.TagNumber(2)
-  void clearName() => clearField(2);
+  void clearName() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.List<$core.int> get avatar => $_getN(2);
@@ -2455,7 +2457,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasAvatar() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAvatar() => clearField(3);
+  void clearAvatar() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $core.List<$core.int> get smallAvatar => $_getN(3);
@@ -2467,7 +2469,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasSmallAvatar() => $_has(3);
   @$pb.TagNumber(4)
-  void clearSmallAvatar() => clearField(4);
+  void clearSmallAvatar() => $_clearField(4);
 
   @$pb.TagNumber(5)
   $core.double get rating => $_getN(4);
@@ -2479,7 +2481,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool hasRating() => $_has(4);
   @$pb.TagNumber(5)
-  void clearRating() => clearField(5);
+  void clearRating() => $_clearField(5);
 
   @$pb.TagNumber(6)
   $core.int get reviewsCount => $_getIZ(5);
@@ -2491,7 +2493,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.bool hasReviewsCount() => $_has(5);
   @$pb.TagNumber(6)
-  void clearReviewsCount() => clearField(6);
+  void clearReviewsCount() => $_clearField(6);
 
   @$pb.TagNumber(7)
   $core.double get objectivity => $_getN(6);
@@ -2503,7 +2505,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.bool hasObjectivity() => $_has(6);
   @$pb.TagNumber(7)
-  void clearObjectivity() => clearField(7);
+  void clearObjectivity() => $_clearField(7);
 
   @$pb.TagNumber(8)
   $core.double get loyalty => $_getN(7);
@@ -2515,7 +2517,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   $core.bool hasLoyalty() => $_has(7);
   @$pb.TagNumber(8)
-  void clearLoyalty() => clearField(8);
+  void clearLoyalty() => $_clearField(8);
 
   @$pb.TagNumber(9)
   $core.double get professionalism => $_getN(8);
@@ -2527,7 +2529,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(9)
   $core.bool hasProfessionalism() => $_has(8);
   @$pb.TagNumber(9)
-  void clearProfessionalism() => clearField(9);
+  void clearProfessionalism() => $_clearField(9);
 
   @$pb.TagNumber(10)
   $core.double get harshness => $_getN(9);
@@ -2539,7 +2541,7 @@ class Professor extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   $core.bool hasHarshness() => $_has(9);
   @$pb.TagNumber(10)
-  void clearHarshness() => clearField(10);
+  void clearHarshness() => $_clearField(10);
 }
 
 class Review extends $pb.GeneratedMessage {
@@ -2555,6 +2557,8 @@ class Review extends $pb.GeneratedMessage {
     $core.String? professorId,
     $core.int? likes,
     $core.int? dislikes,
+    $core.int? currentUserReaction,
+    $core.String? currentUserReactionLink,
   }) {
     final $result = create();
     if (id != null) {
@@ -2590,6 +2594,12 @@ class Review extends $pb.GeneratedMessage {
     if (dislikes != null) {
       $result.dislikes = dislikes;
     }
+    if (currentUserReaction != null) {
+      $result.currentUserReaction = currentUserReaction;
+    }
+    if (currentUserReactionLink != null) {
+      $result.currentUserReactionLink = currentUserReactionLink;
+    }
     return $result;
   }
   Review._() : super();
@@ -2617,6 +2627,11 @@ class Review extends $pb.GeneratedMessage {
     ..aOS(9, _omitFieldNames ? '' : 'professorId', protoName: 'professorId')
     ..a<$core.int>(10, _omitFieldNames ? '' : 'likes', $pb.PbFieldType.O3)
     ..a<$core.int>(11, _omitFieldNames ? '' : 'dislikes', $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        12, _omitFieldNames ? '' : 'currentUserReaction', $pb.PbFieldType.O3,
+        protoName: 'currentUserReaction')
+    ..aOS(13, _omitFieldNames ? '' : 'currentUserReactionLink',
+        protoName: 'currentUserReactionLink')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -2650,7 +2665,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get userId => $_getIZ(1);
@@ -2662,7 +2677,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasUserId() => $_has(1);
   @$pb.TagNumber(2)
-  void clearUserId() => clearField(2);
+  void clearUserId() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get comment => $_getSZ(2);
@@ -2674,7 +2689,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasComment() => $_has(2);
   @$pb.TagNumber(3)
-  void clearComment() => clearField(3);
+  void clearComment() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $core.double get objectivity => $_getN(3);
@@ -2686,7 +2701,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasObjectivity() => $_has(3);
   @$pb.TagNumber(4)
-  void clearObjectivity() => clearField(4);
+  void clearObjectivity() => $_clearField(4);
 
   @$pb.TagNumber(5)
   $core.double get loyalty => $_getN(4);
@@ -2698,7 +2713,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool hasLoyalty() => $_has(4);
   @$pb.TagNumber(5)
-  void clearLoyalty() => clearField(5);
+  void clearLoyalty() => $_clearField(5);
 
   @$pb.TagNumber(6)
   $core.double get professionalism => $_getN(5);
@@ -2710,7 +2725,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.bool hasProfessionalism() => $_has(5);
   @$pb.TagNumber(6)
-  void clearProfessionalism() => clearField(6);
+  void clearProfessionalism() => $_clearField(6);
 
   @$pb.TagNumber(7)
   $core.double get harshness => $_getN(6);
@@ -2722,7 +2737,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.bool hasHarshness() => $_has(6);
   @$pb.TagNumber(7)
-  void clearHarshness() => clearField(7);
+  void clearHarshness() => $_clearField(7);
 
   @$pb.TagNumber(8)
   $core.String get date => $_getSZ(7);
@@ -2734,7 +2749,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   $core.bool hasDate() => $_has(7);
   @$pb.TagNumber(8)
-  void clearDate() => clearField(8);
+  void clearDate() => $_clearField(8);
 
   @$pb.TagNumber(9)
   $core.String get professorId => $_getSZ(8);
@@ -2746,7 +2761,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(9)
   $core.bool hasProfessorId() => $_has(8);
   @$pb.TagNumber(9)
-  void clearProfessorId() => clearField(9);
+  void clearProfessorId() => $_clearField(9);
 
   @$pb.TagNumber(10)
   $core.int get likes => $_getIZ(9);
@@ -2758,7 +2773,7 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   $core.bool hasLikes() => $_has(9);
   @$pb.TagNumber(10)
-  void clearLikes() => clearField(10);
+  void clearLikes() => $_clearField(10);
 
   @$pb.TagNumber(11)
   $core.int get dislikes => $_getIZ(10);
@@ -2770,7 +2785,31 @@ class Review extends $pb.GeneratedMessage {
   @$pb.TagNumber(11)
   $core.bool hasDislikes() => $_has(10);
   @$pb.TagNumber(11)
-  void clearDislikes() => clearField(11);
+  void clearDislikes() => $_clearField(11);
+
+  @$pb.TagNumber(12)
+  $core.int get currentUserReaction => $_getIZ(11);
+  @$pb.TagNumber(12)
+  set currentUserReaction($core.int v) {
+    $_setSignedInt32(11, v);
+  }
+
+  @$pb.TagNumber(12)
+  $core.bool hasCurrentUserReaction() => $_has(11);
+  @$pb.TagNumber(12)
+  void clearCurrentUserReaction() => $_clearField(12);
+
+  @$pb.TagNumber(13)
+  $core.String get currentUserReactionLink => $_getSZ(12);
+  @$pb.TagNumber(13)
+  set currentUserReactionLink($core.String v) {
+    $_setString(12, v);
+  }
+
+  @$pb.TagNumber(13)
+  $core.bool hasCurrentUserReactionLink() => $_has(12);
+  @$pb.TagNumber(13)
+  void clearCurrentUserReactionLink() => $_clearField(13);
 }
 
 class Reaction extends $pb.GeneratedMessage {
@@ -2849,7 +2888,7 @@ class Reaction extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get userId => $_getIZ(1);
@@ -2861,7 +2900,7 @@ class Reaction extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasUserId() => $_has(1);
   @$pb.TagNumber(2)
-  void clearUserId() => clearField(2);
+  void clearUserId() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get professorId => $_getSZ(2);
@@ -2873,7 +2912,7 @@ class Reaction extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasProfessorId() => $_has(2);
   @$pb.TagNumber(3)
-  void clearProfessorId() => clearField(3);
+  void clearProfessorId() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $core.String get reviewId => $_getSZ(3);
@@ -2885,7 +2924,7 @@ class Reaction extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasReviewId() => $_has(3);
   @$pb.TagNumber(4)
-  void clearReviewId() => clearField(4);
+  void clearReviewId() => $_clearField(4);
 
   @$pb.TagNumber(5)
   $core.int get type => $_getIZ(4);
@@ -2897,7 +2936,7 @@ class Reaction extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool hasType() => $_has(4);
   @$pb.TagNumber(5)
-  void clearType() => clearField(5);
+  void clearType() => $_clearField(5);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
