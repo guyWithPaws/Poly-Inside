@@ -10,6 +10,7 @@ frontend/build/
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock
 *.DS_Store
+prom_data/
 
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
@@ -36,4 +37,5 @@ doc/api/
 backend/bin/server.exe
 pgdata
 .local-chrome
+logs/
 
