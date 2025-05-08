@@ -6,6 +6,7 @@ import 'package:drift_postgres/drift_postgres.dart';
 import 'package:postgres/postgres.dart';
 import 'package:postgres/postgres.dart' as pg;
 import 'package:shared/shared.dart';
+import 'package:talker/talker.dart';
 
 part 'database.g.dart';
 
@@ -117,7 +118,11 @@ class Reviews extends Table {
   GroupsNumbers
 ])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase({
+    required this.talker,
+  }) : super(_openConnection());
+
+  final Talker talker;
 
   @override
   int get schemaVersion => 6;
@@ -145,9 +150,25 @@ class AppDatabase extends _$AppDatabase {
   MigrationStrategy get migration {
     return MigrationStrategy(
       onCreate: (m) async {
-        await m.createAll();
+        var watch = Stopwatch()..start();
+        talker.info('[migration][onCreate] Starting full schema creation');
+        try {
+          await m.createAll();
+          watch.stop();
+          talker.info(
+              '[migration][onCreate] Schema creation completed in ${watch.elapsedMilliseconds}ms');
+        } catch (e, stack) {
+          watch.stop();
+          talker.error(
+              '[migration][onCreate] Failed after ${watch.elapsedMilliseconds}ms: $e',
+              e,
+              stack);
+          rethrow;
+        }
       },
       onUpgrade: (m, from, to) async {
+        var watch = Stopwatch()..start();
+        talker.info('[migration][onUpgrade] Upgrading schema from v$from to v$to');
         await transaction(
           () => VersionedSchema.runMigrationSteps(
             migrator: m,
@@ -155,11 +176,11 @@ class AppDatabase extends _$AppDatabase {
             to: to,
             steps: migrationSteps(
               from4To5: (Migrator m, Schema5 schema) async {
-                // talker.log('Trying migrate to 5 schrma version');
+                talker.log('Trying migrate to 5 schrma version');
                 await m.createTable(schema.groupsNumbers);
               },
               from5To6: (Migrator m, Schema6 schema) async {
-                // talker.log('Trying migrate to 6 schema version');
+                talker.log('Trying migrate to 6 schema version');
                 await m.addColumn(
                     schema.reviews, schema.reviews.currentUserReaction);
                 await m.addColumn(
