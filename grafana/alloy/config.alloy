@@ -1,0 +1,22 @@
+livedebugging {
+  enabled = true
+}
+
+local.file_match "local_files" {
+    path_targets = [{"__path__" = "/temp/logs/*.log", "job" = "dart-server", "hostname" = constants.hostname}]
+    sync_period  = "5s"
+}
+ 
+loki.source.file "log_scrape" {
+    targets    = local.file_match.local_files.targets
+    forward_to = [loki.write.local.receiver]
+    tail_from_end = true
+
+
+}
+
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
